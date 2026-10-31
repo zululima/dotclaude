@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep an HTML page in ~/.claude/pages, not in Downloads
+## Refresh the evals after the 31 Oct dream run
 
 2026-10-31, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+
+**2.**
+> 1 agent running? 77% weekly usage and 45mins left until reset. im
+> gonna want explanations to this in dream review
+
+## Keep an HTML page in ~/.claude/pages, not in Downloads
+
+2026-10-31, commit [76af4d5](https://github.com/zululima/dotclaude/commit/76af4d595b2b14d64e962dd8965fe4079631d72a), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [an answer about deleting a page left out]
