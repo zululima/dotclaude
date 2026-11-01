@@ -407,11 +407,12 @@ apply to one repository belong in that repository's project memory.
   an ice cube emoji and since when it is cold (the time that day, the date after it), then a brain
   emoji and how full the context window is, then an hourglass emoji, the minutes left and the title
   of the other session whose cache goes cold soonest, archived ones left out. Tokens and their cost
-  at the API list prices stay off it: the week's final dream run shows them, with its report and the
-  rest of its figures, and the other dream runs show none of these in the chat. The figures refresh
-  after every turn, the other sessions every minute, and the minutes count down in between. The
-  desktop app cuts the line at about 40 characters, so it stays within that with the cache first and
-  the other session's title cut at a word, and no hook adds it to the transcript as a notice.
+  at the API list prices stay off it: the report of the week's final dream run holds them, and the
+  dream review shows that report whole, while a dream run itself shows in the chat only the
+  percentage points of the usage limits it used. The figures refresh after every turn, the other
+  sessions every minute, and the minutes count down in between. The desktop app cuts the line at
+  about 40 characters, so it stays within that with the cache first and the other session's title
+  cut at a word, and no hook adds it to the transcript as a notice.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what

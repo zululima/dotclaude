@@ -133,9 +133,10 @@
   the setup, which keeps the rules every session reads shorter.
 - [`workflows/dream.js`](../workflows/dream.js): type `/dream` when you stop for the day. Many
   agents read your recent sessions and your setup, and come back with suggested changes, each with a
-  ready script. It changes nothing by itself and stops before your usage limits. When
-  `~/.claude/dream/evals-checkout.txt` names a copy of this repository, it then reruns the
-  [evals](evals.md) and publishes their numbers.
+  ready script. It changes nothing by itself and stops before your usage limits, and in the chat it
+  says only how much of them it used. Type `/dream review` in a new session to read its report and
+  go through the changes. When `~/.claude/dream/evals-checkout.txt` names a copy of this repository,
+  the review also reruns the [evals](evals.md) and publishes their numbers.
 - [`agents/dream-worker.md`](../agents/dream-worker.md): a lighter agent for `/dream`, so it uses
   fewer tokens.
 

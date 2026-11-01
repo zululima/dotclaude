@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Add the prose licence and README steps rules
+## Show only the usage points when a dream run ends
 
 2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> dotclaude next time when dreaming ends just give me report on how
+> many usage percents done. move other reports to dream review instead
+
+## Add the prose licence and README steps rules
+
+2026-11-01, commit [9e44148](https://github.com/zululima/dotclaude/commit/9e44148c5e25a68f2f71ebe88bc9358350cf9aae), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about a project's repository left out] also always use

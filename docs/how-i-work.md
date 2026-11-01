@@ -130,7 +130,8 @@ around the reset:
    On the day before the reset this is an eve run. It spends most of what is left of the week
    overnight, but keeps back two 5-hour windows, one for my work on Saturday and one for the final
    run, and leaves the 5-hour window that would be open at 08:00 on Saturday untouched. In the chat
-   it says only how many proposals wait, and leaves its report and figures to the final run.
+   it says only how many percentage points of my usage it used and how many proposals wait, and
+   leaves its report to the review.
 
 2. Saturday: start a new Code session in `~/Projects/dotclaude` and send this there. That session
    reads the steps from their files, while the one that ran overnight would send its whole context
@@ -140,15 +141,16 @@ around the reset:
    dream review
    ```
 
-   It applies most steps without asking and goes through the rest one question at a time, each with
-   the exact change, a moment where things went wrong and how that moment goes once the change is
-   in. I answer "Add it" or "Not now", and Claude applies what I added and pushes it here. Then I
-   carry on with my own work.
+   It shows the latest report first and reruns the evals, then applies most steps without asking and
+   goes through the rest one question at a time, each with the exact change, a moment where things
+   went wrong and how that moment goes once the change is in. I answer "Add it" or "Not now", and
+   Claude applies what I added and pushes it here. Then I carry on with my own work.
 
 3. Saturday, when I am done: connect the charger again and send `/dream` in a new Code session. On
    the reset day this is a final run. It spends the rest of the week, down to 1 percentage point,
    and stops starting work an hour and a quarter before the reset, so everything reports back in
-   time. It shows its report in the chat with the week's figures: the usage, what the run spent and
-   the evals.
+   time. In the chat it shows only how many percentage points of my usage it used. Its report, with
+   the week's figures and what the run spent, waits for the review.
 
-4. The next time I sit down: go through its proposals as in step 2.
+4. The next time I sit down: send `dream review` in a new session as in step 2, which shows the
+   report and goes through its proposals.
