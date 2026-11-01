@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Put files to share loose in Downloads, the rest in drafts
+
+2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**17.**
+> always if i have artifacts i have to share somewhere put them
+> directly to downloads
+
 ## Refresh the evals after the 31 Oct dream run
 
-2026-10-31, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [c699fb4](https://github.com/zululima/dotclaude/commit/c699fb41712bd5355b8c5cef67fdc93a85efae5a), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
