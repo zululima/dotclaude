@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Try Linux's stat first and drop the pinned default model
+## Give other computers prompts, ask two-way questions in the box
 
 2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> ? what prompt do i give to mac
+
+**5.** (answer to: should a step on another computer always come as a prompt to paste?)
+> a. also bro if a qeustion is a or b you can do the questionnare but
+> not the radio one
+
+## Try Linux's stat first and drop the pinned default model
+
+2026-11-01, commit [0c2b3e0](https://github.com/zululima/dotclaude/commit/0c2b3e0546120a5ee710fdd18e11d0f6ad18817f), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > what does reconcile mean. why no push

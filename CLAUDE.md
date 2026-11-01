@@ -606,8 +606,9 @@ apply to one repository belong in that repository's project memory.
   when the current title still fits. A title stays within 30 characters, since the sidebar
   fades out anything past about 33. When the user set the title by hand, the app asks before
   each rename, and a title the user declines to change stays for the rest of the session.
-- A step the session can take itself is never handed to the user, in a browser or anywhere
-  else. The user enters only personal data, such as a name, phone number, address, password or
+- A step the session can take itself is never handed to the user, in a browser or anywhere else. A
+  step on another of the user's computers is a prompt to paste into Claude Code there, never a
+  command. The user enters only personal data, such as a name, phone number, address, password or
   payment details, and makes only the decisions the session cannot settle from the request, the code
   or a source; such a decision is asked once with a recommended answer, as the question the closing
   message ends on, and a go given for another point does not settle it. A fact about the user or a
@@ -634,10 +635,12 @@ apply to one repository belong in that repository's project memory.
   through, and a deny rule in `settings.json` removes the tool. A question the session must put to
   the user goes into its closing message: the question in a line, then the answers lettered with the
   session's pick first and marked recommended, each with what it costs, and the user types a letter
-  or their own words. Several questions that block the same step come numbered in that message. Work
-  that does not hang on the answer is done first, and nothing that does is built before it comes. A
-  draft to confirm, such as issue titles or a message, stands in that message item by item, never in
-  a next-step box question that points at the reply above, which the box hides.
+  or their own words. A question with two answers may go in the next-step box instead, its two
+  buttons the answers, and then not in the message. Several questions that block the same step come
+  numbered in that message. Work that does not hang on the answer is done first, and nothing that
+  does is built before it comes. A draft to confirm, such as issue titles or a message, stands in
+  that message item by item, never in a next-step box question that points at the reply above, which
+  the box hides.
 - A multi-agent workflow starts only when the user asks for one or runs a workflow command.
   Propose one, with a rough token cost, only for read-only work across a wide area: a deep
   review of a large diff, research across several read-only sources, or a sweep of a codebase
