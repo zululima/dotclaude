@@ -77,7 +77,6 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5-1[1m]",
   "enabledPlugins": {
     "figma@claude-plugins-official": false
   },
@@ -97,6 +96,25 @@
             "command": "\"$HOME/.claude/hooks/git-fetch-prune.sh\"",
             "timeout": 120,
             "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/dotclaude-sync.sh\"",
+            "timeout": 180,
+            "async": true
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/dotclaude-sync.sh\" --report",
+            "timeout": 10
           }
         ]
       },
@@ -462,5 +480,6 @@
   "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
   "inputNeededNotifEnabled": true,
-  "autoCompactWindow": 400000
+  "autoCompactWindow": 400000,
+  "model": "claude-fable-5-1[1m]"
 }

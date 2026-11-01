@@ -142,6 +142,9 @@
 
 ## Only for this repo
 
+- [`dotclaude-sync.sh`](../hooks/dotclaude-sync.sh): runs `sync.sh` in the background at the start
+  of every prompt, so a change pushed from one computer reaches the other without my asking. It
+  publishes nothing, and tells Claude once when something stops it.
 - [`sync.sh`](../sync.sh): keeps this copy and my own `~/.claude` the same, and checks that nothing
   private gets published. It also stops on a shell script with a syntax error, a file this list
   leaves out, or a line in `CLAUDE.md`, the pull request skill, the README or these docs wider than

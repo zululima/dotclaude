@@ -12,8 +12,9 @@
 # lies in a CLAUDE.md section named in context_only. A tool call that starts
 # while a file matches its copy and changes it within a minute is the
 # session's own edit and updates the copy, apart from an Edit or Write of
-# another of the files and a sync.sh run whose log in the checkout's git
-# directory is missing or names the file as installed during the call.
+# another of the files, a call during which sync.sh's log in the checkout's
+# git directory names the file as installed, which the sync at the start of
+# another session's prompt can do, and a sync.sh run with no such log.
 # Anything else missing lets the prompt or the command through.
 
 set -u
@@ -88,7 +89,7 @@ case "$event" in
       rm -f "$marker"
       case "$started" in "" | *[^0-9]*) continue ;; esac
       [ $(($(date +%s) - started)) -le 60 ] || continue
-      [ "$syncs" = true ] && installed_since "${files[$i]}" "$started" && continue
+      { [ "$syncs" = true ] || [ -f "$installs" ]; } && installed_since "${files[$i]}" "$started" && continue
       snapshot="$dir/$key${suffixes[$i]}"
       cmp -s "${files[$i]}" "$snapshot" || cp "${files[$i]}" "$snapshot" 2>/dev/null
     done < <(own_markers)

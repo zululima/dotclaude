@@ -22,8 +22,15 @@
 # Reconciling: a file the pull changed is installed locally, a file changed
 # only in the checkout, its local copy still as committed, is installed
 # locally too, any other local change is copied into the checkout, and a file
-# changed both locally and by the pull stops the run. Literals listed one per
-# line in sync-allow.txt are exempt from the scan.
+# changed both locally and by the pull stops the run. So does a pull git
+# refuses, such as one a change in the checkout would be overwritten by; a
+# fetch that fails, as when offline, does not. Literals listed one per line in
+# sync-allow.txt are exempt from the scan.
+#
+# Lock: hooks/dotclaude-sync.sh runs this on every prompt of every session, so
+# a run takes .git/sync.lock, holding its process id, and waits for another
+# that holds it. A run between another's pull and its installs would copy the
+# old local file over the pulled one.
 #
 # Install log: each file installed into the configuration directory adds a
 # line "<epoch> <path>" to .git/sync-installed.log, so
@@ -64,7 +71,8 @@
 #
 # PROMPTS.md, when the checkout has one, is rebuilt by hooks/prompts-md.sh
 # before the scan, with the commit message when there is one, and goes into
-# every commit.
+# every commit. A rebuild left uncommitted is dropped before the pull, which
+# it would block, since every commit changes the file.
 
 set -euo pipefail
 
@@ -119,6 +127,7 @@ mirrored=(
   CLAUDE.md
   settings.json
   hooks/calendar-free-busy-only.sh
+  hooks/dotclaude-sync.sh
   hooks/git-fetch-prune.sh
   hooks/git-fetch-before-remote-base.sh
   hooks/git-prune-gone-branches.sh
@@ -261,13 +270,36 @@ for path in ${commit_paths[@]+"${commit_paths[@]}"}; do
   fi
 done
 
+lock="$checkout/.git/sync.lock"
+waited=0
+until (set -o noclobber; echo "$$" > "$lock") 2>/dev/null; do
+  holder="$(cat "$lock" 2>/dev/null || true)"
+  if [ -n "$holder" ] && ! kill -0 "$holder" 2>/dev/null; then
+    rm -f "$lock"
+    continue
+  fi
+  if [ "$waited" -ge 120 ]; then
+    echo "sync: run $holder still holds $lock" >&2
+    exit 1
+  fi
+  sleep 1
+  waited=$((waited + 1))
+done
+trap 'rm -f "$lock"' EXIT
+
 cd "$checkout"
 before="$(git rev-parse HEAD)"
-if ! git pull --ff-only --quiet 2>/dev/null; then
-  echo "sync: pull failed, reconciling against the local HEAD only" >&2
+failed=0
+if git fetch --quiet 2>/dev/null; then
+  git restore -- PROMPTS.md 2>/dev/null || true
+  if ! merge_error="$(git merge --ff-only --quiet '@{upstream}' 2>&1)"; then
+    printf 'sync: pull refused, reconciling against the local HEAD only\n%s\n' "$merge_error" >&2
+    failed=1
+  fi
+else
+  echo "sync: fetch failed, reconciling against the local HEAD only" >&2
 fi
 
-failed=0
 for path in "${mirrored[@]}"; do
   local_file="$source_dir/$path"
   repo_file="$checkout/$path"

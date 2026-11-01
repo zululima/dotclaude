@@ -34,6 +34,11 @@ and its commit in the same turn, and the rule that a mirrored file states what h
   the untracked commit-msg hook of the checkout and of each mirror, holds commit messages to the
   same list, less the literals that `sync-deny-skip.txt` in that repository's git directory lists,
   such as an employer's name in a repository the employer owns.
+- `hooks/dotclaude-sync.sh` runs a plain `sync.sh` in the background at the start of every prompt of
+  every session, so the pull and the reconcile need no run of their own. It commits and pushes
+  nothing: local changes wait in the checkout for the session that made them. What stops a run, such
+  as a pull that a change in the checkout would overwrite, reaches each session once as context at
+  its next prompt, and the reply names it. Runs take `.git/sync.lock`, and one waits for another.
 - `CLAUDE.md`, `README.md`, the files under `docs/` and the pull-requests skill wrap prose at 100
   columns, a list item's later lines indented under its text, and a plain `sync.sh` run stops on a
   longer line. After an edit of one of them, run `~/Projects/dotclaude/reflow.sh` bare in place of a

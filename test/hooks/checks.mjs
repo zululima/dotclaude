@@ -272,6 +272,13 @@ const suites = [
         const r = run({ ...commit, session_id: 'md3' })
         return refused(r) && r.err.includes('+- from the checkout')
       }],
+      ['still blocks when another session\'s sync installed the file during a Bash call', () => {
+        const call = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_10', tool_input: { command: 'npm test' } })
+        run(call); write(rules, '- from a peer\'s prompt\n'); fs.appendFileSync(installs, `${Math.floor(Date.now() / 1000)} ${rules}\n`)
+        run({ ...call, hook_event_name: 'PostToolUse' })
+        const r = run({ ...commit, session_id: 'md3' })
+        return refused(r) && r.err.includes('+- from a peer\'s prompt')
+      }],
       ['still blocks when the Bash call that changed the file took over a minute', () => {
         const slow = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_5', tool_input: { command: 'npm test' } })
         run(slow); write(path.join(ENV.TMPDIR, 'claude-md-snapshots/md3.pre.toolu_5'), '0\n')
@@ -340,6 +347,49 @@ const suites = [
       ['lists a symlinked project folder once', () => {
         fs.symlinkSync('-mi', path.join(config, 'projects/-mi-old'))
         return listed(run(edit(rules, 'mi3'))) === 1
+      }],
+    ]
+  }],
+
+  ['dotclaude-sync.sh', run => {
+    const checkout = path.join(home, 'Projects/dotclaude')
+    const sync = path.join(checkout, 'sync.sh'), lock = path.join(checkout, '.git/sync.lock'), ran = path.join(home, 'sync-ran')
+    const stub = body => { write(sync, `#!/usr/bin/env bash\n${body}\n`); fs.chmodSync(sync, 0o755) }
+    const report = (session_id = 'ds1') => run({ hook_event_name: 'UserPromptSubmit', session_id }, { args: ['--report'] })
+    return [
+      ['does nothing without a checkout', () => { fs.rmSync(sync, { force: true }); return quiet(run({})) && quiet(report()) }],
+      ['runs sync.sh with credential prompts off and prints nothing', () => {
+        stub(`echo "$GIT_TERMINAL_PROMPT" > ${q(ran)}; echo stdout`)
+        return quiet(run({})) && fs.readFileSync(ran, 'utf8') === '0\n'
+      }],
+      ['skips its turn while another run holds the lock', () => {
+        fs.rmSync(ran); write(lock, '1\n')
+        const skipped = quiet(run({})) && !fs.existsSync(ran)
+        fs.rmSync(lock)
+        return skipped
+      }],
+      ['says nothing after a clean run', () => quiet(report())],
+      ['stays silent when the run only could not reach GitHub', () => {
+        stub('echo "sync: fetch failed, reconciling against the local HEAD only" >&2')
+        return quiet(run({})) && quiet(report())
+      }],
+      ['reports what stopped a run in the next prompt, without printing it in the run', () => {
+        stub('echo "sync: pull refused" >&2; echo status; exit 1')
+        const r = run({})
+        return quiet(r) && context(report()).includes('sync: pull refused') && !context(report('ds2')).includes('status')
+      }],
+      ['reports each failure once per session', () => quiet(report())],
+      ['reports it to another session', () => context(report('ds3')).includes('sync: pull refused')],
+      ['reports a new failure again', () => {
+        stub('echo "sync: settings.json changed both locally and in the pulled commits" >&2; exit 1')
+        run({})
+        return context(report()).includes('settings.json changed both')
+      }],
+      ['stops reporting after a clean run', () => {
+        stub('exit 0'); run({})
+        const r = quiet(report('ds4'))
+        fs.rmSync(sync)
+        return r
       }],
     ]
   }],

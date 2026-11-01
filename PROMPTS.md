@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show only the usage points when a dream run ends
+## Sync the configuration at the start of each prompt
 
 2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> at the start of each prompt keep my dotclaude in sync
+
+## Show only the usage points when a dream run ends
+
+2026-11-01, commit [3de147d](https://github.com/zululima/dotclaude/commit/3de147d04062493613e6ac6317389f737c71ae71), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > dotclaude next time when dreaming ends just give me report on how
