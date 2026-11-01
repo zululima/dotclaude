@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Put files to share loose in Downloads, the rest in drafts
+## Add the prose licence and README steps rules
 
 2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**11.**
+> [an ask about a project's repository left out] also always use
+> ccybsa4.0 wherever possible [an ask about a README left out]
+
+**13.** (answer to: where to make room for the licence rule)
+> a [an ask about a project's build steps left out] also dont list
+> commands here but list them in about how they would be in the readme.
+
+## Put files to share loose in Downloads, the rest in drafts
+
+2026-11-01, commit [0ce0564](https://github.com/zululima/dotclaude/commit/0ce056471f954e5dc08bd41f1f84585f3c4af097), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > always if i have artifacts i have to share somewhere put them
@@ -4257,6 +4269,7 @@ Stop, add it to dotclaude?)
 - arch: Arch Linux
 - btw: by the way
 - ccbysa4.0: Creative Commons Attribution-ShareAlike 4.0 International
+- ccybsa4.0: CC BY-SA 4.0, Creative Commons Attribution-ShareAlike 4.0
 - cd: change directory, the shell command
 - char: character
 - cicd: CI/CD, continuous integration and delivery

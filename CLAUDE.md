@@ -275,6 +275,10 @@ apply to one repository belong in that repository's project memory.
 - Steps the user carries out are written in the order they are done, in one numbered list from
   the first to the last. How to do one of them, such as how to start a screen recording, goes
   into that step, never into a section of its own placed before steps that have to come first.
+- Steps through a process that a project's README walks through, such as making and using what the
+  session built, are listed as that README lists them, in its words and with only its blocks, such
+  as the prompt to paste. A command that a session in that process gives the user or runs itself
+  stays out of the list, an exception to the rules above that a step gives its command.
 - Prompts that one Claude Code session is to run one after another, the user's own or one handed to
   a colleague, go in one prompt in one text block. Its parts are numbered in the order they run,
   under an opening line that says to start each part only once the one before it worked, and to stop
@@ -328,6 +332,9 @@ apply to one repository belong in that repository's project memory.
   that CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts, and
   gives a newcomer a prompt to paste into Claude Code, in a `text` block, that clones the repository
   and gets them started. A `claude://` link cannot stand in for it, since GitHub strips such links.
+- A repository whose licence the user picks puts its prose, such as the README, the docs and the
+  CLAUDE.md files, under CC BY-SA 4.0, with the legal text in `LICENSE-PROSE`, and keeps a software
+  licence for its code.
 - A page meant to be taken in at a glance, such as a schedule, a roadmap, a status page or a whole
   README, fits one MacBook screen without scrolling: a table or columns in place of a long list, and
   one line per row or bar. Check it, and every other page a session makes for the user to open in a
@@ -699,24 +706,14 @@ apply to one repository belong in that repository's project memory.
   `commit-messages`, `slack-draft` and `dotclaude` skills. Before changing one of them, adding a
   hook, skill, command or agent under `~/.claude`, or changing anything in that checkout, load the
   `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it. It holds what `sync.sh`
-  reconciles, scans and mirrors, the commit and its identity, the pass over open PRs after every
-  push, what the repository may contain, and the setup on a new machine.
+  reconciles, scans and mirrors, the commit and its identity, the pass over open PRs and the prompt
+  for a teammate after a push, what the repository may contain, and the setup on a new machine.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then, as whenever a session
   changes another mirrored file, run `sync.sh` and read the diff, write the commit message to a file
   in the scratchpad, and run `sync.sh --commit <file> <path>...` in the same turn, naming only the
   files this session changed.
-- When the user asked why a problem still shows in a teammate's work or setup, such as issues a
-  teammate's merge left open, the reply that reports the push also gives a prompt the user can hand
-  to that teammate, who runs a copy of this setup, and other pushes give none. It stands in a `text`
-  block of its own, so the teammate fetches nothing. It carries the change itself: each new or
-  rewritten rule as it now reads, or a new or changed script whole, with the file and the section or
-  neighbouring rule it goes beside, since their copy may be older and its lines differ. It tells the
-  teammate's Claude Code to put each one in place in their own copy under `~/.claude`, to keep their
-  local changes, and then, if they keep a mirror of their own, to commit and push it as their
-  `dotclaude` skill says, and it says go, which their copy of these rules waits for. It names no
-  project, client or person, so it can be passed on as it is.
 - A rule in a mirrored file states what holds now. The incident behind it, its date and the wording
   it replaced go into the commit message, never into the file, and a changed rule is rewritten in
   place rather than followed by a note on what it used to say.

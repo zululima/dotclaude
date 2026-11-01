@@ -86,6 +86,16 @@ and its commit in the same turn, and the rule that a mirrored file states what h
   reply under its PR, next to what the edit changed. `sync.sh --commit` ends by listing the open PRs
   whose body links the repository but not the commit it just pushed. It is a safety net for the
   pass, not a substitute for it: a PR with only the prompts block is not on that list.
+- When the user asked why a problem still shows in a teammate's work or setup, such as issues a
+  teammate's merge left open, the reply that reports the push also gives a prompt the user can hand
+  to that teammate, who runs a copy of this setup, and other pushes give none. It stands in a `text`
+  block of its own, so the teammate fetches nothing. It carries the change itself: each new or
+  rewritten rule as it now reads, or a new or changed script whole, with the file and the section or
+  neighbouring rule it goes beside, since their copy may be older and its lines differ. It tells the
+  teammate's Claude Code to put each one in place in their own copy under `~/.claude`, to keep their
+  local changes, and then, if they keep a mirror of their own, to commit and push it as their
+  `dotclaude` skill says, and it says go, which their copy of these rules waits for. It names no
+  project, client or person, so it can be passed on as it is.
 
 ## Identity and contents
 
