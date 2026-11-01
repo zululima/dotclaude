@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Sync the configuration at the start of each prompt
+## Try Linux's stat first and drop the pinned default model
 
 2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> what does reconcile mean. why no push
+
+**3.** (answer to: should the hook push too, and shall I push both?)
+> no push local changes at start of prompt. also yes push both
+
+## Sync the configuration at the start of each prompt
+
+2026-11-01, commit [38e6f78](https://github.com/zululima/dotclaude/commit/38e6f784692992cdb2852969f25afb6600fdf5d9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > at the start of each prompt keep my dotclaude in sync

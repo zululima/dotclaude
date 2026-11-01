@@ -33,7 +33,7 @@ printf '%s\n' "$files" | while IFS= read -r f; do
   seen_size=0
   after=0
   [ -f "$key" ] && read -r seen_size after < "$key"
-  size=$(stat -f %z "$f" 2>/dev/null || stat -c %s "$f" 2>/dev/null || echo 0)
+  size=$(stat -c %s "$f" 2>/dev/null || stat -f %z "$f" 2>/dev/null || echo 0)
   [ "$size" != "$seen_size" ] || continue
   latest=$("$usage" --log "${after:-0}" "$f" \
     | jq -r '"\(.at | floor | todate | .[0:7])\t\(.at)\t\(tojson)"' 2>/dev/null \

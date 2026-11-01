@@ -84,6 +84,9 @@
     "claude-opus-5": {},
     "claude-fable-5-1": {
       "effortLevel": "xhigh"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
     }
   },
   "theme": "dark",
@@ -480,6 +483,5 @@
   "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
   "inputNeededNotifEnabled": true,
-  "autoCompactWindow": 400000,
-  "model": "claude-fable-5-1[1m]"
+  "autoCompactWindow": 400000
 }
