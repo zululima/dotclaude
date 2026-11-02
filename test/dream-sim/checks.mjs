@@ -18,6 +18,11 @@ const oct31 = { five: 70, fiveReset: '2026-10-31T12:00:00Z', week: 73, weekReset
 } }
 const waited = st => st.started.some(s => / after the \d\d:\d\d reset$/.test(s.label))
 const stopped = r => (r.verification || {}).stoppedBy || ''
+// The final run of 31 Oct from its checks on: twelve checks of about six minutes start at 13:48 local, the backlog writes take a minute each, and the fit check of the third runs 81 minutes.
+const quick = { evidence: 3, fit: 6, backlog: 1, write: 1 }
+const oct31slow = { five: 10, fiveReset: '2026-10-31T15:00:00Z', week: 60, weekReset: '2026-10-31T14:00:00Z', now: '2026-10-31T10:55:00Z', since: '2026-10-30T20:14:00Z', utcOffset: '+0200', sessions: 0, args: { only: ['rules'] }, minutes: { ...quick, 'fit rules: Commands a': 81 } }
+const scriptsAt = st => (st.started.find(s => /^scripts /.test(s.label)) || {}).at
+const allScripts = (r, n) => r.plan.length === n && r.plan.every(p => p.endsWith(' runs'))
 // Weekly readings as the dream runs wrote them: the week to 31 Oct went from 61% at the eve run to 77% at the final run, which spent 4 points itself, so the user spent 12.
 const weekRow = (mode, weekEnds, readAt, used, dreamSpent) => JSON.stringify({ weekEnds, readAt, runId: readAt.slice(0, 10), mode, windows: [{ label: 'Weekly · all models', percentUsed: used }], dreamSpent })
 const weekRows = [
@@ -81,6 +86,17 @@ const scenarios = [
   ['final of 31 Oct, had the 5-hour limit reset at 15:00', { ...oct31, five: 40, fiveReset: '2026-10-31T13:00:00Z' }, [
     ['drops the work it could not finish before the cutoff after the reset', (st, r) => /as no room left under the 5-hour limit/.test(stopped(r))],
     ['without waiting for that reset', st => !waited(st)],
+    noHits,
+  ]],
+  ['final of 31 Oct, one check far slower than the rest', oct31slow, [
+    ['carries the slow check over unchecked, as ran past 30 minutes', (st, r) => r.unchecked === 1 && stopped(r) === '1 pieces of work skipped as ran past 30 minutes' && !r.plan.some(p => p.includes('-w3)'))],
+    ['starts the scripts step for the other 11 before the 14:45 cutoff', (st, r) => scriptsAt(st) < Date.parse('2026-10-31T12:45:00Z') && allScripts(r, 11)],
+    ['once the slow check has run 30 minutes, not before', st => scriptsAt(st) >= st.started.find(s => s.label === 'fit rules: Commands a').at + 30 * 60000],
+    noHits,
+  ]],
+  ['final of 31 Oct, the slow check the last to start', { ...oct31slow, now: '2026-10-31T10:35:00Z', minutes: { ...quick, 'fit rules: Memory a': 81 } }, [
+    ['a timer lets it go, since no reading comes while it runs alone', (st, r) => st.labels.timer > 0 && r.unchecked === 1 && /ran past 30 minutes/.test(stopped(r))],
+    ['and the scripts step starts for the others before the 14:45 cutoff', (st, r) => scriptsAt(st) < Date.parse('2026-10-31T12:45:00Z') && allScripts(r, 11)],
     noHits,
   ]],
   ['night, stopped by the 5-hour window', { ...wed, five: 60, week: 30, sessions: 200 }, [

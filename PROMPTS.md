@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave sessions waiting on subagents out of the hourglass
+## Stop waiting for a dream check that runs past 30 minutes
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: shall I add p14?)
+> a
+
+## Leave sessions waiting on subagents out of the hourglass
+
+2026-11-02, commit [94a7152](https://github.com/zululima/dotclaude/commit/94a7152eeb985d77028c103fe79da938f4b27029), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > lol dont put sessions to the hourglass that have subagenst working
@@ -4430,6 +4437,7 @@ Stop, add it to dotclaude?)
 - ofc: of course
 - oy: osakeyhtiö, the Finnish limited company form
 - p13: step 13 of the dream review
+- p14: step 14 of the dream review
 - p18: proposal 18 of the weekly review of 2026-10-14
 - p1: step 1 of the dream review
 - p3: step 3 of the dream review

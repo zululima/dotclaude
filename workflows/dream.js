@@ -8,7 +8,7 @@ export const meta = {
     { title: 'Weekly', detail: 'tier 2: rule effectiveness, token waste, harness, doctor, Anthropic and skill repositories' },
     { title: 'Work', detail: 'tier 3: project audits, what derived projects should take over from their upstreams, reviews of open pull requests and, in a final run, a Monday brief' },
     { title: 'Older', detail: 'tier 4, eve and final runs: subagent transcripts, then older transcripts a week at a time, newest first' },
-    { title: 'Usage', detail: 'readings of the plan usage card as work finishes' },
+    { title: 'Usage', detail: 'readings of the plan usage card as work finishes, and timers for checks that run long' },
     { title: 'Report', detail: 'order and test the scripts, write the report and the backlog, record what the run cost' },
   ],
 }
@@ -340,6 +340,8 @@ const USAGE = {
 
 const OK = { type: 'object', required: ['ok'], properties: { ok: { type: 'boolean' } } }
 
+const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 'string', description: 'ISO time in UTC' } } }
+
 // Agents read each other's prompt cache only when type and tools match, so all run as dream-worker.
 const dreamAgent = (prompt, opts = {}) => agent(prompt, { agentType: 'dream-worker', ...opts })
 
@@ -603,6 +605,9 @@ let completionsSinceRead = 0
 let measuring = null
 let outsideRunning = 0
 let stalled = false
+let timing = false
+let earlyTimers = 0
+let abandoned = 0
 const doneUnits = {}
 let readingUnits = {}
 const longestMs = {}
@@ -654,6 +659,8 @@ function fits(t, card = usage) {
     for (const k in doneUnits) need += doneUnits[k] * estimate(k, w.label)
     for (const k in readingUnits) need += readingUnits[k] * estimate(k, w.label)
     need += outsideRunning * estimate('merge', w.label)
+    // A check the run stopped waiting for runs on and spends.
+    need += abandoned * estimate('verify', w.label)
     if (SAFETY * need > room) {
       blockedBy = w
       return false
@@ -713,13 +720,14 @@ function pump() {
     queue.shift()
     start(t)
   }
+  timeChecks()
 }
 
 function start(t) {
   const startedAt = lastNowMs
   inFlight.push(t)
   if (t.kind === 'gather' && tierState[t.tier]) tierState[t.tier].started++
-  Promise.resolve().then(() => t.run()).catch(() => null).then(result => {
+  t.finish = result => {
     inFlight = inFlight.filter(x => x !== t)
     doneUnits[t.kind] = (doneUnits[t.kind] || 0) + t.units
     longestMs[t.kind] = Math.max(longestMs[t.kind] || 0, lastNowMs - startedAt)
@@ -727,6 +735,44 @@ function start(t) {
     markSource(t.source, true)
     t.resolve(result)
     settle()
+  }
+  Promise.resolve().then(() => t.run()).catch(() => null).then(result => {
+    if (t.overdue) abandoned--
+    else t.finish(result)
+  })
+}
+
+// A check is timed from the first reading of the clock that comes back while it runs, so one the run lets go has run TASK_MINUTES, less at most the length of that reading.
+function letGoOverdue(at) {
+  for (const t of inFlight.filter(x => x.timed)) {
+    t.startedBy = t.startedBy ?? at
+    if (at - t.startedBy < TASK_MINUTES * 60000) continue
+    // An agent cannot be stopped from the script, so the check runs on to its end and only the waiting stops.
+    const reason = `ran past ${TASK_MINUTES} minutes`
+    t.overdue = true
+    abandoned++
+    skippedWork.push({ label: t.label, source: t.source, tier: t.tier, reason })
+    t.finish(SKIP(reason))
+  }
+}
+
+// While the run waits on proposal checks alone, no reading comes, so a timer agent waits until the first of them reaches TASK_MINUTES, or only reads the clock when none is timed yet.
+function timeChecks() {
+  if (timing || measuring || outsideRunning || earlyTimers >= 3 || (queue.length && !stalled) || !inFlight.length || !inFlight.every(x => x.timed)) return
+  const first = Math.min(...inFlight.map(x => x.startedBy ?? Infinity))
+  const until = Number.isFinite(first) ? first + TASK_MINUTES * 60000 : 0
+  // A timer that comes back before its time and before its nine minutes did not wait, and after three of those the run stops starting them.
+  const due = Math.min(until, lastNowMs + 8 * 60000)
+  timing = true
+  dreamAgent(until ? waitThenClock(until) : READ_CLOCK, { label: until ? `timer until ${localTime(until)}` : 'timer', phase: 'Usage', model: 'haiku', effort: 'low', schema: CLOCK }).catch(() => null).then(r => {
+    timing = false
+    const at = Date.parse((r && r.now) || '')
+    if (!(at >= due)) earlyTimers++
+    if (Number.isFinite(at)) {
+      lastNowMs = Math.max(lastNowMs, at)
+      letGoOverdue(at)
+    }
+    pump()
   })
 }
 
@@ -763,12 +809,22 @@ async function outside(kind, run) {
   }
 }
 
-// A workflow script has no timer, so a reading that waits for a 5-hour reset waits in its agent's shell, nine minutes per Bash call, until a minute past the reset, when the card shows the new window.
+// A workflow script has no timer, so an agent that waits does so in its shell, nine minutes per Bash call.
+const sleepUntil = at => `end=$(( $(date -u +%s) + 540 )); until [ "$(date -u +%s)" -ge ${at} ] || [ "$(date -u +%s)" -ge "$end" ]; do sleep 20; done; [ "$(date -u +%s)" -ge ${at} ] && echo ready || echo waiting`
+// A reading that waits for a 5-hour reset waits until a minute past it, when the card shows the new window.
 const waitThenRead = until => {
   const at = Math.ceil(until / 1000) + 60
   return `Wait until ${new Date(at * 1000).toISOString()}, a minute after the 5-hour limit resets. Run this with the Bash tool and a timeout of 600000, and again each time it prints waiting, until it prints ready:
-end=$(( $(date -u +%s) + 540 )); until [ "$(date -u +%s)" -ge ${at} ] || [ "$(date -u +%s)" -ge "$end" ]; do sleep 20; done; [ "$(date -u +%s)" -ge ${at} ] && echo ready || echo waiting
+${sleepUntil(at)}
 Then: ${READ_USAGE}`
+}
+const READ_CLOCK = 'Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now.'
+// A timer waits one Bash call at most, so one whose check finished in time does not wait on long after it.
+const waitThenClock = until => {
+  const at = Math.ceil(until / 1000)
+  return `Wait until ${new Date(at * 1000).toISOString()}, when a check of this run reaches ${TASK_MINUTES} minutes, or nine minutes at most. Run this once with the Bash tool and a timeout of 600000:
+${sleepUntil(at)}
+Then: ${READ_CLOCK}`
 }
 
 async function takeReading(until) {
@@ -800,6 +856,7 @@ async function takeReading(until) {
   }
   record(units, before, after)
   usage = after
+  if (Number.isFinite(t)) letGoOverdue(t)
 }
 
 const byNewest = (a, b) => usedAt(b) - usedAt(a)
@@ -1279,9 +1336,10 @@ function verifyTier(n, proposals) {
     label: `check ${tag(p)}`,
     source: 'verify',
     reserve: { report: 1 },
+    timed: true,
     run: () => verifyOne(p, TIER_PHASE[n]),
   }).then(r => {
-    if (r && r.skipped) unchecked.push(p)
+    if (r && r.skipped) unchecked.push({ ...p, why: r.reason })
     else if (r) verified.push(r)
   })))
 }
@@ -1348,9 +1406,10 @@ tierRuns.push(...carriedUnchecked.map(p => submit({
   label: `check ${tag(p)}`,
   source: 'verify',
   reserve: { report: 1 },
+  timed: true,
   run: () => verifyOne(p, 'Recent'),
 }).then(r => {
-  if (r && r.skipped) unchecked.push(p)
+  if (r && r.skipped) unchecked.push({ ...p, why: r.reason })
   else if (r) verified.push(r)
 })))
 addTier(1, tasks.filter(t => t.tier === 1))
@@ -1408,7 +1467,7 @@ const briefDone = briefResult && !briefResult.skipped
 if (!results.length && !reviewed.length && !briefDone && (tasks.length || prList.length)) {
   return { error: `Nothing fitted. This is ${modeNote}. Usage: ${usage ? showUsage(usage) : 'unknown'}.` }
 }
-if (unchecked.length) log(`${unchecked.length} proposals left unchecked to stay under the usage limits`)
+if (unchecked.length) log(`${unchecked.length} proposals left unchecked: ${[...new Set(unchecked.map(p => p.why))].join('; ')}`)
 
 const nextPending = overflow.slice()
 for (const o of tierOuts[1] || []) {
@@ -1662,8 +1721,8 @@ ${JSON.stringify(merged.dropped)}
 Rejected in verification, as JSON:
 ${JSON.stringify(rejected)}
 
-Left unchecked to stay under the usage limits, as JSON:
-${JSON.stringify(unchecked.map(p => ({ id: p.id, kind: p.kind, title: p.title, proposal: p.proposal, target: p.target, impact: p.impact })))}
+Left unchecked, each with why, as JSON:
+${JSON.stringify(unchecked.map(p => ({ id: p.id, kind: p.kind, title: p.title, proposal: p.proposal, target: p.target, impact: p.impact, why: p.why })))}
 
 Skipped work, as JSON:
 ${JSON.stringify(skippedWork.map(s => ({ label: s.label, tier: s.tier, reason: s.reason })))}
