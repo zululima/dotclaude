@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep a dream step done as a pull request open until it merges
+## Keep the forTheSession field name out of dream launch replies
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+
+## Keep a dream step done as a pull request open until it merges
+
+2026-11-02, commit [9ec43bb](https://github.com/zululima/dotclaude/commit/9ec43bbb46007d4ba170483ffd82920442e2725d), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
 
