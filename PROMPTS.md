@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Commit only this session's own edits of a shared file
+## Leave sessions waiting on subagents out of the hourglass
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> lol dont put sessions to the hourglass that have subagenst working
+> still for example the gm since i cant do that rn even though its
+> going cold
+
+## Commit only this session's own edits of a shared file
+
+2026-11-02, commit [9276bb9](https://github.com/zululima/dotclaude/commit/9276bb999d9b37d0bcecd711d2c5095b5d939541), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: shall I add p3?)
 > a

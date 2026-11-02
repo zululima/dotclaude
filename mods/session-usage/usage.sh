@@ -19,8 +19,9 @@
 #                           down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
-#                           still warm, soonest cold first: the second it goes
-#                           cold and the title, tab-separated, a line each
+#                           still warm and that wait on no subagent, soonest
+#                           cold first: the second it goes cold and the title,
+#                           tab-separated, a line each
 #   usage.sh --run <folder> the tokens, cost and energy of every transcript
 #                           under the folder, such as a workflow run's, by kind
 #                           and model
@@ -171,6 +172,24 @@ if [ "${1:-}" = --since ]; then
   exit 0
 fi
 
+# A session waits on a background agent until its meta says finished or the
+# session got its task notification, and on a workflow run until the run's
+# record is written. One quiet for an hour, such as a session the app quit
+# mid-run left, no longer counts.
+waiting() {
+  local meta run
+  for meta in "$1"/subagents/agent-*.meta.json; do
+    [ -n "$(find "${meta%.meta.json}.jsonl" -mmin -65 2>/dev/null)" ] || continue
+    jq -e '.requestShape == "background" and .finished != true' "$meta" >/dev/null 2>&1 || continue
+    grep -qF "<task-id>$(basename "$meta" .meta.json | cut -d- -f2)</task-id>" "$1.jsonl" || return 0
+  done
+  for run in "$1"/subagents/workflows/wf_*; do
+    [ -n "$(find "$run" -name '*.jsonl' -mmin -65 2>/dev/null | head -1)" ] || continue
+    [ "$(jq -r '.status' "$1/workflows/${run##*/}.json" 2>/dev/null || echo running)" = running ] && return 0
+  done
+  return 1
+}
+
 # The desktop app's record of a session says whether it is archived; a session
 # without one, such as a terminal's, counts as open. A record changes whenever
 # its session does, so only those of the last hour are read.
@@ -185,6 +204,7 @@ if [ "${1:-}" = --next ]; then
       archived='' title=''
       IFS=$'\t' read -r _ archived title < <(printf '%s\n' "$known" | grep -F "$id	")
       [ "$archived" = true ] && continue
+      waiting "${f%.jsonl}" && continue
       [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
