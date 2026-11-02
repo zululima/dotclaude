@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep the forTheSession field name out of dream launch replies
+## Carry pane-bridge files in the address fragment
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a task another Claude session wrote, left out]
+
+**2.** (answer to: shall I commit and push the pane-bridge change?)
+> Yes, go ahead
+
+## Keep the forTheSession field name out of dream launch replies
+
+2026-11-02, commit [58f3c34](https://github.com/zululima/dotclaude/commit/58f3c34281eac8c16df314b8d5978d1c427aba7a), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
 
