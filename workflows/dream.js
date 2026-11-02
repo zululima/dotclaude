@@ -208,7 +208,7 @@ const BACKLOG_CHECK = {
         required: ['key', 'status', 'note'],
         properties: {
           key: { type: 'string' },
-          status: { type: 'string', enum: ['open', 'applied', 'obsolete'] },
+          status: { type: 'string', enum: ['open', 'applied', 'obsolete', 'waiting'] },
           note: { type: 'string' },
         },
       },
@@ -362,7 +362,7 @@ const LIST_FILES = 'Return each with its absolute path, its project directory na
 const FIND_MAIN = `find ~/.claude/projects/ -mindepth 2 -maxdepth 2 -type f -name '*.jsonl'`
 const FIND_ONCE = 'Run find as given, without -L, and never list these files with a glob such as ~/.claude/projects/*/*.jsonl or with ls: some project folders there are symlinks to others, so a glob lists their files a second time.'
 // The backlog file outgrew what an agent can repeat verbatim, so a run passes an index around and agents read whole items from the file by key.
-const BACKLOG_INDEX = `jq -c '{valid: true, open: [.open[]? | {key, title, kind, impact, target, firstSeen, lastSeen, scriptFile: (.scriptFile // ""), askAgainAfter: (.askAgainAfter // "")}], closed: ([.closed[]? | {title, closedOn, reason: ((.reason // "") | .[0:160])}] | .[-150:]), unchecked: [.unchecked[]? | {key, title, kind, impact, target, firstSeen}]}' ${BACKLOG_FILE}`
+const BACKLOG_INDEX = `jq -c '{valid: true, open: [.open[]? | {key, title, kind, impact, target, firstSeen, lastSeen, scriptFile: (.scriptFile // ""), askAgainAfter: (.askAgainAfter // "")} + (if .waitsOn then {waitsOn, unmerged} else {} end)], closed: ([.closed[]? | {title, closedOn, reason: ((.reason // "") | .[0:160])}] | .[-150:]), unchecked: [.unchecked[]? | {key, title, kind, impact, target, firstSeen}]}' ${BACKLOG_FILE}`
 const readItem = (list, key) => `jq '.${list}[] | select(.key == "${key}")' ${BACKLOG_FILE}`
 // The desktop app appends untimestamped records to old sessions, so a file's modification time says little about when it was last used.
 const LAST_ACTIVITY = `For a main session transcript also return as lastActivity the timestamp of its last user or assistant record: jq -r 'select(.type == "user" or .type == "assistant") | .timestamp // empty' FILE | tail -n 1. Use find -newermt only to narrow the files down, and decide by lastActivity.`
@@ -376,7 +376,7 @@ const ENERGY = `Then run ${USAGE_SH} --run with the run's transcript folder, the
 const weekly = (lastStart, thisStart) => `Then add the usage of all sessions from the usage log that ~/.claude/hooks/usage-log.sh keeps after every turn to the end of the report file under a heading Week: run ${USAGE_SH} --since ${lastStart} ${thisStart} for last week and ${USAGE_SH} --since ${thisStart} for this week so far, each in a text block under its own heading. Show none of it in the chat.`
 
 // Most steps go in unasked and the rest one question at a time, since nobody can hold sixty numbered steps from a long report in their head.
-const walkText = (backlogFile, reportFile) => `test the script of every step in a sandbox against the files as they stand and read its diff first. Ask the user only about a step that touches security or privacy, such as a permission, a secret, a private detail or name that a public repository or a colleague would then see, or software to install, and about one that asks the user to change how they work, so they acknowledge it. A change that only lands in a repository colleagues or the public read, such as a line in a shared installer, is no reason to ask. Apply every other step without a question once its diff reads right: regenerate a script that fails, take the choice its evidence favours where one is needed, commit and push a change to a project repository as that repository's rules say, on its default branch or on the user's draft PR open there, opening a new one only when none is open, and list each such step at the end with what it changed and any choice made. Go through the asked steps in a dialogue, one at a time, in the order given, one step per message and never several steps in one message, with no AskUserQuestion card: each message ends the turn and the user answers by typing. The message names the step by its number in the report, such as p12, which its script file is named after, since the user calls steps by that number, or by its title when the report gives it none, and never by its backlog key, such as 2026-10-24-n12, whose letters mean nothing to the user. Every message of the session names steps the same way, also one that relays a harness warning about an agent. An answer to a question the user asked in their last reply opens the message. Then it gives the step's place among the questions to ask, such as p14, 9 of 25, so the user sees how many are left; then, for a user who no longer remembers what each hook, rule or file does, what the step changes and what will happen differently once it is in, naming a real thing from the user's history, such as the script a session ran to upload an app build in a named project, never a category alone, and where it goes, such as dotclaude or a project's memory. Then comes the change itself, the key sentence of a rule word for word or what a hook refuses, then one moment from its evidence on a "Before:" line, what the user asked or Claude ran with its date and what went wrong, and an "After:" line, the same moment as it goes once the change is in. A count, total or average is no example, so a waste finding names one request: what the agent was asked, what it ran and what it carried without using. Take the three from exactChange, exampleWrong and exampleFixed of the item in ${backlogFile} by its key. When one is empty, open the item's evidence references and take the moment from the transcript or file they cite before asking. When they cite no moment, such as a finding about a file's text alone, search the moments the explanation names, then ~/.claude/prompt-log and the transcripts under ~/.claude/projects, for a real one of the kind the step changes, and use that. Only when no session holds one, make up a plausible one and head it "Made up:", so it never passes for evidence. The message ends with the answers, lettered: a) add it, marked recommended when its script runs; b) not now, which keeps it open and sets its askAgainAfter in the backlog to a week ahead, so runs before that date leave it out; c) don't add, which closes it in the backlog as declined by the user; and d) stop here, which leaves this and every later step open. Whatever else the user types, such as a change to the proposal, is carried out and the step asked about again. Carry out each added step before the next message: run its script, regenerate it against the files as they stand and test it in a sandbox first, or do what its prompt says, and say its result in one line; when it fails, say why and ask about it again with not now recommended. Commit each step that changes a mirrored file before the next step starts, an unasked one too, as the Public configuration repository section of ~/.claude/CLAUDE.md says, once the tests in the checkout pass: a message for that step alone, and after the message file the paths that step's own edits and script wrote, its test updates included, never a git status diff taken around its run, so nothing waits uncommitted and no commit holds two steps. Go over the open PRs once, after the last push. Then mark each step in ${reportFile} as added, not now or not added, and say in one line how many went each way and which were added without a question.`
+const walkText = (backlogFile, reportFile) => `test the script of every step in a sandbox against the files as they stand and read its diff first. Ask the user only about a step that touches security or privacy, such as a permission, a secret, a private detail or name that a public repository or a colleague would then see, or software to install, and about one that asks the user to change how they work, so they acknowledge it. A change that only lands in a repository colleagues or the public read, such as a line in a shared installer, is no reason to ask. Apply every other step without a question once its diff reads right: regenerate a script that fails, take the choice its evidence favours where one is needed, commit and push a change to a project repository as that repository's rules say, on its default branch or on the user's draft PR open there, opening a new one only when none is open, and list each such step at the end with what it changed and any choice made. Go through the asked steps in a dialogue, one at a time, in the order given, one step per message and never several steps in one message, with no AskUserQuestion card: each message ends the turn and the user answers by typing. The message names the step by its number in the report, such as p12, which its script file is named after, since the user calls steps by that number, or by its title when the report gives it none, and never by its backlog key, such as 2026-10-24-n12, whose letters mean nothing to the user. Every message of the session names steps the same way, also one that relays a harness warning about an agent. An answer to a question the user asked in their last reply opens the message. Then it gives the step's place among the questions to ask, such as p14, 9 of 25, so the user sees how many are left; then, for a user who no longer remembers what each hook, rule or file does, what the step changes and what will happen differently once it is in, naming a real thing from the user's history, such as the script a session ran to upload an app build in a named project, never a category alone, and where it goes, such as dotclaude or a project's memory. Then comes the change itself, the key sentence of a rule word for word or what a hook refuses, then one moment from its evidence on a "Before:" line, what the user asked or Claude ran with its date and what went wrong, and an "After:" line, the same moment as it goes once the change is in. A count, total or average is no example, so a waste finding names one request: what the agent was asked, what it ran and what it carried without using. Take the three from exactChange, exampleWrong and exampleFixed of the item in ${backlogFile} by its key. When one is empty, open the item's evidence references and take the moment from the transcript or file they cite before asking. When they cite no moment, such as a finding about a file's text alone, search the moments the explanation names, then ~/.claude/prompt-log and the transcripts under ~/.claude/projects, for a real one of the kind the step changes, and use that. Only when no session holds one, make up a plausible one and head it "Made up:", so it never passes for evidence. The message ends with the answers, lettered: a) add it, marked recommended when its script runs; b) not now, which keeps it open and sets its askAgainAfter in the backlog to a week ahead, so runs before that date leave it out; c) don't add, which closes it in the backlog as declined by the user; and d) stop here, which leaves this and every later step open. Whatever else the user types, such as a change to the proposal, is carried out and the step asked about again. Carry out each added step before the next message: run its script, regenerate it against the files as they stand and test it in a sandbox first, or do what its prompt says, and say its result in one line; when it fails, say why and ask about it again with not now recommended. Commit each step that changes a mirrored file before the next step starts, an unasked one too, as the Public configuration repository section of ~/.claude/CLAUDE.md says, once the tests in the checkout pass: a message for that step alone, and after the message file the paths that step's own edits and script wrote, its test updates included, never a git status diff taken around its run, so nothing waits uncommitted and no commit holds two steps. Go over the open PRs once, after the last push. Record each added step in ${backlogFile}: move it to closed as applied, unless its change waits in a pull request that has not merged; keep that one open, with waitsOn set to the pull request as owner/repo#number, and a later run closes it once the pull request merges. A step here that still carries waitsOn is one whose pull request closed unmerged: ask about it, never apply it unasked, and say what took its place, such as an issue. Then mark each step in ${reportFile} as added, not now or not added, and say in one line how many went each way and which were added without a question.`
 
 const EVALS = `Then, when ${EVALS_FILE} exists, refresh the evals of the checkout it names: run node <checkout>/test/evals.mjs --write and show its lines in a text block, whatever its exit status. When git -C <checkout> status --porcelain docs/evals.md then lists the file, commit and push docs/evals.md alone with <checkout>/sync.sh --commit <message file> docs/evals.md, as the Public configuration repository section of ~/.claude/CLAUDE.md says.`
 
@@ -396,17 +396,21 @@ ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'lo
   if (!r || !r.backlog || !r.backlog.valid) return { error: `${BACKLOG_FILE} could not be read, so there is nothing to review.` }
   const rank = { high: 0, medium: 1, low: 2 }
   const open = (r.backlog.open || []).filter(i => i && i.key)
-  const due = open.filter(i => !i.askAgainAfter || i.askAgainAfter <= r.today).sort((x, y) => (rank[x.impact] ?? 3) - (rank[y.impact] ?? 3))
-  const waiting = open.length - due.length
+  // A review cannot see whether a pull request merged, so a step waiting on one waits for a run to check it, unless a run found that pull request closed unmerged.
+  const onPr = i => i.waitsOn && !(i.unmerged && i.unmerged.pr === i.waitsOn)
+  const due = open.filter(i => !onPr(i) && (!i.askAgainAfter || i.askAgainAfter <= r.today)).sort((x, y) => (rank[x.impact] ?? 3) - (rank[y.impact] ?? 3))
+  const waitingOnPr = open.filter(onPr).length
+  const waiting = open.length - due.length - waitingOnPr
   const uncheckedCount = (r.backlog.unchecked || []).length
   const walk = walkText(BACKLOG_FILE, r.report || 'the latest dream report')
   const shown = `${r.report ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included.` : 'Say in one line that no dream report was found.'} ${EVALS}`
   return {
     forTheSession: due.length
-      ? `${shown} ${waiting ? `${waiting} open proposals wait for their askAgainAfter date and are left out. ` : ''}${walk[0].toUpperCase()}${walk.slice(1)} A script was tested against the files as they stood when its run wrote it, so test it in a sandbox before running it for real, and regenerate it when it fails.${uncheckedCount ? ` Say in one line that ${uncheckedCount} unchecked proposals wait for the next dream run, which checks them first.` : ''} The steps, in order, each with its script file where it has one: ${JSON.stringify(due.map(i => ({ key: i.key, title: i.title, impact: i.impact, target: i.target, scriptFile: i.scriptFile || '' })))}`
-      : `${shown} No open proposal is due${waiting ? `, and ${waiting} wait for their askAgainAfter date` : ''}.${uncheckedCount ? ` ${uncheckedCount} unchecked proposals wait for the next dream run.` : ''}`,
+      ? `${shown} ${waiting ? `${waiting} open proposals wait for their askAgainAfter date and are left out. ` : ''}${waitingOnPr ? `${waitingOnPr} wait for their pull request to merge and are left out until a dream run checks it. ` : ''}${walk[0].toUpperCase()}${walk.slice(1)} A script was tested against the files as they stood when its run wrote it, so test it in a sandbox before running it for real, and regenerate it when it fails.${uncheckedCount ? ` Say in one line that ${uncheckedCount} unchecked proposals wait for the next dream run, which checks them first.` : ''} The steps, in order, each with its script file where it has one: ${JSON.stringify(due.map(i => ({ key: i.key, title: i.title, impact: i.impact, target: i.target, scriptFile: i.scriptFile || '', ...(i.waitsOn && i.unmerged ? { waitsOn: i.waitsOn, unmerged: i.unmerged.note } : {}) })))}`
+      : `${shown} No open proposal is due${waiting ? `, and ${waiting} wait for their askAgainAfter date` : ''}.${waitingOnPr ? ` ${waitingOnPr} wait for their pull request to merge.` : ''}${uncheckedCount ? ` ${uncheckedCount} unchecked proposals wait for the next dream run.` : ''}`,
     due: due.length,
     waiting,
+    waitingOnPr,
     unchecked: uncheckedCount,
   }
 }
@@ -1290,19 +1294,25 @@ const subagentsFrom = lastRan.subagents ? new Date(lastRan.subagents).toISOStrin
 let checks = { items: [] }
 let stillOpen = backlog.open
 let closedNow = []
+let onOpenPr = []
+let unmergedNow = []
 const backlogReady = (backlog.open.length
-  ? outside('merge', () => dreamAgent(`Check each open proposal of the user's dream backlog against their setup as it stands now. Read its whole entry from the backlog first, such as ${readItem('open', '<key>')}, then read its target and decide: "applied" when the change is in place, whether by its script or otherwise, "obsolete" when the problem it addresses no longer exists or a later change made it moot, else "open". Say in note what you saw.
+  ? outside('merge', () => dreamAgent(`Check each open proposal of the user's dream backlog against their setup as it stands now. Read its whole entry from the backlog first, such as ${readItem('open', '<key>')}, then read its target and decide: "applied" when the change is in place, whether by its script or otherwise, "obsolete" when the problem it addresses no longer exists or a later change made it moot, else "open". Say in note what you saw. For one with waitsOn, a pull request given as owner/repo#number, run gh pr view number --repo owner/repo --json state,mergedAt and decide by it: "applied" once it merged, "waiting" while it is open, and "open" when it closed unmerged, with a note that names what took its place, such as an issue that links it.
 
 Open proposals, as JSON:
-${JSON.stringify(backlog.open.map(i => ({ key: i.key, title: i.title, target: i.target })))}
+${JSON.stringify(backlog.open.map(i => ({ key: i.key, title: i.title, target: i.target, ...(i.waitsOn ? { waitsOn: i.waitsOn } : {}) })))}
 ${GROUND}`, { label: 'backlog check', phase: 'Recent', schema: BACKLOG_CHECK }))
   : Promise.resolve(null)
 ).then(r => {
   checks = r || checks
-  const statusOf = key => (checks.items.find(c => c.key === key) || { status: 'open', note: '' })
-  closedNow = backlog.open.filter(i => statusOf(i.key).status !== 'open').map(i => ({ key: i.key, title: i.title, closedOn: scout.today, reason: `${statusOf(i.key).status}: ${statusOf(i.key).note}` }))
-  stillOpen = backlog.open.filter(i => statusOf(i.key).status === 'open')
-  if (backlog.open.length) log(`Backlog: ${stillOpen.length} still open, ${closedNow.length} closed as applied or obsolete`)
+  // A step on a pull request that no check reached is taken as still waiting, so a failed check never calls its pull request closed.
+  const statusOf = i => checks.items.find(c => c.key === i.key) || { status: i.waitsOn ? 'waiting' : 'open', note: '' }
+  const kept = i => ['open', 'waiting'].includes(statusOf(i).status)
+  closedNow = backlog.open.filter(i => !kept(i)).map(i => ({ key: i.key, title: i.title, closedOn: scout.today, reason: `${statusOf(i).status}: ${statusOf(i).note}` }))
+  stillOpen = backlog.open.filter(kept)
+  onOpenPr = stillOpen.filter(i => i.waitsOn && statusOf(i).status === 'waiting')
+  unmergedNow = stillOpen.filter(i => i.waitsOn && statusOf(i).status === 'open').map(i => ({ key: i.key, pr: i.waitsOn, note: statusOf(i).note }))
+  if (backlog.open.length) log(`Backlog: ${stillOpen.length} still open, ${closedNow.length} closed as applied or obsolete${onOpenPr.length ? `, ${onOpenPr.length} left out until their pull request merges` : ''}${unmergedNow.length ? `, ${unmergedNow.length} asked about again since their pull request closed unmerged` : ''}`)
 })
 
 async function mergeFindings(findings, known, phaseName, label, prefix) {
@@ -1657,9 +1667,10 @@ const newItems = kept.filter(p => p.kind !== 'habit').map(p => ({
 // A step the user answered "Not now" for waits out its date, so the same questions do not come back every run.
 const parked = stillOpen.filter(i => i.askAgainAfter && i.askAgainAfter > scout.today)
 if (parked.length) log(`${parked.length} open proposals wait until their askAgainAfter date before they are asked about again`)
-const carried = stillOpen.filter(i => !parked.includes(i)).map(i => {
+const carried = stillOpen.filter(i => !parked.includes(i) && !onOpenPr.includes(i)).map(i => {
   const update = merged.updates.find(u => u.key === i.key)
-  return { ...i, isNew: false, evidence: update ? update.evidence.concat(i.evidence).slice(0, 5) : i.evidence, lastSeen: update ? scout.today : i.lastSeen }
+  const closedPr = unmergedNow.find(u => u.key === i.key)
+  return { ...i, isNew: false, evidence: update ? update.evidence.concat(i.evidence).slice(0, 5) : i.evidence, lastSeen: update ? scout.today : i.lastSeen, ...(closedPr ? { unmerged: { pr: closedPr.pr, note: closedPr.note } } : {}) }
 })
 const openItems = carried.concat(newItems)
 
@@ -1668,7 +1679,8 @@ const MERGE_JQ = `($p[0]) as $p
 | ($p.promote | map(.key)) as $pk | ($p.closeUnchecked | map(.key)) as $cuk | ($p.closeOpen | map(.key)) as $cok
 | {updated: $p.updated,
    open: ([$open[] | select(.key | IN($cok[]) | not) | . as $i | (first($p.updates[] | select(.key == $i.key)) // null) as $u
-           | if $u then .evidence = (($u.evidence + (.evidence // []))[0:5]) | .lastSeen = $u.lastSeen else . end]
+           | if $u then .evidence = (($u.evidence + (.evidence // []))[0:5]) | .lastSeen = $u.lastSeen else . end
+           | (first(($p.unmerged // [])[] | select(.key == $i.key)) // null) as $x | if $x then .unmerged = {pr: $x.pr, note: $x.note} else . end]
           + [$unc[] | . as $i | (first($p.promote[] | select(.key == $i.key)) // null) as $m | select($m != null) | . + $m | del(.id)]
           + $p.addOpen),
    closed: ($closed + $p.closeOpen + $p.closeUnchecked + $p.addClosed),
@@ -1683,6 +1695,7 @@ const patch = {
   updated: scout.now,
   promote: newItems.filter(i => i.fromBacklog).map(i => ({ key: i.key, fitNote: i.fitNote, exactChange: i.exactChange, exampleWrong: i.exampleWrong, exampleFixed: i.exampleFixed, lastSeen: scout.today, ...(i.revised ? { proposal: i.proposal } : {}) })),
   closeOpen: closedNow,
+  unmerged: unmergedNow,
   closeUnchecked: verified.filter(p => p.fromBacklog && (!holds(p) || p.kind === 'habit')).map(p => ({ key: p.key, title: p.title, closedOn: scout.today, reason: holds(p) ? 'shown as a habit in the report' : `rejected: ${rejectReason(p)}` })),
   addClosed: rejected.filter(r => !r.fromBacklog).map(r => ({ key: `${scout.runId}-rejected`, title: r.title, closedOn: scout.today, reason: `rejected: ${r.reason}` })),
   updates: merged.updates.map(u => ({ key: u.key, evidence: u.evidence || [], lastSeen: scout.today })),

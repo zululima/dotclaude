@@ -67,7 +67,7 @@ export async function simulate(wf, sc) {
     }
     if (label.startsWith('usage')) return usageCard()
     if (/^(timer|clock)/.test(label)) return { now: new Date(st.now).toISOString() }
-    if (label === 'backlog check') return { items: [] }
+    if (label === 'backlog check') return { items: sc.checks || [] }
     if (label === 'list older') return {
       older: linked(Array.from({ length: 12 }, (_, i) => ({ path: `/old/o${i}.jsonl`, project: 'p', bytes: 2e6, mtime: new Date(Date.parse('2026-10-06T00:00:00Z') - i * 30 * H).toISOString() }))),
       subagents: linked(Array.from({ length: 40 }, (_, i) => ({ path: `/sub/a${i}.jsonl`, project: 'p', bytes: 3e5, mtime: new Date(Date.parse(sc.now) - i * 5 * H).toISOString() }))),

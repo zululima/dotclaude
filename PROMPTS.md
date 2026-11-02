@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Explain the agents and the pace in every dream report
+## Keep a dream step done as a pull request open until it merges
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+
+## Explain the agents and the pace in every dream report
+
+2026-11-02, commit [fd1922f](https://github.com/zululima/dotclaude/commit/fd1922f1e64d27f6d703c7a9a667a062d5e41219), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I add p15 to every report?)
 > a, every report

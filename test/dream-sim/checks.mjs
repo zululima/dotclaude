@@ -1,6 +1,9 @@
 // Runs dream.js against the simulation in run.mjs and checks how each mode spends and stops.
 // Usage: node test/dream-sim/checks.mjs [path to dream.js]
 import { loadWorkflow, simulate } from './run.mjs'
+import { spawnSync } from 'node:child_process'
+import fs from 'node:fs'
+import os from 'node:os'
 
 const wf = await loadWorkflow(process.argv[2] || new URL('../../workflows/dream.js', import.meta.url).pathname)
 const workAt = Date.parse('2026-10-17T05:00:00Z')
@@ -36,6 +39,30 @@ const weekRows = [
   weekRow('eve', '2026-10-31T14:00:00.454Z', '2026-10-30T20:14:32.000Z', 61, 8),
   weekRow('final', '2026-10-31T13:59:59.794Z', '2026-10-31T13:15:33.000Z', 77, 4),
 ]
+// Merges the backlog patch a run wrote into sc.backlog with its own merge.jq, as the write backlog agent does.
+const between = (p, head) => (p.split(`${head} <<'EOF'\n`)[1] || '').split('\nEOF')[0]
+const mergedBacklog = (st, sc) => {
+  const p = st.prompts['backlog patch'] || ''
+  const dir = fs.mkdtempSync(`${os.tmpdir()}/dream-sim-`)
+  fs.writeFileSync(`${dir}/full.json`, JSON.stringify({ ...JSON.parse(between(p, 'patch.json') || '{}'), addOpen: [], addUnchecked: [] }))
+  fs.writeFileSync(`${dir}/merge.jq`, between(p, 'merge.jq'))
+  fs.writeFileSync(`${dir}/backlog.json`, JSON.stringify(sc.backlog))
+  const out = spawnSync('jq', ['--slurpfile', 'p', `${dir}/full.json`, '-f', `${dir}/merge.jq`, `${dir}/backlog.json`], { encoding: 'utf8' })
+  fs.rmSync(dir, { recursive: true })
+  return out.status === 0 ? JSON.parse(out.stdout) : { open: [], closed: [] }
+}
+const onPr = (key, waitsOn, more = {}) => ({ key, title: key, kind: 'hook', impact: 'high', target: '~/x', firstSeen: '2026-10-10', lastSeen: '2026-10-10', scriptFile: '', ...(waitsOn ? { waitsOn } : {}), ...more })
+const prRun = { ...wed, week: 30, sessions: 4, backlog: {
+  valid: true,
+  open: [onPr('merged', 'o/r#1'), onPr('pending', 'o/r#2'), onPr('unmerged', 'o/r#3'), onPr('unknown', 'o/r#4'), onPr('plain')],
+  closed: [],
+  unchecked: [],
+}, checks: [
+  { key: 'merged', status: 'applied', note: 'o/r#1 merged' },
+  { key: 'pending', status: 'waiting', note: 'o/r#2 is open' },
+  { key: 'unmerged', status: 'open', note: 'o/r#3 closed unmerged, issue o/r#9 took its place' },
+  { key: 'plain', status: 'open', note: 'not in place' },
+] }
 const nov6 = { five: 10, fiveReset: '2026-11-06T18:00:00Z', weekReset: '2026-11-07T14:00:00Z', now: '2026-11-06T16:00:00Z', since: '2026-11-05T20:00:00Z', utcOffset: '+0200', week: 50, sessions: 48 }
 
 const scenarios = [
@@ -155,6 +182,29 @@ const scenarios = [
     ['and no week of all sessions, which only a final run adds', (st, r) => !/usage\.sh --since/.test(r.forTheSession)],
     ['and leaves the evals to the review', (st, r) => !/evals\.mjs/.test(r.forTheSession)],
     ['and leaves the steps to a dream review in a new session in the checkout', (st, r) => /\d+ proposals and the report wait for dream review/.test(r.forTheSession) && r.forTheSession.includes('start a new session in ~/Projects/dotclaude and type "dream review" there') && !/one step per message/.test(r.forTheSession)],
+  ]],
+  ['backlog steps carried out as pull requests', prRun, [
+    ['the check reads each pull request with gh pr view', st => /run gh pr view number --repo owner\/repo --json state,mergedAt/.test(st.prompts['backlog check'] || '') && st.prompts['backlog check'].includes('"waitsOn":"o/r#2"')],
+    ['a step whose pull request merged closes as applied', st => mergedBacklog(st, prRun).closed.some(i => i.key === 'merged' && /^applied: /.test(i.reason))],
+    ['steps whose pull request is open, or that no check reached, stay open with their pull request', st => { const open = mergedBacklog(st, prRun).open; return open.map(i => `${i.key} ${i.waitsOn || ''}`).join() === 'pending o/r#2,unmerged o/r#3,unknown o/r#4,plain ' }],
+    ['and stay out of the plan', (st, r) => !r.plan.some(p => /\((pending|unknown|merged)\)/.test(p)) && r.plan.some(p => p.includes('(plain)'))],
+    ['a step whose pull request closed unmerged is in the plan and marked with what took its place', (st, r) => r.plan.some(p => p.includes('(unmerged)')) && JSON.stringify(mergedBacklog(st, prRun).open.find(i => i.key === 'unmerged').unmerged) === '{"pr":"o/r#3","note":"o/r#3 closed unmerged, issue o/r#9 took its place"}'],
+    ['no other step gets that mark', st => mergedBacklog(st, prRun).open.filter(i => i.unmerged).length === 1],
+  ]],
+  ['review with steps carried out as pull requests', { ...wed, week: 30, sessions: 4, args: 'review', backlog: {
+    valid: true,
+    open: [
+      onPr('pending', 'o/r#2'),
+      onPr('unmerged', 'o/r#3', { unmerged: { pr: 'o/r#3', note: 'o/r#3 closed unmerged, issue o/r#9 took its place' } }),
+      onPr('again', 'o/r#5', { unmerged: { pr: 'o/r#3', note: 'an earlier pull request' } }),
+      onPr('plain'),
+    ],
+    closed: [],
+    unchecked: [],
+  } }, [
+    ['leaves out each step whose pull request a run has not seen close unmerged', (st, r) => r.due === 2 && r.waitingOnPr === 2 && !/"key":"(pending|again)"/.test(r.forTheSession) && /2 wait for their pull request to merge/.test(r.forTheSession)],
+    ['asks about the one that closed unmerged, with what took its place', (st, r) => r.forTheSession.includes('"key":"unmerged"') && r.forTheSession.includes('issue o/r#9 took its place')],
+    ['keeps a step carried out as an unmerged pull request open with waitsOn', (st, r) => /keep that one open, with waitsOn set to the pull request as owner\/repo#number/.test(r.forTheSession) && /never apply it unasked/.test(r.forTheSession)],
   ]],
   ['review of the open backlog', { ...wed, week: 30, sessions: 4, args: 'review', backlog: {
     valid: true,
