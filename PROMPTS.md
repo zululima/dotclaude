@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Mark the other session's cache with the fire, not an hourglass
+## Keep the hourglass, write its minutes as the fire's are written
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [d7ef255](https://github.com/zululima/dotclaude/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605).
+
+**2.**
+> noooooooooooooooooooooooooooo i meant not the icon but time
+
+## Mark the other session's cache with the fire, not an hourglass
+
+2026-11-02, commit [d7ef255](https://github.com/zululima/dotclaude/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > the hourglass can be the same as the flame

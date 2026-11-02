@@ -6,6 +6,7 @@ const FIGURES = '\u{1F9E0} 16%'
 const FIRE = '\u{1F525}'
 const ALARM = '\u23F0'
 const ICE = '\u{1F9CA}'
+const HOURGLASS = '\u23F3'
 const LATE = '\u{1F4B8}'
 // 12:20 on 20 Oct at UTC+3, and the next midnight there
 const NOW = 1792488000_000
@@ -154,11 +155,11 @@ test('names the other session that goes cold next, cut to fit, read once a minut
 
   expect(nextRuns).toBe(2)
   expect(shown).toEqual([
-    `${FIRE} 59 min, ${FIGURES}, ${FIRE} 1m Store status`,
-    `${FIRE} 58 min, ${FIGURES}, ${FIRE} 1m Store status`,
-    `${FIRE} 58 min, ${FIGURES}, ${ALARM} <1m Store status`,
-    `${FIRE} 57 min, ${FIGURES}, ${ALARM} <1m Store status`,
-    `${FIRE} 57 min, ${FIGURES}, ${FIRE} 16m October role`,
+    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 1 min Store status`,
+    `${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 1 min Store status`,
+    `${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} <1 min Store`,
+    `${FIRE} 57 min, ${FIGURES}, ${HOURGLASS} <1 min Store`,
+    `${FIRE} 57 min, ${FIGURES}, ${HOURGLASS} 16 min October`,
   ])
   // Each emoji counted as two columns
   expect(shown.every(text => [...(text ?? '')].length + 3 <= 40)).toBe(true)
@@ -202,7 +203,7 @@ test('reads the other sessions again within seconds of a prompt in one of them',
   beaconAt = NOW + 6_000
   await clock.advance(5_000)
   expect(nextRuns).toBe(2)
-  expect(shown.at(-1)).toBe(`${FIRE} 58 min, ${FIGURES}, ${FIRE} 17m October role`)
+  expect(shown.at(-1)).toBe(`${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 17 min October`)
 
   // Its own prompt writes the beacon and reads nothing again.
   await $.turn.start({ text: 'go', turnId: 't1', agentId: 'sub' })

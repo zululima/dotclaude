@@ -8,10 +8,11 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const FIRE = '\u{1F525}'
 const ALARM = '⏰'
 const ICE = '\u{1F9CA}'
+const HOURGLASS = '\u23F3'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
 
-// An emoji takes two columns, the alarm clock too, though it is one UTF-16 unit.
+// An emoji takes two columns, the hourglass too, though it is one UTF-16 unit.
 const width = (text: string) => [...text].reduce((n, c) => n + ((c.codePointAt(0) ?? 0) >= 0x2300 ? 2 : 1), 0)
 
 let usage: Usage | undefined
@@ -54,7 +55,7 @@ const next = (now: number, room: number) => {
   if (!other) return ''
 
   const left = other.coldAt - now
-  const head = left >= 60_000 ? `, ${FIRE} ${Math.floor(left / 60_000)}m ` : `, ${ALARM} <1m `
+  const head = `, ${HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
   const title = fit(other.title, room - width(head))
 
   return title ? head + title : ''

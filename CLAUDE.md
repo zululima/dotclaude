@@ -405,7 +405,7 @@ apply to one repository belong in that repository's project memory.
   `settings.json` loads in every session and `CLAUDE_CODE_PLUGIN_DIR_WATCH` reloads on every edit,
   pins a status line under the prompt: a fire emoji and the minutes the prompt cache stays warm, or
   an ice cube emoji and since when it is cold (the time that day, the date after it), then a brain
-  emoji and how full the context window is, then the same fire emoji, the minutes left and the title
+  emoji and how full the context window is, then an hourglass emoji, the minutes left and the title
   of the other session whose cache goes cold soonest, archived ones left out. Tokens and their cost
   at the API list prices stay off it: the report of the week's final dream run holds them, and the
   dream review shows that report whole, while a dream run itself shows in the chat only the
