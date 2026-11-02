@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Ask to archive a work's files only once nothing is left to do
+## Hold dream work for the 5-hour reset instead of dropping it
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?)
+> a and p13 a
+
+## Ask to archive a work's files only once nothing is left to do
+
+2026-11-02, commit [ccb0213](https://github.com/zululima/dotclaude/commit/ccb0213904b85fab9cb5544e58c2faa7bfd0d391), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > [an ask for a printed card for a downstream event left out]
@@ -4381,6 +4388,7 @@ Stop, add it to dotclaude?)
 - mon: Monday
 - ofc: of course
 - oy: osakeyhtiö, the Finnish limited company form
+- p13: step 13 of the dream review
 - p18: proposal 18 of the weekly review of 2026-10-14
 - p1: step 1 of the dream review
 - p9: proposal 9 of the dream report of 2026-10-17

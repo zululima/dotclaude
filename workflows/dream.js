@@ -493,8 +493,8 @@ const only = requested.filter(s => SOURCES.includes(s) && due(s))
 const notDue = requested.filter(s => SOURCES.includes(s) && !due(s))
 
 const modeNote = {
-  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back for ${KEEP_WINDOWS} 5-hour windows tomorrow and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched`,
-  final: `a final run, since the weekly limit resets ${Number.isFinite(weeklyResetMs) ? `today at ${localTime(weeklyResetMs)}` : 'soon'}: it spends the week down to ${MARGIN} points free and stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset`,
+  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back for ${KEEP_WINDOWS} 5-hour windows tomorrow, waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched`,
+  final: `a final run, since the weekly limit resets ${Number.isFinite(weeklyResetMs) ? `today at ${localTime(weeklyResetMs)}` : 'soon'}: it spends the week down to ${MARGIN} points free, waits for the 5-hour limit to reset when it fills sooner, and stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset`,
   night: 'a night run: it guards the weekly limits and stops just short of the 5-hour limit, since an agent that reaches it fails',
   day: 'a day run: it keeps the 5-hour limit under the margin too',
 }[MODE]
@@ -516,6 +516,10 @@ else log('The usage card is not readable here, so the run goes without the usage
 const sameWindow = (a, b) => a.label === b.label && Math.abs(Date.parse(a.resetsAt) - Date.parse(b.resetsAt)) < 5 * 60 * 1000
 // An agent that reaches the 5-hour limit fails instead of waiting for its reset, so every mode guards it; only a day run keeps more of it free, for the user's own work.
 const FIVE_HOUR_MARGIN = DAY ? MARGIN : 1
+// Eve and final runs stop starting work at a set time, so work the 5-hour limit blocks waits for its reset when it can still finish by then; a night or day run has no such time and would wait into the user's own work.
+const WAITS_FOR_FIVE = (MODE === 'final' && Number.isFinite(weeklyResetMs)) || (MODE === 'eve' && Number.isFinite(workAtMs))
+// Waiting readings that came back before their reset; after three the run drops blocked work as before instead of starting reading after reading.
+let earlyWakes = 0
 let fiveHourResets = 0
 let weeklyResetSeen = false
 let blockedBy = null
@@ -583,9 +587,9 @@ for (const k of [1, 2, 3, 4]) tierState[k] = { gathers: 0, started: 0, merged: f
 const SKIP = reason => ({ skipped: true, reason })
 const taskMs = kind => Math.max(TASK_MINUTES * 60000, longestMs[kind] || 0)
 
-function timeStop(kind) {
+function timeStop(kind, readAt = lastNowMs) {
   if (weeklyResetSeen) return 'the weekly limit reset during the run'
-  const now = lastNowMs + STALE_MINUTES * 60000
+  const now = readAt + STALE_MINUTES * 60000
   const finish = now + taskMs(kind) + TAIL_MINUTES * 60000
   if (MODE === 'final' && Number.isFinite(weeklyResetMs) && finish > weeklyResetMs) return 'the weekly reset is too close'
   if (MODE === 'eve' && Number.isFinite(workAtMs) && usage) {
@@ -606,15 +610,15 @@ function unmergedVerifyNeed(rank) {
   return n
 }
 
-function fits(t) {
-  if (!usage) return true
+function fits(t, card = usage) {
+  if (!card) return true
   const reserve = { ...t.reserve }
   reserve.verify = (reserve.verify || 0) + unmergedVerifyNeed(t.rank)
   // A gather keeps back the checks of what its own tier is expected to find, so reading never uses up the usage checking needs.
   if (t.kind === 'gather' && tierState[t.tier]) reserve.verify += Math.min(MAX_PROPOSALS, Math.max(MIN_VERIFY, PROPOSALS_PER_GATHER * (tierState[t.tier].started + 1)))
   // Every proposal checked, and every one still open, needs its script written and tested at the end.
   if (t.kind !== 'scripts') reserve.scripts = (reserve.scripts || 0) + reserve.verify + (t.kind === 'verify' ? 1 : 0) + stillOpen.length
-  for (const w of usage.windows) {
+  for (const w of card.windows) {
     if (!binds(w)) continue
     let room = 100 - w.percentUsed - (/hour/i.test(w.label) ? FIVE_HOUR_MARGIN : MARGIN + RESERVE)
     for (const r in reserve) room -= reserve[r] * estimate(r, w.label)
@@ -664,9 +668,18 @@ function pump() {
         settle()
         return
       }
-      queue.shift()
       const byFive = Boolean(blockedBy && /hour/i.test(blockedBy.label))
-      if (byFive) fiveBlockedReset = Date.parse(blockedBy.resetsAt)
+      const reopens = byFive ? Date.parse(blockedBy.resetsAt) : NaN
+      // Work waits for the reset only when it can still finish before the mode stops starting work and a pool of it fits the emptied window with its reserves; when the reserves alone block it, dropping it lets the checks they keep room for start now.
+      const emptied = { ...usage, windows: usage.windows.map(w => /hour/i.test(w.label) ? { ...w, percentUsed: 0 } : w) }
+      const batch = Math.min(queue.length, Math.max(1, Math.floor(POOL / t.slots)))
+      if (WAITS_FOR_FIVE && earlyWakes < 3 && reopens > lastNowMs && !timeStop(t.kind, reopens) && fits({ ...t, units: t.units * batch }, emptied)) {
+        log(`The 5-hour limit is full until ${localTime(reopens)}, so ${queue.length} pieces of work wait for its reset`)
+        measure(reopens)
+        return
+      }
+      queue.shift()
+      if (byFive) fiveBlockedReset = reopens
       drop(t, byFive ? 'no room left under the 5-hour limit' : MODE === 'eve' ? 'no usage left above the margin and the reserve for tomorrow' : `no usage left above the ${MARGIN}-point weekly margin`)
       continue
     }
@@ -690,14 +703,16 @@ function start(t) {
   })
 }
 
+function measure(until) {
+  measuring = takeReading(until).then(() => {
+    measuring = null
+    stalled = false
+    pump()
+  })
+}
+
 function settle() {
-  if (usage && !measuring && completionsSinceRead && (completionsSinceRead >= MEASURE_EVERY || stalled || !inFlight.length)) {
-    measuring = takeReading().then(() => {
-      measuring = null
-      stalled = false
-      pump()
-    })
-  }
+  if (usage && !measuring && completionsSinceRead && (completionsSinceRead >= MEASURE_EVERY || stalled || !inFlight.length)) measure()
   pump()
 }
 
@@ -721,13 +736,21 @@ async function outside(kind, run) {
   }
 }
 
-async function takeReading() {
+// A workflow script has no timer, so a reading that waits for a 5-hour reset waits in its agent's shell, nine minutes per Bash call, until a minute past the reset, when the card shows the new window.
+const waitThenRead = until => {
+  const at = Math.ceil(until / 1000) + 60
+  return `Wait until ${new Date(at * 1000).toISOString()}, a minute after the 5-hour limit resets. Run this with the Bash tool and a timeout of 600000, and again each time it prints waiting, until it prints ready:
+end=$(( $(date -u +%s) + 540 )); until [ "$(date -u +%s)" -ge ${at} ] || [ "$(date -u +%s)" -ge "$end" ]; do sleep 20; done; [ "$(date -u +%s)" -ge ${at} ] && echo ready || echo waiting
+Then: ${READ_USAGE}`
+}
+
+async function takeReading(until) {
   const before = usage
   const units = { ...doneUnits }
   for (const k in doneUnits) delete doneUnits[k]
   readingUnits = units
   completionsSinceRead = 0
-  const after = await dreamAgent(READ_USAGE, { label: `usage ${++reads}`, phase: 'Usage', model: 'haiku', effort: 'low', schema: USAGE })
+  const after = await dreamAgent(until ? waitThenRead(until) : READ_USAGE, { label: `usage ${++reads}${until ? ` after the ${localTime(until)} reset` : ''}`, phase: 'Usage', model: 'haiku', effort: 'low', schema: USAGE })
   readingUnits = {}
   if (!readable(after)) {
     if (usage) log('Lost the usage card, continuing without the usage guard')
@@ -736,6 +759,7 @@ async function takeReading() {
   }
   const t = Date.parse(after.now)
   if (Number.isFinite(t)) lastNowMs = t
+  if (until && !(t >= until)) earlyWakes++
   for (const w of after.windows) {
     const prior = before.windows.find(x => x.label === w.label)
     if (!prior || sameWindow(prior, w)) continue

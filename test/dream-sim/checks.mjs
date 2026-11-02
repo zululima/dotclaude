@@ -9,6 +9,15 @@ const noHits = ['no agent reaches a limit and fails', st => st.hits === 0]
 const sat = { five: 8, fiveReset: '2026-10-17T10:00:00Z', weekReset: '2026-10-17T13:59:59Z', now: '2026-10-17T07:00:00Z', since: '2026-10-16T22:00:00Z' }
 const fri = { five: 10, fiveReset: '2026-10-16T16:49:59Z', weekReset: '2026-10-17T13:59:59Z', now: '2026-10-16T15:10:00Z', since: '2026-10-14T00:00:00Z' }
 const wed = { five: 5, fiveReset: '2026-10-14T21:00:00Z', weekReset: '2026-10-17T13:59:59Z', now: '2026-10-14T18:00:00Z', since: '2026-10-13T18:00:00Z' }
+// The final run of 31 Oct: 13:12 local, the 5-hour limit at 70% until 14:00, the week at 73% until 16:00, and 13 open proposals whose checks the reserve keeps room for.
+const oct31 = { five: 70, fiveReset: '2026-10-31T12:00:00Z', week: 73, weekReset: '2026-10-31T14:00:00Z', now: '2026-10-31T11:12:00Z', since: '2026-10-30T20:14:00Z', utcOffset: '+0200', sessions: 200, backlog: {
+  valid: true,
+  open: Array.from({ length: 13 }, (_, i) => ({ key: `2026-10-30-n${i + 1}`, title: `open ${i + 1}`, kind: 'hook', impact: 'medium', target: '~/x', firstSeen: '2026-10-30', lastSeen: '2026-10-30', scriptFile: '' })),
+  closed: [],
+  unchecked: [],
+} }
+const waited = st => st.started.some(s => / after the \d\d:\d\d reset$/.test(s.label))
+const stopped = r => (r.verification || {}).stoppedBy || ''
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -36,8 +45,24 @@ const scenarios = [
     ['last use before the reset', st => st.lastUse < reset],
     noHits,
   ]]),
-  ['final, stopped by the 5-hour window', { ...sat, week: 80, sessions: 200 }, [
+  ['final of 31 Oct, 5-hour limit at 70% until 14:00', oct31, [
+    ['mode is final', (st, r) => /^final/.test(r.mode)],
+    ['waits for the 14:00 reset instead of dropping the work', st => st.started.some(s => s.label.endsWith(' after the 14:00 reset'))],
+    ['starts the work after the reset and before the 14:45 cutoff', st => {
+      const read = st.started.filter(s => s.label.startsWith('transcripts '))
+      return read.length > 0 && read.every(s => s.at >= Date.parse('2026-10-31T12:00:00Z') && s.at < Date.parse('2026-10-31T12:45:00Z'))
+    }],
+    ['skips what is left as too close to the weekly reset, not for the 5-hour limit', (st, r) => /as the weekly reset is too close/.test(stopped(r)) && !/5-hour/.test(stopped(r))],
+    noHits,
+  ]],
+  ['final of 31 Oct, had the 5-hour limit reset at 15:00', { ...oct31, five: 40, fiveReset: '2026-10-31T13:00:00Z' }, [
+    ['drops the work it could not finish before the cutoff after the reset', (st, r) => /as no room left under the 5-hour limit/.test(stopped(r))],
+    ['without waiting for that reset', st => !waited(st)],
+    noHits,
+  ]],
+  ['night, stopped by the 5-hour window', { ...wed, five: 60, week: 30, sessions: 200 }, [
     ['says when another run could spend the rest', (st, r) => /another \/dream after/.test(r.verification.stoppedBy)],
+    ['and drops the work instead of waiting into the morning', st => !waited(st)],
   ]],
   ['night', { ...wed, week: 30, sessions: 20 }, [
     ['mode is night', (st, r) => r.mode.startsWith('night')],

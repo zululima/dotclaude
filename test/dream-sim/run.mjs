@@ -14,7 +14,7 @@ export async function loadWorkflow(file) {
 export async function simulate(wf, sc) {
   const st = {
     now: Date.parse(sc.now), five: sc.five, fiveReset: Date.parse(sc.fiveReset), week: sc.week, weekReset: Date.parse(sc.weekReset),
-    windowStart: Date.parse(sc.fiveReset) - 5 * H, windows: [], hits: 0, afterWeekReset: 0, maxWeek: sc.week, lastUse: 0, labels: {}, prompts: {},
+    windowStart: Date.parse(sc.fiveReset) - 5 * H, windows: [], hits: 0, afterWeekReset: 0, maxWeek: sc.week, lastUse: 0, labels: {}, prompts: {}, started: [],
   }
   const RATIO = 1 / 5.9
   const timers = []
@@ -55,7 +55,7 @@ export async function simulate(wf, sc) {
     st.prompts[label] = prompt
     if (label === 'review setup') return { today: sc.now.slice(0, 10), report: '~/.claude/dream/2026-10-17.md', backlog: sc.backlog || { valid: true, open: [], closed: [], unchecked: [] } }
     if (label === 'scout') return {
-      now: sc.now, today: sc.now.slice(0, 10), utcOffset: '+0300', runId: sc.now.slice(0, 10), since: sc.since, lookbackFrom: new Date(Date.parse(sc.since) - 7 * 24 * H).toISOString(),
+      now: sc.now, today: sc.now.slice(0, 10), utcOffset: sc.utcOffset || '+0300', runId: sc.now.slice(0, 10), since: sc.since, lookbackFrom: new Date(Date.parse(sc.since) - 7 * 24 * H).toISOString(),
       oldestTranscript: '2026-09-21T08:00:00Z', installedVersion: '2.1.299', previousReports: [],
       sessions: linked(Array.from({ length: sc.sessions }, (_, i) => ({ path: `/t/s${i}.jsonl`, project: `p${i % 5}`, bytes: 1e6 + i, mtime: new Date(Date.parse(sc.now) - i * H).toISOString(), lastActivity: new Date(Date.parse(sc.now) - i * H).toISOString() }))),
       skillRepos: [], model: 'claude-opus-5-5', effort: 'xhigh', usage: usageCard(), historyLines: [history].concat(sc.extraHistory || []), weekLines: sc.weekLines || [],
@@ -101,7 +101,10 @@ export async function simulate(wf, sc) {
       let [cost, minutes] = COST[label] || COST[kind] || [1.3, 15]
       if (/^scripts \d/.test(label)) { const n = (prompt.match(/"id":"p\d+"/g) || []).length; cost = 1.5 * n; minutes = 3 * n }
       if (o.model === 'haiku') cost = Math.min(cost, 0.1)
-      timers.push({ at: st.now + minutes * M, fire: () => {
+      // A usage reading told to wait for the 5-hour reset returns once that time has come.
+      const until = /^Wait until (\S+),/.exec(prompt)
+      st.started.push({ label, at: st.now })
+      timers.push({ at: Math.max(st.now + minutes * M, until ? Date.parse(until[1]) : 0), fire: () => {
         const ok = use(cost)
         running--
         if (waiting.length) waiting.shift()()
