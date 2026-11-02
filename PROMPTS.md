@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Ask before publishing quoted remarks anywhere others can read
+## Bring a long rule diff whole, across calls, instead of cutting it
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
+
+## Ask before publishing quoted remarks anywhere others can read
+
+2026-11-02, commit [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm and you better have a good explanation
