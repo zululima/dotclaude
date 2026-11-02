@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Move the hourglass on within seconds of an archive
+## Show the next session to go cold before the first answer
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> is it not possibel toput status bar mod to the new session window
+
+**2.** (answer to: shall I make the mod show the other sessions' cache    timer before the first reply?)
+> Yes, go ahead
+
+## Move the hourglass on within seconds of an archive
+
+2026-11-02, commit [b17c407](https://github.com/zululima/dotclaude/commit/b17c4076716628805ca79a751be7b4aed607684f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > so the problem rn is that when i archive a session thats going cold

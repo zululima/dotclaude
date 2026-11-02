@@ -262,6 +262,29 @@ test('reads the other sessions again within seconds of an archive in the app', a
   expect(nextRuns).toBe(2)
 })
 
+test('names the other session that goes cold next before its own first answer', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] !== '--next') return ran('')
+    return ran(`${NOW / 1000 + 18 * 60}\tOctober role at the office with a long title\n`)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  await clock.advance(15_000)
+
+  expect(shown).toEqual([
+    `${HOURGLASS} 18 min October role at the office`,
+    `${HOURGLASS} 17 min October role at the office`,
+  ])
+})
+
 test('leaves a subagent turn alone and clears on no line', async ($, on) => {
   const shown: (string | undefined)[] = []
   mock.clock(on, { now: NOW })

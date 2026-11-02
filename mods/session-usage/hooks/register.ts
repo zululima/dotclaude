@@ -56,18 +56,22 @@ const next = (now: number, room: number) => {
   if (!other) return ''
 
   const left = other.coldAt - now
-  const head = `, ${HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
+  const head = `${HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
   const title = fit(other.title, room - width(head))
 
   return title ? head + title : ''
 }
 
+// Until the session's first answer usage.sh has no figures for it, so the
+// other session shows alone.
 const line = async ($: EngineInterface) => {
-  if (!usage) return undefined
   const now = await $.clock.now()
-  const own = `${cache(now, usage)}, ${usage.figures}`
+  if (!usage) return next(now, WIDTH) || undefined
 
-  return own + next(now, WIDTH - width(own))
+  const own = `${cache(now, usage)}, ${usage.figures}`
+  const other = next(now, WIDTH - width(own) - 2)
+
+  return other ? `${own}, ${other}` : own
 }
 
 const readOthers = async ($: EngineInterface) => {
