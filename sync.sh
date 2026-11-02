@@ -696,7 +696,7 @@ if [ -f claude-md-budget.txt ]; then
       "$claude_md_size" "$((claude_md_size - claude_md_budget))" >&2
     LC_ALL=C awk '/^## / { name = $0 } name != "" { size[name] += length($0) + 1 }
       END { for (s in size) printf "  %6d %s\n", size[s], s }' "${claude_md:-CLAUDE.md}" | sort -rn >&2
-    echo "sync: --commit refuses CLAUDE.md until it fits, the dotclaude skill says what to ask" >&2
+    echo "sync: --commit refuses CLAUDE.md until it fits, the dotclaude skill says how to make room" >&2
     case " ${public_paths[*]+${public_paths[*]}} " in
       *" . "* | *" CLAUDE.md "* | *" ./CLAUDE.md "*) failed=1 ;;
     esac

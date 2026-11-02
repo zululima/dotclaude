@@ -47,12 +47,15 @@ and its commit in the same turn, and the rule that a mirrored file states what h
   paragraph that differs from the checkout's last commit, in `~/.claude` and in the checkout, from
   the line before the first change, and leaves the other paragraphs as they are.
 - `sync.sh` holds `CLAUDE.md` to the byte count in the checkout's `claude-md-budget.txt`: over it, a
-  run lists the file's sections by size and `--commit` refuses `CLAUDE.md`. Before cutting anything,
-  ask whether to cut a block at least as large as the overage, or move it
-  into the skill that covers its subject, naming the block and recommending it, or to raise the
-  budget. Either way, and after any other change that shrinks the file, write its new size rounded
-  up to the next 1,000 into `claude-md-budget.txt` and commit that file too, so the budget falls
-  with every cut and rises only on the user's yes.
+  run lists the file's sections by size and `--commit` refuses `CLAUDE.md`. The session then makes
+  room itself, in the same turn and without asking: it moves a block at least as large as the
+  overage, unchanged, into the skill whose description loads it wherever the block applies, or cuts
+  sentences such a skill already states, and the reply names each block moved or cut and where it
+  went. Raising the budget is the user's call alone, so a session that finds nothing to move or cut
+  takes its own edit back out of `CLAUDE.md` before it asks, and no uncommitted hunk waits on the
+  answer. After a move, a cut or any other change that shrinks the file, write its new size rounded
+  up to the next 1,000 into `claude-md-budget.txt` and commit that file with the rest, so the budget
+  falls with every cut and rises only on the user's yes.
 - `sync.sh --commit <file> <path>...` commits the named paths and pushes them to the default branch,
   then every mirror below. It refuses a run that names no path, or no path with a change. No PR: the
   repository has one owner, though several sessions work in the checkout at once, and every
