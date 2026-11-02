@@ -1,0 +1,5 @@
+{
+  "name": "archive-files",
+  "version": "0.1.0",
+  "description": "Moves an archived session's drafts folder and Downloads files to ~/.claude/archive"
+}

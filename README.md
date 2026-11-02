@@ -5,9 +5,9 @@ stops a mistake Claude Code makes again and again before it happens. Projects th
 with AI should publish how they used it too, so every commit here quotes the prompts behind it,
 collected in [`PROMPTS.md`](PROMPTS.md).
 
-| [`CLAUDE.md`](CLAUDE.md) | [`hooks/`](hooks) | [`skills/`](skills) | [`workflows/`](workflows/dream.js) | [`mods/`](mods/session-usage) |
+| [`CLAUDE.md`](CLAUDE.md) | [`hooks/`](hooks) | [`skills/`](skills) | [`workflows/`](workflows/dream.js) | [`mods/`](mods) |
 | --- | --- | --- | --- | --- |
-| the rules Claude follows in every project | stop mistakes, keep git tidy, keep a record | pull requests, Slack drafts, this copy | `/dream`, an idle-time review that proposes changes | cache and context gauge under the prompt |
+| the rules Claude follows in every project | stop mistakes, keep git tidy, keep a record | pull requests, Slack drafts, this copy | `/dream`, an idle-time review that proposes changes | cache and context gauge under the prompt, archived sessions' files moved |
 
 **Docs:** [what you get](docs/what-you-get.md), [how I work](docs/how-i-work.md),
 [evals](docs/evals.md), [install](docs/install.md).

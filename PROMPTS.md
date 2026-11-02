@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Recommend glue that saves the user a step on every use
+## Move an archived session's files with the archive-files mod
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.** (answer to: shall I build b, the sidebar-archive watcher?)
+> Yes, build b
+
+## Recommend glue that saves the user a step on every use
+
+2026-11-02, commit [6f1d957](https://github.com/zululima/dotclaude/commit/6f1d957ddd8a55ebf3522f2f8cd885c8ca054840), model claude-opus-5-5, effort xhigh.
 
 **1.** to 4.
 > [prompts about another task left out]

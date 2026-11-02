@@ -181,6 +181,11 @@ mirrored=(
   mods/session-usage/hooks/register.ts
   mods/session-usage/hooks/register.test.ts
   mods/session-usage/usage.sh
+  mods/archive-files/.claude-plugin/plugin.json
+  mods/archive-files/hooks/hooks.json
+  mods/archive-files/hooks/register.ts
+  mods/archive-files/hooks/register.test.ts
+  mods/archive-files/archive-files.sh
   skills/commit-messages/SKILL.md
   skills/dotclaude/SKILL.md
   skills/pull-requests/SKILL.md

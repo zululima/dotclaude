@@ -103,6 +103,12 @@
   memory of the chat is, and which other open session's cache goes cold next, so you can get back to
   it in time. The tokens and what they would cost show once a week instead, in the report of the
   last `/dream` run before the weekly reset.
+- [`mods/archive-files`](../mods/archive-files): when you archive a session in the desktop app, the
+  files it made for you, its drafts folder and the files in `~/Downloads` named after it, move to
+  `~/.claude/archive/` within seconds, and memory notes that named them point to where they went. It
+  reads the app's own list of archived sessions, which is not documented and may change in an
+  update. If files stop moving, `~/Library/Logs/claude-archive-files.log` shows the last time it
+  worked.
 - [`presence`](../presence/install.sh): my phone gets Claude's pushes, such as a question waiting
   for an answer, only while the Mac is locked.
   [`lock-listener.swift`](../presence/lock-listener.swift) keeps the file that
