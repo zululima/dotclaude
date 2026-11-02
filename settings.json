@@ -349,6 +349,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/own-hunks.sh\"",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "Stop": [
@@ -435,6 +445,28 @@
           {
             "type": "command",
             "command": "\"$HOME/.claude/hooks/slack-user-search-own-workspace.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/own-hunks.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/own-hunks.sh\"",
             "timeout": 10
           }
         ]

@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep the hourglass, write its minutes as the fire's are written
+## Commit only this session's own edits of a shared file
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: shall I add p3?)
+> a
+
+## Keep the hourglass, write its minutes as the fire's are written
+
+2026-11-02, commit [8231751](https://github.com/zululima/dotclaude/commit/8231751aca567b91efa8aaf784e3832f50a16f93), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [d7ef255](https://github.com/zululima/dotclaude/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605).
 
@@ -4416,6 +4423,7 @@ Stop, add it to dotclaude?)
 - p13: step 13 of the dream review
 - p18: proposal 18 of the weekly review of 2026-10-14
 - p1: step 1 of the dream review
+- p3: step 3 of the dream review
 - p9: proposal 9 of the dream report of 2026-10-17
 - p9: proposal 9 of the weekly review of 2026-10-14
 - pdf: Portable Document Format

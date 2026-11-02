@@ -868,6 +868,62 @@ const suites = [
       }],
     ]
   }],
+
+  ['own-hunks.sh', run => {
+    const checkout = path.join(home, 'Projects/dotclaude'), records = path.join(checkout, '.git/own-hunks')
+    const rules = path.join(config, 'CLAUDE.md'), readme = path.join(checkout, 'README.md')
+    const call = (tool_name, tool_input, tool_use_id, session_id = 'oh1') => hook_event_name =>
+      ({ hook_event_name, session_id, tool_name, tool_input, tool_use_id })
+    const around = (input, change, after = 'PostToolUse') => {
+      const pre = run(input('PreToolUse'))
+      change()
+      return quiet(pre) && quiet(run(input(after)))
+    }
+    const recorded = (session = 'oh1') => {
+      const file = path.join(records, session)
+      return fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim().split('\n').map(l => l.split(' ')) : []
+    }
+    const paths = session => recorded(session).map(r => r[2]).join()
+    const blob = id => sh(`git -C ${q(checkout)} cat-file blob ${id}`)
+    return [
+      ['does nothing without a checkout', () => {
+        fs.rmSync(checkout, { recursive: true, force: true })
+        return around(call('Edit', { file_path: rules }, 'toolu_o0'), () => write(rules, '- one\n')) && !fs.existsSync(records)
+      }],
+      ['records an Edit of a published file with its text before and after', () => {
+        sh(`git init -q ${q(checkout)} && cd ${q(checkout)} && printf 'mirrored=(\\n  CLAUDE.md\\n)\\n' > sync.sh && printf '# Readme\\n' > README.md && cp ${q(rules)} CLAUDE.md && git add -A && git commit -q -m start`)
+        const ok = around(call('Edit', { file_path: rules }, 'toolu_o1'), () => write(rules, '- one\n- two\n'))
+        const [[before, after]] = recorded()
+        return ok && paths() === 'CLAUDE.md' && blob(before) === '- one\n' && blob(after) === '- one\n- two\n'
+      }],
+      ['records what reflow.sh rewrapped, after a failed call too', () => {
+        const ok = around(call('Bash', { command: '~/Projects/dotclaude/reflow.sh' }, 'toolu_o2'),
+          () => { write(rules, '- one\n- two\n- three\n'); write(readme, '# Readme\n\nText.\n') }, 'PostToolUseFailure')
+        return ok && paths() === 'CLAUDE.md,CLAUDE.md,README.md'
+      }],
+      ['records nothing for a command that runs sync.sh', () => {
+        const ok = around(call('Bash', { command: 'cd ~/Projects/dotclaude && ./sync.sh --commit msg.txt CLAUDE.md' }, 'toolu_o3'),
+          () => write(rules, '- one\n- two\n- three\n- four\n'))
+        return ok && recorded().length === 3
+      }],
+      ['records nothing for a file sync.sh installed during the call', () => {
+        const ok = around(call('Edit', { file_path: rules }, 'toolu_o4'), () => {
+          write(rules, '- pulled\n')
+          fs.appendFileSync(path.join(checkout, '.git/sync-installed.log'), `${Math.floor(Date.now() / 1000)} ${rules}\n`)
+        })
+        return ok && recorded().length === 3
+      }],
+      ['records what a script changed under the session that ran it', () => {
+        const ok = around(call('Bash', { command: 'bash fix.sh' }, 'toolu_o5', 'oh2'), () => write(readme, '# Readme\n\nFixed.\n'))
+        return ok && paths('oh2') === 'README.md' && recorded().length === 3
+      }],
+      ['records nothing for a file the checkout does not publish', () => {
+        const notes = path.join(config, 'notes.md')
+        const ok = around(call('Edit', { file_path: notes }, 'toolu_o6'), () => write(notes, 'x\n'))
+        return ok && recorded().length === 3 && fs.readdirSync(path.join(records, 'pending')).length === 0
+      }],
+    ]
+  }],
 ]
 
 const hooks = fs.readdirSync(HOOKS).filter(f => f.endsWith('.sh')).sort()

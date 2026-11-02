@@ -73,6 +73,20 @@
 # before the scan, with the commit message when there is one, and goes into
 # every commit. A rebuild left uncommitted is dropped before the pull, which
 # it would block, since every commit changes the file.
+#
+# Own edits: hooks/own-hunks.sh records each edit a session makes to a
+# published file in .git/own-hunks/<session>, and --commit builds its commit
+# in an index of its own, starting from HEAD. A named file that the session in
+# CLAUDE_CODE_SESSION_ID has recorded edits of gets HEAD's version with those
+# edits made in it in turn, any HEAD holds already skipped, so another
+# session's changes stay in the work tree; any other named file, a new one, and
+# every file for ., goes in whole. An edit that changes lines HEAD lacks stops
+# the run with its diff, since it waits for the commit of the session that
+# wrote them; deleting the session's lines for that path from its records lets
+# the file go in whole instead. The checks then read the staged version of each
+# named file and pass over the others, a scan hit in the work tree only keeps
+# that file out of the mirror copy, each mirror commits the version committed
+# here, and the session's records of the named files go once they are in.
 
 set -euo pipefail
 
@@ -157,6 +171,7 @@ mirrored=(
   hooks/no-foreground-wait.sh
   hooks/stop-unreachable-claim.sh
   hooks/no-slow-binary-grep.sh
+  hooks/own-hunks.sh
   hooks/push-only-when-locked.sh
   hooks/pane-bridge.mjs
   presence/install.sh
@@ -285,7 +300,8 @@ until (set -o noclobber; echo "$$" > "$lock") 2>/dev/null; do
   sleep 1
   waited=$((waited + 1))
 done
-trap 'rm -f "$lock"' EXIT
+stage_dir=""
+trap 'rm -f "$lock"; [ -z "$stage_dir" ] || rm -rf "$stage_dir"' EXIT
 
 cd "$checkout"
 before="$(git rev-parse HEAD)"
@@ -334,13 +350,200 @@ if [ -n "$message_file" ] && [ "${commit_paths[*]}" != . ] && { [ "${#public_pat
   public_paths=()
 fi
 
+stage_git() {
+  GIT_INDEX_FILE="$stage_dir/index" git "$@"
+}
+
+git_diff() {
+  git -c core.quotePath=false diff --no-index --no-color --no-ext-diff -a "$@" || [ "$?" -eq 1 ]
+}
+
+names() {
+  local path
+  for path in ${public_paths[@]+"${public_paths[@]}"}; do
+    path="${path#./}"
+    path="${path%/}"
+    case "$1" in "$path" | "$path"/*) return 0 ;; esac
+    [ "$path" != . ] || return 0
+  done
+  return 1
+}
+
+check_copy() {
+  if [ -z "$message_file" ]; then
+    printf '%s\n' "$1"
+  elif [ "${#public_paths[@]}" -gt 0 ] && names "$1" && [ -f "$stage_dir/tree/$1" ]; then
+    printf '%s\n' "$stage_dir/tree/$1"
+  fi
+}
+
+# Prints file $1 with the change from file $2 to file $3 made in it. Fails when
+# the change touches lines of $2 that $1 lacks; an insertion beside them goes
+# next to the line of both it follows or precedes, and where $1 has lines
+# there that $2 lacks, among them where work tree file $4 has it.
+merge_edit() {
+  local nl
+  git_diff -U0 -- "$2" "$1" > "$stage_dir/pc" && git_diff -U0 -- "$2" "$3" > "$stage_dir/pq" &&
+    git_diff -U0 -- "$3" "$1" > "$stage_dir/qc" && git_diff -U0 -- "$1" "$4" > "$stage_dir/cw" || return 1
+  nl=$(($(tail -c 1 "$1" | wc -l)))
+  [ $(($(tail -c 1 "$2" | wc -l))) -eq $(($(tail -c 1 "$3" | wc -l))) ] || nl=$(($(tail -c 1 "$3" | wc -l)))
+  LC_ALL=C awk -v c="$1" -v p="$2" -v q="$3" -v d="$stage_dir" -v nl="$nl" '
+    function lines(file, L,   line, n) {
+      while ((getline line < file) > 0) L[++n] = line
+      close(file)
+      return n
+    }
+    function hunks(file, H, A,   line, f, r, n) {
+      while ((getline line < file) > 0) {
+        if (line ~ /^@@ /) {
+          split(line, f, " ")
+          split(substr(f[2], 2), r, ","); H[++n, "a"] = r[1] + 0; H[n, "n"] = (2 in r) ? r[2] + 0 : 1
+          split(substr(f[3], 2), r, ","); H[n, "b"] = r[1] + 0; H[n, "m"] = (2 in r) ? r[2] + 0 : 1
+        } else if (n && line ~ /^\+/) A[n, ++H[n, "k"]] = substr(line, 2)
+      }
+      close(file)
+      return n
+    }
+    function align(H, n, np, common, pos,   h, i, j, from) {
+      i = j = 1
+      for (h = 1; h <= n; h++) {
+        from = H[h, "n"] > 0 ? H[h, "a"] : H[h, "a"] + 1
+        while (i < from) { common[i] = 1; pos[i++] = j++ }
+        i = from + H[h, "n"]
+        j = (H[h, "m"] > 0 ? H[h, "b"] : H[h, "b"] + 1) + H[h, "m"]
+      }
+      while (i <= np) { common[i] = 1; pos[i++] = j++ }
+      return j - 1
+    }
+    function held(lo, hi,   x, at, last) {
+      for (x = lo; x <= hi; x++) {
+        if (x < 1) at = 0
+        else if (x > nq) at = nc + 1
+        else if (x in inq) at = posq[x]
+        else return 0
+        if (x > lo && at != last + 1) return 0
+        last = at
+      }
+      return 1
+    }
+    function place(lo, hi, h, m, x,   g, s, i, same) {
+      for (g = 1; g <= ncw; g++) {
+        if (CW[g, "n"] != 0 || CW[g, "a"] < lo || CW[g, "a"] > hi) continue
+        for (s = 0; s + m <= CW[g, "m"]; s++) {
+          same = 1
+          for (i = 1; i <= m && same; i++) if (CWA[g, s + i] != A[h, i]) same = 0
+          if (same) return CW[g, "a"]
+        }
+      }
+      return x
+    }
+    BEGIN {
+      nc = lines(c, C); np = lines(p, P); nq = lines(q, Q)
+      n = hunks(d "/pc", PC, PCA)
+      if (align(PC, n, np, inp, posp) != nc) exit 2
+      n = hunks(d "/qc", QC, QCA)
+      if (align(QC, n, nq, inq, posq) != nc) exit 2
+      ncw = hunks(d "/cw", CW, CWA)
+      n = hunks(d "/pq", H, A)
+      for (h = 1; h <= n; h++) {
+        a = H[h, "a"]; k = H[h, "n"]; b = H[h, "b"]; m = H[h, "m"]
+        text = ""
+        for (i = 1; i <= m; i++) text = text A[h, i] "\n"
+        mine = 1
+        for (i = a; i < a + k; i++) if (!(i in inp)) mine = 0
+        if (m > 0 && (k == 0 || !mine) && held(b - 1, b + m)) continue
+        if (!mine) exit 1
+        if (k > 0) {
+          if (posp[a + k - 1] - posp[a] != k - 1) exit 1
+          end[posp[a]] = posp[a + k - 1]; put[posp[a]] = text
+          continue
+        }
+        if (a >= 1 && !(a in inp) && a < np && !((a + 1) in inp)) exit 1
+        lo = 0
+        for (i = a; i >= 1; i--) if (i in inp) { lo = posp[i]; break }
+        hi = nc
+        for (i = a + 1; i <= np; i++) if (i in inp) { hi = posp[i] - 1; break }
+        x = (a == 0 || (a in inp)) ? lo : hi
+        if (lo < hi) x = place(lo, hi, h, m, x)
+        add[x] = add[x] text
+      }
+      out = ""
+      i = 0
+      while (i <= nc) {
+        out = out add[i]
+        if (++i > nc) break
+        if (i in end) { out = out put[i]; i = end[i] }
+        else out = out C[i] "\n"
+      }
+      if (!nl) sub(/\n$/, "", out)
+      printf "%s", out
+    }'
+}
+
+replay() {
+  local before after path
+  git cat-file blob "HEAD:$1" > "$stage_dir/own"
+  while read -r before after path; do
+    [ "$path" = "$1" ] || continue
+    if ! git cat-file blob "$before" > "$stage_dir/before" 2>/dev/null ||
+      ! git cat-file blob "$after" > "$stage_dir/after" 2>/dev/null; then
+      echo "sync: an edit of $1 in $records is gone from the object store, left out" >&2
+      continue
+    fi
+    if ! merge_edit "$stage_dir/own" "$stage_dir/before" "$stage_dir/after" "$1" > "$stage_dir/next"; then
+      echo "sync: this edit of $1 changes lines only the work tree holds, so it waits for the commit of the session that wrote them:" >&2
+      git_diff -U2 -- "$stage_dir/before" "$stage_dir/after" | sed 1,4d >&2
+      echo "sync: when no session will commit them, deleting the lines for $1 in $records commits it whole" >&2
+      return 1
+    fi
+    mv "$stage_dir/next" "$stage_dir/own"
+  done < "$records"
+  cat "$stage_dir/own"
+}
+
+records=""
+case "${CLAUDE_CODE_SESSION_ID:-}" in
+  "" | *[^A-Za-z0-9_-]*) ;;
+  *) records="$checkout/.git/own-hunks/$CLAUDE_CODE_SESSION_ID" ;;
+esac
+if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
+  stage_dir="$(mktemp -d)"
+  stage_git read-tree HEAD
+  stage_git add -A -- "${public_paths[@]}"
+  case " ${public_paths[*]} " in
+    *" . "*) ;;
+    *)
+      while IFS= read -r path; do
+        names "$path" && git cat-file -e "HEAD:$path" 2>/dev/null &&
+          [ -n "$(stage_git ls-files -- "$path")" ] || continue
+        replay "$path" > "$stage_dir/staged" || exit 1
+        mode="$(stage_git ls-files -s -- "$path" | cut -d ' ' -f 1)"
+        blob="$(git hash-object -w --no-filters "$stage_dir/staged")"
+        stage_git update-index --cacheinfo "$mode,$blob,$path"
+      done < <([ ! -f "$records" ] || cut -d ' ' -f 3- "$records" | sort -u)
+      ;;
+  esac
+  if stage_git diff --cached --quiet HEAD; then
+    if [ "${#private_paths[@]}" -eq 0 ]; then
+      echo "sync: none of the named paths holds a change of this session's, nothing committed" >&2
+      exit 1
+    fi
+    public_paths=()
+  fi
+fi
+
 if [ -f "$checkout/PROMPTS.md" ]; then
   if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
     "$checkout/hooks/prompts-md.sh" --message "$message_file"
     case " ${public_paths[*]} " in *" . "* | *" PROMPTS.md "*) ;; *) public_paths+=(PROMPTS.md) ;; esac
+    stage_git add -- PROMPTS.md
   else
     "$checkout/hooks/prompts-md.sh"
   fi
+fi
+if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
+  stage_git ls-files -z -- "${public_paths[@]}" |
+    stage_git checkout-index -z --stdin --prefix="$stage_dir/tree/"
 fi
 
 allow_args=()
@@ -360,6 +563,13 @@ while IFS= read -r -d '' path; do
   case "$path" in LICENSE*|sync-allow.txt) continue ;; esac
   scan_files+=("$path")
 done < <(git ls-files -z --cached --others --exclude-standard)
+if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
+  while IFS= read -r -d '' path; do
+    case "$path" in LICENSE*|sync-allow.txt) continue ;; esac
+    [ ! -f "$stage_dir/tree/$path" ] || scan_files+=("$stage_dir/tree/$path")
+  done < <(stage_git ls-files -z -- "${public_paths[@]}")
+fi
+held=$'\n'
 if [ "${#scan_files[@]}" -eq 0 ]; then
   exit "$failed"
 fi
@@ -371,6 +581,14 @@ scan() {
   hits="$(grep -n "$@" -- "${scan_files[@]}" 2>/dev/null || true)"
   if [ -n "$hits" ] && [ "${#allow_args[@]}" -gt 0 ]; then
     hits="$(printf '%s\n' "$hits" | grep -v -F "${allow_args[@]}" || true)"
+  fi
+  if [ -n "$hits" ] && [ -n "$message_file" ]; then
+    while IFS= read -r hit; do
+      printf 'sync: %s in %s, kept out of the mirror copy\n' "$label" "$hit" >&2
+      held="$held${hit%%:*}"$'\n'
+    done < <(printf '%s\n' "$hits" | grep -v '^/' | cut -d: -f1,2)
+    hits="$(printf '%s\n' "$hits" | grep '^/' || true)"
+    [ -z "$stage_dir" ] || hits="${hits//"$stage_dir/tree/"/}"
   fi
   if [ -n "$hits" ]; then
     printf 'sync: %s in\n' "$label" >&2
@@ -427,7 +645,8 @@ if [ "${#scan_files[@]}" -gt 0 ]; then
 fi
 
 for path in sync.sh reflow.sh "${mirrored[@]}"; do
-  case "$path" in *.sh) bash -n "$path" || failed=1 ;; esac
+  copy="$(check_copy "$path")"
+  case "$copy" in *.sh) bash -n "$copy" || failed=1 ;; esac
 done
 for path in ${scan_files[@]+"${scan_files[@]}"}; do
   case "$path" in *.sh) bash -n "$path" || failed=1 ;; esac
@@ -445,7 +664,13 @@ for path in "${mirrored[@]}"; do
     esac
   done
 done
-long="$(LC_ALL=C awk '
+long_files=()
+for path in CLAUDE.md README.md docs/*.md skills/pull-requests/SKILL.md; do
+  copy="$(check_copy "$path")"
+  [ -z "$copy" ] || long_files+=("$copy")
+done
+long=""
+[ "${#long_files[@]}" -eq 0 ] || long="$(LC_ALL=C awk '
   FNR == 1 { front = ($0 == "---"); code = 0; evals = 0 }
   front { if (FNR > 1 && $0 == "---") front = 0; next }
   /^[ \t]*```/ { code = !code; next }
@@ -454,7 +679,8 @@ long="$(LC_ALL=C awk '
   code || evals || /^[ \t]*\|/ { next }
   { s = $0; gsub(/[\200-\277]/, "", s) }
   length(s) > 100 { print "  " FILENAME ":" FNR }
-' CLAUDE.md README.md docs/*.md skills/pull-requests/SKILL.md)"
+' "${long_files[@]}")"
+[ -z "$stage_dir" ] || long="${long//"$stage_dir/tree/"/}"
 if [ -n "$long" ]; then
   printf 'sync: line over 100 columns in\n%s\n' "$long" >&2
   printf 'sync: %s rewraps them, run it on its own\n' "$checkout/reflow.sh" >&2
@@ -462,13 +688,14 @@ if [ -n "$long" ]; then
 fi
 
 if [ -f claude-md-budget.txt ]; then
-  claude_md_size="$(wc -c < CLAUDE.md | tr -d ' ')"
+  claude_md="$(check_copy CLAUDE.md)"
+  claude_md_size="$(wc -c < "${claude_md:-CLAUDE.md}" | tr -d ' ')"
   claude_md_budget="$(tr -d ' \n' < claude-md-budget.txt)"
   if [ "$claude_md_size" -gt "$claude_md_budget" ]; then
     printf 'sync: CLAUDE.md is %s bytes, %s over claude-md-budget.txt, by section:\n' \
       "$claude_md_size" "$((claude_md_size - claude_md_budget))" >&2
     LC_ALL=C awk '/^## / { name = $0 } name != "" { size[name] += length($0) + 1 }
-      END { for (s in size) printf "  %6d %s\n", size[s], s }' CLAUDE.md | sort -rn >&2
+      END { for (s in size) printf "  %6d %s\n", size[s], s }' "${claude_md:-CLAUDE.md}" | sort -rn >&2
     echo "sync: --commit refuses CLAUDE.md until it fits, the dotclaude skill says what to ask" >&2
     case " ${public_paths[*]+${public_paths[*]}} " in
       *" . "* | *" CLAUDE.md "* | *" ./CLAUDE.md "*) failed=1 ;;
@@ -484,6 +711,7 @@ if [ "$failed" -eq 0 ] && [ "${#mirror_dirs[@]}" -gt 0 ]; then
       continue
     fi
     for path in "${files[@]}"; do
+      case "$held" in *$'\n'"$path"$'\n'*) continue ;; esac
       install_file "$checkout/$path" "$dir/$path"
     done
     for path in ${private[@]+"${private[@]}"}; do
@@ -512,12 +740,22 @@ if [ -n "$message_file" ] && [ "$failed" -ne 0 ]; then
 elif [ -n "$message_file" ]; then
   committed=0
   if [ "${#public_paths[@]}" -gt 0 ]; then
-    git add -A -- "${public_paths[@]}"
-    if git diff --cached --quiet -- "${public_paths[@]}"; then
+    if stage_git diff --cached --quiet HEAD; then
       echo "sync: nothing to commit here" >&2
     else
-      git commit -q -F "$message_file" -- "${public_paths[@]}"
+      stage_git commit -q -F "$message_file"
+      git reset -q -- "${public_paths[@]}"
       committed=1
+      if [ -f "$records" ]; then
+        while IFS= read -r line; do
+          names "${line#* * }" || printf '%s\n' "$line"
+        done < "$records" > "$records.left"
+        if [ -s "$records.left" ]; then
+          mv "$records.left" "$records"
+        else
+          rm -f "$records" "$records.left"
+        fi
+      fi
     fi
   fi
   left="$(git status --short)"
@@ -539,6 +777,13 @@ elif [ -n "$message_file" ]; then
   for dir in ${mirror_dirs[@]+"${mirror_dirs[@]}"}; do
     git -C "$dir" fetch -q
     git -C "$dir" rebase -q --autostash --committer-date-is-author-date
+    if [ "${#public_paths[@]}" -gt 0 ]; then
+      while IFS=$'\t' read -r -d '' object path; do
+        mkdir -p "$(dirname "$dir/$path")"
+        git cat-file blob "${object##* }" > "$dir/$path"
+        case "$object" in 100755*) chmod +x "$dir/$path" ;; esac
+      done < <(git ls-tree -r -z HEAD -- "${public_paths[@]}")
+    fi
     git -C "$dir" add -A -- "${mirror_paths[@]}"
     git -C "$dir" diff --cached --quiet -- "${mirror_paths[@]}" ||
       git -C "$dir" commit -q -F "$mirror_message" -- "${mirror_paths[@]}"

@@ -57,12 +57,16 @@ and its commit in the same turn, and the rule that a mirrored file states what h
   then every mirror below. It refuses a run that names no path, or no path with a change. No PR: the
   repository has one owner, though several sessions work in the checkout at once, and every
   `sync.sh` run copies their edits into it too. So name only the files this session's own edits
-  touched, never what a `git status` taken around them shows, and right before the commit read
-  `git -C ~/Projects/dotclaude diff -- <path>...`: a hunk this session did not write is another
-  session's, so leave its file out and tell that session with SendMessage, or wait for its commit
-  when the file holds a change of this session's too. A mirrored JSON file changed locally goes back
-  into the checkout's key order first, so `claude plugin` and the `/plugin` dialog may change
-  `settings.json`.
+  touched, never what a `git status` taken around them shows. `~/.claude/hooks/own-hunks.sh` records
+  each edit a session makes to a published file, and `--commit` takes only this session's edits of a
+  named file and leaves another session's in the work tree, so a file both changed needs no wait. It
+  stops only when an edit changes lines another session wrote and has not committed, and that edit
+  then waits for that commit. A named file with no recorded edit, such as one changed by a script
+  the user ran, goes in whole: read `git -C ~/Projects/dotclaude diff -- <path>` first, and leave
+  out a file with a hunk this session did not write and tell that session with SendMessage. A scan
+  hit in a file the run does not name only keeps that file out of the mirror copy. A mirrored JSON
+  file changed locally goes back into the checkout's key order first, so `claude plugin` and the
+  `/plugin` dialog may change `settings.json`.
 - `sync.sh` also copies every published file into each directory listed in `sync-mirrors.txt`, an
   optional file beside it that git ignores, removes there what the checkout has deleted, and prints
   each directory it copied into. With `--commit` it then commits and pushes in each of them with the
