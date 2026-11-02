@@ -5,9 +5,36 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Copy a secret last, after the command that asks for it
+## Move a shared file the user no longer needs out of Downloads
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**21.**
+> [an ask about a print layout left out]
+
+**22.**
+> [asks about an event date, where to buy tags and app logos left
+> out] also youre keeping [a poster] there and 2 qr codes still even
+> thoughu i dont need those. fxi in the future
+
+**23.**
+> [a question about a shop left out]
+
+**24.**
+> [an ask about a print layout left out]
+
+**25.**
+> [a question about a print layout left out]
+
+**26.**
+> [questions about a reply and a shop search left out]
+
+**27.**
+> [a question about a print layout left out]
+
+## Copy a secret last, after the command that asks for it
+
+2026-11-02, commit [76b6fe3](https://github.com/zululima/dotclaude/commit/76b6fe3f03759291473ab4e60972dcd82956fdb8), model claude-opus-5-5, effort xhigh.
 
 **37.**
 > [an ask about a release left out] also fix in the future: i copy
@@ -4495,6 +4522,7 @@ Stop, add it to dotclaude?)
 - pls: please
 - PR: pull request
 - prs: pull requests
+- QR: Quick Response (a two-dimensional barcode)
 - qr: quick response code
 - repo: repository
 - rest: REST, an HTTP API style

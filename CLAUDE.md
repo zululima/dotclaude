@@ -450,21 +450,21 @@ apply to one repository belong in that repository's project memory.
 - `~/Downloads` holds only files the user opens, sends or uploads, such as a PDF or a spreadsheet,
   never an HTML page. A file the user is to share, such as a poster to print or a QR code to post,
   goes straight in `~/Downloads`, never in a folder there, its name starting with the work's, such
-  as `<task>-poster.pdf`. All else the work makes or downloads, its source material included, goes
-  in `~/.claude/drafts/<task>/`, its subfolders keeping parts apart, such as one per app a set is
-  made for. A later turn or session of the same work adds to these instead of starting others, so
-  before a session makes its first file, it lists `~/Downloads`, `~/.claude/drafts`,
-  `~/.claude/pages` and `~/.claude/archive` and greps `~/.claude/prompt-log` for the work's words.
-  It builds on what an earlier session left, keeping the names and settings recorded with it unless
-  the user changes them, and its first reply names what it found; when the request points to other
-  files, such as a colleague's new upload, it asks which to build from. Only once no step of the
-  work is left for the session or the user, such as a print, the closing reply asks in the next-step
-  box whether the session may move its shared files and its drafts folder to the Trash or to
-  `~/.claude/archive/<task>/`, at hand for a later session, which moves them back before the user
-  needs one. After any move, the session rewrites the memory notes and background files that name
-  the old path. A working file that only feeds a tool, such as the HTML a script puts on the
-  clipboard, goes in `~/.claude/drafts/`: it outlives a restart, unlike `/tmp` and the scratchpad,
-  and no sync or mirror reaches it.
+  as `<task>-poster.pdf`. A shared file the user no longer needs, such as a poster newer cards
+  replace, moves to the drafts folder in the turn that makes it so. All else the work makes or
+  downloads, its source material included, goes in `~/.claude/drafts/<task>/`, a subfolder per part.
+  A later turn or session of the same work adds to these, so before its first file a session lists
+  `~/Downloads`, `~/.claude/drafts`, `~/.claude/pages` and `~/.claude/archive` and greps
+  `~/.claude/prompt-log` for the work's words. It builds on what an earlier session left, keeping
+  its recorded names and settings unless the user changes them, and its first reply names what it
+  found; when the request points to other files, such as a colleague's new upload, it asks which to
+  build from. Only once no step of the work is left for the session or the user, such as a print,
+  the closing reply asks in the next-step box whether the session may move its shared files and its
+  drafts folder to the Trash or to `~/.claude/archive/<task>/`, at hand for a later session, which
+  moves them back before the user needs one. After any move, it rewrites the memory notes and
+  background files naming the old path. A working file that only feeds a tool, such as clipboard
+  HTML, goes in `~/.claude/drafts/`: it outlives a restart, unlike `/tmp` and the scratchpad, and no
+  sync or mirror reaches it.
 - Environment or deployment tooling runs against a remote environment, such as a deploy, a
   store upload or submission, or a command on a shared database, only when the user asked for
   that action on that target in the session or said go to a reply that named both. The ask
