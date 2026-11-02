@@ -639,6 +639,14 @@ const suites = [
         run({ session_id: 'p4', cwd: '/x', prompt: 'forked' })
         return run('', { args: ['print'], env: { PROMPT_LOG_SESSION: 'p4' } }).out === '**1.**\n> start\n\n**2.**\n> queued\n\n**3.**\n> forked\n\n'
       }],
+      ['keeps the same answer given again minutes later', () => {
+        jsonl(path.join(config, 'prompt-log/p5.jsonl'), [
+          { timestamp: '2020-01-01T00:00:00Z', prompt: 'a' },
+          { timestamp: '2020-01-01T00:00:02Z', prompt: 'a' },
+          { timestamp: '2020-01-01T00:10:00Z', prompt: 'a' },
+        ])
+        return run('', { args: ['print'], env: { PROMPT_LOG_SESSION: 'p5' } }).out === '**1.**\n> a\n\n**2.**\n> a\n\n'
+      }],
     ]
   }],
 

@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Stop waiting for a dream check that runs past 30 minutes
+## Print an answer given twice, minutes apart, twice
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: shall I add p14?) Quoted under [38eee52](https://github.com/zululima/dotclaude/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b).
+
+## Stop waiting for a dream check that runs past 30 minutes
+
+2026-11-02, commit [38eee52](https://github.com/zululima/dotclaude/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I add p14?)
 > a

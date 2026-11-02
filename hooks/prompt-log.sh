@@ -185,7 +185,7 @@ prior_logs() {
       | gsub("<pasted_content[^>]*>(?<b>[\\s\\S]*?)</pasted_content[^>]*>";
           "[pasted: \(.b | sub("\\A\\s+"; "") | sub("\\s+\\z"; "") | split("\n") | length) lines]"))}
       | select(.p | typed)]
-      | reduce .[] as $x ([]; if length > 0 and .[-1].p == $x.p then . else . + [$x] end)) as $log
+      | reduce .[] as $x ([]; if length > 0 and .[-1].p == $x.p and $x.t - .[-1].t < 10 then . else . + [$x] end)) as $log
   | ($log[0].t // 0) as $start
   | ([$rec[] | select(.prompt and (.t | epoch) < $start - 5)] | length) as $offset
   | [$rec[] | select(.model) | {t: (.t | epoch), model: (.model | id), effort}] as $replies
