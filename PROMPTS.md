@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read the Mac's PowerLog in dream to find battery drain
+## Skip working files in drafts when archive-files looks for tasks
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**8.**
+> [pasted: 15 lines of the archive-files log after the first archives]
+
+## Read the Mac's PowerLog in dream to find battery drain
+
+2026-11-02, commit [0932511](https://github.com/zululima/dotclaude/commit/0932511b8336c0981eb24e177cba01bf4b1f40a1), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

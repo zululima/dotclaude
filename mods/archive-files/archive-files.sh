@@ -145,7 +145,9 @@ handle() {
   fi
   created=$(jq -r '(.createdAt // 0) / 1000 | floor' "$record")
   since=$(( ($(date +%s) - created) / 60 + 2 ))
+  # A task folder's name has no dot, a working file's in drafts has its extension.
   for task in $(tool_inputs "$t" | grep -oE '\.claude/drafts/[A-Za-z0-9_-][A-Za-z0-9._-]*' | sed 's|.*/||' | sort -u); do
+    case $task in *.*) continue ;; esac
     [ -f "$HOME/.claude/drafts/$task" ] || move_task "$task" "$since"
   done
 }
