@@ -635,7 +635,7 @@ apply to one repository belong in that repository's project memory.
   through, and a deny rule in `settings.json` removes the tool. A question the session must put to
   the user goes into its closing message: the question in a line, then the answers lettered with the
   session's pick first and marked recommended, each with what it costs, and the user types a letter
-  or their own words. A question with two answers may go in the next-step box instead, its two
+  or their own words. A question with two answers goes in the next-step box in any reply, its two
   buttons the answers, and then not in the message. Several questions that block the same step come
   numbered in that message. Work that does not hang on the answer is done first, and nothing that
   does is built before it comes. A draft to confirm, such as issue titles or a message, stands in

@@ -5,9 +5,31 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Try plain curl from the user's machine on a blocked page
+## Put every two-answer question in the next-step box
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> [a question about the browser pane left out]
+
+**5.**
+> [a question about the browser pane left out]
+
+**6.**
+> [a question about which browser to use left out]
+
+**7.**
+> [a question about driving a browser left out]
+
+**8.**
+> [a question about the docs left out]
+
+**9.**
+> why no two-button question this time? fix
+
+## Try plain curl from the user's machine on a blocked page
+
+2026-11-02, commit [53ca7b6](https://github.com/zululima/dotclaude/commit/53ca7b6f404ded33a780c480db17da07d6a646a7), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a game left out]
