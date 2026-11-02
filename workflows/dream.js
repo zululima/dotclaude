@@ -8,7 +8,7 @@ export const meta = {
     { title: 'Weekly', detail: 'tier 2: rule effectiveness, token waste, harness, doctor, Anthropic and skill repositories' },
     { title: 'Work', detail: 'tier 3: project audits, what derived projects should take over from their upstreams, reviews of open pull requests and, in a final run, a Monday brief' },
     { title: 'Older', detail: 'tier 4, eve and final runs: subagent transcripts, then older transcripts a week at a time, newest first' },
-    { title: 'Usage', detail: 'readings of the plan usage card as work finishes, and timers for checks that run long' },
+    { title: 'Usage', detail: 'readings of the plan usage card as work finishes and as one agent is left working alone, and timers for checks that run long' },
     { title: 'Report', detail: 'order and test the scripts, write the report and the backlog, record what the run cost' },
   ],
 }
@@ -48,6 +48,9 @@ const MAX_UNCHECKED = 80
 const TASK_MINUTES = 30
 const TAIL_MINUTES = 45
 const STALE_MINUTES = 10
+// Measured: the scouts of 16 to 31 Oct took 2 to 11 minutes, and a new run starts work only once its scout is done.
+const SCOUT_MINUTES = 11
+const ALONE_MINUTES = 10
 const KEEP_GIVEN = typeof opts.keep === 'number' && opts.keep >= 0
 const KEEP_WINDOWS = KEEP_GIVEN ? opts.keep : 2
 const WORK_AT = /^([01]?\d|2[0-3]):[0-5]\d$/.test(opts.workAt || '') ? opts.workAt : '08:00'
@@ -343,7 +346,14 @@ const OK = { type: 'object', required: ['ok'], properties: { ok: { type: 'boolea
 const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 'string', description: 'ISO time in UTC' } } }
 
 // Agents read each other's prompt cache only when type and tools match, so all run as dream-worker.
-const dreamAgent = (prompt, opts = {}) => agent(prompt, { agentType: 'dream-worker', ...opts })
+let watching = false
+const dreamAgent = (prompt, opts = {}) => {
+  const run = agent(prompt, { agentType: 'dream-worker', ...opts })
+  if (!watching) return run
+  const a = { label: opts.label || '', phase: opts.phase || 'Scout', work: opts.phase !== 'Usage' && opts.model !== 'haiku' }
+  ran(a, 1)
+  return run.finally(() => ran(a, -1))
+}
 
 const READ_USAGE = `Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now. Then load the tool mcp__ccd_session_mgmt__get_usage with ToolSearch and call it with no arguments. Return available true and its plan windows exactly as reported: label, percentUsed and resetsAt. Return available false with no windows when the tool cannot be found or its plan status is not "ok".`
 
@@ -751,6 +761,7 @@ function letGoOverdue(at) {
     const reason = `ran past ${TASK_MINUTES} minutes`
     t.overdue = true
     abandoned++
+    released.add(t.label.replace(/^check /, ''))
     skippedWork.push({ label: t.label, source: t.source, tier: t.tier, reason })
     t.finish(SKIP(reason))
   }
@@ -770,6 +781,7 @@ function timeChecks() {
     if (!(at >= due)) earlyTimers++
     if (Number.isFinite(at)) {
       lastNowMs = Math.max(lastNowMs, at)
+      tick(at)
       letGoOverdue(at)
     }
     pump()
@@ -777,6 +789,7 @@ function timeChecks() {
 }
 
 function measure(until) {
+  waitingRead = Boolean(until)
   measuring = takeReading(until).then(() => {
     measuring = null
     stalled = false
@@ -842,6 +855,7 @@ async function takeReading(until) {
   }
   const t = Date.parse(after.now)
   if (Number.isFinite(t)) lastNowMs = t
+  tick(t)
   if (until && !(t >= until)) earlyWakes++
   for (const w of after.windows) {
     const prior = before.windows.find(x => x.label === w.label)
@@ -858,6 +872,69 @@ async function takeReading(until) {
   usage = after
   if (Number.isFinite(t)) letGoOverdue(t)
 }
+
+// For the report: the most agents each phase ran at once, and each stretch with one agent working, timed by the first clock reading after either end.
+const atOnce = {}
+const mostAtOnce = { Scout: 1 }
+const busy = new Set()
+const released = new Set()
+const alone = []
+const ending = [{ label: 'scout', phase: 'Scout', why: 'every later step needs what the scout returns', from: nowMs }]
+let lone = null
+let clocking = null
+let waitingRead = false
+
+function ran(a, step) {
+  atOnce[a.phase] = (atOnce[a.phase] || 0) + step
+  mostAtOnce[a.phase] = Math.max(mostAtOnce[a.phase] || 0, atOnce[a.phase])
+  if (!a.work) return
+  if (step > 0) busy.add(a)
+  else busy.delete(a)
+  const only = busy.size === 1 ? [...busy][0] : null
+  if ((lone && lone.a) === only) return
+  // A stretch that ends before any clock reading came was too short to time.
+  if (lone && Number.isFinite(lone.from)) ending.push(lone)
+  lone = only && { a: only, label: only.label, phase: only.phase, why: loneWhy(only), from: NaN }
+  soon(wantClock)
+}
+
+function loneWhy(a) {
+  if (queue.length) return `${queue.length} pieces of work waited for room under the ${blockedBy ? blockedBy.label : 'usage limits'}`
+  if (a.phase === 'Report') return 'the Report phase runs one step at a time'
+  if (/^(evidence|fit) /.test(a.label)) return 'the scripts step waits for every proposal check'
+  return 'no other work was left to start, and the next step waits for it'
+}
+
+// Agents start and finish in bursts of promise callbacks, so the run decides once a burst is over, and reads the usage card for the time unless a reading is on its way.
+function soon(fn) {
+  let p = Promise.resolve()
+  for (let i = 0; i < 64; i++) p = p.then()
+  p.then(fn)
+}
+
+function wantClock() {
+  if (!watching || clocking || (measuring && !waitingRead)) return
+  if (!ending.length && !(lone && !Number.isFinite(lone.from))) return
+  if (usage && !measuring) return measure()
+  clocking = dreamAgent(READ_CLOCK, { label: 'clock', phase: 'Usage', model: 'haiku', effort: 'low', schema: CLOCK }).catch(() => null).then(r => {
+    clocking = null
+    const at = Date.parse((r && r.now) || '')
+    if (Number.isFinite(at)) tick(at)
+    else ending.length = 0
+  })
+}
+
+function tick(at) {
+  if (!Number.isFinite(at)) return
+  if (lone && !Number.isFinite(lone.from)) lone.from = at
+  for (const s of ending.splice(0)) {
+    if (!(at - s.from > ALONE_MINUTES * 60000)) continue
+    const freed = /^(evidence|fit) /.test(s.label) && released.has(s.label.replace(/^\S+ /, ''))
+    alone.push({ agent: s.label, phase: s.phase, from: localTime(s.from), to: localTime(at), minutes: Math.round((at - s.from) / 60000), why: freed ? `released after ${TASK_MINUTES} minutes, so the run went on without it` : s.why, released: freed })
+  }
+}
+watching = true
+soon(wantClock)
 
 const byNewest = (a, b) => usedAt(b) - usedAt(a)
 function makeBatches(list, size) {
@@ -1677,6 +1754,26 @@ ${GROUND}`, { label, phase: 'Report', schema: PLAN }),
   }
 }
 if (!steps.length && openItems.length) log('No scripts were written, so the report has no commands')
+await new Promise(r => soon(r))
+while (clocking || measuring) await (clocking || measuring)
+watching = false
+
+// The weekly points an hour from the run's start to this report, and whether at that pace what it had to spend at its start fitted before the cutoff.
+const weeklyTarget = Math.round(100 - MARGIN - RESERVE)
+const cutoffMs = weeklyResetMs - (TASK_MINUTES + TAIL_MINUTES) * 60000
+const weeklyNow = usage && usage.windows.find(w => /all models/i.test(w.label))
+const ranHours = (lastNowMs - nowMs) / 3600000
+const perHour = weeklyCard && weeklyNow && sameWindow(weeklyCard, weeklyNow) && ranHours >= 0.25 ? (weeklyNow.percentUsed - weeklyCard.percentUsed) / ranHours : NaN
+const pace = Number.isFinite(perHour) ? {
+  weeklyPointsSpent: weeklyNow.percentUsed - weeklyCard.percentUsed,
+  hours: Math.round(ranHours * 10) / 10,
+  perHour: Math.round(perHour * 10) / 10,
+  pool: POOL,
+  toSpendAtStart: weeklyTarget - weeklyCard.percentUsed,
+  cutoff: Number.isFinite(cutoffMs) ? localTime(cutoffMs) : null,
+  hoursFromStartToCutoff: Number.isFinite(cutoffMs) ? Math.round((cutoffMs - nowMs) / 360000) / 10 : null,
+  fitsAtThatPace: Number.isFinite(cutoffMs) ? (perHour * (cutoffMs - nowMs)) / 3600000 >= weeklyTarget - weeklyCard.percentUsed : null,
+} : null
 
 const report = await dreamAgent(`Write the report of a dream run for the user as Markdown to ${OUT}/${scout.runId}.md (expand ~, create the directory). This is the one file this step writes. The proposals' scripts are already in ${SCRIPTS_DIR}/.
 
@@ -1692,7 +1789,7 @@ Sections, in this order:
 5. Skills to try: proposals of kind "skill-adopt", with the repository link and the install command in a fenced block.
 6. Left out: every dropped, rejected or unchecked proposal in one line with its reason, saying once that unchecked proposals carry over and are checked first in the next run, then the skipped work grouped by reason in one line per reason.
 7. Coverage: the window, the mode and why the run chose it, the Claude Code version, one line per source on what it read and skipped, the transcripts carried over to the next run, the sources not due yet${DEEP ? ` and how far back the deeper pass went: ${deepBack || 'nowhere'}` : ''}.
-8. Usage: a short table of each plan limit at the start and before this report, then one line each on what a source, a checked proposal and a pull request review cost in percentage points${MODE === 'eve' ? ', the weekly points kept back for tomorrow' : ''}, and what was skipped to stay ${MARGIN} points under the limits or for the time limits of the mode. Leave the section out when usage is null below.
+8. Usage: a short table of each plan limit at the start and before this report, then one line each on what a source, a checked proposal and a pull request review cost in percentage points${MODE === 'eve' ? ', the weekly points kept back for tomorrow' : ''}, and what was skipped to stay ${MARGIN} points under the limits or for the time limits of the mode. Then one line on pace, from pace below: the weekly points an hour the run spent with its pool of ${POOL}, and whether at that pace the points it had to spend at its start fitted in the time from its start to the cutoff. Then one line per phase with the most agents it ran at once, from agents below, and one line for each stretch in its alone list, over ${ALONE_MINUTES} minutes with one agent working: which agent, from when to when, and why the run waited on it, or for one marked released, that the run released it after ${TASK_MINUTES} minutes and went on without it. When usage is null below, give only the lines on agents.
 9. Weekly usage, the last section: a table with a row per weekly limit and the columns this week, with the local time of its reading and how long before the reset that was, last week, the 4-week average and the 52-week average, each average with the number of weeks it rests on, such as "58% (3 of 4 weeks)". Then one line on how many points of this week and of last week dream runs used. Say in one line which columns are empty because the log only goes back to the week ending ${recap ? recap.loggedSince.slice(0, 10) : 'this week'}, and${recap && recap.thisWeekInAverages ? '' : ' that'} the averages ${recap && recap.thisWeekInAverages ? 'count this week, since this is a final run' : 'leave this week out until a final run'}. Leave the section out when the weekly recap below is null.
 
 Window: ${scout.since} to ${scout.now}. Claude Code ${scout.installedVersion}. Mode: this is ${modeNote}.
@@ -1729,6 +1826,12 @@ ${JSON.stringify(skippedWork.map(s => ({ label: s.label, tier: s.tier, reason: s
 
 Usage, as JSON (windows are plan limits in percent used, ledger is percentage points and units of work measured this run per kind):
 ${JSON.stringify(startUsage ? { start: startUsage.windows, beforeReport: usage ? usage.windows : null, ledger, reserveForTomorrow: MODE === 'eve' ? RESERVE : null, estimatesFrom: pastRuns.length ? `${pastRuns.length} earlier runs` : 'defaults and this run' } : null)}
+
+Pace, as JSON (weekly percentage points, hours from the start of the run to this report, the cutoff in local time):
+${JSON.stringify(pace)}
+
+Agents, as JSON (mostAtOnce counts every agent of a phase; alone counts working agents only, not usage readings, timers and other haiku agents, and gives local times):
+${JSON.stringify({ pool: POOL, mostAtOnce: Object.fromEntries(['Scout', 'Recent', 'Weekly', 'Work', 'Older', 'Usage', 'Report'].filter(p => mostAtOnce[p]).map(p => [p, mostAtOnce[p]])), alone })}
 
 Weekly recap, as JSON (percentUsed per weekly limit, endsAt and readAt in UTC, local time is UTC${scout.utcOffset}):
 ${JSON.stringify(recap)}
@@ -1789,14 +1892,18 @@ EOF
 const recorded = Boolean(saved && saved.ok)
 if (!recorded) log(`Could not record this run in ${HISTORY_FILE}`)
 
-const weeklyTarget = Math.round(100 - MARGIN - RESERVE)
 const WEEK_MS = 7 * 86400000
 const WEEKS = MODE === 'final' && Number.isFinite(weeklyResetMs) ? weekly(new Date(weeklyResetMs - 2 * WEEK_MS).toISOString(), new Date(weeklyResetMs - WEEK_MS).toISOString()) : ''
 const skipReasons = {}
 for (const s of skippedWork) skipReasons[s.reason] = (skipReasons[s.reason] || 0) + 1
 const weeklyLeft = endWeekly ? weeklyTarget - endWeekly.percentUsed : 0
-const againAfter = Number.isFinite(fiveBlockedReset) && weeklyLeft > 3 && (!Number.isFinite(weeklyResetMs) || fiveBlockedReset < weeklyResetMs - (TASK_MINUTES + TAIL_MINUTES) * 60000)
-  ? ` The 5-hour limit stopped the run with ${weeklyLeft} weekly points left, so another /dream after ${localTime(fiveBlockedReset)} local time can spend them.`
+// A new run started at this run's end, or once the 5-hour limit reopens, starts work only after its scout, and only before the cutoff.
+const againFrom = Number.isFinite(fiveBlockedReset) ? Math.max(lastNowMs, fiveBlockedReset) : lastNowMs
+const lastStart = cutoffMs - SCOUT_MINUTES * 60000
+const canStartAgain = !Number.isFinite(cutoffMs) || againFrom < lastStart
+const againAfter = weeklyLeft <= 3 ? ''
+  : !canStartAgain ? ` The ${weeklyLeft} weekly points left lapse at the ${localTime(weeklyResetMs)} reset, and no new run can start work before then: one started ${againFrom > lastNowMs ? `once the 5-hour limit reopens at ${localTime(againFrom)}` : 'now'} would end its scout after the ${localTime(cutoffMs)} cutoff.`
+  : Number.isFinite(fiveBlockedReset) ? ` The 5-hour limit stopped the run with ${weeklyLeft} weekly points left, so another /dream after ${localTime(againFrom)} local time${Number.isFinite(cutoffMs) ? ` and before ${localTime(lastStart)}` : ''} can spend them.`
   : ''
 const stoppedBy = skippedWork.length
   ? Object.entries(skipReasons).map(([r, n]) => `${n} pieces of work skipped as ${r}`).join('; ') + againAfter

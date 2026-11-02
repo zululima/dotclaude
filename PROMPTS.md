@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## List memory indexes only after a Bash call that changed CLAUDE.md
+## Explain the agents and the pace in every dream report
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.** (answer to: shall I add p15 to every report?)
+> a, every report
+
+## List memory indexes only after a Bash call that changed CLAUDE.md
+
+2026-11-02, commit [761dea3](https://github.com/zululima/dotclaude/commit/761dea3fa39673424dfd100790f7083ed57b6e73), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
 
@@ -4530,6 +4537,7 @@ Stop, add it to dotclaude?)
 - oy: osakeyhtiö, the Finnish limited company form
 - p13: step 13 of the dream review
 - p14: step 14 of the dream review
+- p15: step 15 of the dream review
 - p18: proposal 18 of the weekly review of 2026-10-14
 - p1: step 1 of the dream review
 - p3: step 3 of the dream review

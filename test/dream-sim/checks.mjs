@@ -23,6 +23,10 @@ const quick = { evidence: 3, fit: 6, backlog: 1, write: 1 }
 const oct31slow = { five: 10, fiveReset: '2026-10-31T15:00:00Z', week: 60, weekReset: '2026-10-31T14:00:00Z', now: '2026-10-31T10:55:00Z', since: '2026-10-30T20:14:00Z', utcOffset: '+0200', sessions: 0, args: { only: ['rules'] }, minutes: { ...quick, 'fit rules: Commands a': 81 } }
 const scriptsAt = st => (st.started.find(s => /^scripts /.test(s.label)) || {}).at
 const allScripts = (r, n) => r.plan.length === n && r.plan.every(p => p.endsWith(' runs'))
+// A final run on 31 Oct that ends as the real one did, at 15:17 after the 14:45 cutoff, with work dropped for a 5-hour limit that reopens at 14:40.
+const oct31late = { ...oct31, five: 50, fiveReset: '2026-10-31T12:40:00Z', now: '2026-10-31T10:26:00Z' }
+// The JSON the report agent's prompt gives under a heading such as Pace or Agents.
+const block = (st, head) => { const p = (st.prompts.report || '').split(`\n${head}, as JSON`)[1]; return p ? JSON.parse(p.split('\n')[1]) : {} }
 // Weekly readings as the dream runs wrote them: the week to 31 Oct went from 61% at the eve run to 77% at the final run, which spent 4 points itself, so the user spent 12.
 const weekRow = (mode, weekEnds, readAt, used, dreamSpent) => JSON.stringify({ weekEnds, readAt, runId: readAt.slice(0, 10), mode, windows: [{ label: 'Weekly · all models', percentUsed: used }], dreamSpent })
 const weekRows = [
@@ -89,7 +93,7 @@ const scenarios = [
     noHits,
   ]],
   ['final of 31 Oct, one check far slower than the rest', oct31slow, [
-    ['carries the slow check over unchecked, as ran past 30 minutes', (st, r) => r.unchecked === 1 && stopped(r) === '1 pieces of work skipped as ran past 30 minutes' && !r.plan.some(p => p.includes('-w3)'))],
+    ['carries the slow check over unchecked, as ran past 30 minutes', (st, r) => r.unchecked === 1 && /^1 pieces of work skipped as ran past 30 minutes( The \d+ weekly points left lapse|$)/.test(stopped(r)) && !r.plan.some(p => p.includes('-w3)'))],
     ['starts the scripts step for the other 11 before the 14:45 cutoff', (st, r) => scriptsAt(st) < Date.parse('2026-10-31T12:45:00Z') && allScripts(r, 11)],
     ['once the slow check has run 30 minutes, not before', st => scriptsAt(st) >= st.started.find(s => s.label === 'fit rules: Commands a').at + 30 * 60000],
     noHits,
@@ -97,6 +101,23 @@ const scenarios = [
   ['final of 31 Oct, the slow check the last to start', { ...oct31slow, now: '2026-10-31T10:35:00Z', minutes: { ...quick, 'fit rules: Memory a': 81 } }, [
     ['a timer lets it go, since no reading comes while it runs alone', (st, r) => st.labels.timer > 0 && r.unchecked === 1 && /ran past 30 minutes/.test(stopped(r))],
     ['and the scripts step starts for the others before the 14:45 cutoff', (st, r) => scriptsAt(st) < Date.parse('2026-10-31T12:45:00Z') && allScripts(r, 11)],
+    ['the report gets the most agents each phase ran at once', st => { const a = block(st, 'Agents'); return a.pool === 7 && (a.mostAtOnce || {}).Scout === 1 && a.mostAtOnce.Weekly === 7 }],
+    ['and the slow check as released, not waited on, after it ran alone', st => (block(st, 'Agents').alone || []).some(s => s.agent === 'fit rules: Memory a' && s.released && /^released after 30 minutes/.test(s.why) && s.minutes > 10)],
+    ['and is asked for those lines and the pace line under Usage', st => /one line per phase with the most agents it ran at once/.test(st.prompts.report || '') && /one line on pace/.test(st.prompts.report || '')],
+    noHits,
+  ]],
+  ['final of 31 Oct, the last check alone for 25 minutes', { ...oct31slow, now: '2026-10-31T10:35:00Z', minutes: { ...quick, 'fit rules: Memory a': 25 } }, [
+    ['the report gets the stretch and why the run waited on it', st => (block(st, 'Agents').alone || []).some(s => s.agent === 'fit rules: Memory a' && !s.released && s.why === 'the scripts step waits for every proposal check' && s.minutes > 10)],
+    noHits,
+  ]],
+  ['final of 31 Oct, ending at 15:17 after the 14:45 cutoff', oct31late, [
+    ['dropped work for a 5-hour limit that reopens before the cutoff, and ended after it', (st, r) => /as no room left under the 5-hour limit/.test(stopped(r)) && st.now > Date.parse('2026-10-31T12:45:00Z')],
+    ['offers no new run and says the points left lapse at the 16:00 reset', (st, r) => !/another \/dream/.test(stopped(r)) && /\d+ weekly points left lapse at the 16:00 reset, and no new run can start work before then/.test(stopped(r))],
+    ['gives the report its pace: what it had to spend at its start did not fit before 14:45', st => { const p = block(st, 'Pace'); return p.cutoff === '14:45' && p.fitsAtThatPace === false && p.perHour > 0 && p.pool === 7 }],
+    noHits,
+  ]],
+  ['night of 31 Oct, stopped by the 5-hour limit with time to spare', { ...oct31, args: { mode: 'night' }, now: '2026-10-31T07:00:00Z', five: 60, fiveReset: '2026-10-31T09:00:00Z', week: 50 }, [
+    ['offers another run from its end until the last start before the 14:45 cutoff', (st, r) => /another \/dream after \d\d:\d\d local time and before 14:34 can spend them/.test(stopped(r))],
     noHits,
   ]],
   ['night, stopped by the 5-hour window', { ...wed, five: 60, week: 30, sessions: 200 }, [

@@ -66,7 +66,7 @@ export async function simulate(wf, sc) {
       prs: [1, 2, 3, 4].map(i => ({ url: `https://github.com/o/r/pull/${i}`, repo: 'o/r', number: i, title: `pr ${i}`, isDraft: true, updatedAt: `2026-10-1${i}T00:00:00Z` })),
     }
     if (label.startsWith('usage')) return usageCard()
-    if (label.startsWith('timer')) return { now: new Date(st.now).toISOString() }
+    if (/^(timer|clock)/.test(label)) return { now: new Date(st.now).toISOString() }
     if (label === 'backlog check') return { items: [] }
     if (label === 'list older') return {
       older: linked(Array.from({ length: 12 }, (_, i) => ({ path: `/old/o${i}.jsonl`, project: 'p', bytes: 2e6, mtime: new Date(Date.parse('2026-10-06T00:00:00Z') - i * 30 * H).toISOString() }))),
@@ -92,7 +92,7 @@ export async function simulate(wf, sc) {
     return { findings: [{ kind: 'hook', title: `${label} a`, problem: 'p', proposal: 'q', target: '~/x', evidence: [], impact: 'low' }, { kind: 'hook', title: `${label} b`, problem: 'p', proposal: 'q', target: '~/x', evidence: [], impact: 'low' }], coverage: 'c' }
   }
 
-  const COST = { scout: [3, 0.5], usage: [0.05, 1], timer: [0.05, 1], 'backlog check': [1, 4], 'list older': [0.3, 2], merge: [1, 6], evidence: [0.6, 8], fit: [0.6, 10], review: [2.6, 20], check: [1, 8], report: [2, 10] }
+  const COST = { scout: [3, 0.5], usage: [0.05, 1], timer: [0.05, 1], clock: [0.05, 1], 'backlog check': [1, 4], 'list older': [0.3, 2], merge: [1, 6], evidence: [0.6, 8], fit: [0.6, 10], review: [2.6, 20], check: [1, 8], report: [2, 10] }
   const agent = (prompt, o = {}) => new Promise(resolve => {
     const go = () => {
       running++
