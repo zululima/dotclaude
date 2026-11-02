@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Put every two-answer question in the next-step box
+## Move a failed bot check to Claude in Chrome
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**10.** (answer to: shall I set up the switch to Claude in Chrome?)
+> Yes, go ahead
+
+## Put every two-answer question in the next-step box
+
+2026-11-02, commit [a70e854](https://github.com/zululima/dotclaude/commit/a70e854de6085d3a951f4201e983037cc811813f), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [a question about the browser pane left out]

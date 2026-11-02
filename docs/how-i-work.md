@@ -73,8 +73,8 @@ Two habits do most of the work:
 
 Firefox is my default browser, so the links Claude gives me, such as a pull request or a page it
 made, open there. Claude does its own browsing in the browser built into the desktop app, the pane
-beside the chat, where I sign in once to the sites it needs. Claude in Chrome is blocked in
-`settings.json`, so Claude never drives a browser I am using.
+beside the chat, where I sign in once to the sites it needs. When a bot check fails in that pane,
+Claude moves to Claude in Chrome, and I handle the check there myself.
 
 ## Battery and sleep
 
