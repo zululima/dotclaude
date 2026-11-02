@@ -23,6 +23,8 @@ const waited = st => st.started.some(s => / after the \d\d:\d\d reset$/.test(s.l
 const stopped = r => (r.verification || {}).stoppedBy || ''
 // The final run of 31 Oct from its checks on: twelve checks of about six minutes start at 13:48 local, the backlog writes take a minute each, and the fit check of the third runs 81 minutes.
 const quick = { evidence: 3, fit: 6, backlog: 1, write: 1 }
+// The backlog writes and the run record as long as they took in the real runs of 30 and 31 Oct.
+const tail = { backlog: 2, write: 1, record: 2 }
 const oct31slow = { five: 10, fiveReset: '2026-10-31T15:00:00Z', week: 60, weekReset: '2026-10-31T14:00:00Z', now: '2026-10-31T10:55:00Z', since: '2026-10-30T20:14:00Z', utcOffset: '+0200', sessions: 0, args: { only: ['rules'] }, minutes: { ...quick, 'fit rules: Commands a': 81 } }
 const scriptsAt = st => (st.started.find(s => /^scripts /.test(s.label)) || {}).at
 const allScripts = (r, n) => r.plan.length === n && r.plan.every(p => p.endsWith(' runs'))
@@ -64,6 +66,9 @@ const prRun = { ...wed, week: 30, sessions: 4, backlog: {
   { key: 'plain', status: 'open', note: 'not in place' },
 ] }
 const nov6 = { five: 10, fiveReset: '2026-11-06T18:00:00Z', weekReset: '2026-11-07T14:00:00Z', now: '2026-11-06T16:00:00Z', since: '2026-11-05T20:00:00Z', utcOffset: '+0200', week: 50, sessions: 48 }
+// A usage history row of a run that read the battery logs at the given time.
+const ranBattery = time => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['battery'] })
+const battery = st => st.prompts.battery || ''
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -90,7 +95,7 @@ const scenarios = [
   ['eve with keep: 1', { ...nov6, weekLines: weekRows, args: { keep: 1 } }, [
     ['keeps the one 5-hour window asked for instead', (st, r) => /keeps 16\.9 weekly points back/.test(r.mode) && /"reserve":16\.9,/.test(st.historyLine || '')],
   ]],
-  ['final, little work', { ...sat, week: 64, sessions: 6 }, [
+  ['final, little work', { ...sat, week: 64, sessions: 6, minutes: tail }, [
     ['mode is final', (st, r) => r.mode.startsWith('final')],
     ['nothing used after the weekly reset', st => st.afterWeekReset === 0],
     ['the session is told to show only the points the run used, leaving the report to the review', (st, r) => /show in the chat only how many percentage points/.test(r.forTheSession) && !/show all of it/.test(r.forTheSession)],
@@ -235,6 +240,20 @@ const scenarios = [
     ['the prompt names every derived project and the note', st => /~\/Projects\/app, ~\/Projects\/app2/.test(st.prompts['upstream ~/Projects/template'] || '') && /the CLI the apps run/.test(st.prompts['upstream o/tool'] || '')],
     ['reads the default branch, never the work tree', st => /never from its work tree/.test(st.prompts['upstream o/tool'] || '')],
     ['the run records the source', st => /"upstreams"/.test(st.historyLine || '')],
+  ]],
+  ['battery', { ...wed, week: 30, sessions: 4, args: { only: ['battery'] } }, [
+    ['one agent reads the battery logs', st => st.labels.battery === 1],
+    ['it covers the week before the window when no run read them yet', st => battery(st).includes('Cover 2026-10-06T18:00:00.000Z to 2026-10-14T18:00:00Z')],
+    ['it queries copies of PowerLog with its -wal file, never the originals', st => /CurrentPowerlog\.PLSQL with its -wal and -shm files into your scratch folder/.test(battery(st)) && /never the originals/.test(battery(st))],
+    ['a system setting it would change is a command for the user, never sudo', st => /kind "habit" with target "habit" and gives the command for the user to run: no session runs sudo/.test(battery(st))],
+    ['a PowerLog it cannot read, or one that cannot tell the cause, is a finding of high impact', st => /PowerLog could not be read/.test(battery(st)) && /cannot tell what drains the battery/.test(battery(st)) && /impact high/.test(battery(st))],
+    ['the run records the source', st => /"battery"/.test(st.historyLine || '')],
+  ]],
+  ['battery read 10 hours ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranBattery('2026-10-14T08:00:00Z')] }, [
+    ['is not due yet', (st, r) => !st.labels.battery && r.sources.notDue.includes('battery')],
+  ]],
+  ['battery read 21 hours ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranBattery('2026-10-13T21:00:00Z')] }, [
+    ['is due, and covers the time since that run', st => st.labels.battery === 1 && battery(st).includes('Cover 2026-10-13T21:00:00.000Z to')],
   ]],
   ['symlinked project folders', { ...fri, five: 5, week: 30, sessions: 12, dupes: true }, [
     ['reads each transcript, carried or listed twice, once', st => {

@@ -1,10 +1,10 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
-    { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config and GitHub reviews, merged and checked first' },
+    { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
     { title: 'Weekly', detail: 'tier 2: rule effectiveness, token waste, harness, doctor, Anthropic and skill repositories' },
     { title: 'Work', detail: 'tier 3: project audits, what derived projects should take over from their upstreams, reviews of open pull requests and, in a final run, a Monday brief' },
     { title: 'Older', detail: 'tier 4, eve and final runs: subagent transcripts, then older transcripts a week at a time, newest first' },
@@ -22,10 +22,10 @@ const HISTORY_FILE = '~/.claude/dream/usage-history.jsonl'
 const WEEKS_FILE = '~/.claude/dream/weekly-usage.jsonl'
 const EVALS_FILE = '~/.claude/dream/evals-checkout.txt'
 const BACKLOG_FILE = `${OUT}/backlog.json`
-const SOURCES = ['transcripts', 'config', 'github', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
+const SOURCES = ['transcripts', 'config', 'github', 'battery', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
 const TIER_PHASE = { 1: 'Recent', 2: 'Weekly', 3: 'Work', 4: 'Older' }
 const TIER_PREFIX = { 1: 'n', 2: 'w', 3: 'k', 4: 'd' }
-const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
+const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, battery: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
 // In eve and final runs a weekly source is due once per weekend, so a final run picks up what the eve run had no usage for.
 const WEEKEND_CADENCE_HOURS = 36
 const LOOKBACK_DAYS = 7
@@ -1092,6 +1092,26 @@ if (only.includes('github')) {
 4. Group what reviewers asked for: a convention Claude missed, a rule that would have prevented it, a step in "How to verify" that did not work, a picture or command that was missing.
 Read only. Never comment, review, resolve a thread or edit anything on GitHub.
 ${WINDOW}
+${OUTPUT}
+${GROUND}`,
+  })
+}
+
+if (only.includes('battery')) {
+  const batterySince = lastRan.battery ? new Date(lastRan.battery).toISOString() : scout.lookbackFrom
+  tasks.push({
+    source: 'battery',
+    tier: 1,
+    label: 'battery',
+    prompt: `Find what drains the user's Mac battery while it runs unplugged, and how to cut it. Cover ${batterySince} to ${scout.now}. This run happens on the charger, so read what macOS logged during the day, not what runs now.
+1. Per-app energy comes from macOS PowerLog, which needs no sudo. Copy /private/var/db/powerlog/Library/BatteryLife/CurrentPowerlog.PLSQL with its -wal and -shm files into your scratch folder, and gunzip -c into a file of its own there each archive in its Archives folder, named powerlog_<date>_<id>.PLSQL.gz, dated on or after ${batterySince.slice(0, 10)}. Query only the copies with sqlite3, never the originals. Timestamps are Unix seconds in UTC.
+2. In the table PLBatteryAgent_EventBackward_Battery, Level is the charge in percent, ExternalConnected is 0 while unplugged, Voltage is in mV and InstantAmperage in mA, negative while discharging. Find each stretch on battery, the percentage points it lost per hour and its average draw in watts. A Mac without a battery has no such rows: return no findings and say so in coverage.
+3. In the table PLCoalitionAgent_EventInterval_CoalitionInterval, each row is one app's use from timestamp to timestampEnd: BundleId, or LaunchdName when that is empty, energy, gpu_energy_nj and cpu_time. Take the rows inside a stretch on battery and rank the apps by their share of the energy of all apps, per day and over the whole span. Compare shares, since the unit of energy is not documented.
+4. Read the lines of pmset -g log dated in the span, filtered with grep, since it runs to megabytes: the Summary lines, which say Using Batt or Using AC with the charge, sleep and wake, and each assertion that kept the Mac awake, such as PreventUserIdleSystemSleep or NoIdleSleepAssertion, with the process that held it and for how long. Run pmset -g and pmset -g assertions for the settings in force and what holds the Mac awake now. Read the Battery and sleep section of ~/Projects/dotclaude/docs/how-i-work.md when it exists: a proposal that undoes a sleep setting it gives says what that would cost the runs the setting keeps alive.
+5. When the Claude app leads, find what it ran in those stretches from the main transcripts with activity then, the files ${FIND_MAIN} -newermt ${batterySince} prints, such as a dream run or a test suite started unplugged, a simulator or a container stack left running, or several sessions working at once. ${FIND_ONCE}
+A finding names the app or process, its share, the stretches and the drain that came with them, and the change: a setting, a habit such as plugging in before a long run, or a hook, rule or workflow that left something running. A change to a system setting, such as pmset or Low Power Mode, is kind "habit" with target "habit" and gives the command for the user to run: no session runs sudo.
+Two cases are findings whatever else you find, of kind "workflow" with target ~/.claude/workflows/dream.js and impact high, since the user wants to hear of them in the dream report. One: PowerLog could not be read, such as a missing folder, a refused copy, or a table or column a macOS update renamed, with the error as evidence; go on with pmset -g log alone and say so in coverage. Two: PowerLog was read but cannot tell what drains the battery, such as the leading app's share covering several processes the transcripts cannot tell apart; propose a launchd agent that logs top -l 2 -s 3 -o power -stats pid,command,power while on battery, for this source to read.
+${BACKLOG_NOTE}
 ${OUTPUT}
 ${GROUND}`,
   })
