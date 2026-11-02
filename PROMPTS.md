@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep back only what the reset day used, not two 5-hour windows
+## Mark the other session's cache with the fire, not an hourglass
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> the hourglass can be the same as the flame
+> [pasted: a screenshot of the status line]
+
+## Keep back only what the reset day used, not two 5-hour windows
+
+2026-11-02, commit [78b568c](https://github.com/zululima/dotclaude/commit/78b568cb05bb3ff75268a7bb8418336b0bbaa785), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
 
