@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Print an answer given twice, minutes apart, twice
+## Say the hourglass skips sessions waiting on subagents
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [94a7152](https://github.com/zululima/dotclaude/commit/94a7152eeb985d77028c103fe79da938f4b27029).
+
+**2.** (answer to: how should I bring CLAUDE.md under its byte budget?)
+> a, cut both
+
+## Print an answer given twice, minutes apart, twice
+
+2026-11-02, commit [9cd57b9](https://github.com/zululima/dotclaude/commit/9cd57b9687d3ff1e9da74e24357bf99ff16b1330), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I add p14?) Quoted under [38eee52](https://github.com/zululima/dotclaude/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b).
 
