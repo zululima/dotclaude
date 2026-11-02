@@ -34,10 +34,13 @@ running one.
   from someone else) is never quoted, in a commit message or in a PR body. Replace it where it
   stood with a bracketed description of what it was, such as `[pasted: an email address]` or
   `[pasted: 40 lines of test output]`.
-- In a public repository, a quoted prompt that gives the user's view of a named person, case or
-  organisation, or a plan they may not want public, is named in the reply before the push or the
-  `gh pr` call that publishes it, with a bracketed note offered in its place, such as
-  `[an aside about the case left out]`. Publishing waits for the user's answer.
+- A quoted prompt, in a commit message, a PR body or a file of prompts such as one a Slack post
+  links, that gives the user's view of a named person, case or organisation, or a plan they may not
+  want shared, is asked about in the closing message before the push or the `gh pr` call that lets
+  anyone but the user read it, such as the members of an organisation in its private repository. The
+  recommended answer puts a bracketed note in its place, such as
+  `[an aside about colleagues left out]`, and publishing waits for the answer, since a later commit
+  leaves the text in the history already pushed.
 - Print the prompts and their heading, never retype them. The `UserPromptSubmit` hook
   `prompt-log.sh` in `~/.claude/hooks` appends every prompt to
   `~/.claude/prompt-log/<session id>.jsonl`, and `~/.claude/hooks/prompt-log.sh print` prints

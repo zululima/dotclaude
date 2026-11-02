@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Ask before publishing quoted remarks anywhere others can read
+
+2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> gm and you better have a good explanation
+
+**2.** (answer to: shall I add p1?)
+> yes add p1 also about the dream run you shoudl probalby tell me in
+> gms if i need tostart a dream run that evening or lets fix this
+> somehow. i will work on saturday and sometimes even until the 1600
+> reset. also no need to give me [a project's] hours anymore on dream
+> review etc gm toggl
+
 ## Give other computers prompts, ask two-way questions in the box
 
-2026-11-01, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [2146f91](https://github.com/zululima/dotclaude/commit/2146f91601399f8d88e5b2ba6b004f185f171891), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > ? what prompt do i give to mac
@@ -4330,6 +4344,7 @@ Stop, add it to dotclaude?)
 - gh: GitHub CLI
 - gh: GitHub command line interface
 - gh: the GitHub command line tool
+- gm: good morning, the morning routine skill
 - h1: HTML heading level 1
 - HTML: HyperText Markup Language
 - i.e.: id est, that is
@@ -4347,6 +4362,7 @@ Stop, add it to dotclaude?)
 - ofc: of course
 - oy: osakeyhtiö, the Finnish limited company form
 - p18: proposal 18 of the weekly review of 2026-10-14
+- p1: step 1 of the dream review
 - p9: proposal 9 of the dream report of 2026-10-17
 - p9: proposal 9 of the weekly review of 2026-10-14
 - pdf: Portable Document Format
