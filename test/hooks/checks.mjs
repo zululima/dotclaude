@@ -351,6 +351,7 @@ const suites = [
   ['claude-md-memory-index.sh', run => {
     const rules = path.join(config, 'CLAUDE.md'), index = path.join(config, 'projects/-mi/memory/MEMORY.md')
     const edit = (file_path, session_id) => ({ hook_event_name: 'PostToolUse', tool_name: 'Edit', tool_input: { file_path }, session_id })
+    const bashCall = (hook_event_name, session_id, command) => ({ hook_event_name, tool_name: 'Bash', tool_use_id: `toolu_${session_id}`, tool_input: { command }, session_id })
     const listed = r => r.err.split('the build runs with make').length - 1
     return [
       ['lists every memory index after an edit of CLAUDE.md', () => {
@@ -364,6 +365,18 @@ const suites = [
       ['lists a symlinked project folder once', () => {
         fs.symlinkSync('-mi', path.join(config, 'projects/-mi-old'))
         return listed(run(edit(rules, 'mi3'))) === 1
+      }],
+      ['stays quiet on a Bash read of CLAUDE.md just after another session changed it', () => {
+        const read = `sed -n 1,5p ${rules}`
+        write(rules, '- one\n- from a peer\n')
+        return quiet(run(bashCall('PreToolUse', 'mi4', read))) && quiet(run(bashCall('PostToolUse', 'mi4', read)))
+      }],
+      ['lists every memory index after a Bash command that changed CLAUDE.md', () => {
+        const fix = `sed -i '' 's/one/two/' ${rules}`
+        const pre = run(bashCall('PreToolUse', 'mi5', fix))
+        write(rules, '- two\n- from a peer\n')
+        const r = run(bashCall('PostToolUse', 'mi5', fix))
+        return quiet(pre) && r.code === 2 && listed(r) === 1
       }],
     ]
   }],

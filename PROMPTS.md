@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Have a rule diff reopen what the session settled before it
+## List memory indexes only after a Bash call that changed CLAUDE.md
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+
+## Have a rule diff reopen what the session settled before it
+
+2026-11-02, commit [bd30ddc](https://github.com/zululima/dotclaude/commit/bd30ddc57c1fe24295ae6079b9b168e22d6b7f97), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
 

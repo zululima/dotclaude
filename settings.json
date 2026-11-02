@@ -211,6 +211,16 @@
         ]
       },
       {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/claude-md-memory-index.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "^mcp__.*__(list_events|get_event)$",
         "hooks": [
           {
