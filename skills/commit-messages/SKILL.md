@@ -42,22 +42,25 @@ running one.
   `[an aside about colleagues left out]`, and publishing waits for the answer, since a later commit
   leaves the text in the history already pushed.
 - Print the prompts and their heading, never retype them. The `UserPromptSubmit` hook
-  `prompt-log.sh` in `~/.claude/hooks` appends every prompt to
-  `~/.claude/prompt-log/<session id>.jsonl`, and `~/.claude/hooks/prompt-log.sh print` prints
-  the session's prompts numbered and quoted for a PR body under its `Model:` line, with
-  `--commit` in the commit form above under both heading lines, and with `--from <n>` from prompt n
-  on. It takes the model and effort of each prompt from the session's transcript and names each
-  value with the prompts it ran under when `/model` or `/effort` changed one. For a forked session
-  it also prints the prompts from before the fork, from the log of the session it was forked from,
-  and only when that log is missing counts them without printing them. It leaves out reminders, peer
-  session messages and subagent hand-backs, and prints an address as `[pasted: an address]`, a
-  pasted block as `[pasted: <n> lines]`, a home path with `~` and a password or token value as
-  `[redacted]`. Then do only what the printout cannot: leave out and redact as the bullets around
-  this one say, replace a spawned task's opening prompt, which another session wrote, with `[a task
-  another Claude session wrote, left out]`, say what each pasted address or block was, and add the
-  answer marks and the abbreviations. When print leaves the heading
-  out, it exits 1 and says why: run it again with `--model <id>` and the model id of the session, or
-  with `--effort <level>` and the level `get_session` with `self` gives, as the message asks.
+  `prompt-log.sh` in `~/.claude/hooks` appends every prompt to `~/.claude/prompt-log/<session
+  id>.jsonl`, and `~/.claude/hooks/prompt-log.sh print` prints the session's prompts numbered and
+  quoted for a PR body under its `Model:` line, with `--commit` in the commit form above under both
+  heading lines, and with `--from <n>` from prompt n on. It takes the model and effort of each
+  prompt from the session's transcript and names each value with the prompts it ran under when
+  `/model` or `/effort` changed one. For a forked session it also prints the prompts from before the
+  fork, from the log of the session it was forked from, and only when that log is missing counts
+  them without printing them. It leaves out reminders, peer session messages and subagent
+  hand-backs, and prints an address as `[pasted: an address]`, a pasted block as `[pasted: <n>
+  lines]`, a home path with `~` and a password or token value as `[redacted]`. With `--commit` it
+  also names on stderr the `Abbreviations:` lines that earlier commits gave for words the prompts
+  use, in the repository `-C <repo>` names, by default the working directory's, and in
+  `~/Projects/dotclaude`. Then do only what the printout cannot: leave out and redact as the bullets
+  around this one say, replace a spawned task's opening prompt, which another session wrote, with
+  `[a task another Claude session wrote, left out]`, say what each pasted address or block was, and
+  add the answer marks and the abbreviations, each named line among them whose word stays in the
+  message and means the same there. When print leaves the heading out, it exits 1 and says why: run
+  it again with `--model <id>` and the model id of the session, or with `--effort <level>` and the
+  level `get_session` with `self` gives, as the message asks.
 - The PR rules on exclusion and redaction apply to commit messages too: leave out meta prompts,
   and in public and upstream repositories redact downstream project, client and customer names
   with square brackets. The one exception is the public configuration repository, where prompts

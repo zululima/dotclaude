@@ -8,8 +8,8 @@
 #
 #   prompt-log.sh                              append the prompt in the hook
 #                                              input to prompt-log/<session>.jsonl
-#   prompt-log.sh print [--commit] [--from n] [--model id] [--effort level]
-#                                              print the session's prompts
+#   prompt-log.sh print [--commit] [-C repo] [--from n] [--model id]
+#                       [--effort level]       print the session's prompts
 #   prompt-log.sh mask [--quoted]              mask stdin as print does, with
 #                                              --quoted only the lines from >
 #
@@ -17,6 +17,11 @@
 # PROMPT_LOG_SESSION when set, as **n.** and > lines under a Model: line for a
 # PR body, or with --commit as n. and > lines wrapped at 72 columns under the
 # two heading lines of a commit's prompts section. --from n starts at prompt n.
+# With --commit it then names on stderr the Abbreviations: lines that earlier
+# commit messages gave for words of the printed prompts, each from the newest
+# commit that gave it in the repository -C names, by default the working
+# directory's, then in ~/Projects/dotclaude, matched as abbreviations-listed.sh
+# matches them.
 # The log keeps each prompt as it arrived. print drops what the harness wraps
 # in tags: reminders, artifact context, peer session messages, subagent
 # hand-backs and notifications, and an entry with nothing else in it gets no
@@ -89,9 +94,12 @@ form=pr
 from=1
 model=
 effort=
+repo=.
+quoted=
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --commit) form=commit ;;
+    -C) repo="${2:-}"; shift ;;
     --from) from="${2:-}"; shift ;;
     --model) model="${2:-}"; shift ;;
     --effort) effort="${2:-}"; shift ;;
@@ -100,6 +108,7 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 case "$from" in ""|*[!0-9]*) echo "prompt-log: --from takes a prompt number" >&2; exit 2 ;; esac
+[ -d "$repo" ] || { echo "prompt-log: -C takes a repository" >&2; exit 2; }
 
 session="${PROMPT_LOG_SESSION:-${CLAUDE_CODE_SESSION_ID:-}}"
 log="$log_dir/$session.jsonl"
@@ -132,6 +141,47 @@ prior_logs() {
       done
 }
 
+# The awk of abbreviations-listed.sh, printing in the order of the logs.
+abbreviations() {
+  [ -n "$1" ] || return 0
+  awk '
+    function key(line,   k) {
+      sub(/^- /, "", line)
+      if (line !~ /^[^:]+: ./) return ""
+      k = tolower(substr(line, 1, index(line, ":") - 1))
+      return (length(k) > 24 || k ~ /-by$/) ? "" : k
+    }
+    function hasword(s, w,   i, p, b, a) {
+      p = 0
+      while ((i = index(substr(s, p + 1), w)) > 0) {
+        p += i
+        b = substr(s, p - 1, 1)
+        a = substr(s, p + length(w), 1)
+        if ((p == 1 || b !~ /[a-z0-9.]/) && a !~ /[a-z0-9]/) return 1
+      }
+      return 0
+    }
+    FNR == 1 { file++; ab = 0 }
+    $0 == "Abbreviations:" { ab = 1; next }
+    $0 == "" || $0 == "\001" { ab = 0 }
+    ab && (k = key($0)) != "" {
+      line = $0
+      sub(/^- /, "", line)
+      n = split(k, ws, /, */)
+      for (j = 1; j <= n; j++)
+        if (file == 1 && !(ws[j] in gloss)) { gloss[ws[j]] = line; order[++count] = ws[j] }
+      next
+    }
+    file == 2 && /^>/ { sub(/^> ?/, ""); quoted = quoted " " tolower($0) }
+    END {
+      for (i = 1; i <= count; i++)
+        if (hasword(quoted, order[i]) && !(gloss[order[i]] in shown)) { shown[gloss[order[i]]]; print gloss[order[i]] }
+    }
+  ' <(git -C "$repo" log --format='%x01%n%B' 2>/dev/null
+      git -C "$HOME/Projects/dotclaude" log --format='%x01%n%B' 2>/dev/null) \
+    <(printf '%s' "$1")
+}
+
 {
   IFS= read -r -d '' note && IFS= read -r -d '' problem && IFS= read -r -d '' heading || exit 1
   [ -z "$note" ] || echo "prompt-log: $note" >&2
@@ -147,13 +197,17 @@ prior_logs() {
     prompt="$(printf '%s\n' "${item#*$'\t'}" | mask "")"
     if [ "$form" = commit ]; then
       printf '%s.\n' "$n"
-      printf '%s\n' "$prompt" | fold -s -w 70 | sed -e 's/ *$//' -e 's/^/> /' -e 's/^> $/>/'
+      lines="$(printf '%s\n' "$prompt" | fold -s -w 70 | sed -e 's/ *$//' -e 's/^/> /' -e 's/^> $/>/')"
+      printf '%s\n' "$lines"
+      quoted+="$lines"$'\n'
     else
       printf '**%s.**\n' "$n"
       printf '%s\n' "$prompt" | sed -e 's/^/> /' -e 's/^> $/>/'
     fi
     printf '\n'
   done
+  named="$(abbreviations "$quoted")"
+  [ -z "$named" ] || printf 'prompt-log: %s\n%s\n' "earlier commits gave these Abbreviations: lines for words of the prompts; add each whose word stays in the message and means the same here:" "$named" >&2
   [ -z "$problem" ] || { echo "prompt-log: $problem" >&2; exit 1; }
 } < <(jq -j -s --arg from "$from" --arg form "$form" --arg model "$model" --arg effort "$effort" \
   --slurpfile rec <(if [ -n "$transcript" ]; then jq -c "$clean"'

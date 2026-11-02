@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Move a shared file the user no longer needs out of Downloads
+## Name the abbreviations earlier commits gave when printing prompts
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+
+## Move a shared file the user no longer needs out of Downloads
+
+2026-11-02, commit [cc8e0e6](https://github.com/zululima/dotclaude/commit/cc8e0e652ac4588e7a55742833c7adc3b5bbb2aa), model claude-opus-5-5, effort xhigh.
 
 **21.**
 > [an ask about a print layout left out]

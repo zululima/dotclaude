@@ -647,6 +647,18 @@ const suites = [
         ])
         return run('', { args: ['print'], env: { PROMPT_LOG_SESSION: 'p5' } }).out === '**1.**\n> a\n\n**2.**\n> a\n\n'
       }],
+      ['names on stderr the abbreviations earlier commits expanded', () => {
+        const repo = path.join(home, 'pl-work'), plain = path.join(home, 'pl-plain'), msg = path.join(home, 'pl-msg.txt')
+        sh(`git init -q ${q(repo)} && mkdir -p ${q(plain)}`)
+        for (const lines of ['html: an older expansion\nmd: Markdown', 'HTML: HyperText Markup Language'])
+          sh(`git -C ${q(repo)} commit -q --allow-empty -F ${q(write(msg, `Add a page\n\nAbbreviations:\n${lines}\n`))}`)
+        run({ session_id: 'p6', cwd: repo, prompt: 'give me the html of readme.md' })
+        const printIn = (args, cwd) => run('', { args: ['print', '--commit', '--model', 'm', '--effort', 'high', ...args], cwd, env: { PROMPT_LOG_SESSION: 'p6' } })
+        const named = printIn(['-C', repo]), here = printIn([], repo), none = printIn(['-C', plain])
+        return named.code === 0 && named.out.endsWith('\n1.\n> give me the html of readme.md\n\n') && named.out === none.out && none.err === ''
+          && named.err === 'prompt-log: earlier commits gave these Abbreviations: lines for words of the prompts; add each whose word stays in the message and means the same here:\nHTML: HyperText Markup Language\n'
+          && here.err === named.err
+      }],
     ]
   }],
 
