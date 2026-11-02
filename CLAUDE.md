@@ -82,9 +82,7 @@ apply to one repository belong in that repository's project memory.
 - Wrap every line of a commit message at 72 columns, the subject included. Neither GitHub nor
   `git log` reflows long lines, so they break the rendering.
 - Before writing a commit message, load the `commit-messages` skill,
-  `~/.claude/skills/commit-messages/SKILL.md`, and follow it. It holds the order of the parts and
-  the trailers, the prompts section and the script that prints it, pasted text, what is left out or
-  redacted, and `PROMPTS.md`.
+  `~/.claude/skills/commit-messages/SKILL.md`, and follow it.
 - An edit made to this file, to `~/.claude/skills/pull-requests/SKILL.md` or to the
   `commit-messages` skill from another session reaches a running one through
   `~/.claude/hooks/claude-md-changed.sh`, in place of a re-read before a commit message or a PR
@@ -98,9 +96,7 @@ apply to one repository belong in that repository's project memory.
 
 - Before opening a PR or editing its body, writing test steps for a change under review, in a PR or
   in chat, reviewing a PR, or capturing or uploading pictures for one, load the `pull-requests`
-  skill, `~/.claude/skills/pull-requests/SKILL.md`, and follow it. It holds the body layout, the
-  prompts block, the template answers, the verify steps, the review page and its reply, and the
-  screenshots and recordings.
+  skill, `~/.claude/skills/pull-requests/SKILL.md`, and follow it.
 - Open PRs as drafts.
 - One draft PR per issue or feature the user asks to start, such as the next issue. Every other
   change a session is asked to make in a repository, follow-ups to the work under review, docs,
@@ -471,8 +467,10 @@ apply to one repository belong in that repository's project memory.
   covers the steps that finish it, such as a rebuild of the same release; another target,
   production data or a new release needs its own ask, and carrying on without another go never
   widens one. A project rule may ask for more. Confirm before destructive commands.
-- Prefer official features over custom glue that wraps unstable internals. If only custom works,
-  say so and name the drift risk before building it.
+- Prefer official features over custom glue that wraps unstable internals when both cost the user
+  the same. Glue that alone does what the user asked for, or spares them a step on every use, such
+  as one click in place of a reply and an approval, is the recommended option, with its drift risk
+  named before it is built.
 - A command, workflow, script, hook or skill built for a purpose the user stated does all of it
   when run bare. Each choice it can make from what it reads, such as the date, the usage limits
   or its last run, it makes itself. An argument is only for an exception the user named or for

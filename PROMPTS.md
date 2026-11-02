@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the next session to go cold before the first answer
+## Recommend glue that saves the user a step on every use
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** to 4.
+> [prompts about another task left out]
+
+**5.**
+> is it possible for you to archive the artifacts from downloads when i
+> archive a session? or how should i do this
+
+**6.**
+> wait why do you recommend a but not b. b is just one archive for me
+
+## Show the next session to go cold before the first answer
+
+2026-11-02, commit [e44b67c](https://github.com/zululima/dotclaude/commit/e44b67c71a7d055f9c4f711fdf412d75a68b3437), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is it not possibel toput status bar mod to the new session window
