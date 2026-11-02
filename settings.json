@@ -40,7 +40,6 @@
       "mcp__figma__weave_get_tool_inputs",
       "mcp__figma__weave_get_tool_run_output",
       "Edit(~/.claude/projects/*-Claude-scratch-workspaces-*/memory/**)",
-      "mcp__claude-in-chrome",
       "ScheduleWakeup",
       "SearchPlugins",
       "SuggestPluginInstall",
