@@ -9,6 +9,15 @@ These procedures sit beside the Public configuration repository rules in `~/.cla
 which still hold: the user's go before a change to that file or a mirrored skill, the `sync.sh` run
 and its commit in the same turn, and the rule that a mirrored file states what holds now.
 
+## Writing a rule
+
+- A rule written from a correction reaches as far as the reason in the user's words, never only as
+  far as the form of their example, and adds no condition they did not give: a wish to paste a page
+  into Firefox covers every file Firefox shows, not HTML alone, and a wish to type less covers the
+  fewest letters that work, not a whole word. What the session already knows about that reach, such
+  as a search that matches any part of a name, goes into the rule and into the work redone under it.
+  A question on the rule's scope offers that full reach as one option, never only narrower ones.
+
 ## The checkout
 
 - The checkout at `~/Projects/dotclaude` holds the mirrored files, each named in the `mirrored` list
