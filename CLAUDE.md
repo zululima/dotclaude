@@ -272,9 +272,12 @@ apply to one repository belong in that repository's project memory.
   before it stops at the run. A PR review's steps are the exception: they live on its review page,
   where the user ticks them off, and each reply gives the page's address in their place, as the
   `pull-requests` skill says.
-- Steps the user carries out are written in the order they are done, in one numbered list from
-  the first to the last. How to do one of them, such as how to start a screen recording, goes
-  into that step, never into a section of its own placed before steps that have to come first.
+- Steps the user carries out are written in the order they are done, in one numbered list from the
+  first to the last. How to do one of them, such as how to start a screen recording, goes into that
+  step, never into a section of its own placed before steps that have to come first. A value the
+  user copies to paste somewhere else, such as an app-specific password for a command's prompt, is
+  copied last: the command that asks for it is copied and started in an earlier step, and the value
+  is made and copied after it, so no other copy replaces it on the clipboard before the paste.
 - Steps through a process that a project's README walks through, such as making and using what the
   session built, are listed as that README lists them, in its words and with only its blocks, such
   as the prompt to paste. A command that a session in that process gives the user or runs itself

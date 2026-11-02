@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Scope a rule from a correction by the user's reason, not the example
+## Copy a secret last, after the command that asks for it
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**37.**
+> [an ask about a release left out] also fix in the future: i copy
+> paste the password, then you tell me to copypaste a command for
+> getting the password from clipboard. bruh
+
+**39.** (answer to: move a bullet out or raise the budget?)
+> [an answer about a release left out] a [a remark about an app left
+> out]
+
+## Scope a rule from a correction by the user's reason, not the example
+
+2026-11-02, commit [a317c50](https://github.com/zululima/dotclaude/commit/a317c50f6c62e49ddd3da9d33c634d7ca571a776), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
 
