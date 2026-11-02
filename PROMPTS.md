@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Hold dream work for the 5-hour reset instead of dropping it
+## Keep back only what the reset day used, not two 5-hour windows
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
+
+**3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?) Quoted under [e792340](https://github.com/zululima/dotclaude/commit/e792340e6497651ef580b541a869c151c69ad9a4).
+
+## Hold dream work for the 5-hour reset instead of dropping it
+
+2026-11-02, commit [e792340](https://github.com/zululima/dotclaude/commit/e792340e6497651ef580b541a869c151c69ad9a4), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?)
 > a and p13 a

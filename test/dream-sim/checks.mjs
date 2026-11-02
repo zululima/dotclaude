@@ -18,6 +18,16 @@ const oct31 = { five: 70, fiveReset: '2026-10-31T12:00:00Z', week: 73, weekReset
 } }
 const waited = st => st.started.some(s => / after the \d\d:\d\d reset$/.test(s.label))
 const stopped = r => (r.verification || {}).stoppedBy || ''
+// Weekly readings as the dream runs wrote them: the week to 31 Oct went from 61% at the eve run to 77% at the final run, which spent 4 points itself, so the user spent 12.
+const weekRow = (mode, weekEnds, readAt, used, dreamSpent) => JSON.stringify({ weekEnds, readAt, runId: readAt.slice(0, 10), mode, windows: [{ label: 'Weekly · all models', percentUsed: used }], dreamSpent })
+const weekRows = [
+  weekRow('final', '2026-10-17T13:59:59.698Z', '2026-10-17T12:30:04Z', 92, 24),
+  weekRow('eve', '2026-10-24T13:59:59.981Z', '2026-10-23T22:32:25.000Z', 50, 13),
+  weekRow('final', '2026-10-24T14:00:00.111Z', '2026-10-24T07:51:56.000Z', 65, 9),
+  weekRow('eve', '2026-10-31T14:00:00.454Z', '2026-10-30T20:14:32.000Z', 61, 8),
+  weekRow('final', '2026-10-31T13:59:59.794Z', '2026-10-31T13:15:33.000Z', 77, 4),
+]
+const nov6 = { five: 10, fiveReset: '2026-11-06T18:00:00Z', weekReset: '2026-11-07T14:00:00Z', now: '2026-11-06T16:00:00Z', since: '2026-11-05T20:00:00Z', utcOffset: '+0200', week: 50, sessions: 48 }
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -30,6 +40,19 @@ const scenarios = [
   ['eve, big budget', { ...fri, week: 10, since: '2026-10-10T00:00:00Z', sessions: 400 }, [
     ['no window the run touched is open at 08:00 Saturday', st => !st.windows.some(([a, b]) => a <= workAt && workAt < b && st.lastUse >= a)],
     noHits,
+  ]],
+  ['eve after 31 Oct', { ...nov6, weekLines: weekRows }, [
+    ['mode is eve', (st, r) => /^eve/.test(r.mode)],
+    ['keeps back the 12 points the user spent outside dream runs on 31 Oct, 77 less 61 less 4', (st, r) => /keeps 12\.0 weekly points back/.test(r.mode)],
+    ['records them as the reserve of its row in the usage history', st => /"mode":"eve".*"reserve":12,/.test(st.historyLine || '')],
+    ['weekly stays under 95 minus that reserve, plus a point', st => st.maxWeek <= 95 - 12 + 1],
+    noHits,
+  ]],
+  ['eve with no final run in the readings', { ...nov6, weekLines: weekRows.filter(l => !l.includes('"final"')) }, [
+    ['falls back to two 5-hour windows', (st, r) => /keeps 33\.8 weekly points back/.test(r.mode) && /"reserve":33\.8,/.test(st.historyLine || '')],
+  ]],
+  ['eve with keep: 1', { ...nov6, weekLines: weekRows, args: { keep: 1 } }, [
+    ['keeps the one 5-hour window asked for instead', (st, r) => /keeps 16\.9 weekly points back/.test(r.mode) && /"reserve":16\.9,/.test(st.historyLine || '')],
   ]],
   ['final, little work', { ...sat, week: 64, sessions: 6 }, [
     ['mode is final', (st, r) => r.mode.startsWith('final')],

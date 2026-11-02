@@ -128,10 +128,11 @@ around the reset:
    ```
 
    On the day before the reset this is an eve run. It spends most of what is left of the week
-   overnight, but keeps back two 5-hour windows, one for my work on Saturday and one for the final
-   run, and leaves the 5-hour window that would be open at 08:00 on Saturday untouched. In the chat
-   it says only how many percentage points of my usage it used and how many proposals wait, and
-   leaves its report to the review.
+   overnight, but keeps back the most my own work used on one of the last four Saturdays, or two
+   5-hour windows until one is measured, since I may work until the reset, and leaves the 5-hour
+   window that would be open at 08:00 on Saturday untouched. In the chat it says only how many
+   percentage points of my usage it used and how many proposals wait, and leaves its report to the
+   review.
 
 2. Saturday: start a new Code session in `~/Projects/dotclaude` and send this there. That session
    reads the steps from their files, while the one that ran overnight would send its whole context

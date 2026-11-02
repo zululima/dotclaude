@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back, default 2>, since: "<ISO time>", only: [transcripts, config, github, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config and GitHub reviews, merged and checked first' },
@@ -48,7 +48,8 @@ const MAX_UNCHECKED = 80
 const TASK_MINUTES = 30
 const TAIL_MINUTES = 45
 const STALE_MINUTES = 10
-const KEEP_WINDOWS = typeof opts.keep === 'number' && opts.keep >= 0 ? opts.keep : 2
+const KEEP_GIVEN = typeof opts.keep === 'number' && opts.keep >= 0
+const KEEP_WINDOWS = KEEP_GIVEN ? opts.keep : 2
 const WORK_AT = /^([01]?\d|2[0-3]):[0-5]\d$/.test(opts.workAt || '') ? opts.workAt : '08:00'
 // Percentage points per unit of work before anything is measured; deliberately high, replaced by measurements.
 const DEFAULT_COST = { gather: 1, merge: 1, verify: 1, review: 2, scripts: 1, report: 1 }
@@ -479,7 +480,33 @@ function weeklyPerWindow() {
   }
   return five >= 20 ? (100 * week) / five : DEFAULT_WEEKLY_PER_WINDOW
 }
-const RESERVE = MODE === 'eve' ? KEEP_WINDOWS * weeklyPerWindow() : 0
+// What the user's own work used on a reset day: the weekly percent at the final run's last reading, less the eve run's, less what the final runs spent themselves.
+function ownResetDayUses() {
+  const weeks = {}
+  for (const line of scout.weekLines) {
+    let r = null
+    try { r = JSON.parse(line) } catch (e) { continue }
+    const card = r && Array.isArray(r.windows) ? r.windows.find(w => /all models/i.test(w.label)) : null
+    const ends = r ? Date.parse(r.weekEnds) : NaN
+    const at = r ? Date.parse(r.readAt) : NaN
+    if (!card || !Number.isFinite(ends) || !Number.isFinite(at) || (r.mode !== 'eve' && r.mode !== 'final')) continue
+    const key = Math.round(ends / 3600000)
+    weeks[key] = (weeks[key] || []).concat({ mode: r.mode, at, used: card.percentUsed, spent: Number(r.dreamSpent) || 0 })
+  }
+  const uses = []
+  for (const key of Object.keys(weeks).sort((a, b) => b - a)) {
+    const rows = weeks[key].sort((a, b) => a.at - b.at)
+    const eve = rows.filter(x => x.mode === 'eve').pop()
+    const finals = eve ? rows.filter(x => x.mode === 'final' && x.at > eve.at) : []
+    if (finals.length) uses.push(Math.max(0, finals[finals.length - 1].used - eve.used - finals.reduce((sum, x) => sum + x.spent, 0)))
+    if (uses.length === 4) break
+  }
+  return uses
+}
+const OWN_USES = MODE === 'eve' && !KEEP_GIVEN ? ownResetDayUses() : []
+const RESERVE = MODE !== 'eve' ? 0 : OWN_USES.length ? Math.max(...OWN_USES) : KEEP_WINDOWS * weeklyPerWindow()
+const RESERVE_FOR = OWN_USES.length ? `the user's own work, the most it used on one of the last ${OWN_USES.length} reset days measured`
+  : `${KEEP_WINDOWS} 5-hour windows${KEEP_GIVEN ? ', as asked' : ', since no reset day is measured yet'}`
 
 const explicit = Array.isArray(opts.only) && opts.only.length
 const due = s => {
@@ -493,7 +520,7 @@ const only = requested.filter(s => SOURCES.includes(s) && due(s))
 const notDue = requested.filter(s => SOURCES.includes(s) && !due(s))
 
 const modeNote = {
-  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back for ${KEEP_WINDOWS} 5-hour windows tomorrow, waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched`,
+  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back for tomorrow (${RESERVE_FOR}), waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched`,
   final: `a final run, since the weekly limit resets ${Number.isFinite(weeklyResetMs) ? `today at ${localTime(weeklyResetMs)}` : 'soon'}: it spends the week down to ${MARGIN} points free, waits for the 5-hour limit to reset when it fills sooner, and stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset`,
   night: 'a night run: it guards the weekly limits and stops just short of the 5-hour limit, since an agent that reaches it fails',
   day: 'a day run: it keeps the 5-hour limit under the margin too',
