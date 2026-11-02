@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Skip working files in drafts when archive-files looks for tasks
+## Try plain curl from the user's machine on a blocked page
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about a game left out]
+
+**2.**
+> behind a bot check? but i use cluade code specificalyl for this
+> purpose so you can use my ip and machien for that
+
+**3.**
+> what. how come i cant get past it in builtin browser
+
+## Skip working files in drafts when archive-files looks for tasks
+
+2026-11-02, commit [4d83c5a](https://github.com/zululima/dotclaude/commit/4d83c5a6cace9af95e449cd7341aec7eca084fd1), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > [pasted: 15 lines of the archive-files log after the first archives]
@@ -4606,6 +4620,7 @@ Stop, add it to dotclaude?)
 - i.e.: id est, that is
 - i.e.: that is
 - ip: intellectual property
+- ip: internet protocol address
 - js: JavaScript
 - kwh: kilowatt-hours
 - LLM: large language model
