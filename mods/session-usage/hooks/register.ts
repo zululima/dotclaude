@@ -19,7 +19,8 @@ let usage: Usage | undefined
 let others: Other[] = []
 let othersReadAt = -Infinity
 let beacon: string | undefined
-let beaconHeardAt = 0
+let archives: string[] | undefined
+const heardAt = new Map<string, number>()
 let shown: string | undefined
 let isBusy = false
 let flip: Timer | undefined
@@ -100,30 +101,51 @@ const beaconPath = async ($: EngineInterface) => {
   return beacon
 }
 
-const isBeaconNew = async ($: EngineInterface) => {
-  const path = await beaconPath($)
-  if (!path) return false
+// The desktop app rewrites its index of archived sessions on each archive, just
+// after the session's own record, so one archived drops out as fast.
+const archivePaths = async ($: EngineInterface) => {
+  if (archives !== undefined) return archives
 
+  const dirs = async (path: string) =>
+    (await $.fs.list(path).catch(() => [])).filter(e => e.kind === 'dir').map(e => `${path}/${e.name}`)
+  try {
+    const home = await $.env.get('HOME')
+    const root = `${home}/Library/Application Support/Claude/claude-code-sessions`
+    const accounts = home === undefined ? [] : (await Promise.all((await dirs(root)).map(dirs))).flat()
+    archives = accounts.map(dir => `${dir}/archived-sessions.idx`)
+  } catch {
+    archives = []
+  }
+
+  return archives
+}
+
+const watched = async ($: EngineInterface) => [await beaconPath($), ...(await archivePaths($))].filter(Boolean)
+
+const isNew = async ($: EngineInterface, path: string) => {
   const at = await $.fs.stat(path).then(
     s => s.mtimeMs,
     () => 0,
   )
-  if (at <= beaconHeardAt) return false
+  if (at <= (heardAt.get(path) ?? 0)) return false
 
-  beaconHeardAt = at
+  heardAt.set(path, at)
   return true
 }
+
+const hasNews = async ($: EngineInterface) =>
+  (await Promise.all((await watched($)).map(path => isNew($, path)))).includes(true)
 
 const signal = async ($: EngineInterface) => {
   const path = await beaconPath($)
   if (!path) return
 
   await $.fs.write(path, `${await $.session.id()}\n`).catch(() => undefined)
-  await isBeaconNew($)
+  await isNew($, path)
 }
 
 const listen = async ($: EngineInterface) => {
-  if (!(await isBeaconNew($))) return
+  if (!(await hasNews($))) return
   await readOthers($)
   await redraw($)
 }
@@ -164,7 +186,7 @@ const show = async ($: EngineInterface) => {
 }
 
 // A running turn keeps refreshing the cache, so the transcript is read again.
-// The other sessions are read once a minute, which also drops one archived.
+// The other sessions are read once a minute too, for what neither file shows.
 const tick = async ($: EngineInterface) => {
   if ((await $.clock.now()) - othersReadAt >= 60_000) await readOthers($)
   if (isBusy) return show($)
@@ -174,11 +196,11 @@ const tick = async ($: EngineInterface) => {
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     const started = await next(e)
-    await isBeaconNew($)
+    await hasNews($)
     await readOthers($)
     await show($)
     $.clock.every(15_000, () => void tick($))
-    if (await beaconPath($)) $.clock.every(5_000, () => void listen($))
+    if ((await watched($)).length > 0) $.clock.every(5_000, () => void listen($))
 
     return started
   })

@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Carry pane-bridge files in the address fragment
+## Move the hourglass on within seconds of an archive
 
 2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> so the problem rn is that when i archive a session thats going cold
+> next the hourglass wont udpate immeditaly whats next going cold. how
+> should we fix this
+
+**2.** (answer to: shall I build fix a, watching the archive index?)
+> Yes, build a
+
+## Carry pane-bridge files in the address fragment
+
+2026-11-02, commit [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a task another Claude session wrote, left out]

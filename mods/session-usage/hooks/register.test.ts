@@ -214,6 +214,54 @@ test('reads the other sessions again within seconds of a prompt in one of them',
   expect(nextRuns).toBe(2)
 })
 
+test('reads the other sessions again within seconds of an archive in the app', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  const stated = new Set<string>()
+  const root = '/me/Library/Application Support/Claude/claude-code-sessions'
+  const index = `${root}/org/account/archived-sessions.idx`
+  const entry = (name: string, kind: 'file' | 'dir') => ({ name, kind, size: 0, mtimeMs: 0, isLink: false })
+  let archivedAt = NOW - 600_000
+  let nextRuns = 0
+  const clock = mock.clock(on, { now: NOW })
+  mock.env(on, { HOME: '/me' })
+  on('session.id', () => ({ value: 'abc' }))
+  on('fs.list', ($, e) => {
+    if (e.path === root) return { value: [entry('org', 'dir'), entry('notes.json', 'file')] }
+    if (e.path === `${root}/org`) return { value: [entry('account', 'dir'), entry('local_1.json', 'file')] }
+    return { value: [] }
+  })
+  on('fs.stat', ($, e) => {
+    stated.add(e.path)
+    if (e.path !== index) return { deny: 'missing' }
+    return { value: { kind: 'file', size: 4, mtimeMs: archivedAt, isLink: false } }
+  })
+  on('process.run', ($, e) => {
+    if (e.argv[1] !== '--next') return warmFor(59)
+    nextRuns++
+    return nextRuns === 1
+      ? ran(`${NOW / 1000 + 90}\tStore status\n${NOW / 1000 + 18 * 60}\tOctober role\n`)
+      : ran(`${NOW / 1000 + 18 * 60}\tOctober role\n`)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  await clock.advance(5_000)
+  expect(nextRuns).toBe(1)
+  expect([...stated].sort()).toEqual(['/me/.claude/usage-beacon', index])
+
+  archivedAt = NOW + 6_000
+  await clock.advance(5_000)
+  expect(nextRuns).toBe(2)
+  expect(shown.at(-1)).toBe(`${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 17 min October`)
+
+  await clock.advance(5_000)
+  expect(nextRuns).toBe(2)
+})
+
 test('leaves a subagent turn alone and clears on no line', async ($, on) => {
   const shown: (string | undefined)[] = []
   mock.clock(on, { now: NOW })
