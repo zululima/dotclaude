@@ -457,13 +457,14 @@ apply to one repository belong in that repository's project memory.
   `~/.claude/pages` and `~/.claude/archive` and greps `~/.claude/prompt-log` for the work's words.
   It builds on what an earlier session left, keeping the names and settings recorded with it unless
   the user changes them, and its first reply names what it found; when the request points to other
-  files, such as a colleague's new upload, it asks which to build from. Once the work looks done,
-  the closing reply asks in the next-step box whether the session may move its shared files and its
-  drafts folder to the Trash or to `~/.claude/archive/<task>/`, at hand for a later session, which
-  moves them back before the user needs one. After any move, the session rewrites the memory notes
-  and background files that name the old path. A working file that only feeds a tool, such as the
-  HTML of a Slack draft that a script puts on the clipboard, goes in `~/.claude/drafts/` too: it
-  outlives a restart, unlike `/tmp` and the scratchpad, and no sync or mirror reaches it.
+  files, such as a colleague's new upload, it asks which to build from. Only once no step of the
+  work is left for the session or the user, such as a print, the closing reply asks in the next-step
+  box whether the session may move its shared files and its drafts folder to the Trash or to
+  `~/.claude/archive/<task>/`, at hand for a later session, which moves them back before the user
+  needs one. After any move, the session rewrites the memory notes and background files that name
+  the old path. A working file that only feeds a tool, such as the HTML a script puts on the
+  clipboard, goes in `~/.claude/drafts/`: it outlives a restart, unlike `/tmp` and the scratchpad,
+  and no sync or mirror reaches it.
 - Environment or deployment tooling runs against a remote environment, such as a deploy, a
   store upload or submission, or a command on a shared database, only when the user asked for
   that action on that target in the session or said go to a reply that named both. The ask
