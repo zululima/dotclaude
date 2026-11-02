@@ -337,13 +337,13 @@ const suites = [
           && c.endsWith(`- new rule 125, ${'x'.repeat(40)}`) && !c.includes('- old rule')
       }],
       ['adds nothing to the prompt after it', () => quiet(run(event('UserPromptSubmit', { session_id: 'md5' })))],
-      ['brings the rest of a 600-line diff with the next Bash call, then nothing', () => {
+      ['brings the rest of a 580-line diff with the next Bash call, then nothing', () => {
         const ls = event('PreToolUse', { session_id: 'md6', tool_name: 'Bash', tool_use_id: 'toolu_11', tool_input: { command: 'ls' } })
-        write(rules, `## Rules\n\n${lines('old', 300)}`); run(event('SessionStart', { session_id: 'md6' }))
-        write(rules, `## Rules\n\n${lines('new', 300)}`)
+        write(rules, `## Rules\n\n${lines('old', 290)}`); run(event('SessionStart', { session_id: 'md6' }))
+        write(rules, `## Rules\n\n${lines('new', 290)}`)
         const first = context(run(event('UserPromptSubmit', { session_id: 'md6' }))), rest = run(ls)
-        return first.length < 9000 && first.includes('[The changes after line ') && !first.includes('- new rule 300,')
-          && rest.code === 0 && rest.err === '' && context(rest).includes('- new rule 300,') && quiet(run({ ...ls, tool_use_id: 'toolu_12' }))
+        return first.length < 9000 && first.includes('[The changes after line ') && !first.includes('- new rule 290,')
+          && rest.code === 0 && rest.err === '' && context(rest).includes('- new rule 290,') && quiet(run({ ...ls, tool_use_id: 'toolu_12' }))
       }],
     ]
   }],

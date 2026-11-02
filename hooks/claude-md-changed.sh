@@ -112,6 +112,7 @@ case "$event" in
 esac
 
 limit=9000 notes="" block=""
+in_force="in force now, also for what this session settled before it arrived: a choice, plan or yes to a next-step box that a new rule decides otherwise is reopened as that rule says before the work goes on."
 # CLAUDE.md sections whose rules shape no commit message or PR body.
 context_only="Remote state|Git commands|Running things|Documents read aloud|Permissions|Memory hygiene|Prompt feedback"
 
@@ -172,10 +173,10 @@ check() {
   [ -f "$snapshot" ] || { cp "$file" "$snapshot" 2>/dev/null; return 0; }
   cmp -s "$file" "$snapshot" && { rm -f "$snapshot.rest"; return 0; }
   [ "$file" = "${files[0]}" ] && context_only_diff "$snapshot" "$file" || stops=true
-  lead="$name changed since this session last saw it. The diff below is in force now:"
+  lead="$name changed since this session last saw it. The diff below is $in_force"
   changes="$(diff -U2 "$snapshot" "$file" | tail -n +3)"
   if [ $((${#notes} + ${#lead} + ${#changes} + 3)) -gt "$limit" ]; then
-    lead="$name changed since this session last saw it. Its diff is too long to show whole, so below is the new text of each change under its section and first line, with removed lines left out. It is in force now:"
+    lead="$name changed since this session last saw it. Its diff is too long to show whole, so below is the new text of each change under its section and first line, with removed lines left out. It is $in_force"
     changes="$(passages "$snapshot" "$file" $((limit - ${#notes} - ${#lead} - 103)))"
     cut="${changes%%$'\n'*}" changes="${changes#*$'\n'}"
     case "$changes" in "[The changes after"*) lead="[$name changed too. Its changes come with the next prompt or the next Bash, Edit or Write call]" changes="" ;; esac
