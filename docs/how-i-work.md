@@ -87,8 +87,14 @@ if [[ $TERM_PROGRAM == Apple_Terminal && -e $HOME/.cache/gm-clear-screen ]]; the
 fi
 ```
 
-For a restart at any other time, `~/bin/safe-restart.sh` does the same container stop and then the
-same restart:
+For a restart at any other time, I run `restart`, an alias beside `gm` in `~/.zshrc`, since `reboot`
+is already a system command:
+
+```zsh
+alias restart="$HOME/bin/safe-restart.sh"
+```
+
+The script it runs does the same container stop and then the same restart:
 
 ```zsh
 #!/bin/zsh

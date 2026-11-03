@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the graceful container stop in the start of day section
+## Show the restart alias for a safe restart outside gm
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> also can you create an alias of restart since reboot is reserved so i
+> can reboot safely my mac without the gm command too
+
+## Show the graceful container stop in the start of day section
+
+2026-11-03, commit [106c062](https://github.com/zululima/dotclaude/commit/106c062eeb61e69e607970fbcc473f0dbc878e09), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > does the restart button of mac gracefully shutdown all apps or should
@@ -4775,6 +4783,7 @@ Stop, add it to dotclaude?)
 - gh: GitHub CLI
 - gh: GitHub command line interface
 - gh: the GitHub command line tool
+- gm: good morning, the alias that runs the start of day script
 - gm: good morning, the morning routine skill
 - h1: HTML heading level 1
 - HTML: HyperText Markup Language
