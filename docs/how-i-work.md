@@ -24,7 +24,7 @@ And this is the script it runs:
 set -euo pipefail
 
 if docker info >/dev/null 2>&1; then
-  docker ps -q | xargs docker stop
+  "$HOME/bin/stop-containers.sh" || { print "Update and restart cancelled."; exit 1 }
   docker container prune -f
   docker volume prune -af
 fi
@@ -34,18 +34,72 @@ brew upgrade -y
 brew cleanup
 
 sleep 60
+touch "$HOME/.cache/gm-clear-screen"
 osascript -e 'tell application "System Events" to restart'
 ```
 
-If Docker is running, it stops every container and deletes the containers and all their volumes, so
-each project starts the day from fresh test data and nothing from yesterday keeps running. Anything
-I changed by hand in a local database is gone. Then it updates Homebrew and everything Homebrew
-installed, without asking, and removes the old versions. Homebrew installs in the foreground, so
-nothing is left half installed once it returns, and the script then waits a minute more as a margin.
-Then it restarts the Mac the way Restart in the Apple menu does, without the dialog: every app is
-asked to quit and can stop the restart over unsaved work, and the windows open again after I log in.
-If an update fails, the script stops before the wait and the Mac keeps running. The first restart
-asks once whether the terminal may control System Events.
+If Docker is running, it first stops every container with `~/bin/stop-containers.sh`:
+
+```zsh
+#!/bin/zsh
+set -euo pipefail
+
+running=(${(f)"$(docker ps -q)"})
+wait_s=45
+if (( ${#running} )); then
+  print "Stopping containers (${#running})..."
+fi
+for id in $running; do
+  signal=$(docker inspect -f '{{.Config.StopSignal}}' $id)
+  timeout=$(docker inspect -f '{{.Config.StopTimeout}}' $id)
+  [[ $timeout == <-> ]] && (( timeout > wait_s )) && wait_s=$timeout
+  docker kill --signal ${signal:-SIGTERM} $id >/dev/null || true
+done
+deadline=$(( SECONDS + wait_s ))
+while [[ -n $(docker ps -q) ]] && (( SECONDS < deadline )); do
+  sleep 1
+done
+if [[ -n $(docker ps -q) ]]; then
+  print "Still running after ${wait_s} s:"
+  docker ps --format '  {{.Names}}'
+  exit 1
+fi
+```
+
+It sends each container the signal that container is set to stop on and waits up to 45 seconds, or
+longer when a container's own stop timeout says so. It never kills a container that does not stop:
+if one is still running then, `gm` ends there and leaves it running, the way an app with unsaved
+work stops a restart. Otherwise `gm` deletes the containers and all their volumes, so each project
+starts the day from fresh test data and nothing from yesterday keeps running. Anything I changed by
+hand in a local database is gone. Then it updates Homebrew and everything Homebrew installed,
+without asking, and removes the old versions. Homebrew installs in the foreground, so nothing is
+left half installed once it returns, and the script then waits a minute more as a margin. Then it
+restarts the Mac the way Restart in the Apple menu does, without the dialog: every app is asked to
+quit and can stop the restart over unsaved work, and the windows open again after I log in. If an
+update fails, the script stops before the wait and the Mac keeps running. The first restart asks
+once whether the terminal may control System Events. The flag file it leaves in `~/.cache` makes
+`~/.zshrc` clear the output Terminal restores in the first window after the restart:
+
+```zsh
+if [[ $TERM_PROGRAM == Apple_Terminal && -e $HOME/.cache/gm-clear-screen ]]; then
+  rm "$HOME/.cache/gm-clear-screen"
+  clear
+fi
+```
+
+For a restart at any other time, `~/bin/safe-restart.sh` does the same container stop and then the
+same restart:
+
+```zsh
+#!/bin/zsh
+set -euo pipefail
+
+if docker info >/dev/null 2>&1; then
+  "$HOME/bin/stop-containers.sh" || { print "Restart cancelled."; exit 1 }
+fi
+
+osascript -e 'tell application "System Events" to restart'
+```
 
 ## Prompting
 

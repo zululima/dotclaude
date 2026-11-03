@@ -5,9 +5,27 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Make energy/install.sh executable
+## Show the graceful container stop in the start of day section
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> does the restart button of mac gracefully shutdown all apps or should
+> i create my own script that gracefully ends programs and doesnt
+> restart if somethings not gracefully ending
+
+**2.** (answer to: write a pre-restart script that stops containers?)
+> Yes, write it
+
+**3.** (answer to: give the morning script the same container stop?)
+> Yes, switch it
+
+**4.** (answer to: update the start of day docs and push?)
+> Yes, update and push
+
+## Make energy/install.sh executable
+
+2026-11-03, commit [3afda10](https://github.com/zululima/dotclaude/commit/3afda105035d0d2260681fa51444a867fafd1fb9), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?) Quoted under [835b0dc](https://github.com/zululima/dotclaude/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2).
 
