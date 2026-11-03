@@ -1,6 +1,6 @@
 import type { EngineInterface, Register, Timer } from 'claude-code'
 
-type Usage = { figures: string; coldAt: number; offset: number; mark: string }
+type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
 type Other = { endsAt: number; title: string; isSignIn: boolean }
 
 const DAY = 86_400_000
@@ -9,12 +9,17 @@ const FIRE = '\u{1F525}'
 const ALARM = '⏰'
 const ICE = '\u{1F9CA}'
 const HOURGLASS = '\u23F3'
-const KEY = '\u{1F511}'
+const COOKIE = '\u{1F36A}'
+const LOCK = '\u{1F512}\uFE0F'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
 
-// An emoji takes two columns, the hourglass too, though it is one UTF-16 unit.
-const width = (text: string) => [...text].reduce((n, c) => n + ((c.codePointAt(0) ?? 0) >= 0x2300 ? 2 : 1), 0)
+// An emoji takes two columns, the hourglass too, though it is one UTF-16 unit,
+// and the variation selector after the lock counts as the unit it is.
+const width = (text: string) =>
+  [...text].reduce((n, c) => n + (c === '\uFE0F' ? 1 : (c.codePointAt(0) ?? 0) >= 0x2300 ? 2 : 1), 0)
+
+const minutes = (left: number) => (left >= 60_000 ? String(Math.floor(left / 60_000)) : '<1')
 
 let usage: Usage | undefined
 let others: Other[] = []
@@ -29,9 +34,13 @@ let flip: Timer | undefined
 const pad = (n: number) => String(n).padStart(2, '0')
 
 // The offset is the one usage.sh read from the host's clock, so the UTC
-// getters give local time whatever zone this environment runs in.
-const cache = (now: number, { coldAt, offset, mark }: Usage) => {
+// getters give local time whatever zone this environment runs in. A sign-in in
+// the session's Chrome tabs takes the cache's place when it ends first.
+const cache = (now: number, { coldAt, offset, mark, signedInUntil }: Usage) => {
   const left = coldAt - now
+  const signedIn = signedInUntil - now
+  if (signedIn > 0 && (signedIn < left || left <= 0)) return `${COOKIE} ${minutes(signedIn)} min`
+
   const after = mark ? ` ${mark}` : ''
   if (left >= 60_000) return `${FIRE} ${Math.floor(left / 60_000)} min${after}`
   if (left > 0) return `${ALARM} <1 min${after}`
@@ -58,7 +67,7 @@ const next = (now: number, room: number) => {
   if (!other) return ''
 
   const left = other.endsAt - now
-  const head = `${other.isSignIn ? KEY : HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
+  const head = `${other.isSignIn ? LOCK : HOURGLASS} ${minutes(left)} min `
   const title = fit(other.title, room - width(head))
 
   return title ? head + title : ''
@@ -164,15 +173,17 @@ const redraw = async ($: EngineInterface) => {
   $.ui.status(text)
 }
 
-// The alarm clock and the ice show the moment they apply, not at the next tick,
-// so the line never says a prompt still makes it when it would not.
+// The alarm clock, the ice and the end of a sign-in show the moment they apply,
+// not at the next tick, so the line never says a prompt still makes it when it
+// would not.
 const schedule = async ($: EngineInterface) => {
   flip?.cancel()
   flip = undefined
   if (!usage) return
   const now = await $.clock.now()
-  const at = [usage.coldAt - 60_000 + 1, usage.coldAt].find(t => t > now)
-  if (at === undefined) return
+  const { coldAt, signedInUntil } = usage
+  const at = Math.min(...[coldAt - 60_000 + 1, coldAt, signedInUntil - 60_000 + 1, signedInUntil].filter(t => t > now))
+  if (at === Infinity) return
 
   flip = $.clock.after(at - now, () => void redraw($).then(() => schedule($)))
 }
@@ -180,10 +191,16 @@ const schedule = async ($: EngineInterface) => {
 const show = async ($: EngineInterface) => {
   const id = await $.session.id()
   const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, '--status', id])
-  const [figures, coldAt, offset, mark = ''] = stdout.trim().split('\n')
+  const [figures, coldAt, offset, mark = '', signedInUntil = '0'] = stdout.trim().split('\n')
   usage =
     exitCode === 0 && figures && coldAt && offset
-      ? { figures, coldAt: Number(coldAt) * 1000, offset: Number(offset) * 1000, mark }
+      ? {
+          figures,
+          coldAt: Number(coldAt) * 1000,
+          offset: Number(offset) * 1000,
+          mark,
+          signedInUntil: Number(signedInUntil) * 1000,
+        }
       : undefined
 
   shown = await line($)

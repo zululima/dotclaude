@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: leave the review to whoever reviews the PRs
+## usage mod: a cookie for the own sign-in, a lock for another's
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> perhaps it should be cookies instead of key emoji? also when checked
+> to that it probalby should show fire or some cookie alternative in
+> fire. ooh maybe use lock for the right most emoiji and fire or cookie
+> whichever is shorter? also does the cookie thingy update properly
+> when claude uses chrome and the site?
+
+## pull-requests: leave the review to whoever reviews the PRs
+
+2026-11-03, commit [7b727dc](https://github.com/zululima/dotclaude/commit/7b727dc198db4f28e58f088c87836206c6230c61), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > [a colleague] always reviews prs not me

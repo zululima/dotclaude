@@ -14,9 +14,10 @@
 #   usage.sh <transcript>   a transcript file
 #   usage.sh --status <session id or transcript>
 #                           the context figure, the second the cache goes
-#                           cold, the UTC offset then in seconds and the last
-#                           prompt's mark, a line each, for the mod to count
-#                           down from
+#                           cold, the UTC offset then in seconds, the last
+#                           prompt's mark and the second a sign-in in its
+#                           Chrome tabs ends or 0, a line each, for the mod to
+#                           count down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
 #                           still warm and that wait on no subagent, and those
@@ -50,8 +51,17 @@ common='
   def secs: (.[0:19] + "Z" | fromdateiso8601) + ((.[20:23] | tonumber?) // 0) / 1000;
   def all_in: (.input_tokens | n) + (.cache_creation_input_tokens | n)
     + (.cache_read_input_tokens | n) + (.output_tokens | n);
-  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: []};
+  # A Claude in Chrome call that a site can tell from a visit: reading the page
+  # or a screenshot of it sends the site nothing.
+  def acting($name; $input): ($name | ltrimstr("mcp__claude-in-chrome__")) as $n
+    | if $n == "computer" then $input.action | IN("screenshot", "zoom", "wait") | not
+      elif $n == "browser_batch" then any($input.actions[]?; acting(.name; .input))
+      else $n | IN("navigate", "form_input", "javascript_tool", "file_upload", "upload_image") end;
+  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}};
       (if $e.uuid != null then .seen[$e.uuid] = ($e.timestamp | secs) else . end)
+      | (if $e.type == "assistant" then reduce ($e.message.content[]? | select(.type? == "tool_use"
+          and (.name | startswith("mcp__claude-in-chrome__")) and acting(.name; .input))) as $u (.; .acts[$u.id] = true)
+         else . end)
       | if $e.type == "assistant" and $e.message.usage != null
           and $e.message.model != "<synthetic>" and $e.message.id != null
         then .r += [{id: $e.message.id, model: $e.message.model, u: $e.message.usage,
@@ -61,8 +71,13 @@ common='
           and ($e.message.content | type == "string" or (type == "array" and any(.[]; .type == "text")))
         then .prompts += [$e.timestamp | secs]
         elif $e.type == "user" and ($e.message.content | type == "array" and .[0].type == "tool_result")
-        then ($e.message.content[0].content | if type == "array" then map(.text? // "") | join("") else tostring end) as $text
-          | if $text | contains("Tab Context:") then .tabs = {at: ($e.timestamp | secs), $text} else . end
+        then $e.message.content[0] as $result
+          | ($result.content | if type == "array" then map(.text? // "") | join("") else tostring end
+             | split("Tab Context:")) as $parts
+          | if ($parts | length) < 2 then .
+            else ($e.timestamp | secs) as $at | .tabs = {at: $at, text: $parts[-1]}
+              | ($parts[-1] | capture("Executed on tabId: (?<id>[0-9]+)").id // null) as $tab
+              | if $tab != null and .acts[$result.tool_use_id // ""] then .acted[$tab] = $at else . end end
         else . end);
 
   # A request goes out once the entry it answers is written, and the cache
@@ -198,7 +213,10 @@ waiting() {
 # Minutes a sign-in lasts unused, from the service's own page where it gives
 # one: S-Pankki 15, OmaVero 60 and a Suomi.fi identification 32. Nordea gives 5
 # for its mobile bank alone, and the others publish none, so they get those 5.
-# A host counts with its subdomains.
+# A host counts with its subdomains. Each Claude in Chrome result lists the tabs
+# of the session's group, so the last one tells which are open, and a tab's
+# sign-in runs from the last acting call made on that tab. Clicks made by hand
+# in it leave no trace here, so a sign-in can only last longer than counted.
 signins='
   def minutes: {
     "netbank.nordea.fi": 5, "s-pankki.fi": 15, "op.fi": 5, "danskebank.fi": 5,
@@ -206,11 +224,12 @@ signins='
     "handelsbanken.fi": 5, "alandsbanken.fi": 5, "vero.fi": 60, "suomi.fi": 32,
     "kela.fi": 5, "kanta.fi": 5, "tyomarkkinatori.fi": 5
   };
-  def signed_in_until: if . == null then 0 else .at as $at
-    | [.text | split("Tab Context:") | last | match("\\(\"https?://([^/\"?#:]+)"; "g")
-        | .captures[0].string | ascii_downcase] as $hosts
-    | [minutes | to_entries[] | . as $s | select(any($hosts[]; . == $s.key or endswith("." + $s.key))) | .value]
-    | if length > 0 then $at + min * 60 | floor else 0 end end;'
+  def signed_in_until: .acted as $acted
+    | [.tabs.text // "" | split("\n")[] | capture("tabId (?<id>[0-9]+): .*\\(\"https?://(?<host>[^/\"?#:]+)") // empty
+        | $acted[.id] as $from | select($from != null) | (.host | ascii_downcase) as $host
+        | [minutes | to_entries[] | . as $s | select($host == $s.key or ($host | endswith("." + $s.key))) | .value] | min
+        | select(. != null) | $from + . * 60]
+    | if length > 0 then min | floor else 0 end;'
 
 # The desktop app's record of a session says whether it is archived; a session
 # without one, such as a terminal's, counts as open. A record changes whenever
@@ -232,11 +251,10 @@ if [ "${1:-}" = --next ]; then
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
-      # its first response is written. The last Claude in Chrome result lists
-      # the tabs the session holds and when it last used them.
+      # its first response is written.
       cold=0 ends=0
       read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
-        scan("") | (.prompts | max // 0) as $prompt | (.tabs | signed_in_until) as $ends | grouped
+        scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
         | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
         | "\($cold) \($ends)"' 2>/dev/null)
       # A session waiting on a subagent still holds its tabs.
@@ -258,12 +276,12 @@ if [ -n "$transcript" ] && [ ! -f "$transcript" ]; then
 fi
 [ -f "$transcript" ] || exit 0
 
-read -r ctx window warm late < <(jq -nrR --arg main "$transcript" "$common"'
-  scan($main) | .prompts as $prompts | grouped
+read -r ctx window warm late ends < <(jq -nrR --arg main "$transcript" "$common$signins"'
+  scan($main) | .prompts as $prompts | signed_in_until as $ends | grouped
   | select(length > 0)
   | max_by(.at) as $last
   | ($last.model | if test("haiku-4|claude-3") then 200000 else 1000000 end) as $window
-  | "\($last.u | all_in) \($window) \(cold_at) \(late($prompts))"
+  | "\($last.u | all_in) \($window) \(cold_at) \(late($prompts)) \($ends)"
 ' "$transcript" 2>/dev/null)
 [ -n "${warm:-}" ] || exit 0
 
@@ -276,7 +294,8 @@ mark=''
 
 if [ "$status" = true ]; then
   z=$(at "$warm" +%z)
-  printf '%s\n%s\n%s\n%s\n' "$figures" "$warm" "$(( ${z:0:1}(10#${z:1:2} * 3600 + 10#${z:3:2} * 60) ))" "${mark:-}"
+  pgrep -xq 'Google Chrome' || ends=0
+  printf '%s\n%s\n%s\n%s\n%s\n' "$figures" "$warm" "$(( ${z:0:1}(10#${z:1:2} * 3600 + 10#${z:3:2} * 60) ))" "${mark:-}" "${ends:-0}"
   exit 0
 fi
 

@@ -405,14 +405,13 @@ apply to one repository belong in that repository's project memory.
   stopped. A project memory that says to keep a stack up does not override this.
 - The `usage` mod in `~/.claude/mods/session-usage`, which `CLAUDE_CODE_PLUGIN_DIRS` in
   `settings.json` loads in every session and `CLAUDE_CODE_PLUGIN_DIR_WATCH` reloads on every edit,
-  pins a status line under the prompt: a fire emoji and the minutes the prompt cache stays warm, or
-  an ice cube emoji and since when it is cold (the time that day, the date after it), then a brain
-  emoji and how full the context window is, then an hourglass emoji, the minutes left and the title
-  of the other session whose cache goes cold soonest, leaving out archived ones and ones still
-  waiting on a background agent or a workflow run, or a key emoji for one whose Chrome sign-in ends
-  sooner. The desktop app cuts the line at about 40 characters, so it stays within that with the
-  cache first and the other session's title cut at a word, and no hook adds it to the transcript as
-  a notice.
+  pins a status line under the prompt: a fire emoji and the minutes the prompt cache stays warm, an
+  ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
+  the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
+  is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the title of the
+  other open session whose cache goes cold or sign-in ends soonest. The desktop app cuts the line at
+  about 40 characters, so it stays within that with the cache first and the other session's title
+  cut at a word, and no hook adds it to the transcript as a notice.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
