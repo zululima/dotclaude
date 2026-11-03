@@ -35,7 +35,7 @@ brew cleanup
 
 sleep 60
 touch "$HOME/.cache/gm-clear-screen"
-osascript -e 'tell application "System Events" to restart'
+osascript -e 'tell application "System Events" to restart with state saving preference'
 ```
 
 If Docker is running, it first stops every container with `~/bin/stop-containers.sh`:
@@ -75,10 +75,13 @@ hand in a local database is gone. Then it updates Homebrew and everything Homebr
 without asking, and removes the old versions. Homebrew installs in the foreground, so nothing is
 left half installed once it returns, and the script then waits a minute more as a margin. Then it
 restarts the Mac the way Restart in the Apple menu does, without the dialog: every app is asked to
-quit and can stop the restart over unsaved work, and the windows open again after I log in. If an
-update fails, the script stops before the wait and the Mac keeps running. The first restart asks
-once whether the terminal may control System Events. The flag file it leaves in `~/.cache` makes
-`~/.zshrc` clear the output Terminal restores in the first window after the restart:
+quit and can stop the restart over unsaved work. It follows that dialog's "Reopen windows when
+logging in" choice, which I keep off, so after I log in only the apps set to Open at Login start.
+Without `with state saving preference`, a System Events restart reopens every app whatever the
+choice says. If an update fails, the script stops before the wait and the Mac keeps running. The
+first restart asks once whether the terminal may control System Events. The flag file it leaves in
+`~/.cache` makes `~/.zshrc` clear the output Terminal restores in the first window after the
+restart:
 
 ```zsh
 if [[ $TERM_PROGRAM == Apple_Terminal && -e $HOME/.cache/gm-clear-screen ]]; then
@@ -104,7 +107,7 @@ if docker info >/dev/null 2>&1; then
   "$HOME/bin/stop-containers.sh" || { print "Restart cancelled."; exit 1 }
 fi
 
-osascript -e 'tell application "System Events" to restart'
+osascript -e 'tell application "System Events" to restart with state saving preference'
 ```
 
 ## Prompting

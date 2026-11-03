@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the restart alias for a safe restart outside gm
+## Restart without reopening every app
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> restart script seems to reopen all same windows. dont do that. open
+> at login is the one i wanna obey
+
+## Show the restart alias for a safe restart outside gm
+
+2026-11-03, commit [9f6bb8b](https://github.com/zululima/dotclaude/commit/9f6bb8b6e1f6ef3d14f2961efedc78c770119bdf), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > also can you create an alias of restart since reboot is reserved so i
