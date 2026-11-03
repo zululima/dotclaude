@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: a cookie for the own sign-in, a lock for another's
+## Retire the root powermetrics service from the energy log
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**8.** (answer to: shall I retire the root powermetrics service now that    the sampler covers it?)
+> Yes, retire it
+
+## usage mod: a cookie for the own sign-in, a lock for another's
+
+2026-11-03, commit [5c55845](https://github.com/zululima/dotclaude/commit/5c55845f58667be96c4410ac9f441e4e4a73a550), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > perhaps it should be cookies instead of key emoji? also when checked

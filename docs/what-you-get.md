@@ -134,13 +134,6 @@
   ```zsh
   ~/.claude/energy/install.sh
   ```
-  [`powermetrics.zsh`](../energy/powermetrics.zsh) logs the chip's CPU, GPU and Neural Engine power
-  as root, measured by macOS's `powermetrics`, and the report reads its log for lines from before
-  the sampler read the counters. [`install-root.sh`](../energy/install-root.sh) installs it as a
-  root service, from a copy only root can change:
-  ```zsh
-  sudo ~/.claude/energy/install-root.sh
-  ```
 - [`skills/commit-messages`](../skills/commit-messages/SKILL.md): how Claude writes a commit
   message: the order of its parts, the prompts behind the change, and what it leaves out or redacts.
 - [`skills/pull-requests`](../skills/pull-requests/SKILL.md): how Claude writes a pull request: the

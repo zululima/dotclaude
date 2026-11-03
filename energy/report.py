@@ -4,15 +4,13 @@ Run with python3 -I. Prints Markdown tables: the battery's total, from its charg
 share of Claude Code sessions, the Claude app, other apps and the rest of the Mac, then the
 sessions and the prompts that used the most. A prompt is charged for its session's energy from the
 moment it arrived until the session's next prompt. Joules of commands too short for the sampler to
-see running are estimated from their CPU time, and the tables count them in. Where the chip's
-energy is known, from its counters in the sampler's lines or from the root log of install-root.sh
-in older ones, those commands are priced from the chip's CPU joules, the GPU's joules are shared
-out by GPU time, and root processes, the GPU left over, the Neural Engine, the memory, the display
-engine, the rest of the chip and the rest of the Mac get rows of their own; elsewhere those
-commands are priced at a busy core's rate.
+see running are estimated from their CPU time, and the tables count them in. Where a line has the
+chip's energy counters, those commands are priced from the chip's CPU joules, the GPU's joules are
+shared out by GPU time, and root processes, the GPU left over, the Neural Engine, the memory, the
+display engine, the rest of the chip and the rest of the Mac get rows of their own; in older lines
+those commands are priced at a busy core's rate.
 
   report.py [--since <YYYY-MM-DD or YYYY-MM-DDTHH:MM>] [--until <same>] [--top <n>] [--logs <dir>]
-            [--chip <dir>]
 
 --since defaults to the start of today, local time.
 """
@@ -26,7 +24,6 @@ import os
 import re
 
 LOGS = os.path.expanduser("~/Library/Logs/claude-energy")
-CHIP = "/Library/Logs/claude-energy"
 PROMPTS = os.path.expanduser("~/.claude/prompt-log")
 
 
@@ -48,13 +45,6 @@ def samples(logs, since, until):
                     if since <= sample["t"] <= until:
                         yield sample
         day += datetime.timedelta(days=1)
-
-
-def chip_joules(line, kind):
-    seconds = line.get("elapsed_ns", 0) / 1e9
-    if kind + "_power" in line and seconds:
-        return line[kind + "_power"] / 1000 * seconds
-    return line.get(kind + "_energy", 0) / 1000
 
 
 def snippet(prompt):
@@ -104,7 +94,6 @@ def main():
     parser.add_argument("--until")
     parser.add_argument("--top", type=int, default=10)
     parser.add_argument("--logs", default=LOGS)
-    parser.add_argument("--chip", default=CHIP)
     args = parser.parse_args()
     today = datetime.datetime.combine(datetime.date.today(), datetime.time()).timestamp()
     since = moment(args.since) if args.since else today
@@ -121,27 +110,14 @@ def main():
     def share(joules):
         return "%.0f%%" % (100 * joules / battery) if battery > 0 else "?"
 
-    # A line is measured when it has the CPU time of every process and the chip's energy, from its
-    # own counters or, in lines from before the sampler read them, the root log. Then the chip's
-    # CPU joules that no process seen running used are shared between the commands that ran
+    # A line is measured when it has the CPU time of every process and the chip's energy. Then the
+    # chip's CPU joules that no process seen running used are shared between the commands that ran
     # between two lines and the processes this user cannot read, by CPU time.
-    chip_lines = [line for line in samples(args.chip, since, until) if "elapsed_ns" in line]
-    chip_times = [line["t"] for line in chip_lines]
-
-    def has_chip(sample):
-        i = bisect.bisect_right(chip_times, sample["t"] - sample["dt"] - 10)
-        return i < len(chip_times) and chip_times[i] <= sample["t"] + 10
-
-    measured = [sample for sample in lines if "cs" in sample and ("e" in sample or has_chip(sample))]
+    measured = [sample for sample in lines if "cs" in sample and "e" in sample]
     measured_seconds = sum(sample["dt"] for sample in measured)
-    from_root = sum(sample["dt"] for sample in measured if "e" not in sample)
     chip = collections.Counter()
     for sample in measured:
-        chip.update(sample.get("e", {}))
-    chip_seconds = sum(line["elapsed_ns"] for line in chip_lines) / 1e9
-    for line in chip_lines:
-        for kind in ("cpu", "gpu", "ane"):
-            chip[kind] += chip_joules(line, kind) * from_root / chip_seconds
+        chip.update(sample["e"])
     seen = sum(use["j"] for sample in measured for use in sample["g"].values())
     unseen = sum(use["u"] for sample in measured for use in sample["g"].values())
     others = sum(sample["cs"] - sum(use["c"] + use["u"] for use in sample["g"].values())
@@ -187,11 +163,11 @@ def main():
         print("The battery's charge counter moves about once a minute, so under 10 minutes the"
               " total is rough.")
     if measured_seconds:
-        parts = [("CPU", "cpu"), ("GPU", "gpu"), ("Neural Engine", "ane"), ("memory", "mem")]
-        print("The chip, measured over %.0f of %.0f minutes: %s.\n" % (
-            measured_seconds / 60, seconds / 60, ", ".join(
-                "%s %.1f W" % (label, chip[part] / measured_seconds)
-                for label, part in parts if part in chip)))
+        print("The chip, measured over %.0f of %.0f minutes: CPU %.1f W, GPU %.1f W, Neural Engine"
+              " %.1f W, memory %.1f W.\n" % (
+                  measured_seconds / 60, seconds / 60, chip["cpu"] / measured_seconds,
+                  chip["gpu"] / measured_seconds, chip["ane"] / measured_seconds,
+                  chip["mem"] / measured_seconds))
     else:
         print("No chip energy for this span, so the screen, the GPU and root processes share the"
               " last row, and short commands are priced at a busy core's rate, an upper bound.\n")
@@ -203,13 +179,12 @@ def main():
             ("GPU for the screen and other processes",
              chip["gpu"] * max(1 - sum(gpu.values()) / all_gpu, 0) if all_gpu > 0 else chip["gpu"]),
             ("Neural Engine", chip["ane"]),
+            ("Memory and its controllers", chip["mem"]),
+            ("Display engine in the chip", chip["disp"]),
+            ("Rest of the chip", chip["soc"]),
         ]
-        if "mem" in chip:
-            extra += [("Memory and its controllers", chip["mem"]),
-                      ("Display engine in the chip", chip["disp"]), ("Rest of the chip", chip["soc"])]
         rest = battery - sum(groups.values()) - sum(j for _, j in extra)
-        extra.append(("Screen, SSD, Wi-Fi and the rest of the Mac" if "mem" in chip
-                      else "Screen and the rest of the Mac", rest))
+        extra.append(("Screen, SSD, Wi-Fi and the rest of the Mac", rest))
         rows += [(name, "%.0f" % j, share(j)) for name, j in extra]
     else:
         rest = battery - processes

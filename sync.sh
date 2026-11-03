@@ -180,8 +180,6 @@ mirrored=(
   energy/install.sh
   energy/energy-sampler.swift
   energy/report.py
-  energy/install-root.sh
-  energy/powermetrics.zsh
   mods/session-usage/.claude-plugin/plugin.json
   mods/session-usage/hooks/hooks.json
   mods/session-usage/hooks/register.ts
