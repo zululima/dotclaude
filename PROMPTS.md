@@ -5,9 +5,28 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep the user's sessions out of advice on cutting costs
+## Start Chrome without a window so it stays out of view
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: which way should I turn off What's New?)
+> [an answer about a Chrome setting left out]
+
+**4.**
+> [a question about a local tool left out]
+
+**5.** (answer to: which should I build?)
+> [an answer about a local tool left out]
+
+**6.** (answer to: shall I get the Firefox extensions signed?)
+> [an answer about a local tool left out]
+
+**7.**
+> chrome doesnt really open in the background rn it pops up to my eyes
+
+## Keep the user's sessions out of advice on cutting costs
+
+2026-11-03, commit [5d35e1c](https://github.com/zululima/dotclaude/commit/5d35e1c58724949ce5f6b371546e2f5ea8343fdf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about the Mac's battery use today left out]
