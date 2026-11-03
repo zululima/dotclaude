@@ -44,8 +44,8 @@
   reads that channel instead of saying it cannot see their message.
 - [`stop-running-stack.sh`](../hooks/stop-running-stack.sh): makes Claude stop the Docker containers
   it started before it finishes, so nothing keeps running and eating battery.
-- [`stop-unreachable-claim.sh`](../hooks/stop-unreachable-claim.sh): sends Claude back to try the
-  built-in browser, where you are signed in, before it says a page or file is out of reach.
+- [`stop-unreachable-claim.sh`](../hooks/stop-unreachable-claim.sh): sends Claude back to try Claude
+  in Chrome, where you are signed in, before it says a page or file is out of reach.
 - [`stack-held-by-peer.sh`](../hooks/stack-held-by-peer.sh): stops one Claude window from stopping
   Docker containers that another window is using.
 
@@ -125,10 +125,10 @@
 - [`skills/pull-requests`](../skills/pull-requests/SKILL.md): how Claude writes a pull request: the
   description, the steps to test it, screenshots, and how it reviews one.
 - [`skills/pull-requests/pane-upload.sh`](../skills/pull-requests/pane-upload.sh): puts screenshots
-  into a pull request from the app's built-in browser, which cannot upload files itself.
-- [`pane-bridge.mjs`](../hooks/pane-bridge.mjs): gets files from your computer into a site open in
-  the app's built-in browser, through the site's own upload button, and saves what Claude draws
-  there.
+  into a pull request through GitHub's own comment box, from a tab Claude drives in Chrome.
+- [`pane-bridge.mjs`](../hooks/pane-bridge.mjs): gets files too big for Claude in Chrome's own
+  upload into a site open in Chrome, through the site's own upload button, and saves what Claude
+  draws there.
 - [`skills/pull-requests/review-page`](../skills/pull-requests/review-page/build.py): turns a pull
   request's test steps and screenshots into a checklist page you tick off with the keyboard while
   you review it.

@@ -80,7 +80,7 @@ between paragraphs, and steps 1, 3 and 4 below do not apply to it.
 
 - AppleScript's `set the clipboard to` with HTML data writes HTML alone, and most paste targets
   then find nothing.
-- A paste into Slack from the browser pane tests nothing: a synthetic Cmd+V does not reach the
-  system clipboard and Slack ignores synthetic paste events. The script's read-back is the check,
-  and the user's paste is the real test.
+- A paste into Slack from a browser the session drives tests nothing: a synthetic Cmd+V does not
+  reach the system clipboard and Slack ignores synthetic paste events. The script's read-back is
+  the check, and the user's paste is the real test.
 - The script needs macOS: `textutil` and `NSPasteboard`.

@@ -232,15 +232,15 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
 - Open every picture with Read before it is uploaded, and check that it shows the state its step
   describes and nothing a freshly started stack would not show.
 - Whenever screenshots or recordings exist for a PR and show what it changes, upload them to it
-  in the same turn they are made, without asking first: a reply never ends with a set waiting
-  for a go. Upload them through GitHub's own editor, where the user is signed in: drop the files
-  into the PR's comment box, copy the markdown GitHub puts there, and clear the box without
-  posting. The app's built-in browser pane has no file upload tool, so run
-  `~/.claude/skills/pull-requests/pane-upload.sh -C <checkout> push <file>...`. It pushes the
-  files on a throwaway branch and prints the JavaScript to run with `javascript_tool` on the
-  PR's page, which returns the markdown and clears the box, then `pane-upload.sh clean <branch>`
-  deletes the branch. An error from the JavaScript is never worked around: a pane signed out of
-  GitHub waits for the user to sign in, and text already in the box is the user's and stays.
+  in the same turn they are made, without asking first: a reply never ends with a set waiting for a
+  go. Upload them through GitHub's own editor in Chrome, where the user is signed in: drop the files
+  into the PR's comment box, copy the markdown GitHub puts there, and clear the box without posting.
+  Run `~/.claude/skills/pull-requests/pane-upload.sh -C <checkout> push
+  <file>...`. It pushes the files on a throwaway branch and prints the JavaScript to run with
+  Claude in Chrome's `javascript_tool` on the PR's page, which returns the markdown and clears the
+  box, then `pane-upload.sh clean <branch>` deletes the branch. An error from the JavaScript is
+  never worked around: a Chrome signed out of GitHub waits for the user to sign in, and text already
+  in the box is the user's and stays.
 - Each picture goes at the start of the step it shows, never on the line with the number: that
   line holds the number and one short clause naming what the picture shows, the picture follows
   on its own line under it, indented to the step, and the step's text comes after the picture,

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Carries pictures for a pull request into GitHub's own comment box from the
-# Claude Code app's built-in browser pane, which has no file upload tool.
+# Carries pictures for a pull request into GitHub's own comment box from a
+# browser tab Claude drives, such as one of Claude in Chrome.
 # "push" writes the files to a throwaway branch with git plumbing, which leaves
 # the checkout's index and work tree alone, pushes it to origin with [skip ci]
 # and prints the JavaScript to run with javascript_tool on the pull request's
@@ -9,7 +9,7 @@
 #
 # The JavaScript relies on the ids GitHub gives the comment box,
 # fc-new_comment_field and new_comment_field. It returns an error rather than
-# guess when either is missing, when the pane is signed out of GitHub, or when
+# guess when either is missing, when the tab is signed out of GitHub, or when
 # the box already holds text, and it never clicks or submits anything.
 
 set -euo pipefail
@@ -60,7 +60,7 @@ push() {
   const types = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif',
     webm: 'video/webm', mp4: 'video/mp4', mov: 'video/quicktime' };
   const user = document.querySelector('meta[name="user-login"]')?.content;
-  if (!user) return { error: 'the pane is signed out of GitHub', url: location.href };
+  if (!user) return { error: 'the browser is signed out of GitHub', url: location.href };
   const input = document.getElementById('fc-new_comment_field');
   const box = document.getElementById('new_comment_field');
   if (!input || !box) {

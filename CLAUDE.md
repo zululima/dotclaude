@@ -490,16 +490,16 @@ apply to one repository belong in that repository's project memory.
 - Probe before spending quota on rate-limited APIs. Read retry-after, no blind retry loops.
 - A request that fails in a way the user's VPN could cause, such as a timeout, a refused or reset
   connection, a DNS or TLS error, or a block page, captcha or 403 from a site that should answer,
-  goes to the built-in browser pane first when curl, WebFetch or another fetch made it. When the
-  pane fails too, the session checks whether the VPN is on before it names the VPN: `scutil --nc
-  list` marks each VPN service Connected or Disconnected, and `route -n get default` names a `utun`
-  interface while a tunnel carries the default route. With the VPN off, the VPN is not named or
-  asked about, and the session goes on to find the cause. With it on, the reply names the error and
-  the hunch that the VPN may be the cause, hunch or not, and before any retry, workaround or other
-  route, the reply asks whether to retry once the VPN is off or lets the request through, with going
-  on through the VPN as the other option. The user switches the VPN; a session never turns it off or
-  on, since it is a security setting. Once the retried request has its answer, the next reply opens
-  by saying the VPN can go back on.
+  goes to Claude in Chrome first when curl, WebFetch or another fetch made it. When Chrome fails
+  too, the session checks whether the VPN is on before it names the VPN: `scutil --nc list` marks
+  each VPN service Connected or Disconnected, and `route -n get default` names a `utun` interface
+  while a tunnel carries the default route. With the VPN off, the VPN is not named or asked about,
+  and the session goes on to find the cause. With it on, the reply names the error and the hunch
+  that the VPN may be the cause, hunch or not, and before any retry, workaround or other route, the
+  reply asks whether to retry once the VPN is off or lets the request through, with going on through
+  the VPN as the other option. The user switches the VPN; a session never turns it off or on, since
+  it is a security setting. Once the retried request has its answer, the next reply opens by saying
+  the VPN can go back on.
 - A `PreToolUse` hook, `~/.claude/hooks/calendar-free-busy-only.sh`, refuses to list or read
   events on another person's calendar, which carry titles, attendees and meeting links, so
   finding a time with other people goes through the connector's `suggest_time`, which reads
@@ -525,50 +525,41 @@ apply to one repository belong in that repository's project memory.
   the same app or recipient carry over a format settled in another session, such as a line width.
   The reply names each source read and each one skipped, with the reason. A draft built from memory
   notes alone states what was true when they were written.
-- Browser work runs in the built-in browser pane, which the user also calls the built-in chrome
-  and is signed in to. A page, a file or an upload is tried there before a reply calls it out of
+- Browser work runs in Claude in Chrome, the extension in the user's own Chrome, which the user also
+  calls Chrome and is signed in to, never in the desktop app's built-in browser pane, whose user
+  agent cannot be changed. A page, a file or an upload is tried there before a reply calls it out of
   reach, and an address that WebFetch or another fetch could not reach is tried there next and with
-  plain curl from the user's machine, its public API included, before any question or other route. A
-  bot check that fails there moves to Claude in Chrome, where the user handles it. The pane has no
-  file upload tool and blocks other sites from calling localhost, so a local file reaches a site
-  through `~/.claude/hooks/pane-bridge.mjs`, started with `preview_start` and driven as its header
-  says. Rendering is browser work too: no session starts the Google Chrome app, headless or not,
-  also not to turn a page into an image or a PDF. Playwright's own Chromium, which a project's tests
-  and the `pull-requests` skill's screenshots run on, is not that app. A page that has to become a
-  file draws it on a canvas in the pane, an HTML layout through an SVG `foreignObject` with each
-  font named by its installed family or inlined as a data URL, never a keyword such as
-  `-apple-system` or a linked web font, and posts the blob to that script's `/save` from a page the
-  script serves. A job the pane cannot do this way is asked about first, naming the Chrome app. The
-  pane blocks a popup that the session's own click opens, so a sign-in through one, such as an OAuth
-  consent in Google's APIs Explorer, takes a route that stays on the page before it goes to the
-  user: for a Google API, Google's OAuth 2.0 Playground with the narrowest read-only scope the user
-  said yes to, a grant the session removes under `myaccount.google.com/connections` once the read is
-  done. When a step needs the user in the pane, such as a sign-in, personal data to type or a click
-  the session may not make, the session opens the page that step happens on and calls `show_pane`
-  with `preview` in the same turn as the ask, so the pane is open beside the reply. `show_pane` acts
-  only while the session is in a window and never takes one from another session. When it answers
-  that the session is in none, the reply opens by telling the user plainly that they have to open
-  the pane themselves and how: on the Mac, click this session in the sidebar, then View > Show
-  Browser in the Claude app (Cmd+Shift+B), then the step that waits there. Then it says why, in the
-  user's terms: the app opens a pane only beside a session that one of its windows shows, and none
-  showed this one when it tried, as when another session is in front or the user follows from the
-  phone. The turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as waiting on
-  the user. Every later turn calls `show_pane` again first while the step still waits, so the pane
-  opens with the first turn that finds the session in a window, and no reply promises that the next
-  message opens it.
+  plain curl from the user's machine, its public API included, before any question or other route.
+  The extension works only while Chrome runs, so when Chrome is not running the session starts it
+  itself, without asking, with `open -g -a "Google Chrome"`, which keeps it behind the window in
+  front, and tries again. When the extension is still not connected, the reply gives its install
+  page and the step to sign in to it from Chrome's side panel, and the browser step waits for that,
+  never moving to the pane. A bot check there is the user's to pass. A local file reaches a page
+  through the extension's `file_upload`, up to 10 MB a call, and a larger one through
+  `~/.claude/hooks/pane-bridge.mjs`, driven as its header says. Rendering is browser work too: no
+  session starts a Chrome of its own, headless or with another profile, also not to turn a page into
+  an image or a PDF. Playwright's own Chromium, which a project's tests and the `pull-requests`
+  skill's screenshots run on, is not that app. A page that has to become a file draws it on a canvas
+  in a Chrome tab, an HTML layout through an SVG `foreignObject` with each font named by its
+  installed family or inlined as a data URL, never a keyword such as `-apple-system` or a linked web
+  font, and posts the blob to the bridge's `/save` from a page the bridge serves. A job Chrome
+  cannot do this way is asked about first. A Google API is read through Google's OAuth 2.0
+  Playground with the narrowest read-only scope the user said yes to, a grant the session removes
+  under `myaccount.google.com/connections` once the read is done. When a step needs the user in the
+  browser, such as a sign-in, personal data to type or a click the session may not make, the session
+  opens the page that step happens on in a tab of its group, leaves that tab open and names it in
+  the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as
+  waiting on the user.
 - A `PushNotification` goes out only while the Mac's screen is locked. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
   the screen is unlocked the reply and the sidebar reach them. The presence listener in
   `~/.claude/presence` keeps the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there while the
   screen is unlocked, and a `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a
   push while it is.
-- Once the browser pane, the iOS simulator panel or a simulator has done its job in a turn, the
-  session closes it before the reply: each pane tab with `tabs_close`, then the pane with
-  `close_pane` and `preview`, since closing the last tab leaves the empty pane on screen; the panel
-  with the simulator tool's `detach`; and simulators and emulators with their shutdown commands.
-  `close_pane` acts only while the session is in a window, so when it answers that the session is in
-  none, every later turn calls it again first until it closes the pane. A tab or panel where a step
-  waits on the user stays open.
+- Once a Chrome tab, the iOS simulator panel or a simulator has done its job in a turn, the session
+  closes it before the reply: each tab it opened with `tabs_close_mcp`, never a tab of the user's;
+  the panel with the simulator tool's `detach`; and simulators and emulators with their shutdown
+  commands. A tab or panel where a step waits on the user stays open.
 - A run a session starts in the background, with the Bash tool's `run_in_background`, a `Monitor` or
   a workflow, is opened for the user in the same turn with `show_pane` and `tasks`, so it shows
   beside the reply while it runs. When `show_pane` answers that the session is in no window, the
@@ -576,8 +567,8 @@ apply to one repository belong in that repository's project memory.
   `show_pane` with `tasks` again first while a run the session started still goes on.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
-  or uploaded, and no browser pane tool ran since the prompt. Its phrase list is a heuristic that
-  backs the rule above.
+  or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
+  that backs the rule above.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
   suit a kind of user, the session reads that setup's own install scripts, README and settings, and
   the guides they point to, such as an onboarding guide in another repository. Before a reply
@@ -592,16 +583,17 @@ apply to one repository belong in that repository's project memory.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.
-- A command that opens a window of its own on the user's screen, outside the desktop app's
-  panes, is asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app, a browser
-  other than the built-in pane. The question names the window and the session waits for a yes; a
-  prompt that itself asks for that window is the yes. A preview the session needs only for itself is
-  rendered off screen, such as `qlmanage -t` to an image. Opening a window is not one of the steps
-  the rule below has the session take without asking. A crash of an app the session launched, a
-  simulator app included, or of a process inside a simulator it booted, such as PosterBoard during a
-  test run's boot, opens a macOS crash report dialog over the user's work, so once one has crashed
-  in a session, each further launch of that app or boot of that simulator is asked about the same
-  way until a launch shows the crash fixed.
+- A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
+  asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
+  browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.
+  The question names the window and the session waits for a yes; a prompt that itself asks for that
+  window is the yes. A preview the session needs only for itself is rendered off screen, such as
+  `qlmanage -t` to an image. Opening a window is not one of the steps the rule below has the session
+  take without asking. A crash of an app the session launched, a simulator app included, or of a
+  process inside a simulator it booted, such as PosterBoard during a test run's boot, opens a macOS
+  crash report dialog over the user's work, so once one has crashed in a session, each further
+  launch of that app or boot of that simulator is asked about the same way until a launch shows the
+  crash fixed.
 - In the desktop app, every turn that answers a prompt from the user renames its own session
   with `set_session_title` and `self`, to a title for what the whole session has done so far,
   not for the latest prompt alone. The call comes once the turn's work is done and is skipped
@@ -617,7 +609,7 @@ apply to one repository belong in that repository's project memory.
   named person that a push would make public, such as an affiliation, a supervisor or an employer,
   is such a decision when the session assumed it or a source contradicts it. Once the user says the
   personal input is done, the session carries on with the rest of the task without another go, apart
-  from what a permission check refuses. A step that hands the user input to type in the browser pane
+  from what a permission check refuses. A step that hands the user input to type in the browser
   names the button that saves it, and the session reads that page as it stands before its first
   navigate, reload or click away from it, saves what is still unsaved and leaves only once the input
   is saved.
@@ -735,14 +727,13 @@ apply to one repository belong in that repository's project memory.
   words, such as upload, login or screenshot, and try each recipe it finds. A tool that has failed
   to connect twice is not tried a third time in that turn: look for another route.
 - A file a connector cannot open gets one retry of the same call. A file that a member of
-  another organisation posted in a shared channel, such as a Slack Connect channel, lives in
-  that organisation's workspace, which the connector's token cannot reach, so the retry fails
-  too and file search does not list it. Open such a file where the user is signed in: the
-  message's permalink in the built-in browser pane, the option to open it in the browser, then
-  the app's own viewer, read page by page from zoomed screenshots, since the viewer's frame
-  blocks scripts. A reply calls a file unreadable only after both routes fail, and says how
-  many tries each took. When the file will be read again, ask the user for a copy in the
-  project instead.
+  another organisation posted in a shared channel, such as a Slack Connect channel, lives in that
+  organisation's workspace, which the connector's token cannot reach, so the retry fails too and
+  file search does not list it. Open such a file where the user is signed in: the message's
+  permalink in Chrome, the option to open it in the browser, then the app's own viewer, read page by
+  page from zoomed screenshots, since the viewer's frame blocks scripts. A reply calls a file
+  unreadable only after both routes fail, and says how many tries each took. When the file will be
+  read again, ask the user for a copy in the project instead.
 - A desktop session started with No folder gets a new memory key each time, which no later
   session loads, so a deny rule in `settings.json` blocks memory writes there. Save a project
   fact to that project's memory instead, and a private fact that holds everywhere to a file in

@@ -1,16 +1,13 @@
 #!/usr/bin/env node
 
-// Carries local files into a site open in the Claude Code app's built-in
-// browser pane, which has no file upload tool and blocks other sites from
-// calling localhost, and writes to disk what a page drawn in the pane posts.
-// Start it with preview_start from this entry in .claude/launch.json, with the
-// home directory spelled out, since nothing expands ~ there:
+// Carries local files into a site open in a Chrome tab when they are too big
+// for Claude in Chrome's file_upload, since a site may not call localhost,
+// and writes to disk what a page drawn in a tab posts. Start it in the
+// background, then open http://localhost:8765/ in a tab of the session's group:
 //
-//   { "name": "pane-bridge", "runtimeExecutable": "node", "port": 8765,
-//     "runtimeArgs": ["<home>/.claude/hooks/pane-bridge.mjs",
-//       "--dir", "<folder>", "--back", "<site address>"] }
+//   node ~/.claude/hooks/pane-bridge.mjs --dir <folder> --back <site address>
 //
-// The tab preview_start opens goes on to the site with the folder's files in
+// That tab goes on to the site with the folder's files in
 // the address's fragment, which never reaches the site's server, and
 // /?back=<address> does the same from another tab. --back names the address
 // the site ends on, since a script that moves the tab on may drop the

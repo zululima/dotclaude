@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Search every source for what the user asks about
+## Run browser work in Claude in Chrome, not the built-in pane
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> always use chrome for browser things instead of builtin browser. just
+> yesterday learned that you cant change the user agent claude from
+> builtin brwoser. [an ask about a Chrome setting left out]
+
+**2.**
+> also do you need chrome to be open all the time or can you launch it
+> whenever needed yourself?
+
+## Search every source for what the user asks about
+
+2026-11-03, commit [acaca5c](https://github.com/zululima/dotclaude/commit/acaca5cbfe13113ed5bf623d4504f2e6d6945c2f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about an item at an office left out]

@@ -835,45 +835,45 @@ const suites = [
 
   ['stop-unreachable-claim.sh', run => {
     const t = path.join(home, 'unreachable.jsonl')
-    const pane = { type: 'attachment', attachment: { type: 'deferred_tools', names: ['mcp__Claude_Browser__navigate'] } }
+    const browser = { type: 'attachment', attachment: { type: 'deferred_tools', names: ['mcp__claude-in-chrome__navigate'] } }
     const claim = "I couldn't open the attached PDF. The connector returns file not found."
     const stop = (last, active = false) => ({ session_id: 's1', transcript_path: t, stop_hook_active: active, last_assistant_message: last })
     return [
-      ['sends back a claim made without trying the pane', () => {
-        jsonl(t, [pane, human('read the pdf'), says(claim)])
+      ['sends back a claim made without trying Chrome', () => {
+        jsonl(t, [browser, human('read the pdf'), says(claim)])
         const r = run(stop(claim))
-        return refused(r) && r.err.includes('browser pane')
+        return refused(r) && r.err.includes('Claude in Chrome')
       }],
       ['lets the second stop of a turn through', () => quiet(run(stop(claim, true)))],
       ['reads the reply from the transcript when the input has none', () => refused(run({ session_id: 's1', transcript_path: t, stop_hook_active: false }))],
-      ['lets a claim through once the pane ran this turn', () => {
-        jsonl(t, [pane, human('read the pdf'), uses('mcp__Claude_Browser__navigate', { url: 'https://example.com' }), says(claim)])
+      ['lets a claim through once Chrome ran this turn', () => {
+        jsonl(t, [browser, human('read the pdf'), uses('mcp__claude-in-chrome__navigate', { url: 'https://example.com' }), says(claim)])
         return quiet(run(stop(claim)))
       }],
-      ['does not count a pane call from an earlier turn', () => {
-        jsonl(t, [pane, human('open it'), uses('mcp__Claude_Browser__navigate', { url: 'https://example.com' }), says('Done.'), human('read the pdf'), says(claim)])
+      ['does not count a Chrome call from an earlier turn', () => {
+        jsonl(t, [browser, human('open it'), uses('mcp__claude-in-chrome__navigate', { url: 'https://example.com' }), says('Done.'), human('read the pdf'), says(claim)])
         return refused(run(stop(claim)))
       }],
       ['lets a reply through that claims nothing', () => {
-        jsonl(t, [pane, human('read the pdf'), says('Here is what it says.')])
+        jsonl(t, [browser, human('read the pdf'), says('Here is what it says.')])
         return quiet(run(stop('Here is what it says.')))
       }],
       ['lets a reply through about what someone else cannot open', () => {
         const s = "Your colleague probably can't open the links, since the repository is private."
-        jsonl(t, [pane, human('draft it'), says(s)])
+        jsonl(t, [browser, human('draft it'), says(s)])
         return quiet(run(stop(s)))
       }],
       ['sends back a claim that something could not be found', () => {
         const s = "I couldn't find the invoice in your mail, so the total is missing."
-        jsonl(t, [pane, human('add up the invoices'), says(s)])
+        jsonl(t, [browser, human('add up the invoices'), says(s)])
         return refused(run(stop(s)))
       }],
       ['lets a claim through about what Claude cannot see', () => {
         const s = "I can't see the status line in the app, so check it there."
-        jsonl(t, [pane, human('does it fit now'), says(s)])
+        jsonl(t, [browser, human('does it fit now'), says(s)])
         return quiet(run(stop(s)))
       }],
-      ['lets a session without the pane through', () => {
+      ['lets a session without Chrome through', () => {
         jsonl(t, [human('read the pdf'), says(claim)])
         return quiet(run(stop(claim)))
       }],
