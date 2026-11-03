@@ -120,6 +120,16 @@
   ```zsh
   ~/.claude/presence/install.sh
   ```
+- [`energy`](../energy/install.sh): which Claude Code sessions and prompts used the battery. macOS's
+  own battery log puts every session, and every command a session runs, under the Claude app.
+  [`energy-sampler.swift`](../energy/energy-sampler.swift) reads each process's energy every 10
+  seconds while the Mac runs on battery and groups it by session, with the session's process named
+  by [`energy-session-pid.sh`](../hooks/energy-session-pid.sh) at every prompt.
+  [`report.py`](../energy/report.py) ranks sessions and prompts by joules, and the dream run's
+  battery check reads it. Mac only. This builds the sampler and starts it at every login:
+  ```zsh
+  ~/.claude/energy/install.sh
+  ```
 - [`skills/commit-messages`](../skills/commit-messages/SKILL.md): how Claude writes a commit
   message: the order of its parts, the prompts behind the change, and what it leaves out or redacts.
 - [`skills/pull-requests`](../skills/pull-requests/SKILL.md): how Claude writes a pull request: the

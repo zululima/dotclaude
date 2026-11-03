@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Start Chrome without a window so it stays out of view
+## Log battery energy per Claude Code session and prompt
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?)
+> b
+
+## Start Chrome without a window so it stays out of view
+
+2026-11-03, commit [8075df9](https://github.com/zululima/dotclaude/commit/8075df9734854b5408e29171ce954cde0a2b5129), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which way should I turn off What's New?)
 > [an answer about a Chrome setting left out]

@@ -704,7 +704,7 @@ apply to one repository belong in that repository's project memory.
 
 - The parts of `~/.claude` that help other people learn this workflow are mirrored in a public git
   repository checked out at `~/Projects/dotclaude`: this file, `settings.json`, `hooks/`,
-  `presence/`, `workflows/`, `agents/`, the `session-usage` mod and the `pull-requests`,
+  `presence/`, `energy/`, `workflows/`, `agents/`, the `session-usage` mod and the `pull-requests`,
   `commit-messages`, `slack-draft` and `dotclaude` skills. Before changing one of them, adding a
   hook, skill, command or agent under `~/.claude`, or changing anything in that checkout, load the
   `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.

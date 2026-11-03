@@ -174,8 +174,12 @@ mirrored=(
   hooks/own-hunks.sh
   hooks/push-only-when-locked.sh
   hooks/pane-bridge.mjs
+  hooks/energy-session-pid.sh
   presence/install.sh
   presence/lock-listener.swift
+  energy/install.sh
+  energy/energy-sampler.swift
+  energy/report.py
   mods/session-usage/.claude-plugin/plugin.json
   mods/session-usage/hooks/hooks.json
   mods/session-usage/hooks/register.ts

@@ -612,6 +612,19 @@ const suites = [
     ]
   }],
 
+  ['energy-session-pid.sh', run => {
+    const pids = path.join(home, 'Library/Logs/claude-energy/pids')
+    const mine = path.join(pids, String(process.pid))
+    const prompt = session_id => ({ hook_event_name: 'UserPromptSubmit', session_id, prompt: 'go on' })
+    return [
+      ['does nothing while the sampler is not installed', () => quiet(run(prompt('e1'))) && !fs.existsSync(pids)],
+      ['writes the session id under the pid of the process that ran the hook', () => { fs.mkdirSync(pids, { recursive: true }); return quiet(run(prompt('e1'))) && fs.readFileSync(mine, 'utf8') === 'e1\n' }],
+      ['takes the new id after a /clear in the same process', () => quiet(run(prompt('e2'))) && fs.readFileSync(mine, 'utf8') === 'e2\n'],
+      ['writes no id that is not a plain session id', () => quiet(run(prompt('../e3'))) && fs.readFileSync(mine, 'utf8') === 'e2\n'],
+      ['lets input it cannot read through without a word', () => quiet(run('not json'))],
+    ]
+  }],
+
   ['prompt-log.sh', run => {
     const log = prompt => run({ session_id: 'p1', cwd: '/x', prompt })
     const print = (...args) => run('', { args: ['print', ...args], env: { PROMPT_LOG_SESSION: 'p1' } }).out

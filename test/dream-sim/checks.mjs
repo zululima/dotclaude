@@ -261,7 +261,9 @@ const scenarios = [
     ['it covers the week before the window when no run read them yet', st => battery(st).includes('Cover 2026-10-06T18:00:00.000Z to 2026-10-14T18:00:00Z')],
     ['it queries copies of PowerLog with its -wal file, never the originals', st => /CurrentPowerlog\.PLSQL with its -wal and -shm files into your scratch folder/.test(battery(st)) && /never the originals/.test(battery(st))],
     ['a system setting it would change is a command for the user, never sudo', st => /kind "habit" with target "habit" and gives the command for the user to run: no session runs sudo/.test(battery(st))],
-    ['a PowerLog it cannot read, or one that cannot tell the cause, is a finding of high impact', st => /PowerLog could not be read/.test(battery(st)) && /cannot tell what drains the battery/.test(battery(st)) && /impact high/.test(battery(st))],
+    ['it ranks sessions and prompts from the energy log', st => /python3 -I ~\/\.claude\/energy\/report\.py --since/.test(battery(st))],
+    ['a PowerLog it cannot read, or a stretch the energy log missed, is a finding of high impact', st => /PowerLog could not be read/.test(battery(st)) && /found no samples for a stretch PowerLog shows on battery/.test(battery(st)) && /impact high/.test(battery(st))],
+    ['its changes keep the user\'s work as it is', st => /a change that keeps the user's work as it is/.test(battery(st))],
     ['the run records the source', st => /"battery"/.test(st.historyLine || '')],
   ]],
   ['battery read 10 hours ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranBattery('2026-10-14T08:00:00Z')] }, [
