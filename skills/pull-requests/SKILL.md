@@ -130,6 +130,10 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   or what they show, builds the page in the same turn, after the pictures are in the body, with the
   checks it ran as the overlay's results, and its reply ends with the page's address as a review's
   reply does.
+- Where someone else reviews the repository's PRs, as its project memory or the user says, the
+  review is theirs: no reply gives the user a review step or the page's address, and the page is
+  built only when the user asks for it. Once the PR is done, the reply asks whether the session
+  marks it ready and requests that person's review.
 
 ## Reviewing a PR
 

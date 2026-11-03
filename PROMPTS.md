@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: count Chrome sign-ins that end beside cold caches
+## pull-requests: leave the review to whoever reviews the PRs
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**10.**
+> [a colleague] always reviews prs not me
+
+## usage mod: count Chrome sign-ins that end beside cold caches
+
+2026-11-03, commit [9553e0f](https://github.com/zululima/dotclaude/commit/9553e0fcf61d11d7fea5fe373ac5481137499909), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > actually could the staus bar hourglass include the session that has
