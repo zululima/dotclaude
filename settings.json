@@ -58,7 +58,8 @@
       "Bash(~/.claude/hooks/prompt-log.sh print:*)",
       "Bash(gh pr ready:*)",
       "Bash(gh pr merge:*)",
-      "Bash(~/Projects/dotclaude/sync.sh:*)"
+      "Bash(~/Projects/dotclaude/sync.sh:*)",
+      "Bash(~/.claude/energy/install.sh:*)"
     ],
     "ask": [
       "Bash(brew install:*)",

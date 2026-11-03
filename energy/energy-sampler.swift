@@ -7,11 +7,12 @@
 //
 // Each line: t (Unix seconds), dt (seconds since the last line), w (battery draw in watts, the
 // mean of the readings at both ends), pct (charge in percent), r (joules per CPU second of a busy
-// core, measured at start) and g, a map of group to {j, c, u, uj, g}: joules and CPU seconds of
-// the processes seen running, CPU seconds of processes that started and ended between two lines,
-// those seconds priced at r, and GPU seconds. A group is "session:<id>" or an app name. What the
-// battery gave beyond the groups' joules went to the screen, the GPU, root processes and the rest
-// of the Mac.
+// core, measured at start), gt (GPU seconds of every process, root ones included) and g, a map of
+// group to {j, c, u, uj, g}: joules and CPU seconds of the processes seen running, CPU seconds of
+// processes that started and ended between two lines, those seconds priced at r, and GPU seconds.
+// A group is "session:<id>", an app name, or "other" for the apps under 0.05 joules in that line.
+// What the battery gave beyond the groups' joules went to the screen, the GPU, root processes and
+// the rest of the Mac.
 
 import Darwin
 import Foundation
@@ -166,8 +167,7 @@ func sessions(alive: Set<Int32>) -> [Int32: String] {
   return found
 }
 
-func snapshot() -> [Int32: Proc] {
-  let gpu = gpuTimes()
+func snapshot(_ gpu: [Int32: UInt64]) -> [Int32: Proc] {
   var procs: [Int32: Proc] = [:]
   for pid in pids() where pid > 0 {
     guard let ppid = parent(pid), let info = usage(pid) else { continue }
@@ -181,6 +181,18 @@ func snapshot() -> [Int32: Proc] {
 
 struct Totals {
   var joules = 0.0, cpu = 0.0, unseen = 0.0, gpu = 0.0
+}
+
+struct Use: Encodable {
+  let j, c, u, uj, g: Double
+}
+
+struct Line: Encodable {
+  let t: Int
+  let dt, w: Double
+  let pct: Int
+  let r, gt: Double
+  let g: [String: Use]
 }
 
 func group(_ pid: Int32, _ procs: [Int32: Proc], _ owners: [Int32: String],
@@ -244,7 +256,10 @@ func busyCoreRate() -> Double {
 }
 
 let rate = busyCoreRate()
+let encoder = JSONEncoder()
+encoder.outputFormatting = .sortedKeys
 var previous: [Int32: Proc] = [:]
+var previousGPU: [Int32: UInt64] = [:]
 var previousWatts = 0.0
 var previousTime = Date()
 var previousTicks: UInt64 = 0
@@ -260,10 +275,12 @@ while samples == 0 || written < samples {
     Thread.sleep(forTimeInterval: interval * 3)
     continue
   }
-  let procs = snapshot()
+  let gpu = gpuTimes()
+  let procs = snapshot(gpu)
   let watts = power?.watts ?? 0
   defer {
     previous = procs
+    previousGPU = gpu
     previousTime = now
     previousTicks = ticks
     previousWatts = watts
@@ -310,19 +327,31 @@ while samples == 0 || written < samples {
     let name = group(pid, procs, owners, &memo)
     groups[name, default: Totals()].unseen += gain
   }
-  var g: [String: [String: Double]] = [:]
-  for (name, totals) in groups where totals.joules >= 0.001 || totals.unseen >= 0.001 {
-    g[name] = [
-      "j": round3(totals.joules), "c": round3(totals.cpu), "u": round3(totals.unseen),
-      "uj": round3(totals.unseen * rate), "g": round3(totals.gpu),
-    ]
+  for (name, totals) in groups
+  where !name.hasPrefix("session:") && totals.joules + totals.unseen * rate < 0.05
+    && totals.gpu < 0.01
+  {
+    groups[name] = nil
+    groups["other", default: Totals()].joules += totals.joules
+    groups["other", default: Totals()].cpu += totals.cpu
+    groups["other", default: Totals()].unseen += totals.unseen
+    groups["other", default: Totals()].gpu += totals.gpu
   }
-  let line: [String: Any] = [
-    "t": Int(now.timeIntervalSince1970), "dt": round3(now.timeIntervalSince(previousTime)),
-    "w": round3((watts + previousWatts) / 2), "pct": power?.percent ?? 0, "r": round3(rate),
-    "g": g,
-  ]
-  if let data = try? JSONSerialization.data(withJSONObject: line, options: [.sortedKeys]) {
+  var g: [String: Use] = [:]
+  for (name, totals) in groups where totals.joules >= 0.001 || totals.unseen >= 0.001 {
+    g[name] = Use(
+      j: round3(totals.joules), c: round3(totals.cpu), u: round3(totals.unseen),
+      uj: round3(totals.unseen * rate), g: round3(totals.gpu))
+  }
+  var allGPU: UInt64 = 0
+  for (pid, time) in gpu {
+    allGPU += time &- min(previousGPU[pid] ?? 0, time)
+  }
+  let line = Line(
+    t: Int(now.timeIntervalSince1970), dt: round3(now.timeIntervalSince(previousTime)),
+    w: round3((watts + previousWatts) / 2), pct: power?.percent ?? 0, r: round3(rate),
+    gt: round3(Double(allGPU) / 1e9), g: g)
+  if let data = try? encoder.encode(line) {
     let file = logFile(now)
     if !FileManager.default.fileExists(atPath: file) {
       FileManager.default.createFile(atPath: file, contents: nil)

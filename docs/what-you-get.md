@@ -130,6 +130,15 @@
   ```zsh
   ~/.claude/energy/install.sh
   ```
+  The screen, the GPU and root processes are one row until
+  [`powermetrics.zsh`](../energy/powermetrics.zsh) runs as root and logs the power the chip's CPU,
+  GPU and Neural Engine draw, measured by macOS's `powermetrics`. Then the report shares out the GPU
+  by each app's GPU time and gives the screen a row of its own.
+  [`install-root.sh`](../energy/install-root.sh) installs it as a root service, from a copy only
+  root can change:
+  ```zsh
+  sudo ~/.claude/energy/install-root.sh
+  ```
 - [`skills/commit-messages`](../skills/commit-messages/SKILL.md): how Claude writes a commit
   message: the order of its parts, the prompts behind the change, and what it leaves out or redacts.
 - [`skills/pull-requests`](../skills/pull-requests/SKILL.md): how Claude writes a pull request: the

@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Restart without reopening every app
+## Measure the chip's power as root beside the energy log
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: shall I still build the root powermetrics service on top    of the logger?)
+> Yes, build it
+
+## Restart without reopening every app
+
+2026-11-03, commit [d207b70](https://github.com/zululima/dotclaude/commit/d207b70c72f1390bf320df94893e85aaf185fa92), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > restart script seems to reopen all same windows. dont do that. open
