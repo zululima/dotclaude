@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Trim the dream report to about 4,000 characters
+## Search every source for what the user asks about
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about an item at an office left out]
+
+**2.** (answer to: shall I search private channels and DMs too?)
+> joo hae aina kaikkialta. [a plan to keep an office inventory in the
+> shared memories folder left out]
+
+## Trim the dream report to about 4,000 characters
+
+2026-11-03, commit [594e301](https://github.com/zululima/dotclaude/commit/594e301cdbf5857c9f581ca5866cc160e5667dea), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which shorter dream report, trimmed to about 4,000    characters or cut to about 2,500?)
 > Trim to 4,000

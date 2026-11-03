@@ -516,13 +516,15 @@ apply to one repository belong in that repository's project memory.
   Markdown table, which Slack cannot take. Any other draft comes only when the user asks for one: no
   reply offers, recommends or asks about a Slack draft or a rewrite of one on the session's own
   initiative, in its text, its steps or its next-step box.
-- Before drafting a message for the user to send, such as a Slack reply, an email or a chat
-  message, read every source the project's memory lists for its subject, every connected source
-  that could bear on it, the deployed and legacy environments included, and the user's earlier
-  prompts about drafts for the same app or recipient, found by searching `~/.claude/prompt-log`,
-  so a format settled in another session, such as a line width, carries over. Say in the reply
-  which were read and which were skipped, with the reason. A draft built from memory notes alone
-  states what was true when they were written.
+- A search for what the user asks about, such as whether the office has some item, and the reading
+  before drafting a message for the user to send, such as a Slack reply or an email, cover every
+  source that could bear on it: the sources the project's memory lists for its subject, every
+  connected source, Slack's private channels and DMs included with no ask first, the deployed and
+  legacy environments, the shared memories folder that `~/.claude/shared-memories.conf` names and
+  the user's earlier prompts in `~/.claude/prompt-log`. For a draft, the prompts about drafts for
+  the same app or recipient carry over a format settled in another session, such as a line width.
+  The reply names each source read and each one skipped, with the reason. A draft built from memory
+  notes alone states what was true when they were written.
 - Browser work runs in the built-in browser pane, which the user also calls the built-in chrome
   and is signed in to. A page, a file or an upload is tried there before a reply calls it out of
   reach, and an address that WebFetch or another fetch could not reach is tried there next and with
@@ -709,9 +711,7 @@ apply to one repository belong in that repository's project memory.
   `presence/`, `workflows/`, `agents/`, the `session-usage` mod and the `pull-requests`,
   `commit-messages`, `slack-draft` and `dotclaude` skills. Before changing one of them, adding a
   hook, skill, command or agent under `~/.claude`, or changing anything in that checkout, load the
-  `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it. It holds what `sync.sh`
-  reconciles, scans and mirrors, the commit and its identity, the pass over open PRs and the prompt
-  for a teammate after a push, what the repository may contain, and the setup on a new machine.
+  `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then, as whenever a session
