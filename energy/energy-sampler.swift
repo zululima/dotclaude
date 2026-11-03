@@ -10,12 +10,13 @@
 // (joules the battery gave, from its charge counter, which also moves about once a minute, so only
 // sums over minutes are exact), pct (charge in percent), r (joules per CPU second of a busy core,
 // measured at start), cs (CPU seconds of every process, root ones included), gt (GPU seconds of
-// every process) and g, a map of group to {j, c, u, uj, g}: joules and CPU seconds of the
-// processes seen running, CPU seconds of processes that started and ended between two lines, those
-// seconds priced at r, and GPU seconds.
+// every process), e (joules the chip's counters measured by part: cpu, gpu, ane, mem for the
+// memory and its controllers, disp for the display engine and soc for the rest of the chip) and g,
+// a map of group to {j, c, u, uj, g}: joules and CPU seconds of the processes seen running, CPU
+// seconds of processes that started and ended between two lines, those seconds priced at r, and
+// GPU seconds.
 // A group is "session:<id>", an app name, or "other" for the apps under 0.05 joules in that line.
-// What the battery gave beyond the groups' joules went to the screen, the GPU, root processes and
-// the rest of the Mac.
+// What the battery gave beyond the chip went to the screen, the SSD, Wi-Fi and the rest of the Mac.
 
 import Darwin
 import Foundation
@@ -185,6 +186,75 @@ func cpuTicks() -> (busy: UInt64, all: UInt64, cores: Int) {
   return (busy, all, Int(cores))
 }
 
+// The chip's own energy counters, from IOReport's Energy Model group, which needs no root. The
+// library is private, so it is opened at run time and the sampler logs no e when it is missing.
+typealias CopyChannels = @convention(c) (CFString?, CFString?, UInt64, UInt64, UInt64)
+  -> Unmanaged<CFDictionary>?
+typealias Subscribe = @convention(c) (UnsafeMutableRawPointer?, CFMutableDictionary,
+  UnsafeMutablePointer<Unmanaged<CFMutableDictionary>?>, UInt64, CFTypeRef?) -> OpaquePointer?
+typealias Sample = @convention(c) (OpaquePointer, CFMutableDictionary, CFTypeRef?)
+  -> Unmanaged<CFDictionary>?
+typealias Delta = @convention(c) (CFDictionary, CFDictionary, CFTypeRef?) -> Unmanaged<CFDictionary>?
+typealias Value = @convention(c) (CFDictionary, Int32) -> Int64
+typealias Label = @convention(c) (CFDictionary) -> Unmanaged<CFString>?
+
+let chipParts = [
+  "CPU Energy": "cpu", "GPU": "gpu", "ANE": "ane", "DRAM": "mem", "AMCC": "mem", "DCS": "mem",
+  "DISP": "disp", "DISPEXT": "disp", "ECPM": "soc", "PCPM": "soc", "ISP": "soc", "AVE": "soc",
+  "MSR": "soc", "VDEC": "soc", "SOC_AON": "soc",
+]
+let joulesPerUnit = ["mJ": 1e-3, "uJ": 1e-6, "nJ": 1e-9]
+
+struct ChipCounters {
+  let subscription: OpaquePointer
+  let channels: CFMutableDictionary
+  let sample: Sample
+  let delta: Delta
+  let value: Value
+  let name: Label
+  let unit: Label
+
+  init?() {
+    let library = dlopen("/usr/lib/libIOReport.dylib", RTLD_NOW)
+    func load<T>(_ symbol: String, _ type: T.Type) -> T? {
+      dlsym(library, symbol).map { unsafeBitCast($0, to: type) }
+    }
+    guard library != nil,
+      let copy = load("IOReportCopyChannelsInGroup", CopyChannels.self),
+      let subscribe = load("IOReportCreateSubscription", Subscribe.self),
+      let sample = load("IOReportCreateSamples", Sample.self),
+      let delta = load("IOReportCreateSamplesDelta", Delta.self),
+      let value = load("IOReportSimpleGetIntegerValue", Value.self),
+      let name = load("IOReportChannelGetChannelName", Label.self),
+      let unit = load("IOReportChannelGetUnitLabel", Label.self),
+      let wanted = copy("Energy Model" as CFString, nil, 0, 0, 0)?.takeRetainedValue(),
+      let mutable = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, wanted)
+    else { return nil }
+    var subscribed: Unmanaged<CFMutableDictionary>?
+    guard let subscription = subscribe(nil, mutable, &subscribed, 0, nil), let subscribed
+    else { return nil }
+    self.subscription = subscription
+    channels = subscribed.takeRetainedValue()
+    (self.sample, self.delta, self.value, self.name, self.unit) = (sample, delta, value, name, unit)
+  }
+
+  func read() -> CFDictionary? { sample(subscription, channels, nil)?.takeRetainedValue() }
+
+  func joules(from before: CFDictionary, to after: CFDictionary) -> [String: Double] {
+    guard let change = delta(before, after, nil)?.takeRetainedValue() else { return [:] }
+    var parts: [String: Double] = [:]
+    for channel in (change as NSDictionary)["IOReportChannels"] as? [NSDictionary] ?? [] {
+      let channel = channel as CFDictionary
+      let label = (unit(channel)?.takeUnretainedValue() as String?) ?? ""
+      guard let part = chipParts[(name(channel)?.takeUnretainedValue() as String?) ?? ""],
+        let scale = joulesPerUnit[label.trimmingCharacters(in: .whitespaces)]
+      else { continue }
+      parts[part, default: 0] += Double(value(channel, 0)) * scale
+    }
+    return parts.mapValues(round3)
+  }
+}
+
 // A pid file holds the session id of the claude process with that pid, written at each prompt.
 func sessions(alive: Set<Int32>) -> [Int32: String] {
   var found: [Int32: String] = [:]
@@ -229,6 +299,7 @@ struct Line: Encodable {
   let dt, w, b: Double
   let pct: Int
   let r, cs, gt: Double
+  let e: [String: Double]?
   let g: [String: Use]
 }
 
@@ -300,6 +371,8 @@ var previousGPU: [Int32: UInt64] = [:]
 var previousWatts = 0.0
 var previousBattery: Battery?
 var previousCPU = cpuTicks()
+let chip = ChipCounters()
+var previousChip: CFDictionary?
 var previousTime = Date()
 var previousTicks: UInt64 = 0
 var lastPrune = ""
@@ -316,12 +389,14 @@ while samples == 0 || written < samples {
   }
   let gpu = gpuTimes()
   let cpu = cpuTicks()
+  let chipNow = chip?.read()
   let procs = snapshot(gpu)
   let watts = power?.watts ?? 0
   defer {
     previous = procs
     previousGPU = gpu
     previousCPU = cpu
+    previousChip = chipNow
     previousTime = now
     previousTicks = ticks
     previousWatts = watts
@@ -397,10 +472,14 @@ while samples == 0 || written < samples {
   let allTicks = cpu.all &- previousCPU.all
   let busyCPU = allTicks > 0
     ? Double(cpu.busy &- previousCPU.busy) / Double(allTicks) * Double(cpu.cores) * dt : 0
+  var parts: [String: Double]?
+  if let chip, let previousChip, let chipNow {
+    parts = chip.joules(from: previousChip, to: chipNow)
+  }
   let line = Line(
     t: Int(now.timeIntervalSince1970), dt: round3(dt), w: round3((watts + previousWatts) / 2),
     b: round3(charged), pct: power?.percent ?? 0, r: round3(rate), cs: round3(busyCPU),
-    gt: round3(Double(allGPU) / 1e9), g: g)
+    gt: round3(Double(allGPU) / 1e9), e: parts, g: g)
   if let data = try? encoder.encode(line) {
     let file = logFile(now)
     if !FileManager.default.fileExists(atPath: file) {

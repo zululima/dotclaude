@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Write every emoji with U+FE0F when it has an emoji style
+## Read the chip's energy counters in the sampler, without root
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.** (answer to: shall I try splitting the screen-and-rest row with    macOS's own energy counters?)
+> Yes, try it
+
+## Write every emoji with U+FE0F when it has an emoji style
+
+2026-11-03, commit [84a4231](https://github.com/zululima/dotclaude/commit/84a4231dfabaf64265a27334ed9378cf9342c020), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about renaming files left out] also why is medium black

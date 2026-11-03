@@ -124,19 +124,20 @@
   own battery log puts every session, and every command a session runs, under the Claude app.
   [`energy-sampler.swift`](../energy/energy-sampler.swift) reads each process's energy every 10
   seconds while the Mac runs on battery and groups it by session, with the session's process named
-  by [`energy-session-pid.sh`](../hooks/energy-session-pid.sh) at every prompt.
-  [`report.py`](../energy/report.py) ranks sessions and prompts by joules, against what the
-  battery's charge counter says it gave, and the dream run's battery check reads it. Mac only. This
-  builds the sampler and starts it at every login:
+  by [`energy-session-pid.sh`](../hooks/energy-session-pid.sh) at every prompt. It also reads the
+  chip's own energy counters through IOReport, without root: CPU, GPU, Neural Engine, memory and
+  display engine. [`report.py`](../energy/report.py) ranks sessions and prompts by joules, against
+  what the battery's charge counter says it gave, prices commands too short to see running from the
+  chip's CPU energy, shares out the GPU by each app's GPU time and gives root processes, the memory
+  and the screen with the rest of the Mac rows of their own. The dream run's battery check reads it.
+  Mac only. This builds the sampler and starts it at every login:
   ```zsh
   ~/.claude/energy/install.sh
   ```
-  The screen, the GPU and root processes are one row, and commands too short to see running are
-  priced at a busy core's rate, until [`powermetrics.zsh`](../energy/powermetrics.zsh) runs as root
-  and logs the power the chip's CPU, GPU and Neural Engine draw, measured by macOS's `powermetrics`.
-  Then the report prices those commands from the chip's CPU energy, shares out the GPU by each app's
-  GPU time and gives the screen a row of its own. [`install-root.sh`](../energy/install-root.sh)
-  installs it as a root service, from a copy only root can change:
+  [`powermetrics.zsh`](../energy/powermetrics.zsh) logs the chip's CPU, GPU and Neural Engine power
+  as root, measured by macOS's `powermetrics`, and the report reads its log for lines from before
+  the sampler read the counters. [`install-root.sh`](../energy/install-root.sh) installs it as a
+  root service, from a copy only root can change:
   ```zsh
   sudo ~/.claude/energy/install-root.sh
   ```
