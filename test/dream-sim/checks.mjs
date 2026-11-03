@@ -99,6 +99,7 @@ const scenarios = [
     ['mode is final', (st, r) => r.mode.startsWith('final')],
     ['nothing used after the weekly reset', st => st.afterWeekReset === 0],
     ['the session is told to show only the points the run used, leaving the report to the review', (st, r) => /show in the chat only how many percentage points/.test(r.forTheSession) && !/show all of it/.test(r.forTheSession)],
+    ['with no row for the Fable limit, in the chat or the report', (st, r) => /a row per limit but the Fable one/.test(r.forTheSession) && !/Fable/.test(st.prompts.report || '')],
     ['and to add the tokens and dollars the run spent to the report file', (st, r) => /usage\.sh --run/.test(r.forTheSession) && /the dollars at API list prices/.test(r.forTheSession) && /under a heading Cost/.test(r.forTheSession)],
     ['and last week and this week of all sessions, from reset to reset', (st, r) => /usage\.sh --since 2026-10-03T13:59:59\.000Z 2026-10-10T13:59:59\.000Z/.test(r.forTheSession) && /under a heading Week/.test(r.forTheSession)],
     ['and where the run stopped, from the usage card', (st, r) => /section headed Where the run stopped/.test(r.forTheSession) && /get_usage/.test(r.forTheSession)],
@@ -230,6 +231,19 @@ const scenarios = [
     ['tests a script in a sandbox before running it', (st, r) => /test it in a sandbox before running it for real/.test(r.forTheSession)],
     ['names the unchecked ones', (st, r) => /1 unchecked proposals wait/.test(r.forTheSession)],
     ['leaves the tokens and dollars of the week out', (st, r) => !/usage\.sh --since/.test(r.forTheSession)],
+    ['records the report as shown', (st, r) => r.forTheSession.includes('"2026-10-10T13:59:59.000Z ~/.claude/dream/2026-10-17.md" to ~/.claude/dream/shown.txt')],
+  ]],
+  ['review from gm in a week that already had its report', { ...wed, week: 30, sessions: 4, args: { review: true, gm: true }, shown: '2026-10-10T13:59:59.000Z ~/.claude/dream/2026-10-10.md' }, [
+    ['shows no report, not even one written since, and runs no evals', (st, r) => !/show all of it/.test(r.forTheSession) && !/evals\.mjs/.test(r.forTheSession)],
+    ['and says only that no proposal is due', (st, r) => r.forTheSession.startsWith('No open proposal is due')],
+  ]],
+  ['first review from gm after the weekly reset', { ...wed, week: 30, sessions: 4, args: { review: true, gm: true }, shown: '2026-10-03T13:59:59.000Z ~/.claude/dream/2026-10-03.md' }, [
+    ['shows the newest report in full, without the Fable limit', (st, r) => r.forTheSession.startsWith('Read ~/.claude/dream/2026-10-17.md and show all of it') && /leaving out every row and figure about a Fable limit/.test(r.forTheSession)],
+    ['records it as shown in this week', (st, r) => r.forTheSession.includes('"2026-10-10T13:59:59.000Z ~/.claude/dream/2026-10-17.md"')],
+    ['and refreshes the evals', (st, r) => /evals\.mjs --write/.test(r.forTheSession)],
+  ]],
+  ['first review from gm after the reset, its report already shown in a review', { ...wed, week: 30, sessions: 4, args: { review: true, gm: true }, shown: '2026-10-03T13:59:59.000Z /srv/dreams/2026-10-17.md' }, [
+    ['shows it no second time', (st, r) => !/show all of it/.test(r.forTheSession) && !/evals\.mjs/.test(r.forTheSession)],
   ]],
   ['upstreams', { ...wed, week: 30, sessions: 4, args: { only: ['upstreams'] }, upstreams: [
     { upstream: '~/Projects/template', derived: ['~/Projects/app', '~/Projects/app2'], note: '' },

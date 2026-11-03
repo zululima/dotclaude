@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
@@ -382,16 +382,20 @@ const EVALS = `Then, when ${EVALS_FILE} exists, refresh the evals of the checkou
 
 const REVIEW_SETUP = {
   type: 'object',
-  required: ['today', 'report', 'backlog'],
-  properties: { today: { type: 'string' }, report: { type: 'string' }, backlog: SCOUT.properties.backlog },
+  required: ['today', 'report', 'backlog', 'shown', 'weeklyResetsAt'],
+  properties: { today: { type: 'string' }, report: { type: 'string' }, backlog: SCOUT.properties.backlog, shown: { type: 'string' }, weeklyResetsAt: { type: 'string' } },
 }
+const SHOWN_FILE = `${OUT}/shown.txt`
 // A review skips the run, shows the latest report, reruns the evals and asks about the open backlog.
+// From gm it shows the report and reruns the evals only at the first gm after the weekly reset, never a report already shown.
 if (opts.review === true || /^\s*review\s*$/i.test(runNote)) {
   phase('Scout')
   const r = await dreamAgent(`Get ready to go through the open proposals of the user's dream backlog.
 1. Run date +%F and return it as today.
 2. Run ${BACKLOG_INDEX} and return its output as backlog, parsed, every field as jq prints it, never shortened or summarised. When the file does not exist, return valid true and empty lists; when jq fails on it, return valid false and empty lists.
 3. Return as report the path of the newest file in ${OUT} named YYYY-MM-DD.md or YYYY-MM-DD-N.md, or an empty string when there is none.
+4. Return as shown the first line of ${SHOWN_FILE}, or an empty string when the file does not exist.
+5. Load the tool mcp__ccd_session_mgmt__get_usage with ToolSearch and call it with no arguments. Return as weeklyResetsAt the resetsAt of the window whose label names all models, exactly as reported, or an empty string when the tool cannot be found or its plan status is not "ok".
 ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'low', schema: REVIEW_SETUP })
   if (!r || !r.backlog || !r.backlog.valid) return { error: `${BACKLOG_FILE} could not be read, so there is nothing to review.` }
   const rank = { high: 0, medium: 1, low: 2 }
@@ -403,11 +407,18 @@ ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'lo
   const waiting = open.length - due.length - waitingOnPr
   const uncheckedCount = (r.backlog.unchecked || []).length
   const walk = walkText(BACKLOG_FILE, r.report || 'the latest dream report')
-  const shown = `${r.report ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included.` : 'Say in one line that no dream report was found.'} ${EVALS}`
+  const weekStartMs = Date.parse(r.weeklyResetsAt) - 7 * 24 * 3600 * 1000
+  const [shownWeek = '', shownReport = ''] = (r.shown || '').trim().split(/\s+/)
+  const fileName = p => p.split('/').pop()
+  const showReport = !!r.report && (opts.gm !== true || (fileName(r.report) !== fileName(shownReport) && !(Date.parse(shownWeek) >= weekStartMs)))
+  const weekStart = new Date(Number.isFinite(weekStartMs) ? weekStartMs : Date.now()).toISOString()
+  const shown = showReport
+    ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included, leaving out every row and figure about a Fable limit. Then write the line "${weekStart} ${r.report}" to ${SHOWN_FILE}, replacing what it held. ${EVALS} `
+    : opts.gm === true ? '' : `Say in one line that no dream report was found. ${EVALS} `
   return {
     forTheSession: due.length
-      ? `${shown} ${waiting ? `${waiting} open proposals wait for their askAgainAfter date and are left out. ` : ''}${waitingOnPr ? `${waitingOnPr} wait for their pull request to merge and are left out until a dream run checks it. ` : ''}${walk[0].toUpperCase()}${walk.slice(1)} A script was tested against the files as they stood when its run wrote it, so test it in a sandbox before running it for real, and regenerate it when it fails.${uncheckedCount ? ` Say in one line that ${uncheckedCount} unchecked proposals wait for the next dream run, which checks them first.` : ''} The steps, in order, each with its script file where it has one: ${JSON.stringify(due.map(i => ({ key: i.key, title: i.title, impact: i.impact, target: i.target, scriptFile: i.scriptFile || '', ...(i.waitsOn && i.unmerged ? { waitsOn: i.waitsOn, unmerged: i.unmerged.note } : {}) })))}`
-      : `${shown} No open proposal is due${waiting ? `, and ${waiting} wait for their askAgainAfter date` : ''}.${waitingOnPr ? ` ${waitingOnPr} wait for their pull request to merge.` : ''}${uncheckedCount ? ` ${uncheckedCount} unchecked proposals wait for the next dream run.` : ''}`,
+      ? `${shown}${waiting ? `${waiting} open proposals wait for their askAgainAfter date and are left out. ` : ''}${waitingOnPr ? `${waitingOnPr} wait for their pull request to merge and are left out until a dream run checks it. ` : ''}${walk[0].toUpperCase()}${walk.slice(1)} A script was tested against the files as they stood when its run wrote it, so test it in a sandbox before running it for real, and regenerate it when it fails.${uncheckedCount ? ` Say in one line that ${uncheckedCount} unchecked proposals wait for the next dream run, which checks them first.` : ''} The steps, in order, each with its script file where it has one: ${JSON.stringify(due.map(i => ({ key: i.key, title: i.title, impact: i.impact, target: i.target, scriptFile: i.scriptFile || '', ...(i.waitsOn && i.unmerged ? { waitsOn: i.waitsOn, unmerged: i.unmerged.note } : {}) })))}`
+      : `${shown}No open proposal is due${waiting ? `, and ${waiting} wait for their askAgainAfter date` : ''}.${waitingOnPr ? ` ${waitingOnPr} wait for their pull request to merge.` : ''}${uncheckedCount ? ` ${uncheckedCount} unchecked proposals wait for the next dream run.` : ''}`,
     due: due.length,
     waiting,
     waitingOnPr,
@@ -552,7 +563,9 @@ if (!backlogValid) log(`${BACKLOG_FILE} could not be read, so the run starts wit
 const carriedUnchecked = backlog.unchecked.filter(i => i.key).map(p => ({ ...p, id: p.key, fromBacklog: true }))
 
 const ledger = {}
-const showUsage = u => u.windows.map(w => `${w.label} ${w.percentUsed}%`).join(', ')
+// The user does not use Fable, so its limit stays out of everything a run shows.
+const notFable = w => !/fable/i.test(w.label)
+const showUsage = u => u.windows.filter(notFable).map(w => `${w.label} ${w.percentUsed}%`).join(', ')
 if (usage) log(`Usage at start: ${showUsage(usage)}. Estimating from ${pastRuns.length} earlier runs on ${scout.model}, leaving ${MARGIN} points free, ${POOL} pieces of work at a time`)
 else log('The usage card is not readable here, so the run goes without the usage guard')
 
@@ -1631,7 +1644,7 @@ function weeklyRecap() {
     if (typeof r.dreamSpent === 'number') w.dreamSpent += r.dreamSpent
     if (r.readAt >= w.readAt) {
       w.readAt = r.readAt
-      w.windows = r.windows.filter(x => !/hour/i.test(x.label)).map(x => ({ label: x.label, percentUsed: x.percentUsed }))
+      w.windows = r.windows.filter(x => !/hour/i.test(x.label) && notFable(x)).map(x => ({ label: x.label, percentUsed: x.percentUsed }))
     }
   }
   const list = Object.values(weeks).sort((a, b) => b.endsAt.localeCompare(a.endsAt))
@@ -1858,7 +1871,7 @@ Skipped work, as JSON:
 ${JSON.stringify(skippedWork.map(s => ({ label: s.label, tier: s.tier, reason: s.reason })))}
 
 Usage, as JSON (windows are plan limits in percent used, ledger is percentage points and units of work measured this run per kind):
-${JSON.stringify(startUsage ? { start: startUsage.windows, beforeReport: usage ? usage.windows : null, ledger, reserveForTomorrow: MODE === 'eve' ? RESERVE : null, estimatesFrom: pastRuns.length ? `${pastRuns.length} earlier runs` : 'defaults and this run' } : null)}
+${JSON.stringify(startUsage ? { start: startUsage.windows.filter(notFable), beforeReport: usage ? usage.windows.filter(notFable) : null, ledger: Object.fromEntries(Object.entries(ledger).map(([kind, byLimit]) => [kind, Object.fromEntries(Object.entries(byLimit).filter(([label]) => notFable({ label })))])), reserveForTomorrow: MODE === 'eve' ? RESERVE : null, estimatesFrom: pastRuns.length ? `${pastRuns.length} earlier runs` : 'defaults and this run' } : null)}
 
 Pace, as JSON (weekly percentage points, hours from the start of the run to this report, the cutoff in local time):
 ${JSON.stringify(pace)}
@@ -1942,9 +1955,9 @@ const stoppedBy = skippedWork.length
   ? Object.entries(skipReasons).map(([r, n]) => `${n} pieces of work skipped as ${r}`).join('; ') + againAfter
   : 'it ran out of work, with everything due done'
 const NO_REPORT = 'The report agent returned nothing: say so and list the open proposals below.'
-const STOP = `Then read the usage card with mcp__ccd_session_mgmt__get_usage and add to the end of the report file a section headed Where the run stopped: a table of the 5-hour and weekly limits at the start of the run, at its end and now, with this ${MODE} run's weekly target of ${weeklyTarget}%, and one line on why the run stopped where it did: ${stoppedBy}. When the weekly limit now sits below that target, add in plain words how many weekly points lapse at the reset and at what local time, why the run left them, such as that it had no work left or that the 5-hour limit stopped it, and whether a run started once the 5-hour window reopens can still spend them before the reset.`
+const STOP = `Then read the usage card with mcp__ccd_session_mgmt__get_usage and add to the end of the report file a section headed Where the run stopped: a table of the 5-hour limit and the weekly limit for all models at the start of the run, at its end and now, with this ${MODE} run's weekly target of ${weeklyTarget}%, and one line on why the run stopped where it did: ${stoppedBy}. When the weekly limit now sits below that target, add in plain words how many weekly points lapse at the reset and at what local time, why the run left them, such as that it had no work left or that the 5-hour limit stopped it, and whether a run started once the 5-hour window reopens can still spend them before the reset.`
 // The run's reply carries only the usage it spent: the report, its figures and the steps wait for dream review.
-const POINTS = `${MODE === 'final' ? 'Then' : 'Then read the usage card with mcp__ccd_session_mgmt__get_usage and'} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
+const POINTS = `${MODE === 'final' ? 'Then' : 'Then read the usage card with mcp__ccd_session_mgmt__get_usage and'} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit but the Fable one and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
 
 return {
   forTheSession: `${report ? `The report file is ${report.path}.` : NO_REPORT} ${MODE === 'final' ? `${SPENT} ${WEEKS} ${STOP}` : ENERGY} ${POINTS}`,

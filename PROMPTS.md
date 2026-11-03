@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Refresh the evals after the 3 Nov dream review
+## Show the dream report only at the first gm after the reset
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> why did you give me dream review? did i not run gm yesterday? it
+> should only happen the first gm after reset. also in dream review
+> dont give me fable stats anymore. also dream review is pretty verbose
+> atm have you noticed
+
+## Refresh the evals after the 3 Nov dream review
+
+2026-11-03, commit [57858d1](https://github.com/zululima/dotclaude/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm

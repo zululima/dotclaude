@@ -53,7 +53,7 @@ export async function simulate(wf, sc) {
   const fit = { verdict: 'keep', reason: 'ok', finalProposal: '', script: 'echo', exactChange: 'a line', exampleWrong: 'it broke', exampleFixed: 'it works' }
   function respond(label, prompt) {
     st.prompts[label] = prompt
-    if (label === 'review setup') return { today: sc.now.slice(0, 10), report: '~/.claude/dream/2026-10-17.md', backlog: sc.backlog || { valid: true, open: [], closed: [], unchecked: [] } }
+    if (label === 'review setup') return { today: sc.now.slice(0, 10), report: '~/.claude/dream/2026-10-17.md', backlog: sc.backlog || { valid: true, open: [], closed: [], unchecked: [] }, shown: sc.shown || '', weeklyResetsAt: new Date(st.weekReset).toISOString() }
     if (label === 'scout') return {
       now: sc.now, today: sc.now.slice(0, 10), utcOffset: sc.utcOffset || '+0300', runId: sc.now.slice(0, 10), since: sc.since, lookbackFrom: new Date(Date.parse(sc.since) - 7 * 24 * H).toISOString(),
       oldestTranscript: '2026-09-21T08:00:00Z', installedVersion: '2.1.299', previousReports: [],
