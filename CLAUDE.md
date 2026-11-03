@@ -325,7 +325,10 @@ apply to one repository belong in that repository's project memory.
   emoji data, read from its source where the app is open source, which also shows how its search
   matches, and otherwise are the Unicode CLDR short names, called not checked in that app. Where
   nothing typed finds the emoji alone, the text that finds the fewest stands, and the reply says
-  which others it shows.
+  which others it shows. Every emoji a session writes takes U+FE0F after it when Unicode's
+  `emoji-variation-sequences.txt` lists an emoji style for it, as for U+26AB: without it, a font
+  with a plain glyph draws the emoji in the text colour, so a black circle shows white on a dark
+  theme.
 - A project's CLAUDE.md holds what Claude runs, such as build, test, verify, install, launch and
   logs, and the rules the code follows. Setup a person does once by hand goes in a doc under `docs/`
   that CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts, and

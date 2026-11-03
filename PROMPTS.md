@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Count battery energy by charge and price commands from the chip
+## Write every emoji with U+FE0F when it has an emoji style
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**11.**
+> [an ask about renaming files left out] also why is medium black
+> circle white here
+
+**12.**
+> ok and how can you improve next time so you dont maek that black
+> white thingy mistake
+
+**13.** [a question about sticker formats left out]
+
+## Count battery energy by charge and price commands from the chip
+
+2026-11-03, commit [5e75f1e](https://github.com/zululima/dotclaude/commit/5e75f1edfb80aa66b44af4d224e1278ec0694aeb), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I check the chip log once you have run the root    installer with sudo?)
 > Ran it, check now
