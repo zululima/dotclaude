@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Measure the chip's power as root beside the energy log
+## Count battery energy by charge and price commands from the chip
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.** (answer to: shall I check the chip log once you have run the root    installer with sudo?)
+> Ran it, check now
+
+## Measure the chip's power as root beside the energy log
+
+2026-11-03, commit [f316cd6](https://github.com/zululima/dotclaude/commit/f316cd619b70275c55ffac3407b272c10f5bb746), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I still build the root powermetrics service on top    of the logger?)
 > Yes, build it

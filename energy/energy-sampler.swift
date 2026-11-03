@@ -6,10 +6,13 @@
 // runs it with the log directory as its one argument.
 //
 // Each line: t (Unix seconds), dt (seconds since the last line), w (battery draw in watts, the
-// mean of the readings at both ends), pct (charge in percent), r (joules per CPU second of a busy
-// core, measured at start), gt (GPU seconds of every process, root ones included) and g, a map of
-// group to {j, c, u, uj, g}: joules and CPU seconds of the processes seen running, CPU seconds of
-// processes that started and ended between two lines, those seconds priced at r, and GPU seconds.
+// mean of the gauge's momentary readings at both ends, which it updates about once a minute), b
+// (joules the battery gave, from its charge counter, which also moves about once a minute, so only
+// sums over minutes are exact), pct (charge in percent), r (joules per CPU second of a busy core,
+// measured at start), cs (CPU seconds of every process, root ones included), gt (GPU seconds of
+// every process) and g, a map of group to {j, c, u, uj, g}: joules and CPU seconds of the
+// processes seen running, CPU seconds of processes that started and ended between two lines, those
+// seconds priced at r, and GPU seconds.
 // A group is "session:<id>", an app name, or "other" for the apps under 0.05 joules in that line.
 // What the battery gave beyond the groups' joules went to the screen, the GPU, root processes and
 // the rest of the Mac.
@@ -134,18 +137,52 @@ func gpuTimes() -> [Int32: UInt64] {
   return times
 }
 
-func battery() -> (external: Bool, watts: Double, percent: Int)? {
+struct Battery {
+  let external: Bool
+  let watts, volts: Double
+  let percent, charge: Int
+}
+
+func battery() -> Battery? {
   let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
   guard service != 0 else { return nil }
   defer { IOObjectRelease(service) }
-  func number(_ key: String) -> NSNumber? {
+  func property(_ key: String) -> Any? {
     IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?
-      .takeRetainedValue() as? NSNumber
+      .takeRetainedValue()
   }
+  func number(_ key: String) -> NSNumber? { property(key) as? NSNumber }
   let milliamps = Double(number("InstantAmperage")?.int64Value ?? 0)
   let millivolts = Double(number("Voltage")?.int64Value ?? 0)
-  return (number("ExternalConnected")?.boolValue ?? true, -milliamps * millivolts / 1e6,
-    number("CurrentCapacity")?.intValue ?? 0)
+  let data = property("BatteryData") as? [String: Any]
+  return Battery(
+    external: number("ExternalConnected")?.boolValue ?? true,
+    watts: -milliamps * millivolts / 1e6, volts: millivolts / 1000,
+    percent: number("CurrentCapacity")?.intValue ?? 0,
+    charge: (data?["AppleRawCurrentCapacity"] as? NSNumber)?.intValue ?? 0)
+}
+
+// Busy and total scheduler ticks summed over every core, root processes' time included.
+func cpuTicks() -> (busy: UInt64, all: UInt64, cores: Int) {
+  var cores: natural_t = 0
+  var info: processor_info_array_t?
+  var count: mach_msg_type_number_t = 0
+  guard host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &cores, &info, &count)
+    == KERN_SUCCESS, let info
+  else { return (0, 0, 0) }
+  defer {
+    vm_deallocate(mach_task_self_, vm_address_t(bitPattern: info),
+      vm_size_t(count) * vm_size_t(MemoryLayout<integer_t>.stride))
+  }
+  var busy: UInt64 = 0, all: UInt64 = 0
+  for core in 0..<Int(cores) {
+    for state in 0..<Int(CPU_STATE_MAX) {
+      let ticks = UInt64(UInt32(bitPattern: info[core * Int(CPU_STATE_MAX) + state]))
+      all += ticks
+      if state != Int(CPU_STATE_IDLE) { busy += ticks }
+    }
+  }
+  return (busy, all, Int(cores))
 }
 
 // A pid file holds the session id of the claude process with that pid, written at each prompt.
@@ -189,9 +226,9 @@ struct Use: Encodable {
 
 struct Line: Encodable {
   let t: Int
-  let dt, w: Double
+  let dt, w, b: Double
   let pct: Int
-  let r, gt: Double
+  let r, cs, gt: Double
   let g: [String: Use]
 }
 
@@ -261,6 +298,8 @@ encoder.outputFormatting = .sortedKeys
 var previous: [Int32: Proc] = [:]
 var previousGPU: [Int32: UInt64] = [:]
 var previousWatts = 0.0
+var previousBattery: Battery?
+var previousCPU = cpuTicks()
 var previousTime = Date()
 var previousTicks: UInt64 = 0
 var lastPrune = ""
@@ -276,14 +315,17 @@ while samples == 0 || written < samples {
     continue
   }
   let gpu = gpuTimes()
+  let cpu = cpuTicks()
   let procs = snapshot(gpu)
   let watts = power?.watts ?? 0
   defer {
     previous = procs
     previousGPU = gpu
+    previousCPU = cpu
     previousTime = now
     previousTicks = ticks
     previousWatts = watts
+    previousBattery = power
   }
   if previous.isEmpty {
     Thread.sleep(forTimeInterval: interval)
@@ -300,7 +342,7 @@ while samples == 0 || written < samples {
     if let before = previous[pid], before.start == proc.start {
       joules = Double(proc.energy &- before.energy) / 1e9
       cpu = seconds(proc.cpu &- before.cpu)
-      gpu = Double(proc.gpu &- before.gpu) / 1e9
+      gpu = Double(proc.gpu &- min(before.gpu, proc.gpu)) / 1e9
       childGain[pid] = seconds(proc.child &- before.child)
     } else if proc.start > previousTicks {
       joules = Double(proc.energy) / 1e9
@@ -347,9 +389,17 @@ while samples == 0 || written < samples {
   for (pid, time) in gpu {
     allGPU += time &- min(previousGPU[pid] ?? 0, time)
   }
+  let dt = now.timeIntervalSince(previousTime)
+  var charged = 0.0
+  if let power, let before = previousBattery, power.charge > 0, before.charge > 0 {
+    charged = Double(before.charge - power.charge) * (power.volts + before.volts) / 2 * 3.6
+  }
+  let allTicks = cpu.all &- previousCPU.all
+  let busyCPU = allTicks > 0
+    ? Double(cpu.busy &- previousCPU.busy) / Double(allTicks) * Double(cpu.cores) * dt : 0
   let line = Line(
-    t: Int(now.timeIntervalSince1970), dt: round3(now.timeIntervalSince(previousTime)),
-    w: round3((watts + previousWatts) / 2), pct: power?.percent ?? 0, r: round3(rate),
+    t: Int(now.timeIntervalSince1970), dt: round3(dt), w: round3((watts + previousWatts) / 2),
+    b: round3(charged), pct: power?.percent ?? 0, r: round3(rate), cs: round3(busyCPU),
     gt: round3(Double(allGPU) / 1e9), g: g)
   if let data = try? encoder.encode(line) {
     let file = logFile(now)
