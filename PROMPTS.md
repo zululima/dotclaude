@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Log battery energy per Claude Code session and prompt
+## Make energy/install.sh executable
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?) Quoted under [835b0dc](https://github.com/zululima/dotclaude/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2).
+
+## Log battery energy per Claude Code session and prompt
+
+2026-11-03, commit [835b0dc](https://github.com/zululima/dotclaude/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?)
 > b
