@@ -915,6 +915,49 @@ const suites = [
     ]
   }],
 
+  ['usage.sh --status', () => {
+    const t = path.join(config, 'projects/-signin/s.jsonl'), fake = path.join(home, 'fake-pgrep')
+    fs.chmodSync(write(path.join(fake, 'pgrep'), '#!/bin/sh\nexit 0\n'), 0o755)
+    const start = Date.UTC(2026, 10, 3, 14, 0)
+    let n = 0
+    // A Claude in Chrome call s seconds after the start, and its result listing the group's tabs.
+    const chrome = (s, name, input, tabs, on = Object.keys(tabs)[0]) => {
+      const id = `toolu_${++n}`, list = Object.entries(tabs).map(([tab, url]) => `  • tabId ${tab}: "Page" ("${url}")`)
+      return [
+        { type: 'assistant', uuid: `a${n}`, timestamp: new Date(start + s * 1000 - 1000).toISOString(), message: { id: `msg_${n}`, model: 'claude-opus-5-5', usage: { input_tokens: 10, output_tokens: 5 }, content: [{ type: 'tool_use', id, name: `mcp__claude-in-chrome__${name}`, input }] } },
+        { type: 'user', uuid: `u${n}`, timestamp: new Date(start + s * 1000).toISOString(), message: { content: [{ type: 'tool_result', tool_use_id: id, content: [{ type: 'text', text: `Done\n\nTab Context:\n- Executed on tabId: ${on}\n- Available tabs:\n${list.join('\n')}` }] }] } },
+      ]
+    }
+    // The seconds after the start that the sign-in ends, or 0 for none.
+    const ends = records => {
+      jsonl(t, records.flat())
+      const r = spawnSync('bash', [USAGE_SH, '--status', t], { env: { ...ENV, PATH: `${fake}:${ENV.PATH}` }, encoding: 'utf8' })
+      const at = Number(r.stdout.split('\n')[4])
+      return at ? at - start / 1000 : 0
+    }
+    const site = 'https://tyomarkkinatori.fi/henkiloasiakkaat/asiointi', bank = 'https://online.s-pankki.fi/'
+    const signIn = [
+      chrome(10, 'navigate', { url: site }, { 1: 'https://tyomarkkinatori.fi/kirjaudu?redirecturi=%2Fhenkiloasiakkaat' }),
+      chrome(20, 'computer', { action: 'left_click' }, { 1: 'https://tunnistautuminen.suomi.fi/sivut/discovery-page/?timeout=295' }),
+      chrome(300, 'computer', { action: 'screenshot' }, { 1: site }),
+    ]
+    return [
+      ['counts no Työmarkkinatori sign-in on its sign-in page', () => ends(signIn.slice(0, 1)) === 0],
+      ['counts it 60 minutes from the first result back on the site', () => ends(signIn) === 300 + 3600],
+      ['moves it on no acting call after that', () => ends([...signIn, chrome(900, 'javascript_tool', { action: 'javascript_exec' }, { 1: site })]) === 300 + 3600],
+      ['holds it in a new tab on the site', () => ends([...signIn, chrome(900, 'navigate', { url: site }, { 2: site })]) === 300 + 3600],
+      ['ends it once a tab is back on the sign-in page', () => ends([...signIn, chrome(900, 'navigate', { url: site }, { 1: 'https://tyomarkkinatori.fi/kirjaudu' })]) === 0],
+      ['counts none on the site without a sign-in seen', () => ends([chrome(10, 'navigate', { url: site }, { 1: site })]) === 0],
+      ['counts a bank from the last acting call on its tab', () => ends([
+        chrome(10, 'navigate', { url: bank }, { 1: bank }),
+        chrome(60, 'computer', { action: 'screenshot' }, { 1: bank }),
+      ]) === 10 + 15 * 60],
+      ['counts the suomi.fi portal at 30 minutes, not the identification\'s 32', () => ends([
+        chrome(10, 'navigate', { url: 'https://www.suomi.fi/viestit' }, { 1: 'https://www.suomi.fi/viestit' }),
+      ]) === 10 + 30 * 60],
+    ]
+  }],
+
   ['own-hunks.sh', run => {
     const checkout = path.join(home, 'Projects/dotclaude'), records = path.join(checkout, '.git/own-hunks')
     const rules = path.join(config, 'CLAUDE.md'), readme = path.join(checkout, 'README.md')

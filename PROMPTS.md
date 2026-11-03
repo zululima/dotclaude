@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Retire the root powermetrics service from the energy log
+## usage mod: count a Työmarkkinatori sign-in from the sign-in
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+## Retire the root powermetrics service from the energy log
+
+2026-11-03, commit [4c75d91](https://github.com/zululima/dotclaude/commit/4c75d9160bf6de913b28f027fb5cbbdc53d357b6), model claude-opus-5-5, effort xhigh.
 
 **8.** (answer to: shall I retire the root powermetrics service now that    the sampler covers it?)
 > Yes, retire it

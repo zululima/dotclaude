@@ -57,7 +57,7 @@ common='
     | if $n == "computer" then $input.action | IN("screenshot", "zoom", "wait") | not
       elif $n == "browser_batch" then any($input.actions[]?; acting(.name; .input))
       else $n | IN("navigate", "form_input", "javascript_tool", "file_upload", "upload_image") end;
-  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}};
+  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}};
       (if $e.uuid != null then .seen[$e.uuid] = ($e.timestamp | secs) else . end)
       | (if $e.type == "assistant" then reduce ($e.message.content[]? | select(.type? == "tool_use"
           and (.name | startswith("mcp__claude-in-chrome__")) and acting(.name; .input))) as $u (.; .acts[$u.id] = true)
@@ -76,6 +76,8 @@ common='
              | split("Tab Context:")) as $parts
           | if ($parts | length) < 2 then .
             else ($e.timestamp | secs) as $at | .tabs = {at: $at, text: $parts[-1]}
+              | reduce ($parts[-1] | capture("tabId (?<id>[0-9]+): .*\\(\"https?://(?<to>[^\"?#]*)"; "g")) as $t (.;
+                  if .went[$t.id][-1].to == $t.to then . else .went[$t.id] += [{at: $at, to: $t.to}] end)
               | ($parts[-1] | capture("Executed on tabId: (?<id>[0-9]+)").id // null) as $tab
               | if $tab != null and .acts[$result.tool_use_id // ""] then .acted[$tab] = $at else . end end
         else . end);
@@ -210,25 +212,44 @@ waiting() {
   return 1
 }
 
-# Minutes a sign-in lasts unused, from the service's own page where it gives
-# one: S-Pankki 15, OmaVero 60 and a Suomi.fi identification 32. Nordea gives 5
-# for its mobile bank alone, and the others publish none, so they get those 5.
+# Minutes a sign-in lasts unused, from the service's own page or code where it
+# gives them: S-Pankki 15, OmaVero 60, OmaKanta 30, the suomi.fi portal 30, a
+# Suomi.fi identification 32, and Nordea, OP, Danske Bank and POP Pankki 5. The
+# others publish none, so they get those 5.
 # A host counts with its subdomains. Each Claude in Chrome result lists the tabs
 # of the session's group, so the last one tells which are open, and a tab's
 # sign-in runs from the last acting call made on that tab. Clicks made by hand
-# in it leave no trace here, so a sign-in can only last longer than counted.
+# in it leave no trace here, so such a sign-in can only last longer than counted.
+#
+# A host in lasting ends a sign-in a fixed time after it, used or not, which it
+# keeps in a cookie its own expiry warning reads: Työmarkkinatori's session_exp
+# moved on neither a reload nor an API call, only on that warning's button. The
+# sign-in is made by hand on the via pages, so its minutes run from the first
+# result that shows the tab back on the host, and hold in every tab on it, as
+# the cookie does. It ends sooner than counted by as long as Claude took to look
+# again after it, and later only after a click on that button.
 signins='
   def minutes: {
     "netbank.nordea.fi": 5, "s-pankki.fi": 15, "op.fi": 5, "danskebank.fi": 5,
     "aktia.fi": 5, "saastopankki.fi": 5, "poppankki.fi": 5, "omasp.fi": 5,
     "handelsbanken.fi": 5, "alandsbanken.fi": 5, "vero.fi": 60, "suomi.fi": 32,
-    "kela.fi": 5, "kanta.fi": 5, "tyomarkkinatori.fi": 5
+    "www.suomi.fi": 30, "kela.fi": 5, "kanta.fi": 30
   };
-  def signed_in_until: .acted as $acted
-    | [.tabs.text // "" | split("\n")[] | capture("tabId (?<id>[0-9]+): .*\\(\"https?://(?<host>[^/\"?#:]+)") // empty
-        | $acted[.id] as $from | select($from != null) | (.host | ascii_downcase) as $host
-        | [minutes | to_entries[] | . as $s | select($host == $s.key or ($host | endswith("." + $s.key))) | .value] | min
-        | select(. != null) | $from + . * 60]
+  def lasting: {
+    "tyomarkkinatori.fi": {minutes: 60, via: "^(tunnistautuminen\\.suomi\\.fi|tyomarkkinatori\\.fi/kirjaudu)"}
+  };
+  def on($key): . == $key or endswith("." + $key);
+  def signed_in: .went as $went | lasting | with_entries(.key as $key | .value.via as $via
+    | .value = ([$went[] | reduce .[] as $w ({};
+        if $w.to | test($via) then {via: true}
+        elif .via and ($w.to | split("/")[0] | ascii_downcase | on($key)) then {at: $w.at}
+        else . end) | .at // empty] | max));
+  def signed_in_until: .acted as $acted | signed_in as $since
+    | [.tabs.text // "" | split("\n")[] | capture("tabId (?<id>[0-9]+): .*\\(\"https?://(?<host>[^/\"?#:]+)")
+        | .id as $id | (.host | ascii_downcase) as $host
+        | ([lasting | to_entries[] | .key as $key | select($host | on($key)) | ($since[$key] // empty) + .value.minutes * 60] | min)
+          // ([minutes | to_entries[] | .key as $key | select($host | on($key)) | .value] | min
+            | select(. != null) | ($acted[$id] // empty) + . * 60)]
     | if length > 0 then min | floor else 0 end;'
 
 # The desktop app's record of a session says whether it is archived; a session
