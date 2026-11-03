@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Refresh the evals after the 3 Nov dream review
+
+2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> gm
+
 ## Stop denying Claude in Chrome
 
-2026-11-02, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [26b971f](https://github.com/zululima/dotclaude/commit/26b971fa0ae21a472758d832502d1d46fdb420ab), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > all done. chromium doesnt work on mac?
