@@ -6,11 +6,14 @@ description: How the public mirror of ~/.claude works. Load it before changing ~
 # Public configuration repository
 
 These procedures sit beside the Public configuration repository rules in `~/.claude/CLAUDE.md`,
-which still hold: the user's go before a change to that file or a mirrored skill, the `sync.sh` run
-and its commit in the same turn, and the rule that a mirrored file states what holds now.
+which still hold: the user's go before a change to that file or a mirrored skill, and the `sync.sh`
+run and its commit in the same turn.
 
 ## Writing a rule
 
+- A rule in a mirrored file states what holds now. The incident behind it, its date and the wording
+  it replaced go into the commit message, never into the file, and a changed rule is rewritten in
+  place rather than followed by a note on what it used to say.
 - A rule written from a correction reaches as far as the reason in the user's words, never only as
   far as the form of their example, and adds no condition they did not give: a wish to paste a page
   into Firefox covers every file Firefox shows, not HTML alone, and a wish to type less covers the

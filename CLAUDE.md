@@ -557,6 +557,10 @@ apply to one repository belong in that repository's project memory.
   or a click the session may not make, the session opens the page that step happens on in a tab of
   its group, leaves that tab open and names it in the reply, and the turn ends with `wrap_up` and
   `blocked`, so the sidebar marks the session as waiting on the user.
+- No reply suggests storing a password in Chrome: not in Chrome's own password manager or through
+  its offer to save one, not by importing passwords from Firefox, and not in a password manager's
+  Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
+  time a site asks, from the password manager they keep outside Chrome.
 - A `PushNotification` goes out only while the Mac's screen is locked. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
   the screen is unlocked the reply and the sidebar reach them. The presence listener in
@@ -717,9 +721,6 @@ apply to one repository belong in that repository's project memory.
   changes another mirrored file, run `sync.sh` and read the diff, write the commit message to a file
   in the scratchpad, and run `sync.sh --commit <file> <path>...` in the same turn, naming only the
   files this session changed.
-- A rule in a mirrored file states what holds now. The incident behind it, its date and the wording
-  it replaced go into the commit message, never into the file, and a changed rule is rewritten in
-  place rather than followed by a note on what it used to say.
 
 ## Memory hygiene
 

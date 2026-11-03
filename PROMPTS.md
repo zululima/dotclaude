@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read the chip's energy counters in the sampler, without root
+## Never suggest storing passwords in Chrome
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> never suggest storing passwords on chrome
+
+## Read the chip's energy counters in the sampler, without root
+
+2026-11-03, commit [754172a](https://github.com/zululima/dotclaude/commit/754172ad67ad116237619b4748d9c7cca8ce6669), model claude-opus-5-5, effort xhigh.
 
 **7.** (answer to: shall I try splitting the screen-and-rest row with    macOS's own energy counters?)
 > Yes, try it
