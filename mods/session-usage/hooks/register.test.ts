@@ -7,6 +7,7 @@ const FIRE = '\u{1F525}'
 const ALARM = '\u23F0'
 const ICE = '\u{1F9CA}'
 const HOURGLASS = '\u23F3'
+const KEY = '\u{1F511}'
 const LATE = '\u{1F4B8}'
 // 12:20 on 20 Oct at UTC+3, and the next midnight there
 const NOW = 1792488000_000
@@ -163,6 +164,27 @@ test('names the other session that goes cold next, cut to fit, read once a minut
   ])
   // Each emoji counted as two columns
   expect(shown.every(text => [...(text ?? '')].length + 3 <= 40)).toBe(true)
+})
+
+test('ranks a Chrome sign-in that ends with the caches that go cold, under a key', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] !== '--next') return warmFor(59)
+    return ran(`${NOW / 1000 + 4 * 60}\tBank export\tsign-in\n${NOW / 1000 + 18 * 60}\tOctober role\n`)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  await clock.advance(4 * 60_000)
+
+  expect(shown.at(0)).toBe(`${FIRE} 59 min, ${FIGURES}, ${KEY} 4 min Bank export`)
+  expect(shown.at(-1)).toBe(`${FIRE} 55 min, ${FIGURES}, ${HOURGLASS} 14 min October`)
 })
 
 test('reads the other sessions again within seconds of a prompt in one of them', async ($, on) => {

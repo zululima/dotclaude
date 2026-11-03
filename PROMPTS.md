@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Never suggest storing passwords in Chrome
+## usage mod: count Chrome sign-ins that end beside cold caches
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> actually could the staus bar hourglass include the session that has
+> chrome launched etc that hold cookies that only keep login on banks
+> etc only for a limited time. check the time and could it be almost
+> the same criticality as the going next cold cache?
+
+## Never suggest storing passwords in Chrome
+
+2026-11-03, commit [d5c765d](https://github.com/zululima/dotclaude/commit/d5c765d5fa832dedfdc512a265cc798425f8ca45), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > never suggest storing passwords on chrome

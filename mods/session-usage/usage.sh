@@ -19,9 +19,11 @@
 #                           down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
-#                           still warm and that wait on no subagent, soonest
-#                           cold first: the second it goes cold and the title,
-#                           tab-separated, a line each
+#                           still warm and that wait on no subagent, and those
+#                           whose Chrome tabs hold a sign-in that ends unused,
+#                           soonest first: the second it goes cold or ends, the
+#                           title and sign-in for a sign-in, tab-separated, a
+#                           line each
 #   usage.sh --run <folder> the tokens, cost and energy of every transcript
 #                           under the folder, such as a workflow run's, by kind
 #                           and model
@@ -58,6 +60,9 @@ common='
           and ($e.origin.kind // "human") == "human"
           and ($e.message.content | type == "string" or (type == "array" and any(.[]; .type == "text")))
         then .prompts += [$e.timestamp | secs]
+        elif $e.type == "user" and ($e.message.content | type == "array" and .[0].type == "tool_result")
+        then ($e.message.content[0].content | if type == "array" then map(.text? // "") | join("") else tostring end) as $text
+          | if $text | contains("Tab Context:") then .tabs = {at: ($e.timestamp | secs), $text} else . end
         else . end);
 
   # A request goes out once the entry it answers is written, and the cache
@@ -190,11 +195,30 @@ waiting() {
   return 1
 }
 
+# Minutes a sign-in lasts unused, from the service's own page where it gives
+# one: S-Pankki 15, OmaVero 60 and a Suomi.fi identification 32. Nordea gives 5
+# for its mobile bank alone, and the others publish none, so they get those 5.
+# A host counts with its subdomains.
+signins='
+  def minutes: {
+    "netbank.nordea.fi": 5, "s-pankki.fi": 15, "op.fi": 5, "danskebank.fi": 5,
+    "aktia.fi": 5, "saastopankki.fi": 5, "poppankki.fi": 5, "omasp.fi": 5,
+    "handelsbanken.fi": 5, "alandsbanken.fi": 5, "vero.fi": 60, "suomi.fi": 32,
+    "kela.fi": 5, "kanta.fi": 5, "tyomarkkinatori.fi": 5
+  };
+  def signed_in_until: if . == null then 0 else .at as $at
+    | [.text | split("Tab Context:") | last | match("\\(\"https?://([^/\"?#:]+)"; "g")
+        | .captures[0].string | ascii_downcase] as $hosts
+    | [minutes | to_entries[] | . as $s | select(any($hosts[]; . == $s.key or endswith("." + $s.key))) | .value]
+    | if length > 0 then $at + min * 60 | floor else 0 end end;'
+
 # The desktop app's record of a session says whether it is archived; a session
 # without one, such as a terminal's, counts as open. A record changes whenever
 # its session does, so only those of the last hour are read.
 if [ "${1:-}" = --next ]; then
   now=$(date +%s)
+  chrome=false
+  pgrep -xq 'Google Chrome' && chrome=true
   known=$(find "$HOME/Library/Application Support/Claude/claude-code-sessions" -name 'local_*.json' \
     -mmin -65 -type f -exec jq -r '"\(.cliSessionId)\t\(.isArchived == true)\t\(.title // "")"' {} + 2>/dev/null)
   find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null |
@@ -204,15 +228,21 @@ if [ "${1:-}" = --next ]; then
       archived='' title=''
       IFS=$'\t' read -r _ archived title < <(printf '%s\n' "$known" | grep -F "$id	")
       [ "$archived" = true ] && continue
-      waiting "${f%.jsonl}" && continue
       [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
+      title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
-      # its first response is written.
-      cold=$(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common"'
-        scan("") | (.prompts | max // 0) as $prompt | grouped | select(length > 0)
-        | ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor' 2>/dev/null)
-      [ -n "$cold" ] && [ "$cold" -gt "$now" ] && printf '%s\t%s\n' "$cold" "${title:-${id:0:8}}"
+      # its first response is written. The last Claude in Chrome result lists
+      # the tabs the session holds and when it last used them.
+      cold=0 ends=0
+      read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
+        scan("") | (.prompts | max // 0) as $prompt | (.tabs | signed_in_until) as $ends | grouped
+        | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
+        | "\($cold) \($ends)"' 2>/dev/null)
+      # A session waiting on a subagent still holds its tabs.
+      [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\n' "$ends" "$title"
+      waiting "${f%.jsonl}" && continue
+      [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\n' "$cold" "$title"
     done | sort -n
   exit 0
 fi

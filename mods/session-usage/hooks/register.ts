@@ -1,7 +1,7 @@
 import type { EngineInterface, Register, Timer } from 'claude-code'
 
 type Usage = { figures: string; coldAt: number; offset: number; mark: string }
-type Other = { coldAt: number; title: string }
+type Other = { endsAt: number; title: string; isSignIn: boolean }
 
 const DAY = 86_400_000
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -9,6 +9,7 @@ const FIRE = '\u{1F525}'
 const ALARM = '⏰'
 const ICE = '\u{1F9CA}'
 const HOURGLASS = '\u23F3'
+const KEY = '\u{1F511}'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
 
@@ -50,13 +51,14 @@ const fit = (title: string, room: number) => {
   return title.slice(0, space > 0 ? space : room).replace(/[\s,:;+-]+$/, '')
 }
 
-// The other session that goes cold next, its title cut at a word to fit.
+// The other session whose cache goes cold or whose Chrome sign-in ends next,
+// its title cut at a word to fit.
 const next = (now: number, room: number) => {
-  const other = others.find(o => o.coldAt > now)
+  const other = others.find(o => o.endsAt > now)
   if (!other) return ''
 
-  const left = other.coldAt - now
-  const head = `${HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
+  const left = other.endsAt - now
+  const head = `${other.isSignIn ? KEY : HOURGLASS} ${left >= 60_000 ? Math.floor(left / 60_000) : '<1'} min `
   const title = fit(other.title, room - width(head))
 
   return title ? head + title : ''
@@ -83,8 +85,8 @@ const readOthers = async ($: EngineInterface) => {
           .split('\n')
           .filter(Boolean)
           .map(row => {
-            const [coldAt = '', title = ''] = row.split('\t')
-            return { coldAt: Number(coldAt) * 1000, title }
+            const [endsAt = '', title = '', kind = ''] = row.split('\t')
+            return { endsAt: Number(endsAt) * 1000, title, isSignIn: kind === 'sign-in' }
           })
       : []
   othersReadAt = await $.clock.now()
