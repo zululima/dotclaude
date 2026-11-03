@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read the best Hacker News stories in weekly dream runs
+## Keep the user's sessions out of advice on cutting costs
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about the Mac's battery use today left out]
+
+**2.**
+> > fewer Claude sessions at once while unplugged.
+> actually bad advice. [a question about measuring battery use per
+> session and per prompt left out]
+
+**3.** (answer to: why was "run fewer Claude sessions" bad battery advice?)
+> Sessions are my work
+
+## Read the best Hacker News stories in weekly dream runs
+
+2026-11-03, commit [70a8532](https://github.com/zululima/dotclaude/commit/70a8532e0e793597d5488f8f687dadfdb617516d), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > add articles of [pasted: the address of the Hacker News best page

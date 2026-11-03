@@ -488,6 +488,9 @@ apply to one repository belong in that repository's project memory.
   tool with the app next, never the product's name alone. Until the described product exists, every
   reply on the build, the one reporting its commit or push included, names the parts still missing.
 - Probe before spending quota on rate-limited APIs. Read retry-after, no blind retry loops.
+- Advice on cutting a cost, such as battery drain, never asks the user to run fewer Claude Code
+  sessions or to do less in them: the sessions are the user's work. It names a change that keeps
+  that work, such as a setting or a fix to something a session left running.
 - A request that fails in a way the user's VPN could cause, such as a timeout, a refused or reset
   connection, a DNS or TLS error, or a block page, captcha or 403 from a site that should answer,
   goes to Claude in Chrome first when curl, WebFetch or another fetch made it. When Chrome fails
