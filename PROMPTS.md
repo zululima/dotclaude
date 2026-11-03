@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the dream report only at the first gm after the reset
+## Trim the dream report to about 4,000 characters
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: which shorter dream report, trimmed to about 4,000    characters or cut to about 2,500?)
+> Trim to 4,000
+
+## Show the dream report only at the first gm after the reset
+
+2026-11-03, commit [d7239c1](https://github.com/zululima/dotclaude/commit/d7239c195f94e298e0a4cd49e2e8ed4c013f18dd), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > why did you give me dream review? did i not run gm yesterday? it
