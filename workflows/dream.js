@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
@@ -22,13 +22,15 @@ const HISTORY_FILE = '~/.claude/dream/usage-history.jsonl'
 const WEEKS_FILE = '~/.claude/dream/weekly-usage.jsonl'
 const EVALS_FILE = '~/.claude/dream/evals-checkout.txt'
 const BACKLOG_FILE = `${OUT}/backlog.json`
-const SOURCES = ['transcripts', 'config', 'github', 'battery', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
+const SOURCES = ['transcripts', 'config', 'github', 'battery', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'hn', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
 const TIER_PHASE = { 1: 'Recent', 2: 'Weekly', 3: 'Work', 4: 'Older' }
 const TIER_PREFIX = { 1: 'n', 2: 'w', 3: 'k', 4: 'd' }
-const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, battery: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
+const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, battery: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, hn: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
 // In eve and final runs a weekly source is due once per weekend, so a final run picks up what the eve run had no usage for.
 const WEEKEND_CADENCE_HOURS = 36
 const LOOKBACK_DAYS = 7
+const HN_FIRST_DAYS = 30
+const HN_MIN_POINTS = 150
 const requested = Array.isArray(opts.only) && opts.only.length ? opts.only : SOURCES
 const unknown = requested.filter(s => !SOURCES.includes(s))
 if (unknown.length) log(`Ignoring unknown sources: ${unknown.join(', ')}`)
@@ -1214,6 +1216,28 @@ Then read ~/.claude/settings.json, ~/.claude/hooks/, ~/.claude/CLAUDE.md, ~/.cla
 A Claude API or Managed Agents feature needs an API key, bills at API token rates outside the Claude plan's limits, and works on its own sessions and memory stores, not on Claude Code transcripts or memory files. A finding about one says what it would cost, what the user would have to set up, which part of their own version it would replace, and, for a research preview, how access is requested.
 Skip changes that do not touch this setup. Cite the changelog version or URL for every finding.
 ${WINDOW}
+${OUTPUT}
+${GROUND}`,
+  })
+}
+
+if (only.includes('hn')) {
+  const hnSince = lastRan.hn || nowMs - HN_FIRST_DAYS * 24 * 3600 * 1000
+  tasks.push({
+    source: 'hn',
+    tier: 2,
+    label: 'hacker news',
+    prompt: `Find what the best stories on Hacker News hold that this user's Claude Code setup should act on.
+1. List the stories posted after ${new Date(hnSince).toISOString()} with more than ${HN_MIN_POINTS} points from Algolia's HN search API. Its list reaches back as far as asked, unlike https://news.ycombinator.com/best, which stops at about a week whatever its h parameter says. Page through from page 0 until page reaches nbPages, writing one line per story to a file in your scratch folder:
+curl -sG https://hn.algolia.com/api/v1/search --data-urlencode tags=story --data-urlencode "numericFilters=created_at_i>${Math.floor(hnSince / 1000)},points>${HN_MIN_POINTS}" --data-urlencode hitsPerPage=1000 --data-urlencode page=<n> | jq -r '.hits[] | [.points, .num_comments, .created_at[0:10], .objectID, .title, (.url // "")] | @tsv'
+2. From the titles, pick only the stories that touch this setup: Claude Code, Claude and Anthropic, coding agents with their memory, harnesses and multi-agent runs, the security of developer and AI tools, prompt injection, and writing by or about LLMs. Leave the rest unopened.
+3. Read each picked article with WebFetch, or curl when WebFetch fails, and the top-level comments of its discussion from https://hn.algolia.com/api/v1/items/<objectID> with jq, for facts and corrections the article lacks.
+4. Match each against ~/.claude/settings.json, ~/.claude/hooks/, ~/.claude/workflows/, ~/.claude/skills/ and the installed plugins under ~/.claude/plugins/:
+- a risk the setup is open to, such as a compromised extension, package or MCP server it installs, or a leak through a feature it uses;
+- a technique a hook, a rule or a workflow could copy: name the step and what it would do differently;
+- a claim about Claude Code or the Claude plan that contradicts what a rule assumes.
+A story that reports news with no consequence for this setup is no finding. Cite the article URL and https://news.ycombinator.com/item?id=<objectID> for every finding. Say in coverage how many stories you listed, which you picked, which you read and which failed to load.
+${BACKLOG_NOTE}
 ${OUTPUT}
 ${GROUND}`,
   })

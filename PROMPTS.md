@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Run browser work in Claude in Chrome, not the built-in pane
+## Read the best Hacker News stories in weekly dream runs
 
 2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> add articles of [pasted: the address of the Hacker News best page
+> for 720 hours] to dreaming process. ask whats the priority
+
+**2.** (answer to: which tier, once or every run, which articles?)
+> 1a for now. propose changes to the priorities in dreaming if needed.
+> 2a. 3a
+
+## Run browser work in Claude in Chrome, not the built-in pane
+
+2026-11-03, commit [b4cf6be](https://github.com/zululima/dotclaude/commit/b4cf6beb573d0b558c903f1e35ed32f354960de7), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > always use chrome for browser things instead of builtin browser. just
