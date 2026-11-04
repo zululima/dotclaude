@@ -401,7 +401,7 @@ test('names the other session by its first word and the later ones Cmd+K lists i
   expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`)
 })
 
-test('cuts the first word with the others to fit rather than leave it out', async ($, on) => {
+test('keeps the first word whole rather than cut it or name the session by a later word alone', async ($, on) => {
   const shown: (string | undefined)[] = []
   mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
@@ -430,7 +430,7 @@ test('cuts the first word with the others to fit rather than leave it out', asyn
   on('session.start', () => ({ cwd: '/' }))
 
   await $.session.start(START)
-  expect(shown.at(-1)).toBe(`${FIRE} 59 min ${LATE}, ${FIGURES}, ${HOURGLASS} 59 min Note fix`)
+  expect(shown.at(-1)).toBe(`${FIRE} 59 min ${LATE}, ${FIGURES}, ${HOURGLASS} 59 min Notebook`)
 })
 
 test('takes more words to have Cmd+K list the other session alone, not only first', async ($, on) => {

@@ -125,30 +125,15 @@ const clash = (title: string, record: string) => {
   }
 }
 
-// The longest word loses its last letter, the later of two as long, until the
-// words fit or each is down to three letters.
-const shorten = (picked: string[], room: number) => {
-  const kept = picked.map(w => [...w])
-  const text = () => kept.map(w => w.join('')).join(' ')
-  while (width(text()) > room) {
-    const at = kept.reduce((top, w, i) => (w.length > 3 && w.length >= (kept[top]?.length ?? 0) ? i : top), -1)
-    if (at < 0) return undefined
-    kept[at]?.pop()
-  }
-  const whole = kept.filter((w, i) => w.join('') === picked[i]).length
-
-  return { text: text(), score: [whole, kept.flat().length] }
-}
-
 const isAbove = (a: number[], b: number[]) => {
   const i = a.findIndex((n, j) => n !== b[j])
   return i >= 0 && (a[i] ?? 0) > (b[i] ?? 0)
 }
 
 // The title's first word, which a reader knows the session by, and those later
-// words that have Cmd+K list it soonest: alone, or else first. Then the most
-// words whole and the most letters. The title cut to fit stands for the same
-// words.
+// words that fit and have Cmd+K list it soonest: alone, or else first. Then
+// the most words and the most letters. The title cut to fit stands for the
+// same words, and is the one name left when the first word alone is too long.
 const findable = (other: Other, room: number) => {
   const cut = fit(other.title, room)
   if (!cut || !known.has(other.record)) return cut
@@ -160,10 +145,11 @@ const findable = (other: Other, room: number) => {
   let text = cut
   let best: number[] | undefined
   for (let n = 0; n < 2 ** later.length; n++) {
-    const label = shorten([first, ...later.filter((_, i) => n & (1 << i))], room)
-    if (!label) continue
-    const score = [standing(words(label.text), other.record), ...label.score]
-    if (!best || isAbove(score, best)) [text, best] = [label.text, score]
+    const picked = [first, ...later.filter((_, i) => n & (1 << i))]
+    const label = picked.join(' ')
+    if (width(label) > room) continue
+    const score = [standing(words(label), other.record), picked.length, label.length]
+    if (!best || isAbove(score, best)) [text, best] = [label, score]
   }
   if (words(text).join(' ') === words(cut).join(' ')) text = cut
 
