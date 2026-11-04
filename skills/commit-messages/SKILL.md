@@ -19,6 +19,20 @@ hook that brings an edit of this skill made from another session into a running 
   Where one is asked for, it goes into the message file with the name and address `git config`
   gives. Git reads the `Abbreviations:` lines as trailers, so `git commit -s` alone appends the
   sign-off to them, and once the file holds it, `-s` adds no second one.
+- When squashing a pull request, by squash merge or by squashing its commits into one before
+  merging, add a `Co-authored-by: <name> <address>` trailer to the squashed commit for every human
+  account whose commits are being squashed, apart from the author the squashed commit already
+  carries. Take each name and address from `git log --format='%an <%ae>'` over the squashed range,
+  never from memory. GitHub drafts these trailers in its squash-merge dialog: keep them. The
+  attribution rule in `~/.claude/CLAUDE.md` still holds, so no trailer ever names Claude or
+  Anthropic.
+- When squashing a pull request, also add a `Reviewed-by: <name> <address>` trailer for every
+  human account that submitted a review on it. Take the identity from that account's own commits
+  in the same repository: `gh api 'repos/<owner>/<repo>/commits?author=<login>&per_page=1'`
+  gives the name and address it commits under. Fall back to the account's
+  `<id>+<login>@users.noreply.github.com` address, with the id from `gh api users/<login>`, and
+  skip the account when neither resolves. A review alone never earns a `Co-authored-by`, an
+  address never comes from another repository, and a bot never gets a trailer.
 - The prompt section opens with two lines. The first is
   `Prompts behind this commit, as given to Claude Code` and the second is
   `(model <id>, effort <level>):`, with the model id and effort level of the running session,

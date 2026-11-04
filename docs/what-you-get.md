@@ -101,8 +101,9 @@
 - [`mods/session-usage`](../mods/session-usage): a line under the prompt box that shows how many
   minutes the cache stays warm (a warm cache makes the next message cheaper), how full Claude's
   memory of the chat is, and which other open session's cache goes cold next, so you can get back to
-  it in time. The tokens and what they would cost show once a week instead, in the report of the
-  last `/dream` run before the weekly reset.
+  it in time. In the desktop app every session's name starts with a fire while its cache is warm and
+  an ice cube once it is cold. The tokens and what they would cost show once a week instead, in the
+  report of the last `/dream` run before the weekly reset.
 - [`mods/archive-files`](../mods/archive-files): when you archive a session in the desktop app, the
   files it made for you, its drafts folder and the files in `~/Downloads` named after it, move to
   `~/.claude/archive/` within seconds, and memory notes that named them point to where they went. It

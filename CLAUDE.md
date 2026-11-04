@@ -14,19 +14,6 @@ apply to one repository belong in that repository's project memory.
   `git commit --author`, and asks the user before `git config` sets or unsets a name or address.
 - Never add `Co-Authored-By: Claude`, "Generated with Claude Code", or any Claude or Anthropic
   attribution to commits, PR bodies, or issues. The `attribution` setting also enforces this.
-- When squashing a pull request, by squash merge or by squashing its commits into one before
-  merging, add a `Co-authored-by: <name> <address>` trailer to the squashed commit for every human
-  account whose commits are being squashed, apart from the author the squashed commit already
-  carries. Take each name and address from `git log --format='%an <%ae>'` over the squashed range,
-  never from memory. GitHub drafts these trailers in its squash-merge dialog: keep them. The rule
-  above still holds, so no trailer ever names Claude or Anthropic.
-- When squashing a pull request, also add a `Reviewed-by: <name> <address>` trailer for every
-  human account that submitted a review on it. Take the identity from that account's own commits
-  in the same repository: `gh api 'repos/<owner>/<repo>/commits?author=<login>&per_page=1'`
-  gives the name and address it commits under. Fall back to the account's
-  `<id>+<login>@users.noreply.github.com` address, with the id from `gh api users/<login>`, and
-  skip the account when neither resolves. A review alone never earns a `Co-authored-by`, an
-  address never comes from another repository, and a bot never gets a trailer.
 
 ## Remote state
 
@@ -408,9 +395,11 @@ apply to one repository belong in that repository's project memory.
   ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
   the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
   is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the title of the
-  other open session whose cache goes cold or sign-in ends soonest. The desktop app cuts the line at
-  about 40 characters, so it stays within that with the cache first and the other session's title
-  cut at a word, and no hook adds it to the transcript as a notice.
+  other open session whose cache goes cold or sign-in ends soonest. It also starts the title of each
+  open session in the app with that fire or ice cube, after a rename too, unless the user set the
+  title by hand. The desktop app cuts the line at about 40 characters, so it stays within that with
+  the cache first and the other session's title cut at a word, and no hook adds it to the transcript
+  as a notice.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
@@ -606,11 +595,12 @@ apply to one repository belong in that repository's project memory.
   launch of that app or boot of that simulator is asked about the same way until a launch shows the
   crash fixed.
 - In the desktop app, every turn that answers a prompt from the user renames its own session
-  with `set_session_title` and `self`, to a title for what the whole session has done so far,
-  not for the latest prompt alone. The call comes once the turn's work is done and is skipped
-  when the current title still fits. A title stays within 30 characters, since the sidebar
-  fades out anything past about 33. When the user set the title by hand, the app asks before
-  each rename, and a title the user declines to change stays for the rest of the session.
+  with `set_session_title` and `self`, to a title for what the whole session has done so far, not
+  for the latest prompt alone. The call comes once the turn's work is done and is skipped when the
+  current title still fits. A title stays within 27 characters, since the sidebar fades out anything
+  past about 33 and the `usage` mod puts an emoji and a space before it. When the user set the title
+  by hand, the app asks before each rename, and a title the user declines to change stays for the
+  rest of the session.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt to paste into Claude Code there, never a
   command. The user enters only personal data, such as a name, phone number, address, password or

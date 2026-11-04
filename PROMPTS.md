@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep a project session's replies to that project's work
+## usage mod: start session titles with a fire or an ice cube
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> can you also put icecube or fire to the session names if they're
+> frozen or fire cache
+
+## Keep a project session's replies to that project's work
+
+2026-11-04, commit [4dea7c8](https://github.com/zululima/dotclaude/commit/4dea7c8a8339b36194758aec58d6b209061c73c2), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > what [an event] invite doesnt belong here in [a project]

@@ -2,6 +2,8 @@ import type { EngineInterface, Register, Timer } from 'claude-code'
 
 type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
 type Other = { endsAt: number; title: string; isSignIn: boolean }
+type Titled = { coldAt: number; title: string; record: string; source: string; isOwn: boolean; retryAt: number }
+type SessionRecord = { isArchived?: boolean; title?: string; titleSource?: string }
 
 const DAY = 86_400_000
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -13,6 +15,8 @@ const COOKIE = '\u{1F36A}'
 const LOCK = '\u{1F512}\uFE0F'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
+const MARK = new RegExp(`^(${FIRE}|${ICE}) `, 'u')
+const RETRY = 600_000
 
 // An emoji takes two columns, the hourglass too, though it is one UTF-16 unit,
 // and the variation selector after the lock counts as the unit it is.
@@ -30,8 +34,11 @@ const heardAt = new Map<string, number>()
 let shown: string | undefined
 let isBusy = false
 let flip: Timer | undefined
+const titled = new Map<string, Titled>()
+let titling = Promise.resolve()
 
 const pad = (n: number) => String(n).padStart(2, '0')
+const bare = (title: string) => title.replace(MARK, '')
 
 // The offset is the one usage.sh read from the host's clock, so the UTC
 // getters give local time whatever zone this environment runs in. A sign-in in
@@ -86,20 +93,76 @@ const line = async ($: EngineInterface) => {
 }
 
 const readOthers = async ($: EngineInterface) => {
-  const id = await $.session.id()
-  const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, '--next', id])
-  others =
-    exitCode === 0
-      ? stdout
-          .split('\n')
-          .filter(Boolean)
-          .map(row => {
-            const [endsAt = '', title = '', kind = ''] = row.split('\t')
-            return { endsAt: Number(endsAt) * 1000, title, isSignIn: kind === 'sign-in' }
-          })
-      : []
+  const read = await rows($, '--next')
+  const isTitle = ([, , kind = '']: string[]) => kind === 'title' || kind === 'own'
+  others = read
+    .filter(row => !isTitle(row))
+    .map(([endsAt = '', title = '', kind = '']) => ({
+      endsAt: Number(endsAt) * 1000,
+      title: bare(title),
+      isSignIn: kind === 'sign-in',
+    }))
+  read.filter(isTitle).forEach(keep)
   othersReadAt = await $.clock.now()
 }
+
+const rows = async ($: EngineInterface, mode: '--next' | '--titles') => {
+  const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, mode, await $.session.id()])
+  return exitCode === 0
+    ? stdout
+        .split('\n')
+        .filter(Boolean)
+        .map(row => row.split('\t'))
+    : []
+}
+
+const keep = ([coldAt = '0', title = '', kind = '', record = '', source = '']: string[]) => {
+  if (!record) return
+  const retryAt = titled.get(record)?.retryAt ?? 0
+  titled.set(record, { coldAt: Number(coldAt) * 1000, title, record, source, isOwn: kind === 'own', retryAt })
+}
+
+// The sessions quiet for over an hour are cold for certain and change only
+// when one wakes up, which --next then reads, so they are read once.
+const sweep = async ($: EngineInterface) => (await rows($, '--titles')).forEach(keep)
+
+// A title set by hand stays as it is, since the app would ask before each
+// change. One the app declines waits ten minutes.
+const rename = async ($: EngineInterface, t: Titled, mark: string, now: number) => {
+  const record = await $.fs
+    .read(t.record)
+    .then(text => JSON.parse(text) as SessionRecord)
+    .catch(() => undefined)
+  if (!record?.title || record.isArchived) return void titled.delete(t.record)
+
+  t.title = record.title
+  t.source = record.titleSource ?? 'none'
+  const title = `${mark} ${bare(record.title)}`
+  if (t.source === 'user' || record.title === title) return
+
+  const sessionId = t.record.slice(t.record.lastIndexOf('/') + 1).replace(/\.json$/, '')
+  const isDone = await $.mcp
+    .call('ccd_session_mgmt', 'set_session_title', { session_id: sessionId, title })
+    .then(
+      result => !result.isError,
+      () => false,
+    )
+  if (isDone) t.title = title
+  else t.retryAt = now + RETRY
+}
+
+// Each desktop session's title starts with a fire while its cache is warm and
+// an ice cube once it is cold. This session's own is warm while a turn runs.
+// One pass at a time, so two never rename the same session.
+const retitle = ($: EngineInterface) =>
+  (titling = titling.then(async () => {
+    const now = await $.clock.now()
+    for (const t of titled.values()) {
+      const isWarm = t.isOwn ? isBusy || (usage?.coldAt ?? 0) > now : t.coldAt > now
+      const mark = isWarm ? FIRE : ICE
+      if (t.source !== 'user' && !t.title.startsWith(`${mark} `) && t.retryAt <= now) await rename($, t, mark, now)
+    }
+  }).catch(() => undefined))
 
 // Every session's main turn rewrites the beacon, beside the usage log, so the
 // others read again within seconds, not at their next minute.
@@ -163,6 +226,7 @@ const listen = async ($: EngineInterface) => {
   if (!(await hasNews($))) return
   await readOthers($)
   await redraw($)
+  await retitle($)
 }
 
 const redraw = async ($: EngineInterface) => {
@@ -185,7 +249,13 @@ const schedule = async ($: EngineInterface) => {
   const at = Math.min(...[coldAt - 60_000 + 1, coldAt, signedInUntil - 60_000 + 1, signedInUntil].filter(t => t > now))
   if (at === Infinity) return
 
-  flip = $.clock.after(at - now, () => void redraw($).then(() => schedule($)))
+  flip = $.clock.after(
+    at - now,
+    () =>
+      void redraw($)
+        .then(() => retitle($))
+        .then(() => schedule($)),
+  )
 }
 
 const show = async ($: EngineInterface) => {
@@ -212,8 +282,8 @@ const show = async ($: EngineInterface) => {
 // The other sessions are read once a minute too, for what neither file shows.
 const tick = async ($: EngineInterface) => {
   if ((await $.clock.now()) - othersReadAt >= 60_000) await readOthers($)
-  if (isBusy) return show($)
-  await redraw($)
+  await (isBusy ? show($) : redraw($))
+  await retitle($)
 }
 
 export const register: Register = on => {
@@ -222,6 +292,8 @@ export const register: Register = on => {
     await hasNews($)
     await readOthers($)
     await show($)
+    await sweep($)
+    void retitle($)
     $.clock.every(15_000, () => void tick($))
     if ((await watched($)).length > 0) $.clock.every(5_000, () => void listen($))
 
@@ -232,6 +304,7 @@ export const register: Register = on => {
     if (e.agentId === undefined) {
       isBusy = true
       await signal($)
+      void retitle($)
     }
 
     return next(e)
@@ -242,8 +315,24 @@ export const register: Register = on => {
     if (e.agentId === undefined) {
       isBusy = false
       await show($)
+      void retitle($)
     }
 
     return completed
+  })
+
+  // A rename Claude makes keeps the mark. A session renames itself in a turn,
+  // while its cache is warm.
+  on('tool.call', { tool: 'mcp__ccd_session_mgmt__set_session_title' }, async ($, e, next) => {
+    const isSelf = e.session_id === 'self'
+    const t = [...titled.values()].find(t => (isSelf ? t.isOwn : t.record.endsWith(`/${e.session_id}.json`)))
+    if (!isSelf && !t) return next(e)
+
+    const isWarm = isSelf || (t?.coldAt ?? 0) > (await $.clock.now())
+    const title = `${isWarm ? FIRE : ICE} ${bare(e.title)}`
+    const renamed = await next({ ...e, title })
+    if (t && renamed.deny === undefined && renamed.isError !== true) t.title = title
+
+    return renamed
   })
 }

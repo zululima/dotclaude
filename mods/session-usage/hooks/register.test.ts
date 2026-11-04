@@ -49,7 +49,7 @@ test('counts down between turns, then names the day once it is past', async ($, 
   const clock = mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
   on('process.run', ($, e) => {
-    if (e.argv[1] === '--next') return ran('')
+    if (e.argv[1] === '--next' || e.argv[1] === '--titles') return ran('')
     runs++
     return warmFor(2)
   })
@@ -111,7 +111,7 @@ test('reads the transcript on each tick while a main turn runs', async ($, on) =
   const clock = mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
   on('process.run', ($, e) => {
-    if (e.argv[1] === '--next') return ran('')
+    if (e.argv[1] === '--next' || e.argv[1] === '--titles') return ran('')
     runs++
     return warmFor(60)
   })
@@ -350,4 +350,118 @@ test('leaves a subagent turn alone and clears on no line', async ($, on) => {
 
   await $.turn.complete(TURN)
   expect(shown).toEqual([undefined])
+})
+
+const record = (id: string) => `/me/sessions/org/account/local_${id}.json`
+const titleRow = (coldAt: number, title: string, kind: string, id: string, source = 'tool') =>
+  `${coldAt / 1000}\t${title}\t${kind}\t${record(id)}\t${source}`
+
+test('marks each title with a fire while its cache is warm and an ice cube once cold', async ($, on) => {
+  const records = new Map([
+    [record('own'), { title: 'This work', titleSource: 'auto' }],
+    [record('store'), { title: 'Store status', titleSource: 'tool' }],
+    [record('old'), { title: `${FIRE} Old work`, titleSource: 'tool' }],
+    [record('mine'), { title: 'Named by hand', titleSource: 'user' }],
+  ])
+  const renamed: string[] = []
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--titles')
+      return ran(
+        `${titleRow(0, `${FIRE} Old work`, 'title', 'old')}\n${titleRow(0, 'Named by hand', 'title', 'mine', 'user')}\n`,
+      )
+    if (e.argv[1] === '--next')
+      return ran(
+        `${titleRow(0, 'This work', 'own', 'own', 'auto')}\n${NOW / 1000 + 120}\t${FIRE} Store status\n` +
+          `${titleRow(NOW + 120_000, 'Store status', 'title', 'store')}\n`,
+      )
+    return warmFor(30)
+  })
+  const shown: (string | undefined)[] = []
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('fs.read', ($, e) => {
+    const found = records.get(e.path)
+    return found ? { value: JSON.stringify(found) } : { deny: 'missing' }
+  })
+  on('mcp.call', ($, e) => {
+    expect([e.server, e.tool]).toEqual(['ccd_session_mgmt', 'set_session_title'])
+    const { session_id: id, title } = e.args as { session_id: string; title: string }
+    renamed.push(`${id}: ${title}`)
+    const path = `/me/sessions/org/account/${id}.json`
+    records.set(path, { ...records.get(path)!, title, titleSource: 'tool' })
+    return { value: { content: [], isError: false } }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+
+  await $.session.start(START)
+  await clock.advance(1)
+  expect(renamed).toEqual([`local_own: ${FIRE} This work`, `local_store: ${FIRE} Store status`, `local_old: ${ICE} Old work`])
+  expect(shown[0]).toBe(`${FIRE} 30 min, ${FIGURES}, ${HOURGLASS} 2 min Store status`)
+
+  await clock.advance(135_000)
+  expect(renamed.slice(3)).toEqual([`local_store: ${ICE} Store status`])
+
+  await clock.advance(30 * 60_000)
+  expect(renamed.slice(4)).toEqual([`local_own: ${ICE} This work`])
+
+  await $.turn.start({ text: 'go', turnId: 't1' })
+  await clock.advance(1)
+  expect(renamed.slice(5)).toEqual([`local_own: ${FIRE} This work`])
+})
+
+test('tries a rename the app declines again ten minutes later', async ($, on) => {
+  let calls = 0
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--titles') return ran(`${titleRow(0, 'Old work', 'title', 'old')}\n`)
+    if (e.argv[1] === '--next') return ran('')
+    return warmFor(30)
+  })
+  on('ui.status', () => ({ value: undefined }))
+  on('fs.read', () => ({ value: JSON.stringify({ title: 'Old work', titleSource: 'tool' }) }))
+  on('mcp.call', () => {
+    calls++
+    return { value: { content: [], isError: true } }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  await clock.advance(9 * 60_000)
+  expect(calls).toBe(1)
+
+  await clock.advance(60_000)
+  expect(calls).toBe(2)
+})
+
+test('keeps the mark on a rename Claude makes', async ($, on) => {
+  const asked: string[] = []
+  mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--next') return ran(`${titleRow(NOW - 60_000, `${ICE} Old work`, 'title', 'old')}\n`)
+    if (e.argv[1] === '--titles') return ran('')
+    return warmFor(30)
+  })
+  on('ui.status', () => ({ value: undefined }))
+  on('tool.call', { tool: 'mcp__ccd_session_mgmt__set_session_title' }, ($, e) => {
+    asked.push(`${e.session_id}: ${e.title}`)
+    return { result: {} }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  const rename = (session_id: string, title: string) =>
+    $.tool.call({ tool: 'mcp__ccd_session_mgmt__set_session_title', session_id, title })
+
+  await $.session.start(START)
+  await rename('self', `${ICE} Mod titles`)
+  await rename('local_old', 'Older work')
+  await rename('local_other', 'Other')
+
+  expect(asked).toEqual([`self: ${FIRE} Mod titles`, `local_old: ${ICE} Older work`, 'local_other: Other'])
 })

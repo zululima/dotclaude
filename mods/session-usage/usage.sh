@@ -24,7 +24,14 @@
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
 #                           title and sign-in for a sign-in, tab-separated, a
-#                           line each
+#                           line each; then a row per open desktop session of
+#                           the last hour with a title, for the mod to put a
+#                           fire or an ice cube before it: the second its cache
+#                           goes cold (0 for this one), the title, own or
+#                           title, its record and where the title came from
+#   usage.sh --titles <session id>
+#                           those rows for the open desktop sessions quiet for
+#                           over an hour, whose cache is cold for certain
 #   usage.sh --run <folder> the tokens, cost and energy of every transcript
 #                           under the folder, such as a workflow run's, by kind
 #                           and model
@@ -252,22 +259,49 @@ signins='
             | select(. != null) | ($acted[$id] // empty) + . * 60)]
     | if length > 0 then min | floor else 0 end;'
 
-# The desktop app's record of a session says whether it is archived; a session
-# without one, such as a terminal's, counts as open. A record changes whenever
-# its session does, so only those of the last hour are read.
+sessions="$HOME/Library/Application Support/Claude/claude-code-sessions"
+
+# A cache goes cold at most an hour after its last request, and the transcript
+# was written then, so a session quiet for 65 minutes is cold.
+if [ "${1:-}" = --titles ]; then
+  find "$sessions" -name 'local_*.json' -type f -exec jq -r 'select(.isArchived != true and .cliSessionId != null
+    and (.title // "") != "") | "\(.cliSessionId)\t\(.titleSource // "none")\t\(input_filename)\t\(.title)"' {} + 2>/dev/null |
+    while IFS=$'\t' read -r id source record title; do
+      kind=title
+      [ "$id" = "${2:-}" ] && kind=own
+      # A session moved to another folder has a transcript in each.
+      found=false
+      for f in "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects/*/"$id".jsonl; do
+        [ -f "$f" ] || continue
+        [ -n "$(find "$f" -mmin -65)" ] && continue 2
+        found=true
+      done
+      [ "$found" = true ] && printf '0\t%s\t%s\t%s\t%s\n' "$title" "$kind" "$record" "$source"
+    done
+  exit 0
+fi
+
+# The desktop app's record of a session says whether it is archived and where
+# its title came from; a session without one, such as a terminal's, counts as
+# open. A record changes whenever its session does, so only those of the last
+# hour are read.
 if [ "${1:-}" = --next ]; then
   now=$(date +%s)
   chrome=false
   pgrep -xq 'Google Chrome' && chrome=true
-  known=$(find "$HOME/Library/Application Support/Claude/claude-code-sessions" -name 'local_*.json' \
-    -mmin -65 -type f -exec jq -r '"\(.cliSessionId)\t\(.isArchived == true)\t\(.title // "")"' {} + 2>/dev/null)
+  known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f \
+    -exec jq -r '"\(.cliSessionId)\t\(.isArchived == true)\t\(.titleSource // "none")\t\(input_filename)\t\(.title // "")"' {} + 2>/dev/null)
   find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null |
     while IFS= read -r f; do
       id=$(basename "$f" .jsonl)
-      [ "$id" = "${2:-}" ] && continue
-      archived='' title=''
-      IFS=$'\t' read -r _ archived title < <(printf '%s\n' "$known" | grep -F "$id	")
+      archived='' source='' record='' title=''
+      IFS=$'\t' read -r _ archived source record title < <(printf '%s\n' "$known" | grep -F "$id	")
       [ "$archived" = true ] && continue
+      if [ "$id" = "${2:-}" ]; then
+        [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\n' "$title" "$record" "$source"
+        continue
+      fi
+      named=$title
       [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
@@ -278,6 +312,7 @@ if [ "${1:-}" = --next ]; then
         scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
         | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
         | "\($cold) \($ends)"' 2>/dev/null)
+      [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\n' "$ends" "$title"
       waiting "${f%.jsonl}" && continue
