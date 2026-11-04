@@ -1,4 +1,4 @@
-import { expect, mock, test } from 'claude-code/testing'
+import { expect, mock, test, type TestBody } from 'claude-code/testing'
 
 const TURN = { answer: '', durationMs: 1, isAborted: false, turnId: 't1', reason: 'answer' } as const
 const START = { cwd: '/', surface: 'terminal', isInteractive: true } as const
@@ -49,7 +49,7 @@ test('counts down between turns, then names the day once it is past', async ($, 
   const clock = mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
   on('process.run', ($, e) => {
-    if (e.argv[1] === '--next' || e.argv[1] === '--titles') return ran('')
+    if (e.argv[1] !== '--status') return ran('')
     runs++
     return warmFor(2)
   })
@@ -111,7 +111,7 @@ test('reads the transcript on each tick while a main turn runs', async ($, on) =
   const clock = mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
   on('process.run', ($, e) => {
-    if (e.argv[1] === '--next' || e.argv[1] === '--titles') return ran('')
+    if (e.argv[1] !== '--status') return ran('')
     runs++
     return warmFor(60)
   })
@@ -355,6 +355,73 @@ test('leaves a subagent turn alone and clears on no line', async ($, on) => {
 const record = (id: string) => `/me/sessions/org/account/local_${id}.json`
 const titleRow = (coldAt: number, title: string, kind: string, id: string, source = 'tool') =>
   `${coldAt / 1000}\t${title}\t${kind}\t${record(id)}\t${source}`
+
+const indexRow = (id: string, at: number, titles: string[], pr = '') => [record(id), at, pr, ...titles].join('\t')
+
+// This session is "own", most recent of all and left out of its own Cmd+K;
+// "store" goes cold next; "fix" is more recent and once had a title like it.
+const nextNamed = async (
+  $: Parameters<TestBody>[0],
+  on: Parameters<TestBody>[1],
+  old: string,
+  fixedBefore = 'Store status fix',
+) => {
+  const shown: (string | undefined)[] = []
+  mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--index')
+      return ran(
+        [
+          indexRow('own', NOW, [`${FIRE} Page store notes`]),
+          indexRow('store', NOW - 50 * 60_000, [`${FIRE} Store status page`, 'Store status']),
+          indexRow('fix', NOW - 10 * 60_000, [`${FIRE} Fix login`, fixedBefore]),
+          indexRow('old', NOW - 5 * 86_400_000, [old]),
+        ].join('\n'),
+      )
+    if (e.argv[1] === '--next')
+      return ran(
+        `${titleRow(0, `${FIRE} Page store notes`, 'own', 'own')}\n` +
+          `${NOW / 1000 + 120}\t${FIRE} Store status page\tcold\t${record('store')}\n`,
+      )
+    if (e.argv[1] === '--titles') return ran('')
+    return warmFor(59)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  return shown.at(-1)
+}
+
+test('names the other session by the fewest of its words Cmd+K lists it alone by', async ($, on) => {
+  expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min page`)
+})
+
+test('takes more words to have Cmd+K list the other session alone, not only first', async ($, on) => {
+  expect(await nextNamed($, on, `${ICE} Status page report`)).toBe(
+    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`,
+  )
+})
+
+test('settles for first when no choice of its words has Cmd+K list the other session alone', async ($, on) => {
+  expect(await nextNamed($, on, `${ICE} Store status page work`)).toBe(
+    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min page`,
+  )
+})
+
+test('puts an older title that starts with the words first, as Cmd+K does', async ($, on) => {
+  expect(await nextNamed($, on, 'Page store status')).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`)
+})
+
+test('keeps the title cut to fit when Cmd+K lists the other session alone by it', async ($, on) => {
+  expect(await nextNamed($, on, `${ICE} Status report`, 'Store fix')).toBe(
+    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store status`,
+  )
+})
 
 test('marks each title with a fire while its cache is warm and an ice cube once cold', async ($, on) => {
   const records = new Map([

@@ -1,8 +1,9 @@
 import type { EngineInterface, Register, Timer } from 'claude-code'
 
 type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
-type Other = { endsAt: number; title: string; isSignIn: boolean }
+type Other = { endsAt: number; title: string; isSignIn: boolean; record: string }
 type Titled = { coldAt: number; title: string; record: string; source: string; isOwn: boolean; retryAt: number }
+type Known = { at: number; pr: string; titles: string[] }
 type SessionRecord = { isArchived?: boolean; title?: string; titleSource?: string }
 
 const DAY = 86_400_000
@@ -17,6 +18,7 @@ const LOCK = '\u{1F512}\uFE0F'
 const WIDTH = 40
 const MARK = new RegExp(`^(${FIRE}|${ICE}) `, 'u')
 const RETRY = 600_000
+const MOST_WORDS = 8
 
 // An emoji takes two columns, the hourglass too, though it is one UTF-16 unit,
 // and the variation selector after the lock counts as the unit it is.
@@ -36,6 +38,10 @@ let isBusy = false
 let flip: Timer | undefined
 const titled = new Map<string, Titled>()
 let titling = Promise.resolve()
+const known = new Map<string, Known>()
+let ownRecord = ''
+let indexReads = 0
+let found: { key: string; text: string } | undefined
 
 const pad = (n: number) => String(n).padStart(2, '0')
 const bare = (title: string) => title.replace(MARK, '')
@@ -67,15 +73,71 @@ const fit = (title: string, room: number) => {
   return title.slice(0, space > 0 ? space : room).replace(/[\s,:;+-]+$/, '')
 }
 
+// Cmd+K splits what is typed at anything but a letter or a digit and lists a
+// session when each word is part of its title, is its pull request number or
+// is "pr" beside that number, or when each is part of one earlier title. A
+// title that starts with what is typed comes first, which a marked one never
+// does, then the most recently active. It leaves out the session it opens in.
+const words = (text: string) => text.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+
+const place = (typed: string[], { pr, titles: [title = '', ...earlier] }: Known) =>
+  typed.every(w => title.includes(w) || w === pr || (w === 'pr' && typed.includes(pr))) ||
+  earlier.some(t => typed.every(w => t.includes(w)))
+    ? Number(!title.trim().startsWith(typed.join(' ')))
+    : undefined
+
+// 2 when Cmd+K lists the session alone, 1 when first, 0 when after another.
+const standing = (typed: string[], record: string) => {
+  const target = known.get(record)
+  const own = target && place(typed, target)
+  if (target === undefined || own === undefined) return 0
+
+  let rank = 2
+  for (const [r, k] of known) {
+    const p = r === record || r === ownRecord ? undefined : place(typed, k)
+    if (p === undefined) continue
+    if (p < own || (p === own && k.at >= target.at)) return 0
+    rank = 1
+  }
+
+  return rank
+}
+
+// The title cut to fit, unless fewer of its words have Cmd+K list the session
+// sooner: alone, or else first.
+const findable = (other: Other, room: number) => {
+  const cut = fit(other.title, room)
+  if (!cut || !known.has(other.record)) return cut
+  const key = [other.record, other.title, room, ownRecord, indexReads].join('\t')
+  if (found?.key === key) return found.text
+
+  const own = [...new Map(other.title.split(/[^\p{L}\p{N}]+/u).filter(Boolean).map(w => [w.toLowerCase(), w])).values()]
+  const choices = Array.from({ length: 2 ** Math.min(own.length, MOST_WORDS) - 1 }, (_, n) =>
+    own.filter((_, i) => (n + 1) & (1 << i)).join(' '),
+  )
+    .filter(choice => width(choice) <= room)
+    .sort((a, b) => width(a) - width(b))
+  let text = cut
+  let best = standing(words(cut), other.record)
+  for (const choice of choices) {
+    if (best === 2) break
+    const rank = standing(words(choice), other.record)
+    if (rank > best) [text, best] = [choice, rank]
+  }
+
+  found = { key, text }
+  return text
+}
+
 // The other session whose cache goes cold or whose Chrome sign-in ends next,
-// its title cut at a word to fit.
+// named so Cmd+K lists it first.
 const next = (now: number, room: number) => {
   const other = others.find(o => o.endsAt > now)
   if (!other) return ''
 
   const left = other.endsAt - now
   const head = `${other.isSignIn ? LOCK : HOURGLASS} ${minutes(left)} min `
-  const title = fit(other.title, room - width(head))
+  const title = findable(other, room - width(head))
 
   return title ? head + title : ''
 }
@@ -92,22 +154,33 @@ const line = async ($: EngineInterface) => {
   return other ? `${own}, ${other}` : own
 }
 
+// The first read takes every desktop session, archived ones too, and each one
+// after it those changed since.
+const index = async ($: EngineInterface) => {
+  const read = await rows($, known.size > 0 ? ['--index', '65'] : ['--index'])
+  for (const [record = '', at = '0', pr = '', ...titles] of read)
+    if (record) known.set(record, { at: Number(at), pr, titles: titles.map(t => t.toLowerCase()) })
+  indexReads++
+}
+
 const readOthers = async ($: EngineInterface) => {
-  const read = await rows($, '--next')
+  await index($)
+  const read = await rows($, ['--next', await $.session.id()])
   const isTitle = ([, , kind = '']: string[]) => kind === 'title' || kind === 'own'
   others = read
     .filter(row => !isTitle(row))
-    .map(([endsAt = '', title = '', kind = '']) => ({
+    .map(([endsAt = '', title = '', kind = '', record = '']) => ({
       endsAt: Number(endsAt) * 1000,
       title: bare(title),
       isSignIn: kind === 'sign-in',
+      record,
     }))
   read.filter(isTitle).forEach(keep)
   othersReadAt = await $.clock.now()
 }
 
-const rows = async ($: EngineInterface, mode: '--next' | '--titles') => {
-  const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, mode, await $.session.id()])
+const rows = async ($: EngineInterface, args: string[]) => {
+  const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, ...args])
   return exitCode === 0
     ? stdout
         .split('\n')
@@ -118,13 +191,14 @@ const rows = async ($: EngineInterface, mode: '--next' | '--titles') => {
 
 const keep = ([coldAt = '0', title = '', kind = '', record = '', source = '']: string[]) => {
   if (!record) return
+  if (kind === 'own') ownRecord = record
   const retryAt = titled.get(record)?.retryAt ?? 0
   titled.set(record, { coldAt: Number(coldAt) * 1000, title, record, source, isOwn: kind === 'own', retryAt })
 }
 
 // The sessions quiet for over an hour are cold for certain and change only
 // when one wakes up, which --next then reads, so they are read once.
-const sweep = async ($: EngineInterface) => (await rows($, '--titles')).forEach(keep)
+const sweep = async ($: EngineInterface) => (await rows($, ['--titles', await $.session.id()])).forEach(keep)
 
 // A title set by hand stays as it is, since the app would ask before each
 // change. One the app declines waits ten minutes.

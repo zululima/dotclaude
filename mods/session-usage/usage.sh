@@ -23,15 +23,23 @@
 #                           still warm and that wait on no subagent, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
-#                           title and sign-in for a sign-in, tab-separated, a
-#                           line each; then a row per open desktop session of
-#                           the last hour with a title, for the mod to put a
-#                           fire or an ice cube before it: the second its cache
-#                           goes cold (0 for this one), the title, own or
-#                           title, its record and where the title came from
+#                           title, cold or sign-in and its record,
+#                           tab-separated, a line each; then a row per open
+#                           desktop session of the last hour with a title, for
+#                           the mod to put a fire or an ice cube before it: the
+#                           second its cache goes cold (0 for this one), the
+#                           title, own or title, its record and where the title
+#                           came from
 #   usage.sh --titles <session id>
 #                           those rows for the open desktop sessions quiet for
 #                           over an hour, whose cache is cold for certain
+#   usage.sh --index [<minutes>]
+#                           a row per desktop session, archived ones too, or
+#                           only those changed within the minutes, for the mod
+#                           to pick the words Cmd+K lists a session first by:
+#                           its record, the millisecond it was last active, its
+#                           pull request number, its title, then its earlier
+#                           titles
 #   usage.sh --run <folder> the tokens, cost and energy of every transcript
 #                           under the folder, such as a workflow run's, by kind
 #                           and model
@@ -281,6 +289,14 @@ if [ "${1:-}" = --titles ]; then
   exit 0
 fi
 
+if [ "${1:-}" = --index ]; then
+  if [ -n "${2:-}" ]; then set -- -mmin "-$2"; else set --; fi
+  find "$sessions" -name 'local_*.json' -type f "$@" -exec jq -r '[input_filename, (.lastActivityAt // 0),
+    ((.prs // []) | (map(select(.inherited != true)) + .) | .[0].prNumber // ""),
+    (.title // ""), (.previousTitles // [])[]] | map(tostring | gsub("[\t\n]"; " ")) | join("\t")' {} + 2>/dev/null
+  exit 0
+fi
+
 # The desktop app's record of a session says whether it is archived and where
 # its title came from; a session without one, such as a terminal's, counts as
 # open. A record changes whenever its session does, so only those of the last
@@ -326,9 +342,9 @@ if [ "${1:-}" = --next ]; then
       fi
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
       # A session waiting on a subagent still holds its tabs.
-      [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\n' "$ends" "$title"
+      [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\n' "$ends" "$title" "$record"
       waiting "${f%.jsonl}" && continue
-      [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\n' "$cold" "$title"
+      [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\n' "$cold" "$title" "$record"
     done | sort -n
   exit 0
 fi

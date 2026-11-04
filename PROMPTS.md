@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep each list item of a Slack draft to one line
+## Name the next-cold session by words Cmd+K lists it first by
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> make sure that when i cmd k the first one at least if not the only
+> oen should match when i for example wanna go to last cache going cold
+
+## Keep each list item of a Slack draft to one line
+
+2026-11-04, commit [559e8fc](https://github.com/zululima/dotclaude/commit/559e8fc1e977307862172846b89c867a1245ec6c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > rivi 16 ei oo oneliner toi on kauheeta luettavaa muuten
