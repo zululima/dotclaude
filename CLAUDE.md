@@ -217,13 +217,13 @@ apply to one repository belong in that repository's project memory.
   lies outside the session's folders, with what it shows said there in words, never pointed to as
   sent above. A file kept for a command or a later session is named in one line beside it and never
   stands in for it. A Slack draft on the clipboard stays the exception that Running things names.
-- A term or shorthand that a session, a script or a workflow coined, such as a name for a unit of
-  work, a role, an option, a step label or a pair of figures like `85/85`, is explained in plain
-  words where a reply first uses it, or plain words stand in its place. A next-step box question and
-  its buttons are read on their own, so each spells out its figures and terms, such as "backend 85%,
-  frontend 85%", whatever the reply above explained. The reader saw neither the code nor the run
-  that gave the term its meaning, and a step that leans on a word they cannot read is a step they
-  skip, or a button they click blind.
+- A term or shorthand that a session, a script, a workflow or Claude's own instructions coined, such
+  as a name for a unit of work, a role, an option, a step label, a pair of figures like `85/85` or
+  "the box" for the buttons under a reply, is explained in plain words where a reply first uses it,
+  or plain words stand in its place. A next-step box question and its buttons are read on their own,
+  so each spells out its figures and terms, such as "backend 85%, frontend 85%", whatever the reply
+  above explained. The reader saw neither the code nor the run that gave the term its meaning, and a
+  step that leans on a word they cannot read is a step they skip, or a button they click blind.
 - A reply to a message that set a format, such as a list of figures to confirm or update, a
   template or a set of questions, answers in that format: the same items in the same order, with
   the same nesting, labels, case and units, the new values in place of the old, and nothing
@@ -284,8 +284,9 @@ apply to one repository belong in that repository's project memory.
 - Steps written for a person outside a PR, in a README, a setup section or chat, are run here
   before they are written down, and a menu, tab or button they name is taken from the installed
   version, such as the app's localized strings or the tool's `--help`, never from memory. A step
-  that cannot be run here, such as a sign-in, a device build or a setting on a phone, is named
-  in the reply as not run, with the reason, and is never called checked.
+  that cannot be run here, such as a sign-in, a shortcut in another app's dialog, a device build or
+  a setting on a phone, is named in the reply as not run, with the reason, and is never called
+  checked.
 - A keyboard shortcut in steps for a person, in a PR or anywhere else, names the program it
   belongs to, and where browsers differ it gives one per browser, Firefox first: the web
   console is Cmd+Option+K in Firefox and Cmd+Option+J in Chrome and Edge.

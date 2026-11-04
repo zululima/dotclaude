@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Cap session titles at 16 characters
+## Name the box and untested shortcuts in two rules
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> 3. cmd shift g didnt work?. 4answer the box?
+
+## Cap session titles at 16 characters
+
+2026-11-04, commit [f6b47df](https://github.com/zululima/dotclaude/commit/f6b47df95e32b00f0138bade52fa7da086f253f2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > session names are too long theyre wrapping
