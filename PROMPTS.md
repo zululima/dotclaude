@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: read each transcript again only once it has changed
+## Cap session titles at 16 characters
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> session names are too long theyre wrapping
+> [a screenshot of the session sidebar]
+
+## usage mod: read each transcript again only once it has changed
+
+2026-11-04, commit [1a9df0d](https://github.com/zululima/dotclaude/commit/1a9df0d0a6c9cd9c5b607bdc885ef2dc93d4a72a), model claude-opus-5-5, effort xhigh.
 
 **9.** (answer to: shall I check once you have run the removal?)
 > Ran it, check now
