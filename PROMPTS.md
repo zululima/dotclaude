@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Default the user's public software to AGPL and CC BY-SA
+## Have the README show every way to use or try a project
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**18.**
+> why not documented on how to test in vm in readme
+
+## Default the user's public software to AGPL and CC BY-SA
+
+2026-11-04, commit [963c795](https://github.com/zululima/dotclaude/commit/963c795b63d2d08284c3ebddf7f776cdf92e2544), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: which licence on the add-on store?)
 > [answers about a store listing left out]

@@ -330,10 +330,11 @@ apply to one repository belong in that repository's project memory.
   with a plain glyph draws the emoji in the text colour, so a black circle shows white on a dark
   theme.
 - A project's CLAUDE.md holds what Claude runs, such as build, test, verify, install, launch and
-  logs, and the rules the code follows. Setup a person does once by hand goes in a doc under `docs/`
-  that CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts, and
-  gives a newcomer a prompt to paste into Claude Code, in a `text` block, that clones the repository
-  and gets them started. A `claude://` link cannot stand in for it, since GitHub strips such links.
+  logs, and the rules the code follows. One-time manual setup goes in a doc under `docs/` that
+  CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts and every way
+  to use or try it, and gives a newcomer a prompt to paste into Claude Code, in a `text` block, that
+  clones the repository and gets them started. GitHub strips `claude://` links, so none stands in
+  for it.
 - The user's public software, such as a repository or a store listing, takes AGPL-3.0-or-later for
   its code, in `LICENSE`, and CC BY-SA 4.0 for the rest, such as the README, docs and images, in
   `LICENSE-PROSE`, unless the user names another licence.
