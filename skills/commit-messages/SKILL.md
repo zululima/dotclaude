@@ -1,14 +1,15 @@
 ---
 name: commit-messages
-description: Rules for a commit message beyond its 72-column wrap. Load it before writing a commit message in any repository. It covers the order of the parts and the trailers, the prompts section and the script that prints it, pasted text, what is left out or redacted, and PROMPTS.md.
+description: Rules for a commit message, its 72-column wrap included. Load it before writing a commit message in any repository. It covers the order of the parts and the trailers, the prompts section and the script that prints it, pasted text, what is left out or redacted, and PROMPTS.md.
 ---
 
 # Commit messages
 
 These rules sit beside the Commit messages section of `~/.claude/CLAUDE.md`, which still holds the
-72-column wrap and the hook that brings an edit of this skill made from another session into a
-running one.
+hook that brings an edit of this skill made from another session into a running one.
 
+- Wrap every line of a commit message at 72 columns, the subject included. Neither GitHub nor
+  `git log` reflows long lines, so they break the rendering.
 - The message proper comes first: the subject, a blank line, then a body that says what changed
   and why. The prompts follow after another blank line, never before the body. PR bodies are the
   other way round, as the `pull-requests` skill describes. Trailers, such as `Co-authored-by` and

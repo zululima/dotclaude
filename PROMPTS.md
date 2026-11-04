@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Have the README show every way to use or try a project
+## Reread sources when asked to redo an answer
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a meeting's talking points left out]
+
+**2.**
+> [an ask about a meeting's talking points left out]
+
+**3.**
+> [a remark on the talking points left out] also nyt kun sanon ennen
+> tuota [a meeting] retry tai r yleisestikiin nii tarkasta lähteet esim.
+> sessiot tms koska esim. nyt työskentelen taas jo uusien työkalujen
+> luomisten parissa
+
+## Have the README show every way to use or try a project
+
+2026-11-04, commit [214adf8](https://github.com/zululima/dotclaude/commit/214adf84094721f6f4129ecd12acf1c5838ee34f), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > why not documented on how to test in vm in readme
@@ -4935,6 +4951,7 @@ Stop, add it to dotclaude?)
 - spdx: Software Package Data Exchange
 - ss: screenshot
 - tmp: the temporary directory, /tmp
+- tms: tai muuta sellaista, or the like
 - ts: TypeScript
 - ui: user interface
 - uri: uniform resource identifier
