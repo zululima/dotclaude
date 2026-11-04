@@ -547,3 +547,46 @@ test('refuses a title over 16 characters, the emoji not counted', async ($, on) 
   expect((await rename(`${ICE} Pizza ja sääntöä`)).deny).toBeUndefined()
   expect(asked).toEqual([`${ICE} Pizza ja sääntöä`])
 })
+
+test('refuses a title that another session title holds, or that holds one', async ($, on) => {
+  const asked: string[] = []
+  mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--index')
+      return ran(
+        [
+          indexRow('own', NOW, [`${FIRE} This work`]),
+          indexRow('pizza', NOW - 60_000, [`${FIRE} Mentoripizza`, 'Mentoripizza ja retry-sääntö']),
+          indexRow('store', NOW - 86_400_000, [`${ICE} Store status`]),
+        ].join('\n'),
+      )
+    if (e.argv[1] === '--next') return ran(`${titleRow(0, `${FIRE} This work`, 'own', 'own')}\n`)
+    if (e.argv[1] === '--titles') return ran('')
+    return warmFor(30)
+  })
+  on('ui.status', () => ({ value: undefined }))
+  on('tool.call', { tool: 'mcp__ccd_session_mgmt__set_session_title' }, ($, e) => {
+    asked.push(`${e.session_id}: ${e.title}`)
+    return { result: {} }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  const rename = (session_id: string, title: string) =>
+    $.tool.call({ tool: 'mcp__ccd_session_mgmt__set_session_title', session_id, title })
+
+  await $.session.start(START)
+  expect((await rename('self', 'Retry sääntö')).deny).toBe(
+    'Another session was titled "Mentoripizza ja retry-sääntö", which holds every word of this title, so Cmd+K would list both for it. Pick a word it lacks.',
+  )
+  expect((await rename('self', 'Store')).deny).toBe(
+    'Another session is titled "Store status", which holds every word of this title, so Cmd+K would list both for it. Pick a word it lacks.',
+  )
+  expect((await rename('self', 'Store status fix')).deny).toBe(
+    'This title holds every word of another session\'s title, "Store status", so Cmd+K would list both for that one. Pick other words.',
+  )
+  expect((await rename('self', 'Retry rule')).deny).toBeUndefined()
+  expect((await rename('self', 'This work, part')).deny).toBeUndefined()
+  expect((await rename('local_store', 'Store status 2')).deny).toBeUndefined()
+  expect(asked).toEqual([`self: ${FIRE} Retry rule`, `self: ${FIRE} This work, part`, 'local_store: Store status 2'])
+})

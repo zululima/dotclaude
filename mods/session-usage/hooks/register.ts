@@ -3,7 +3,7 @@ import type { EngineInterface, Register, Timer } from 'claude-code'
 type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
 type Other = { endsAt: number; title: string; isSignIn: boolean; record: string }
 type Titled = { coldAt: number; title: string; record: string; source: string; isOwn: boolean; retryAt: number }
-type Known = { at: number; pr: string; titles: string[] }
+type Known = { at: number; pr: string; titles: string[]; written: string[] }
 type SessionRecord = { isArchived?: boolean; title?: string; titleSource?: string }
 
 const DAY = 86_400_000
@@ -106,6 +106,25 @@ const standing = (typed: string[], record: string) => {
   return rank
 }
 
+// Cmd+K lists only this session for its title while no other session's title
+// or earlier title holds every word of it, and while it holds every word of no
+// other session's title, which would list this one for that title too.
+const clash = (title: string, record: string) => {
+  const typed = words(title)
+  const renamed: Known = { at: 0, pr: known.get(record)?.pr ?? '', titles: [title.toLowerCase()], written: [title] }
+  for (const [r, k] of known) {
+    if (r === record) continue
+    if (typed.length > 0 && place(typed, k) !== undefined) {
+      const i = Math.max(0, k.titles.findIndex(t => typed.every(w => t.includes(w))))
+      const was = i === 0 ? 'is titled' : 'was titled'
+      return `Another session ${was} "${bare(k.written[i] ?? '')}", which holds every word of this title, so Cmd+K would list both for it. Pick a word it lacks.`
+    }
+    const theirs = words(k.titles[0] ?? '')
+    if (theirs.length > 0 && place(theirs, renamed) !== undefined)
+      return `This title holds every word of another session's title, "${bare(k.written[0] ?? '')}", so Cmd+K would list both for that one. Pick other words.`
+  }
+}
+
 // The title cut to fit, unless fewer of its words have Cmd+K list the session
 // sooner: alone, or else first.
 const findable = (other: Other, room: number) => {
@@ -162,7 +181,7 @@ const line = async ($: EngineInterface) => {
 const index = async ($: EngineInterface) => {
   const read = await rows($, known.size > 0 ? ['--index', '65'] : ['--index'])
   for (const [record = '', at = '0', pr = '', ...titles] of read)
-    if (record) known.set(record, { at: Number(at), pr, titles: titles.map(t => t.toLowerCase()) })
+    if (record) known.set(record, { at: Number(at), pr, titles: titles.map(t => t.toLowerCase()), written: titles })
   indexReads++
 }
 
@@ -406,6 +425,10 @@ export const register: Register = on => {
       return { deny: `The title is ${length} characters. Keep it within ${MOST_TITLE}, the emoji not counted.` }
 
     const isSelf = e.session_id === 'self'
+    const record = isSelf ? ownRecord : ([...known.keys()].find(r => r.endsWith(`/${e.session_id}.json`)) ?? '')
+    const clashes = isSelf && !ownRecord ? undefined : clash(bare(e.title), record)
+    if (clashes) return { deny: clashes }
+
     const t = [...titled.values()].find(t => (isSelf ? t.isOwn : t.record.endsWith(`/${e.session_id}.json`)))
     if (!isSelf && !t) return next(e)
 

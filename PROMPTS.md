@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: refuse a session title over 16 characters
+## usage mod: refuse a title Cmd+K would list another session for
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I also make the mod refuse a new session title    whose words another session's title already holds?)
+> Yes, do that
+
+## usage mod: refuse a session title over 16 characters
+
+2026-11-04, commit [ce43cd2](https://github.com/zululima/dotclaude/commit/ce43cd2e1d50991b95385c9495f51b5ab9de59c4), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I make the usage mod refuse titles over 16    characters?)
 > Yes, add the check
