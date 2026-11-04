@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Close an archived session's leftover Chrome tabs
+## Retry dropped API connections for about 6 minutes
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> why was there a [two session names] notifiction of claude code hit an
+> erro ron my iphone notification open the session and try again
+
+**2.**
+> can it wait a bit longer before it starts sending me messages from
+> sessions?
+
+**3.** (answer to: how long shall I make sessions retry a dropped    connection?)
+> Set 6 minutes
+
+## Close an archived session's leftover Chrome tabs
+
+2026-11-04, commit [5deff68](https://github.com/zululima/dotclaude/commit/5deff687dd6e3964a2c5740abb10f5a97d06c56a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > does chrome claude keep intentionally the tabs in groups with session

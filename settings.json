@@ -538,7 +538,8 @@
   "env": {
     "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods/session-usage:~/.claude/mods/archive-files",
     "CLAUDE_CLIENT_PRESENCE_FILE": "/tmp/claude-client-present",
-    "CLAUDE_CODE_PLUGIN_DIR_WATCH": "1"
+    "CLAUDE_CODE_PLUGIN_DIR_WATCH": "1",
+    "CLAUDE_CODE_MAX_RETRIES": "15"
   },
   "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
