@@ -397,8 +397,40 @@ const nextNamed = async (
   return shown.at(-1)
 }
 
-test('names the other session by the fewest of its words Cmd+K lists it alone by', async ($, on) => {
-  expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min page`)
+test('names the other session by its first word and the later ones Cmd+K lists it alone by', async ($, on) => {
+  expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`)
+})
+
+test('cuts the first word with the others to fit rather than leave it out', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--index')
+      return ran(
+        [
+          indexRow('own', NOW, [`${FIRE} Page store notes`]),
+          indexRow('note', NOW - 50 * 60_000, [`${FIRE} Notebook fixes`]),
+          indexRow('import', NOW - 10 * 60_000, ['Notebook import']),
+          indexRow('tests', NOW - 5 * 86_400_000, [`${ICE} Test fixes`]),
+        ].join('\n'),
+      )
+    if (e.argv[1] === '--next')
+      return ran(
+        `${titleRow(0, `${FIRE} Page store notes`, 'own', 'own')}\n` +
+          `${NOW / 1000 + 59 * 60}\t${FIRE} Notebook fixes\tcold\t${record('note')}\n`,
+      )
+    if (e.argv[1] === '--titles') return ran('')
+    return ran(`${FIGURES}\n${NOW / 1000 + 59 * 60}\n10800\n${LATE}\n`)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  expect(shown.at(-1)).toBe(`${FIRE} 59 min ${LATE}, ${FIGURES}, ${HOURGLASS} 59 min Note fix`)
 })
 
 test('takes more words to have Cmd+K list the other session alone, not only first', async ($, on) => {
@@ -409,7 +441,7 @@ test('takes more words to have Cmd+K list the other session alone, not only firs
 
 test('settles for first when no choice of its words has Cmd+K list the other session alone', async ($, on) => {
   expect(await nextNamed($, on, `${ICE} Store status page work`)).toBe(
-    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min page`,
+    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`,
   )
 })
 

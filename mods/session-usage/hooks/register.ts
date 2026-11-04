@@ -125,8 +125,30 @@ const clash = (title: string, record: string) => {
   }
 }
 
-// The title cut to fit, unless fewer of its words have Cmd+K list the session
-// sooner: alone, or else first.
+// The longest word loses its last letter, the later of two as long, until the
+// words fit or each is down to three letters.
+const shorten = (picked: string[], room: number) => {
+  const kept = picked.map(w => [...w])
+  const text = () => kept.map(w => w.join('')).join(' ')
+  while (width(text()) > room) {
+    const at = kept.reduce((top, w, i) => (w.length > 3 && w.length >= (kept[top]?.length ?? 0) ? i : top), -1)
+    if (at < 0) return undefined
+    kept[at]?.pop()
+  }
+  const whole = kept.filter((w, i) => w.join('') === picked[i]).length
+
+  return { text: text(), score: [whole, kept.flat().length] }
+}
+
+const isAbove = (a: number[], b: number[]) => {
+  const i = a.findIndex((n, j) => n !== b[j])
+  return i >= 0 && (a[i] ?? 0) > (b[i] ?? 0)
+}
+
+// The title's first word, which a reader knows the session by, and those later
+// words that have Cmd+K list it soonest: alone, or else first. Then the most
+// words whole and the most letters. The title cut to fit stands for the same
+// words.
 const findable = (other: Other, room: number) => {
   const cut = fit(other.title, room)
   if (!cut || !known.has(other.record)) return cut
@@ -134,18 +156,16 @@ const findable = (other: Other, room: number) => {
   if (found?.key === key) return found.text
 
   const own = [...new Map(other.title.split(/[^\p{L}\p{N}]+/u).filter(Boolean).map(w => [w.toLowerCase(), w])).values()]
-  const choices = Array.from({ length: 2 ** Math.min(own.length, MOST_WORDS) - 1 }, (_, n) =>
-    own.filter((_, i) => (n + 1) & (1 << i)).join(' '),
-  )
-    .filter(choice => width(choice) <= room)
-    .sort((a, b) => width(a) - width(b))
+  const [first = '', ...later] = own.slice(0, MOST_WORDS)
   let text = cut
-  let best = standing(words(cut), other.record)
-  for (const choice of choices) {
-    if (best === 2) break
-    const rank = standing(words(choice), other.record)
-    if (rank > best) [text, best] = [choice, rank]
+  let best: number[] | undefined
+  for (let n = 0; n < 2 ** later.length; n++) {
+    const label = shorten([first, ...later.filter((_, i) => n & (1 << i))], room)
+    if (!label) continue
+    const score = [standing(words(label.text), other.record), ...label.score]
+    if (!best || isAbove(score, best)) [text, best] = [label.text, score]
   }
+  if (words(text).join(' ') === words(cut).join(' ')) text = cut
 
   found = { key, text }
   return text

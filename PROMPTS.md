@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: refuse a title Cmd+K would list another session for
+## usage mod: keep the first word in the next-cold session's name
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> bug hourglass just says fixes
+
+## usage mod: refuse a title Cmd+K would list another session for
+
+2026-11-04, commit [b7eaeaa](https://github.com/zululima/dotclaude/commit/b7eaeaa9697a3320229082889b19a7d2f7711654), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I also make the mod refuse a new session title    whose words another session's title already holds?)
 > Yes, do that
