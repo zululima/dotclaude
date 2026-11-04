@@ -532,3 +532,18 @@ test('keeps the mark on a rename Claude makes', async ($, on) => {
 
   expect(asked).toEqual([`self: ${FIRE} Mod titles`, `local_old: ${ICE} Older work`, 'local_other: Other'])
 })
+
+test('refuses a title over 16 characters, the emoji not counted', async ($, on) => {
+  const asked: string[] = []
+  on('tool.call', { tool: 'mcp__ccd_session_mgmt__set_session_title' }, ($, e) => {
+    asked.push(e.title)
+    return { result: {} }
+  })
+
+  const rename = (title: string) =>
+    $.tool.call({ tool: 'mcp__ccd_session_mgmt__set_session_title', session_id: 'local_other', title })
+
+  expect((await rename('Pizza ja säännöt!')).deny).toBe('The title is 17 characters. Keep it within 16, the emoji not counted.')
+  expect((await rename(`${ICE} Pizza ja sääntöä`)).deny).toBeUndefined()
+  expect(asked).toEqual([`${ICE} Pizza ja sääntöä`])
+})

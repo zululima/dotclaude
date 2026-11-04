@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name the next-cold session by words Cmd+K lists it first by
+## usage mod: refuse a session title over 16 characters
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I make the usage mod refuse titles over 16    characters?)
+> Yes, add the check
+
+## Name the next-cold session by words Cmd+K lists it first by
+
+2026-11-04, commit [f71d1f1](https://github.com/zululima/dotclaude/commit/f71d1f1a761a553d64dc2fbe5921a99b5b917b7c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > make sure that when i cmd k the first one at least if not the only

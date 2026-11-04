@@ -19,6 +19,9 @@ const WIDTH = 40
 const MARK = new RegExp(`^(${FIRE}|${ICE}) `, 'u')
 const RETRY = 600_000
 const MOST_WORDS = 8
+// A sidebar row with a pull request badge, indented under another session,
+// fades out text past about this many characters.
+const MOST_TITLE = 16
 
 // An emoji takes two columns, the hourglass too, though it is one UTF-16 unit,
 // and the variation selector after the lock counts as the unit it is.
@@ -398,6 +401,10 @@ export const register: Register = on => {
   // A rename Claude makes keeps the mark. A session renames itself in a turn,
   // while its cache is warm.
   on('tool.call', { tool: 'mcp__ccd_session_mgmt__set_session_title' }, async ($, e, next) => {
+    const length = [...bare(e.title)].length
+    if (length > MOST_TITLE)
+      return { deny: `The title is ${length} characters. Keep it within ${MOST_TITLE}, the emoji not counted.` }
+
     const isSelf = e.session_id === 'self'
     const t = [...titled.values()].find(t => (isSelf ? t.isOwn : t.record.endsWith(`/${e.session_id}.json`)))
     if (!isSelf && !t) return next(e)

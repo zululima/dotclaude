@@ -603,9 +603,9 @@ apply to one repository belong in that repository's project memory.
   current title still fits. A title stays within 16 characters, not counting the emoji the `usage`
   mod puts before it, and fewer when capitals or digits fill it: a pull request badge, the count
   beside it, an unread dot or the indent of a session started from another takes room at the end of
-  a sidebar row, and the narrowest such row fades out text past about 16. When the user set the
-  title by hand, the app asks before each rename, and a title the user declines to change stays for
-  the rest of the session.
+  a sidebar row, and the narrowest such row fades out text past about 16. The `usage` mod refuses a
+  rename to a longer title. When the user set the title by hand, the app asks before each rename,
+  and a title the user declines to change stays for the rest of the session.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt to paste into Claude Code there, never a
   command. The user enters only personal data, such as a name, phone number, address, password or
