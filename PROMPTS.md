@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Reread sources when asked to redo an answer
+## Keep a project session's replies to that project's work
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**18.**
+> what [an event] invite doesnt belong here in [a project]
+
+## Reread sources when asked to redo an answer
+
+2026-11-04, commit [a9edb43](https://github.com/zululima/dotclaude/commit/a9edb43f0e6dac297644f90e7ce91d669da14e93), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a meeting's talking points left out]
