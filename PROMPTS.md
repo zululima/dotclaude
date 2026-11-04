@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: write minutes as 59m to fit whole session names
+## Close an archived session's leftover Chrome tabs
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> does chrome claude keep intentionally the tabs in groups with session
+> names in tehm? also archive of session should also remove the tab
+
+**2.** (answer to: shall I build tab closing on archive into the    archive-files mod?)
+> Yes, build it
+
+## usage mod: write minutes as 59m to fit whole session names
+
+2026-11-04, commit [27658af](https://github.com/zululima/dotclaude/commit/27658af9d26b2df6bc07ce5e2b55eaa945f74792), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I write minutes as 59m so whole names fit?)
 > Yes, use 59m

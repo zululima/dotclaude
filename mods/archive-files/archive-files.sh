@@ -12,8 +12,14 @@
 # name. A task moves when the session changed its folder or one of its
 # ~/Downloads/<task>-* files, and no session still open names it.
 #
+# It also closes the Chrome tabs the session's Claude in Chrome results listed
+# and that are still open, through Chrome's AppleScript, whose tab ids are the
+# extension's. The app closes the tab group itself only on an archive by hand
+# while Chrome is connected to it. Chrome never reuses a tab id, and a tab
+# listed only before Chrome last started is skipped all the same.
+#
 #   archive-files.sh                          move for every session archived since the last run
-#   archive-files.sh --dry-run <local_id>...  print what would move for those sessions
+#   archive-files.sh --dry-run <local_id>...  print what would move or close for those sessions
 
 set -u
 PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
@@ -134,6 +140,52 @@ place() {
   echo "$to"
 }
 
+# The tab ids in the results of the transcript's Claude in Chrome calls since
+# the epoch second $2.
+tab_ids() {
+  jq -rs --argjson since "$2" '
+    [.[] | select(.type == "assistant") | .message.content[]?
+      | select(.type == "tool_use" and (.name | startswith("mcp__claude-in-chrome__"))) | .id] as $calls
+    | .[] | select(.type == "user" and (.timestamp // "" | sub("\\.[0-9]+Z$"; "Z") | fromdate? // 0) >= $since)
+    | .message.content[]? | select(.type == "tool_result" and (.tool_use_id | IN($calls[])))
+    | .content | tostring | scan("tabId[^0-9]{1,6}([0-9]{6,})")[0]' "$1" 2>/dev/null | sort -u
+}
+
+close_tabs() {
+  local chrome started ids line verb=closed
+  [ -n "$dry" ] && verb='would close'
+  grep -qF 'mcp__claude-in-chrome__' "$1" || return 0
+  chrome=$(pgrep -x 'Google Chrome' | head -1)
+  [ -n "$chrome" ] || return 0
+  started=$(LC_ALL=C date -j -f '%a %b %e %T %Y' "$(LC_ALL=C ps -o lstart= -p "$chrome" | sed 's/ *$//')" +%s) || return 0
+  ids=$(tab_ids "$1" "$started")
+  [ -n "$ids" ] || return 0
+  osascript - "${dry:+list}" $ids <<'EOF' 2>/dev/null | while IFS= read -r line; do
+on run argv
+  set listOnly to item 1 of argv is "list"
+  set out to ""
+  tell application "Google Chrome"
+    repeat with i from 2 to count of argv
+      set n to (item i of argv) as integer
+      repeat with w in windows
+        set found to (tabs of w whose id is n)
+        if found is not {} then
+          set out to out & (URL of item 1 of found) & linefeed
+          if not listOnly then close item 1 of found
+          exit repeat
+        end if
+      end repeat
+    end repeat
+  end tell
+  return out
+end run
+EOF
+    [ -n "$line" ] || continue
+    line=${line#*://}
+    say "  $verb a Chrome tab on ${line%%/*}"
+  done
+}
+
 handle() {
   local record=$1 t created since task
   t=$(transcript_of "$record")
@@ -143,6 +195,7 @@ handle() {
     say "  no transcript on this machine"
     return
   fi
+  close_tabs "$t"
   created=$(jq -r '(.createdAt // 0) / 1000 | floor' "$record")
   since=$(( ($(date +%s) - created) / 60 + 2 ))
   # A task folder's name has no dot, a working file's in drafts has its extension.
