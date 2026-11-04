@@ -17,6 +17,10 @@ A draft that reports what the session found, such as figures or options for a ch
 session's report in its own words, never written as the user speaking: the user posts it with words
 of their own around it. It holds the findings, and the questions to the readers stay the user's.
 
+Each item of a list in a draft, such as a line per issue, is one line: what the item is and where it
+stands, in a clause, never several sentences. A list of paragraphs is hard to read, so what does not
+fit in the line stays out.
+
 ## Why the clipboard
 
 Slack's message box turns neither `[text](url)` nor `<url|text>` into a link. That syntax works only

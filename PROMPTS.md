@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Send a patch no teammate cares about straight to the default branch
+## Keep each list item of a Slack draft to one line
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> rivi 16 ei oo oneliner toi on kauheeta luettavaa muuten
+
+## Send a patch no teammate cares about straight to the default branch
+
+2026-11-04, commit [9950553](https://github.com/zululima/dotclaude/commit/9950553e4686a15562cb2e2d1e7cd06458ea0f23), model claude-opus-5-5, effort xhigh.
 
 **1.** [a message to a teammate and an ask about it left out]
 
