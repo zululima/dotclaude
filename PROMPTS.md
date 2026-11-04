@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name the box and untested shortcuts in two rules
+## Send a patch no teammate cares about straight to the default branch
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [a message to a teammate and an ask about it left out]
+
+**2.** [an ask about a project's agent rules left out]
+
+**3.**
+> idc what branch when doing these things where only [two teammates]
+> cares what i do just dont create draft pr or pr and we just push
+> straight do dev when im doing with a patch like this
+
+## Name the box and untested shortcuts in two rules
+
+2026-11-04, commit [da3197a](https://github.com/zululima/dotclaude/commit/da3197abf3c8dc8faf0fcc465493edd8be4f8444), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > 3. cmd shift g didnt work?. 4answer the box?
@@ -4938,6 +4951,7 @@ Stop, add it to dotclaude?)
 - cs: computer science
 - cuz: because
 - dev: developer
+- dev: the default branch of the repository in question
 - dir: directory
 - e.g.: for example
 - e2e: end to end
@@ -4961,6 +4975,7 @@ Stop, add it to dotclaude?)
 - HTML: HyperText Markup Language
 - i.e.: id est, that is
 - i.e.: that is
+- idc: I don't care
 - ip: intellectual property
 - ip: internet protocol address
 - js: JavaScript
