@@ -334,9 +334,9 @@ apply to one repository belong in that repository's project memory.
   that CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts, and
   gives a newcomer a prompt to paste into Claude Code, in a `text` block, that clones the repository
   and gets them started. A `claude://` link cannot stand in for it, since GitHub strips such links.
-- A repository whose licence the user picks puts its prose, such as the README, the docs and the
-  CLAUDE.md files, under CC BY-SA 4.0, with the legal text in `LICENSE-PROSE`, and keeps a software
-  licence for its code.
+- The user's public software, such as a repository or a store listing, takes AGPL-3.0-or-later for
+  its code, in `LICENSE`, and CC BY-SA 4.0 for the rest, such as the README, docs and images, in
+  `LICENSE-PROSE`, unless the user names another licence.
 - A page meant to be taken in at a glance, such as a schedule, a roadmap, a status page or a whole
   README, fits one MacBook screen without scrolling: a table or columns in place of a long list, and
   one line per row or bar. Check it, and every other page a session makes for the user to open in a

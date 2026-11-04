@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Default the user's public software to AGPL and CC BY-SA
+
+2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: which licence on the add-on store?)
+> [answers about a store listing left out]
+> 3. all my software that are public are by default the agpl3orlater
+> and non code ccybsa4.0
+> [an answer about which account publishes left out]
+
 ## usage mod: count a Työmarkkinatori sign-in from the sign-in
 
-2026-11-03, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [5fbb4a3](https://github.com/zululima/dotclaude/commit/5fbb4a33f9ffa5cb5d86f2c4aad5d3867f7f3f5b), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
@@ -4844,6 +4854,7 @@ Stop, add it to dotclaude?)
 
 - 5h: 5-hour
 - 5h: five hours
+- agpl3orlater: GNU Affero General Public License v3.0 or later
 - agplv3: GNU Affero General Public License, version 3
 - ai: artificial intelligence
 - arch: Arch Linux
