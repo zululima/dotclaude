@@ -5,9 +5,26 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: start session titles with a fire or an ice cube
+## usage mod: read each transcript again only once it has changed
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**9.** (answer to: shall I check once you have run the removal?)
+> Ran it, check now
+
+**10.**
+> [ran the battery report in the terminal; its output, which quotes
+> other sessions' prompts, left out]
+
+**11.** (answer to: shall I find out which short commands make up most of the sessions' energy?)
+> Yes, find out
+
+**12.** (answer to: shall I add the transcript cache to the usage mod and push it to dotclaude?)
+> Yes, go ahead
+
+## usage mod: start session titles with a fire or an ice cube
+
+2026-11-04, commit [1a94caf](https://github.com/zululima/dotclaude/commit/1a94caf3004e33ec16eef9fea762bba007cc1289), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > can you also put icecube or fire to the session names if they're

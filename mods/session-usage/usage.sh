@@ -289,6 +289,9 @@ if [ "${1:-}" = --next ]; then
   now=$(date +%s)
   chrome=false
   pgrep -xq 'Google Chrome' && chrome=true
+  memos="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-next"
+  mkdir -p "$memos"
+  find "$memos" -type f -mtime +1 -delete 2>/dev/null
   known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f \
     -exec jq -r '"\(.cliSessionId)\t\(.isArchived == true)\t\(.titleSource // "none")\t\(input_filename)\t\(.title // "")"' {} + 2>/dev/null)
   find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null |
@@ -306,12 +309,21 @@ if [ "${1:-}" = --next ]; then
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
-      # its first response is written.
+      # its first response is written. Both seconds follow from the file alone,
+      # so every session reads a transcript again only once it has changed.
       cold=0 ends=0
-      read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
-        scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
-        | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
-        | "\($cold) \($ends)"' 2>/dev/null)
+      stamp=$(stat -f '%z %m' "$f" 2>/dev/null || stat -c '%s %Y' "$f")
+      memo="$memos/$id"
+      size='' mtime=''
+      read -r size mtime cold ends 2>/dev/null < "$memo"
+      if [ "$size $mtime" != "$stamp" ]; then
+        cold=0 ends=0
+        read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
+          scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
+          | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
+          | "\($cold) \($ends)"' 2>/dev/null)
+        printf '%s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" > "$memo.$$" && mv "$memo.$$" "$memo"
+      fi
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\n' "$ends" "$title"
