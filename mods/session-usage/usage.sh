@@ -388,9 +388,9 @@ alarm=$(printf '\342\217\260')
 ice=$(printf '\360\237\247\212')
 left=$((warm - $(date +%s)))
 if [ "$left" -ge 60 ]; then
-  echo "$fire $((left / 60)) min${mark:+ $mark}, $figures"
+  echo "$fire $((left / 60))m${mark:+ $mark}, $figures"
 elif [ "$left" -gt 0 ]; then
-  echo "$alarm <1 min${mark:+ $mark}, $figures"
+  echo "$alarm <1m${mark:+ $mark}, $figures"
 elif [ "$(at "$warm" +%F)" = "$(date +%F)" ]; then
   echo "$ice since $(at "$warm" +%H:%M), $figures"
 else

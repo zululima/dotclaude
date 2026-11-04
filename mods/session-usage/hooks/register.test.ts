@@ -40,7 +40,7 @@ test('pins the cache countdown and the figures after a main turn', async ($, on)
   expect(argvs).toHaveLength(1)
   expect(argvs[0]?.[0]).toMatch(/\/usage\.sh$/)
   expect(argvs[0]?.slice(1)).toEqual(['--status', 'abc'])
-  expect(shown).toEqual([`${FIRE} 15 min, ${FIGURES}`])
+  expect(shown).toEqual([`${FIRE} 15m, ${FIGURES}`])
 })
 
 test('counts down between turns, then names the day once it is past', async ($, on) => {
@@ -68,9 +68,9 @@ test('counts down between turns, then names the day once it is past', async ($, 
 
   expect(runs).toBe(1)
   expect(shown).toEqual([
-    `${FIRE} 2 min, ${FIGURES}`,
-    `${FIRE} 1 min, ${FIGURES}`,
-    `${ALARM} <1 min, ${FIGURES}`,
+    `${FIRE} 2m, ${FIGURES}`,
+    `${FIRE} 1m, ${FIGURES}`,
+    `${ALARM} <1m, ${FIGURES}`,
     `${ICE} since 12:22, ${FIGURES}`,
     `${ICE} since 20 Oct, ${FIGURES}`,
   ])
@@ -99,9 +99,9 @@ test('marks a prompt sent too late and turns to the alarm and the ice between ti
   await clock.advance(59_999)
 
   expect(shown).toEqual([
-    `${FIRE} 1 min, ${FIGURES}`,
-    `${FIRE} 1 min ${LATE}, ${FIGURES}`,
-    `${ALARM} <1 min ${LATE}, ${FIGURES}`,
+    `${FIRE} 1m, ${FIGURES}`,
+    `${FIRE} 1m ${LATE}, ${FIGURES}`,
+    `${ALARM} <1m ${LATE}, ${FIGURES}`,
     `${ICE} since 12:21, ${FIGURES}`,
   ])
 })
@@ -157,11 +157,11 @@ test('names the other session that goes cold next, cut to fit, read once a minut
 
   expect(nextRuns).toBe(2)
   expect(shown).toEqual([
-    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 1 min Store status`,
-    `${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 1 min Store status`,
-    `${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} <1 min Store`,
-    `${FIRE} 57 min, ${FIGURES}, ${HOURGLASS} <1 min Store`,
-    `${FIRE} 57 min, ${FIGURES}, ${HOURGLASS} 16 min October`,
+    `${FIRE} 59m, ${FIGURES}, ${HOURGLASS} 1m Store status`,
+    `${FIRE} 58m, ${FIGURES}, ${HOURGLASS} 1m Store status`,
+    `${FIRE} 58m, ${FIGURES}, ${HOURGLASS} <1m Store status`,
+    `${FIRE} 57m, ${FIGURES}, ${HOURGLASS} <1m Store status`,
+    `${FIRE} 57m, ${FIGURES}, ${HOURGLASS} 16m October role at`,
   ])
   // Each emoji counted as two columns
   expect(shown.every(text => [...(text ?? '')].length + 3 <= 40)).toBe(true)
@@ -186,10 +186,10 @@ test('shows its own Chrome sign-in in place of the cache while it ends first', a
   await clock.advance(59_999)
 
   expect(shown).toEqual([
-    `${COOKIE} 2 min, ${FIGURES}`,
-    `${COOKIE} 1 min, ${FIGURES}`,
-    `${COOKIE} <1 min, ${FIGURES}`,
-    `${FIRE} 8 min, ${FIGURES}`,
+    `${COOKIE} 2m, ${FIGURES}`,
+    `${COOKIE} 1m, ${FIGURES}`,
+    `${COOKIE} <1m, ${FIGURES}`,
+    `${FIRE} 8m, ${FIGURES}`,
   ])
 })
 
@@ -210,8 +210,8 @@ test('ranks a Chrome sign-in that ends with the caches that go cold, under a loc
   await $.session.start(START)
   await clock.advance(4 * 60_000)
 
-  expect(shown.at(0)).toBe(`${FIRE} 59 min, ${FIGURES}, ${LOCK} 4 min Bank export`)
-  expect(shown.at(-1)).toBe(`${FIRE} 55 min, ${FIGURES}, ${HOURGLASS} 14 min October`)
+  expect(shown.at(0)).toBe(`${FIRE} 59m, ${FIGURES}, ${LOCK} 4m Bank export`)
+  expect(shown.at(-1)).toBe(`${FIRE} 55m, ${FIGURES}, ${HOURGLASS} 14m October role`)
 })
 
 test('reads the other sessions again within seconds of a prompt in one of them', async ($, on) => {
@@ -252,7 +252,7 @@ test('reads the other sessions again within seconds of a prompt in one of them',
   beaconAt = NOW + 6_000
   await clock.advance(5_000)
   expect(nextRuns).toBe(2)
-  expect(shown.at(-1)).toBe(`${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 17 min October`)
+  expect(shown.at(-1)).toBe(`${FIRE} 58m, ${FIGURES}, ${HOURGLASS} 17m October role`)
 
   // Its own prompt writes the beacon and reads nothing again.
   await $.turn.start({ text: 'go', turnId: 't1', agentId: 'sub' })
@@ -305,7 +305,7 @@ test('reads the other sessions again within seconds of an archive in the app', a
   archivedAt = NOW + 6_000
   await clock.advance(5_000)
   expect(nextRuns).toBe(2)
-  expect(shown.at(-1)).toBe(`${FIRE} 58 min, ${FIGURES}, ${HOURGLASS} 17 min October`)
+  expect(shown.at(-1)).toBe(`${FIRE} 58m, ${FIGURES}, ${HOURGLASS} 17m October role`)
 
   await clock.advance(5_000)
   expect(nextRuns).toBe(2)
@@ -329,8 +329,8 @@ test('names the other session that goes cold next before its own first answer', 
   await clock.advance(15_000)
 
   expect(shown).toEqual([
-    `${HOURGLASS} 18 min October role at the office`,
-    `${HOURGLASS} 17 min October role at the office`,
+    `${HOURGLASS} 18m October role at the office with a`,
+    `${HOURGLASS} 17m October role at the office with a`,
   ])
 })
 
@@ -359,7 +359,8 @@ const titleRow = (coldAt: number, title: string, kind: string, id: string, sourc
 const indexRow = (id: string, at: number, titles: string[], pr = '') => [record(id), at, pr, ...titles].join('\t')
 
 // This session is "own", most recent of all and left out of its own Cmd+K;
-// "store" goes cold next; "fix" is more recent and once had a title like it.
+// "store" goes cold next; "fix" is more recent and once had a title like it. The
+// late mark leaves the name too little room for all three of its words.
 const nextNamed = async (
   $: Parameters<TestBody>[0],
   on: Parameters<TestBody>[1],
@@ -385,7 +386,7 @@ const nextNamed = async (
           `${NOW / 1000 + 120}\t${FIRE} Store status page\tcold\t${record('store')}\n`,
       )
     if (e.argv[1] === '--titles') return ran('')
-    return warmFor(59)
+    return ran(`${FIGURES}\n${NOW / 1000 + 59 * 60}\n10800\n${LATE}\n`)
   })
   on('ui.status', ($, e) => {
     shown.push(e.text)
@@ -398,10 +399,10 @@ const nextNamed = async (
 }
 
 test('names the other session by its first word and the later ones Cmd+K lists it alone by', async ($, on) => {
-  expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`)
+  expect(await nextNamed($, on, `${ICE} Status report`)).toBe(`${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 2m Store page`)
 })
 
-test('keeps the first word whole rather than cut it or name the session by a later word alone', async ($, on) => {
+test('keeps the first word whole rather than name the session by a later word alone', async ($, on) => {
   const shown: (string | undefined)[] = []
   mock.clock(on, { now: NOW })
   on('session.id', () => ({ value: 'abc' }))
@@ -410,15 +411,15 @@ test('keeps the first word whole rather than cut it or name the session by a lat
       return ran(
         [
           indexRow('own', NOW, [`${FIRE} Page store notes`]),
-          indexRow('note', NOW - 50 * 60_000, [`${FIRE} Notebook fixes`]),
-          indexRow('import', NOW - 10 * 60_000, ['Notebook import']),
+          indexRow('note', NOW - 50 * 60_000, [`${FIRE} Notebooks fixes`]),
+          indexRow('import', NOW - 10 * 60_000, ['Notebooks import']),
           indexRow('tests', NOW - 5 * 86_400_000, [`${ICE} Test fixes`]),
         ].join('\n'),
       )
     if (e.argv[1] === '--next')
       return ran(
         `${titleRow(0, `${FIRE} Page store notes`, 'own', 'own')}\n` +
-          `${NOW / 1000 + 59 * 60}\t${FIRE} Notebook fixes\tcold\t${record('note')}\n`,
+          `${NOW / 1000 + 59 * 60}\t${FIRE} Notebooks fixes\tcold\t${record('note')}\n`,
       )
     if (e.argv[1] === '--titles') return ran('')
     return ran(`${FIGURES}\n${NOW / 1000 + 59 * 60}\n10800\n${LATE}\n`)
@@ -430,28 +431,28 @@ test('keeps the first word whole rather than cut it or name the session by a lat
   on('session.start', () => ({ cwd: '/' }))
 
   await $.session.start(START)
-  expect(shown.at(-1)).toBe(`${FIRE} 59 min ${LATE}, ${FIGURES}, ${HOURGLASS} 59 min Notebook`)
+  expect(shown.at(-1)).toBe(`${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 59m Notebooks`)
 })
 
 test('takes more words to have Cmd+K list the other session alone, not only first', async ($, on) => {
   expect(await nextNamed($, on, `${ICE} Status page report`)).toBe(
-    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`,
+    `${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 2m Store page`,
   )
 })
 
 test('settles for first when no choice of its words has Cmd+K list the other session alone', async ($, on) => {
   expect(await nextNamed($, on, `${ICE} Store status page work`)).toBe(
-    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`,
+    `${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 2m Store page`,
   )
 })
 
 test('puts an older title that starts with the words first, as Cmd+K does', async ($, on) => {
-  expect(await nextNamed($, on, 'Page store status')).toBe(`${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store page`)
+  expect(await nextNamed($, on, 'Page store status')).toBe(`${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 2m Store page`)
 })
 
 test('keeps the title cut to fit when Cmd+K lists the other session alone by it', async ($, on) => {
   expect(await nextNamed($, on, `${ICE} Status report`, 'Store fix')).toBe(
-    `${FIRE} 59 min, ${FIGURES}, ${HOURGLASS} 2 min Store status`,
+    `${FIRE} 59m ${LATE}, ${FIGURES}, ${HOURGLASS} 2m Store status`,
   )
 })
 
@@ -500,7 +501,7 @@ test('marks each title with a fire while its cache is warm and an ice cube once 
   await $.session.start(START)
   await clock.advance(1)
   expect(renamed).toEqual([`local_own: ${FIRE} This work`, `local_store: ${FIRE} Store status`, `local_old: ${ICE} Old work`])
-  expect(shown[0]).toBe(`${FIRE} 30 min, ${FIGURES}, ${HOURGLASS} 2 min Store status`)
+  expect(shown[0]).toBe(`${FIRE} 30m, ${FIGURES}, ${HOURGLASS} 2m Store status`)
 
   await clock.advance(135_000)
   expect(renamed.slice(3)).toEqual([`local_store: ${ICE} Store status`])

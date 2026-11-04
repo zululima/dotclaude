@@ -55,11 +55,11 @@ const bare = (title: string) => title.replace(MARK, '')
 const cache = (now: number, { coldAt, offset, mark, signedInUntil }: Usage) => {
   const left = coldAt - now
   const signedIn = signedInUntil - now
-  if (signedIn > 0 && (signedIn < left || left <= 0)) return `${COOKIE} ${minutes(signedIn)} min`
+  if (signedIn > 0 && (signedIn < left || left <= 0)) return `${COOKIE} ${minutes(signedIn)}m`
 
   const after = mark ? ` ${mark}` : ''
-  if (left >= 60_000) return `${FIRE} ${Math.floor(left / 60_000)} min${after}`
-  if (left > 0) return `${ALARM} <1 min${after}`
+  if (left >= 60_000) return `${FIRE} ${Math.floor(left / 60_000)}m${after}`
+  if (left > 0) return `${ALARM} <1m${after}`
 
   const cold = new Date(coldAt + offset)
   const isToday = Math.floor((coldAt + offset) / DAY) === Math.floor((now + offset) / DAY)
@@ -132,8 +132,8 @@ const isAbove = (a: number[], b: number[]) => {
 
 // The title's first word, which a reader knows the session by, and those later
 // words that fit and have Cmd+K list it soonest: alone, or else first. Then
-// the most words and the most letters. The title cut to fit stands for the
-// same words, and is the one name left when the first word alone is too long.
+// the most letters. The title cut to fit stands for the same words, and is the
+// one name left when the first word alone is too long.
 const findable = (other: Other, room: number) => {
   const cut = fit(other.title, room)
   if (!cut || !known.has(other.record)) return cut
@@ -148,7 +148,7 @@ const findable = (other: Other, room: number) => {
     const picked = [first, ...later.filter((_, i) => n & (1 << i))]
     const label = picked.join(' ')
     if (width(label) > room) continue
-    const score = [standing(words(label), other.record), picked.length, label.length]
+    const score = [standing(words(label), other.record), picked.join('').length]
     if (!best || isAbove(score, best)) [text, best] = [label, score]
   }
   if (words(text).join(' ') === words(cut).join(' ')) text = cut
@@ -164,7 +164,7 @@ const next = (now: number, room: number) => {
   if (!other) return ''
 
   const left = other.endsAt - now
-  const head = `${other.isSignIn ? LOCK : HOURGLASS} ${minutes(left)} min `
+  const head = `${other.isSignIn ? LOCK : HOURGLASS} ${minutes(left)}m `
   const title = findable(other, room - width(head))
 
   return title ? head + title : ''

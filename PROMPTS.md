@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## usage mod: name the next-cold session in whole words only
+## usage mod: write minutes as 59m to fit whole session names
 
 2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I write minutes as 59m so whole names fit?)
+> Yes, use 59m
+
+## usage mod: name the next-cold session in whole words only
+
+2026-11-04, commit [d741fea](https://github.com/zululima/dotclaude/commit/d741fea22c4bc3433f273a6f6a4e62fd85f3aa53), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [6461bbb](https://github.com/zululima/dotclaude/commit/6461bbb75c21200ca3889432e896723ebbd12540).
 
