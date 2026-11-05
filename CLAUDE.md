@@ -428,27 +428,28 @@ apply to one repository belong in that repository's project memory.
   writes that belongs to no checkout goes in `~/Downloads` unless the user names a folder.
 - `~/Downloads` holds only files the user opens, sends or uploads, such as a PDF or a spreadsheet,
   never an HTML page. A file the user is to share, such as a poster to print or a QR code to post,
-  goes straight in `~/Downloads`, never in a folder there, its name starting with the name of the
-  work's drafts folder, such as `<task>-poster.pdf`. A shared file the user no longer needs, such as
-  a poster newer cards replace, moves to the drafts folder in the turn that makes it so. All else
-  the work makes or downloads, its source material included, goes in `~/.claude/drafts/<task>/`, a
+  goes in `~/Downloads/<task>/`, one folder per work named as its drafts folder, a name short enough
+  that Finder shows it whole, such as `dphat`. A shared file the user no longer needs, such as a
+  poster newer cards replace, moves to the drafts folder in the turn that makes it so. All else the
+  work makes or downloads, its source material included, goes in `~/.claude/drafts/<task>/`, a
   subfolder per part. A later turn or session of the same work adds to these, so before its first
   file a session lists `~/Downloads`, `~/.claude/drafts`, `~/.claude/pages` and `~/.claude/archive`
   and greps `~/.claude/prompt-log` for the work's words. It builds on what an earlier session left,
   keeping its recorded names and settings unless the user changes them, and its first reply names
   what it found; when the request points to other files, such as a colleague's new upload, it asks
   which to build from. When the user archives the session in the desktop app, the `archive-files`
-  mod moves its drafts folder and those `~/Downloads` files to `~/.claude/archive/<task>/` and
+  mod moves its drafts folder and its `~/Downloads` folder to `~/.claude/archive/<task>/` and
   rewrites the memory notes and background files that name an old path, so no reply asks about
   moving them. A later session moves them back before the user needs one, and after any move a
   session makes, it rewrites those notes itself. A working file that only feeds a tool, such as
   clipboard HTML, goes in `~/.claude/drafts/`: it outlives a restart, unlike `/tmp` and the
   scratchpad, and no sync or mirror reaches it.
 - A document the user sends or uploads for another person to read, such as a filled form, a letter
-  or a CV, goes in `~/Downloads` as a PDF, unless the user or the recipient asks for another format
-  or the recipient is to edit it. The session makes the PDF with a converter that keeps the source's
-  fonts and page breaks, such as LibreOffice headless for an office file, and checks every page, and
-  the page count against any length the recipient set, before the reply hands it over.
+  or a CV, goes in the work's `~/Downloads` folder as a PDF, unless the user or the recipient asks
+  for another format or the recipient is to edit it. The session makes the PDF with a converter that
+  keeps the source's fonts and page breaks, such as LibreOffice headless for an office file, and
+  checks every page, and the page count against any length the recipient set, before the reply hands
+  it over.
 - Environment or deployment tooling runs against a remote environment, such as a deploy, a
   store upload or submission, or a command on a shared database, only when the user asked for
   that action on that target in the session or said go to a reply that named both. The ask

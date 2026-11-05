@@ -1,16 +1,17 @@
 #!/bin/bash
 
 # Moves what an archived desktop session left behind, its drafts folder and the
-# ~/Downloads files named after it, to ~/.claude/archive/<task>/, and rewrites
-# the memory notes and background files that name an old path. The
+# ~/Downloads folder and files named after it, to ~/.claude/archive/<task>/, and
+# rewrites the memory notes and background files that name an old path. The
 # archive-files mod runs it whenever the desktop app rewrites its index of
 # archived sessions. That index and the session records beside it are the
 # app's own undocumented files, so an app update can stop this without an
 # error; the log then shows no runs after an archive.
 #
 # A session's tasks are the ~/.claude/drafts/<task> folders its tool calls
-# name. A task moves when the session changed its folder or one of its
-# ~/Downloads/<task>-* files, and no session still open names it.
+# name. A task moves when the session changed its folder, its ~/Downloads/<task>
+# folder or one of its ~/Downloads/<task>-* files, and no session still open
+# names it.
 #
 # It also closes the Chrome tabs the session's Claude in Chrome results listed
 # and that are still open, through Chrome's AppleScript, whose tab ids are the
@@ -82,13 +83,16 @@ rewrite_notes() {
 }
 
 move_task() {
-  local task=$1 since=$2 drafts="$HOME/.claude/drafts/$1" dest="$archive/$1" files=() f e changed=
+  local task=$1 since=$2 drafts="$HOME/.claude/drafts/$1" dest="$archive/$1" shared="$HOME/Downloads/$1"
+  local files=() f e changed= folder=
   shopt -s nullglob dotglob
   for f in "$HOME/Downloads/$task"-* "$HOME/Downloads/$task".*; do
     [ -f "$f" ] && [ -n "$(find "$f" -mmin "-$since")" ] && files+=("$f")
   done
+  # The folder itself counts: a file moved in keeps its own older time.
+  [ -d "$shared" ] && [ -n "$(find "$shared" -mmin "-$since" | head -1)" ] && folder=1
   [ -d "$drafts" ] && [ -n "$(find "$drafts" -type f -mmin "-$since" | head -1)" ] && changed=1
-  if [ -z "$changed" ] && [ ${#files[@]} -eq 0 ]; then
+  if [ -z "$changed" ] && [ -z "$folder" ] && [ ${#files[@]} -eq 0 ]; then
     say "  $task: nothing this session changed"
     return
   fi
@@ -98,6 +102,7 @@ move_task() {
   fi
   if [ -n "$dry" ]; then
     [ -d "$drafts" ] && say "  $task: would move ${drafts/#$HOME/~} to ${dest/#$HOME/~}"
+    [ -n "$folder" ] && say "  $task: would move ${shared/#$HOME/~} to ${dest/#$HOME/~}/downloads/"
     for f in ${files[@]+"${files[@]}"}; do say "  $task: would move ${f/#$HOME/~} to ${dest/#$HOME/~}/downloads/"; done
     return
   fi
@@ -114,6 +119,16 @@ move_task() {
     fi
     say "  $task: moved ${drafts/#$HOME/~} to ${dest/#$HOME/~}"
     rewrite_notes "$drafts" "$dest"
+  fi
+  if [ -n "$folder" ]; then
+    mkdir -p "$dest/downloads"
+    for e in "$shared"/*; do
+      to=$(place "$e" "$dest/downloads")
+      [ "$to" = "$dest/downloads/${e##*/}" ] || rewrite_notes "$e" "$to"
+    done
+    rmdir "$shared"
+    say "  $task: moved ${shared/#$HOME/~} to ${dest/#$HOME/~}/downloads"
+    rewrite_notes "$shared" "$dest/downloads"
   fi
   for f in ${files[@]+"${files[@]}"}; do
     mkdir -p "$dest/downloads"

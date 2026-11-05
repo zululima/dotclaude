@@ -106,7 +106,7 @@
   The tokens and what they would cost show once a week instead, in the report of the last `/dream`
   run before the weekly reset.
 - [`mods/archive-files`](../mods/archive-files): when you archive a session in the desktop app, the
-  files it made for you, its drafts folder and the files in `~/Downloads` named after it, move to
+  files it made for you, its drafts folder and its folder in `~/Downloads`, move to
   `~/.claude/archive/` within seconds, and memory notes that named them point to where they went. It
   also closes the Chrome tabs the session's Claude in Chrome calls left open, the ones the app's own
   close on archive misses, through Chrome's AppleScript, so macOS asks once whether Claude may

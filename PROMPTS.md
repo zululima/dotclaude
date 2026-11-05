@@ -5,9 +5,37 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: Finnish review page, copyable values, screen order
+## Copy local file addresses and share files from one folder per work
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.**
+> step one doesnt open it in firefox
+
+**8.**
+> [an ask about a form's contact address left out]
+
+**9.**
+> [the same ask continued, left out]
+
+**10.**
+> [the same ask continued, left out]
+
+**11.**
+> [an answer about the form's contact address left out]
+
+**12.** (answer to: a local server for one-click links, or b, keep copying the file:// address?)
+> i keep copying files so b
+
+**13.**
+> now and in the future you can actually do folders for each session
+> and keep archiving them as i archive sessions. for this particular
+> session for example would have been nice if it was just one folder
+> that is short enough to fit not wrapping. sent the emails thanks
+
+## pull-requests: Finnish review page, copyable values, screen order
+
+2026-11-05, commit [237bb58](https://github.com/zululima/dotclaude/commit/237bb58f27ad16c64ad0ec7bfdb516b70a1ed313), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > in the future give pr review instructiosn in finnish but always
