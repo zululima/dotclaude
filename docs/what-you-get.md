@@ -159,9 +159,10 @@
   the setup, which keeps the rules every session reads shorter.
 - [`workflows/dream.js`](../workflows/dream.js): type `/dream` when you stop for the day. Many
   agents read your recent sessions, your setup and the Mac's own power log, which shows what drained
-  the battery, and come back with suggested changes, each with a ready script. It changes nothing by
-  itself and stops before your usage limits, and in the chat it says only how much of them it used.
-  Type `/dream review` in a new session to read its report and go through the changes. When
+  the battery, and come back with suggested changes, each with a ready script, and scheduled tasks
+  worth setting up, each asked about before it is created. It changes nothing by itself and stops
+  before your usage limits, and in the chat it says only how much of them it used. Type `/dream
+  review` in a new session to read its report and go through the changes. When
   `~/.claude/dream/evals-checkout.txt` names a copy of this repository, the review also reruns the
   [evals](evals.md) and publishes their numbers.
 - [`agents/dream-worker.md`](../agents/dream-worker.md): a lighter agent for `/dream`, so it uses

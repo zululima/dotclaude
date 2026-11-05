@@ -132,25 +132,20 @@ apply to one repository belong in that repository's project memory.
 - Remote layout decides the flow. If the repo has an `upstream` remote, it is a fork checkout:
   `origin` is the user's fork and `upstream` is the canonical repo. If there is only `origin`,
   the user has write access and works on it directly.
-- Fork checkouts: the user has read access on the upstream repo. Resolve the GitHub handle at
-  runtime with `gh api user --jq .login` (never hardcode it). Branch from `upstream/<default
-  branch>`, push to `origin`, and open the PR against the upstream repo with
-  `--repo <upstream-owner>/<repo> --head <handle>:<branch> --base <default branch>`. Switch the
-  checkout back to the branch it was on afterwards.
-- Direct checkouts: branch from `origin/<default branch>`, push to `origin`, and open the PR
-  with `--head <branch>` against that default branch.
-  The exception is a repository under the user's own account whose only collaborator is the
-  user, as `gh api repos/<owner>/<repo>/collaborators` lists them: commit on its default branch
-  and push there, with no branch and no PR.
-- Upstream PRs only when asked. First check what is already open with
-  `gh pr list --repo <upstream-owner>/<repo> --author @me` and prefer adding to an open PR.
-- A change for a branch that another live session works on goes to that session, never to a
-  task chip and never through a switch of the checkout the two share: send it with SendMessage
-  to the name ListAgents prints. A send counts only when it returns without an error. When it
-  fails, the checkout stays where it is and the reply names that session and the change, so the user
-  can pass it on. A task chip is for work no live session holds. No step hands work to an archived
-  session. A session that switches a shared checkout for anything but the PR in play switches it
-  back before the turn ends.
+- Fork checkouts: the user has read access on the upstream repo. Branch from `upstream/<default
+  branch>`, push to `origin`, and open the PR against the upstream repo. Switch the checkout back to
+  the branch it was on afterwards.
+- Direct checkouts: branch from `origin/<default branch>`, push to `origin`, and open the PR against
+  that default branch. The exception is a repository under the user's own account whose only
+  collaborator is the user, as `gh api repos/<owner>/<repo>/collaborators` lists them: commit on its
+  default branch and push there, with no branch and no PR.
+- A change for a branch that another live session works on goes to that session, never to a task
+  chip and never through a switch of the checkout the two share: send it with SendMessage to the
+  name ListAgents prints. A send counts only when it returns without an error. When it fails, the
+  checkout stays where it is and the reply names that session and the change, so the user can pass
+  it on. A task chip is for work no live session holds. No step hands work to an archived session. A
+  session that switches a shared checkout for anything but the PR in play switches it back before
+  the turn ends.
 
 ## Prose
 
@@ -568,8 +563,10 @@ apply to one repository belong in that repository's project memory.
   reply names the run and says it is in the session's tasks pane, and every later turn calls
   `show_pane` with `tasks` again first while a run the session started still goes on. Work set for
   later is a task under Scheduled in the app's sidebar, which survives an archive, never
-  `CronCreate` or `ScheduleWakeup`, which die with the session; each reply until it runs names it
-  and its time.
+  `CronCreate` or `ScheduleWakeup`, which die with the session. A reply whose turn adds, changes or
+  removes anything that runs unattended on a schedule or trigger, such as a scheduled task, local or
+  cloud, a launchd agent or a cron entry, names it, when and where it runs and what it does, and
+  each reply until a one-time one runs names it and its time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic

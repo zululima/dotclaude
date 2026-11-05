@@ -9,6 +9,14 @@ These procedures sit beside the Pull requests rules in `~/.claude/CLAUDE.md`, wh
 drafts only, one draft PR per issue and every other change on one already open, never post on
 GitHub, meta prompts left out, and downstream names redacted in public and upstream repositories.
 
+## Opening
+
+- In a fork checkout, resolve the GitHub handle at runtime with `gh api user --jq .login` (never
+  hardcode it) and open the PR with `--repo <upstream-owner>/<repo> --head <handle>:<branch> --base
+  <default branch>`. In a direct checkout, open it with `--head <branch>`.
+- Upstream PRs only when asked. First check what is already open with `gh pr list --repo
+  <upstream-owner>/<repo> --author @me` and prefer adding to an open PR.
+
 ## The body
 
 - Claude's part of the body is, in this order: the one sentence on what has changed, a list of the

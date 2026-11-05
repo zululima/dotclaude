@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Put checks set for later in the app's scheduled tasks
+## Name scheduled tasks in replies and propose them in dream
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> will teh on-call use cloud or my local machine claude dekstop
+
+**2.**
+> i removed the scheduled task of toggl daily or wahteever. you should
+> always tell me if you include some scheduled background tasks. you
+> should probably also include in dreaming if you can come up with any
+> good schedules or on call thingies that would help me
+
+## Put checks set for later in the app's scheduled tasks
+
+2026-11-05, commit [22f9a74](https://github.com/zululima/dotclaude/commit/22f9a7418891ed63d499b43c7bfdc33f480f8a64), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > can i archive this chat or will the background task get cancelled?
