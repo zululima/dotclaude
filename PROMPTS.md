@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Send documents as PDF and give local files as file:// addresses
+## Make web addresses the reader opens clickable links
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a product search left out]
+
+**2.**
+> you can just use clickable links from hereonout just include the
+> whole url so i know what im clicking
+
+## Send documents as PDF and give local files as file:// addresses
+
+2026-11-05, commit [94cbca3](https://github.com/zululima/dotclaude/commit/94cbca3da7c035cf7de67a9f8e58a7362f3fa86e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about filling in a form for an email left out]
