@@ -528,27 +528,28 @@ apply to one repository belong in that repository's project memory.
   agent cannot be changed. A page, a file or an upload is tried there before a reply calls it out of
   reach, and an address that WebFetch or another fetch could not reach is tried there next and with
   plain curl from the user's machine, its public API included, before any question or other route.
-  The extension works only while Chrome runs, so when Chrome is not running the session starts it
-  itself, without asking, with `open -g -a "Google Chrome" --args --no-startup-window`, and tries
-  again. Chrome comes to the front when it opens a window at launch, which that flag stops, while
-  the window Claude in Chrome opens for its tab group stays behind the app in front. When the
-  extension is still not connected, the reply gives its install page and the step to sign in to it
-  from Chrome's side panel, and the browser step waits for that, never moving to the pane. A bot
-  check there is the user's to pass. A local file reaches a page through the extension's
-  `file_upload`, up to 10 MB a call, and a larger one through `~/.claude/hooks/pane-bridge.mjs`,
-  driven as its header says. Rendering is browser work too: no session starts a Chrome of its own,
-  headless or with another profile, also not to turn a page into an image or a PDF. Playwright's own
-  Chromium, which a project's tests and the `pull-requests` skill's screenshots run on, is not that
-  app. A page that has to become a file draws it on a canvas in a Chrome tab, an HTML layout through
-  an SVG `foreignObject` with each font named by its installed family or inlined as a data URL,
-  never a keyword such as `-apple-system` or a linked web font, and posts the blob to the bridge's
-  `/save` from a page the bridge serves. A job Chrome cannot do this way is asked about first. A
-  Google API is read through Google's OAuth 2.0 Playground with the narrowest read-only scope the
-  user said yes to, a grant the session removes under `myaccount.google.com/connections` once the
-  read is done. When a step needs the user in the browser, such as a sign-in, personal data to type
-  or a click the session may not make, the session opens the page that step happens on in a tab of
-  its group, leaves that tab open and names it in the reply, and the turn ends with `wrap_up` and
-  `blocked`, so the sidebar marks the session as waiting on the user.
+  When the extension is not connected, the session runs `open -g -a "Google Chrome" --args
+  --no-startup-window` if Chrome is not running, then `open -g -a "Google Chrome" about:blank`,
+  without asking: Chrome stays behind the app in front, and the extension needs a window. It then
+  calls `list_connected_browsers` for up to a minute until it lists a browser, and tries before that
+  are no failures. When the extension is still not connected, the reply gives its install page and
+  the step to sign in to it from Chrome's side panel, and the browser step waits for that, never
+  moving to the pane. A bot check there is the user's to pass. A local file reaches a page through
+  the extension's `file_upload`, up to 10 MB a call, and a larger one through
+  `~/.claude/hooks/pane-bridge.mjs`, driven as its header says. Rendering is browser work too: no
+  session starts a Chrome of its own, headless or with another profile, also not to turn a page into
+  an image or a PDF. Playwright's own Chromium, which a project's tests and the `pull-requests`
+  skill's screenshots run on, is not that app. A page that has to become a file draws it on a canvas
+  in a Chrome tab, an HTML layout through an SVG `foreignObject` with each font named by its
+  installed family or inlined as a data URL, never a keyword such as `-apple-system` or a linked web
+  font, and posts the blob to the bridge's `/save` from a page the bridge serves. A job Chrome
+  cannot do this way is asked about first. A Google API is read through Google's OAuth 2.0
+  Playground with the narrowest read-only scope the user said yes to, a grant the session removes
+  under `myaccount.google.com/connections` once the read is done. When a step needs the user in the
+  browser, such as a sign-in, personal data to type or a click the session may not make, the session
+  opens the page that step happens on in a tab of its group, leaves that tab open and names it in
+  the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as
+  waiting on the user.
 - No reply suggests storing a password in Chrome: not in Chrome's own password manager or through
   its offer to save one, not by importing passwords from Firefox, and not in a password manager's
   Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
