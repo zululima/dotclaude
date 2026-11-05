@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Claude in Chrome</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; height: 100vh; display: grid; place-items: center;
+    font: 15px -apple-system, system-ui, sans-serif; background: Canvas; color: GrayText; }
+</style>
+</head>
+<body>
+<p>This tab gave Claude in Chrome a window to connect through. It closes when you come back to it.</p>
+<script>
+  const opened = Date.now();
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && Date.now() - opened > 60000) window.close();
+  });
+</script>
+</body>
+</html>

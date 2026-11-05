@@ -148,8 +148,9 @@
   upload into a site open in Chrome, through the site's own upload button, and saves what Claude
   draws there.
 - [`chrome-background.sh`](../hooks/chrome-background.sh): opens the Chrome window Claude in Chrome
-  needs to connect and keeps Chrome hidden meanwhile, so it never lands on top of your work. Mac
-  only.
+  needs to connect when Chrome has none and keeps Chrome hidden meanwhile, so it never lands on top
+  of your work. The window's tab, [`chrome-anchor.html`](../hooks/chrome-anchor.html), closes itself
+  when you come back to it. Mac only.
 - [`skills/pull-requests/review-page`](../skills/pull-requests/review-page/build.py): turns a pull
   request's test steps and screenshots into a checklist page you tick off with the keyboard while
   you review it.

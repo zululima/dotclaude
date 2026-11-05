@@ -175,6 +175,7 @@ mirrored=(
   hooks/push-only-when-locked.sh
   hooks/pane-bridge.mjs
   hooks/chrome-background.sh
+  hooks/chrome-anchor.html
   hooks/energy-session-pid.sh
   presence/install.sh
   presence/lock-listener.swift

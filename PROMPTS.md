@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave stopped sessions out of the usage hourglass
+## Stop leaving a blank tab in view when sessions wake Claude in Chrome
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> again with the about:blank 😃 can you fix
+
+**2.**
+> [a question about this session's progress left out]
+
+## Leave stopped sessions out of the usage hourglass
+
+2026-11-05, commit [be357e4](https://github.com/zululima/dotclaude/commit/be357e4ced309525bf34f75927248020fe50219f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > flame mod just gave me about blank issue although theres nothing i
