@@ -528,14 +528,14 @@ apply to one repository belong in that repository's project memory.
   agent cannot be changed. A page, a file or an upload is tried there before a reply calls it out of
   reach, and an address that WebFetch or another fetch could not reach is tried there next and with
   plain curl from the user's machine, its public API included, before any question or other route.
-  When the extension is not connected, the session runs `open -g -a "Google Chrome" --args
-  --no-startup-window` if Chrome is not running, then `open -g -a "Google Chrome" about:blank`,
-  without asking: Chrome stays behind the app in front, and the extension needs a window. It then
-  calls `list_connected_browsers` for up to a minute until it lists a browser, and tries before that
-  are no failures. When the extension is still not connected, the reply gives its install page and
-  the step to sign in to it from Chrome's side panel, and the browser step waits for that, never
-  moving to the pane. A bot check there is the user's to pass. A local file reaches a page through
-  the extension's `file_upload`, up to 10 MB a call, and a larger one through
+  When the extension is not connected, the session runs `~/.claude/hooks/chrome-background.sh`
+  without asking, which gives the extension the window it needs and keeps Chrome hidden, and never
+  opens Chrome another way, since Chrome then puts its window on top. It then calls
+  `list_connected_browsers` for up to a minute until it lists a browser, and tries before that are
+  no failures. When the extension is still not connected, the reply gives its install page and the
+  step to sign in to it from Chrome's side panel, and the browser step waits for that, never moving
+  to the pane. A bot check there is the user's to pass. A local file reaches a page through the
+  extension's `file_upload`, up to 10 MB a call, and a larger one through
   `~/.claude/hooks/pane-bridge.mjs`, driven as its header says. Rendering is browser work too: no
   session starts a Chrome of its own, headless or with another profile, also not to turn a page into
   an image or a PDF. Playwright's own Chromium, which a project's tests and the `pull-requests`

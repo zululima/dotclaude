@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Count the brain against the compaction window, warm a new chat
+## Keep Chrome hidden when a session starts it for the extension
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> who just opened chrome to my screen? can we fix it so it woudl be
+> more backgroudn
+
+## Count the brain against the compaction window, warm a new chat
+
+2026-11-05, commit [2d12b65](https://github.com/zululima/dotclaude/commit/2d12b65723f498cc08aba87c14ed4e5aa49ce444), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > whats up brain showin 35 and context showing 99

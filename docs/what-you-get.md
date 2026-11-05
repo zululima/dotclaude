@@ -146,6 +146,9 @@
 - [`pane-bridge.mjs`](../hooks/pane-bridge.mjs): gets files too big for Claude in Chrome's own
   upload into a site open in Chrome, through the site's own upload button, and saves what Claude
   draws there.
+- [`chrome-background.sh`](../hooks/chrome-background.sh): opens the Chrome window Claude in Chrome
+  needs to connect and keeps Chrome hidden meanwhile, so it never lands on top of your work. Mac
+  only.
 - [`skills/pull-requests/review-page`](../skills/pull-requests/review-page/build.py): turns a pull
   request's test steps and screenshots into a checklist page you tick off with the keyboard while
   you review it.
