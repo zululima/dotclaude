@@ -241,6 +241,8 @@ apply to one repository belong in that repository's project memory.
   before it stops at the run. A PR review's steps are the exception: they live on its review page,
   where the user ticks them off, and each reply gives that page in their place, as the
   `pull-requests` skill says.
+- When nothing is left for the user or the session to do, the closing reply says so and tells the
+  user to archive the session, and the next-step box offers the archive action.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the
@@ -447,10 +449,9 @@ apply to one repository belong in that repository's project memory.
   scratchpad, and no sync or mirror reaches it.
 - A document the user sends or uploads for another person to read, such as a filled form, a letter
   or a CV, goes in the work's `~/Downloads` folder as a PDF, unless the user or the recipient asks
-  for another format or the recipient is to edit it. The session makes the PDF with a converter that
-  keeps the source's fonts and page breaks, such as LibreOffice headless for an office file, and
-  checks every page, and the page count against any length the recipient set, before the reply hands
-  it over.
+  for another format or the recipient is to edit it. A converter that keeps the source's fonts and
+  page breaks makes it, such as LibreOffice headless, and every page and the page count against any
+  length the recipient set are checked before the reply hands it over.
 - Environment or deployment tooling runs against a remote environment, such as a deploy, a
   store upload or submission, or a command on a shared database, only when the user asked for
   that action on that target in the session or said go to a reply that named both. The ask
@@ -710,9 +711,8 @@ apply to one repository belong in that repository's project memory.
   checkout, load the `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
-  describes, or a script from this session that the user says they ran. Then, as whenever a session
-  changes another mirrored file, run `sync.sh` and read the diff, write the commit message to a file
-  in the scratchpad, and run `sync.sh --commit <file> <path>...` in the same turn.
+  describes, or a script from this session that the user says they ran. Then it commits and pushes
+  the change with `sync.sh --commit` in the same turn, as for any mirrored file.
 
 ## Memory hygiene
 

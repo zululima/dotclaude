@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give local files as file:// addresses to copy in CLAUDE.md too
+## Tell the user to archive a session once nothing is left
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**14.**
+> if nothing left to do in this session you can tell me to archive a
+> session
+
+## Give local files as file:// addresses to copy in CLAUDE.md too
+
+2026-11-05, commit [0811e2d](https://github.com/zululima/dotclaude/commit/0811e2d7fb7d49b6bc0deef734a95e0f060113f4), model claude-opus-5-5, effort xhigh.
 
 **7.** Quoted under [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
 
