@@ -105,9 +105,8 @@ apply to one repository belong in that repository's project memory.
   such as `[a question about Claude Code settings left out]`. An abbreviation found only in a
   left-out part is not listed.
 - Add a prompt about the change under review to the PR's prompts block in the same turn it is
-  answered, whether or not anything is committed. Refresh the prompts block again after every
-  commit and push, and the screenshots and recordings too when the push changed what is on
-  screen, the way the skill says.
+  answered, whether or not anything is committed. Refresh the prompts block again after every commit
+  and push.
 - The prompt that says to merge is a prompt about the change too. Add it to the PR's prompts
   block before merging, and to the prompts section of the squash commit, which is the commit
   that prompt creates.
@@ -359,8 +358,9 @@ apply to one repository belong in that repository's project memory.
   on: the turn asks for the rest before it rewrites what the screenshot shows. The feedback never
   blames a prompt for what it or an earlier prompt gave. When the prompt corrects a misreading or a
   mistake of Claude's, or the output of a tool Claude built or ran, the section says the fault was
-  Claude's. A prompt that ran a command, skill or workflow bare stays bare in the rewrite: a
-  correction of what it did goes into the tool, as the rule on tools run bare says.
+  Claude's and, above all, what the session changed to make it rarer, with the commit, or that it
+  changed nothing and why. A prompt that ran a command, skill or workflow bare stays bare in the
+  rewrite: a correction of what it did goes into the tool, as the rule on tools run bare says.
 - Write the rewritten prompt itself as the user would type it: all lowercase, names included,
   and without characters that need the shift key when a plain one does the job, so commas and
   full stops in place of colons, quotes, question marks and parentheses. Make it as short as it

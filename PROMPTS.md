@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Hand no work to an archived session
+## Say what changed to prevent a fault, not only whose it was
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> [an answer about a scheduled check left out] also in the future its
+> ok if you tell me the a fault was yours but the most important thing
+> is that you tell me if take action so that it happens less likely in
+> the future
+
+## Hand no work to an archived session
+
+2026-11-05, commit [0757338](https://github.com/zululima/dotclaude/commit/0757338ae7ae7a9dcbabb1be0820b8973bca5dc2), model claude-opus-5-5, effort xhigh.
 
 **12.** Quoted under [05edd94](https://github.com/zululima/dotclaude/commit/05edd941981f613960b92a145e40ebe69a66c5c2).
 
