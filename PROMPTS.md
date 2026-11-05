@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give local pages as a one-click Firefox command
+## Hand no work to an archived session
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**12.** Quoted under [05edd94](https://github.com/zululima/dotclaude/commit/05edd941981f613960b92a145e40ebe69a66c5c2).
+
+**13.**
+> 2. dont recommend me that [a session named after a downstream
+> project] is archived
+
+## Give local pages as a one-click Firefox command
+
+2026-11-05, commit [20f13d2](https://github.com/zululima/dotclaude/commit/20f13d2c82a39862347e02e92e9d42ab41cdbc73), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
 

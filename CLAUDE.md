@@ -151,10 +151,10 @@ apply to one repository belong in that repository's project memory.
 - A change for a branch that another live session works on goes to that session, never to a
   task chip and never through a switch of the checkout the two share: send it with SendMessage
   to the name ListAgents prints. A send counts only when it returns without an error. When it
-  fails, the checkout stays where it is and the reply names that session and the change, so
-  the user can pass it on. A task chip is for work no live session holds. A session that
-  switches a shared checkout for anything but the PR in play switches it back before the turn
-  ends.
+  fails, the checkout stays where it is and the reply names that session and the change, so the user
+  can pass it on. A task chip is for work no live session holds. No step hands work to an archived
+  session. A session that switches a shared checkout for anything but the PR in play switches it
+  back before the turn ends.
 
 ## Prose
 
@@ -718,8 +718,7 @@ apply to one repository belong in that repository's project memory.
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then, as whenever a session
   changes another mirrored file, run `sync.sh` and read the diff, write the commit message to a file
-  in the scratchpad, and run `sync.sh --commit <file> <path>...` in the same turn, naming only the
-  files this session changed.
+  in the scratchpad, and run `sync.sh --commit <file> <path>...` in the same turn.
 
 ## Memory hygiene
 
