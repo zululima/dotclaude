@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep Chrome hidden when a session starts it for the extension
+## Put checks set for later in the app's scheduled tasks
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> can i archive this chat or will the background task get cancelled?
+> you give me to indicator that this has background task scheduled
+
+## Keep Chrome hidden when a session starts it for the extension
+
+2026-11-05, commit [344fc5f](https://github.com/zululima/dotclaude/commit/344fc5fe931c05ede60c85a3107b9eb2092b53df), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > who just opened chrome to my screen? can we fix it so it woudl be

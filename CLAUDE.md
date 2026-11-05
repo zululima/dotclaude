@@ -107,13 +107,10 @@ apply to one repository belong in that repository's project memory.
 - Add a prompt about the change under review to the PR's prompts block in the same turn it is
   answered, whether or not anything is committed. Refresh the prompts block again after every commit
   and push.
-- The prompt that says to merge is a prompt about the change too. Add it to the PR's prompts
-  block before merging, and to the prompts section of the squash commit, which is the commit
-  that prompt creates.
-- Delete the head branch of every PR a session merges, on GitHub and in the local checkout:
-  `gh pr merge` gets `--delete-branch`. A local branch the merge leaves behind, such as when it
-  ran with `--repo` outside the checkout, goes with `git branch -D` once the PR shows as merged,
-  and the reply names its last hash, so `git branch <name> <hash>` brings it back.
+- Delete the head branch of every PR a session merges, on GitHub and in the local checkout: `gh pr
+  merge` gets `--delete-branch`. A local branch the merge leaves behind, such as when it ran with
+  `--repo` outside the checkout, goes with `git branch -D` once the PR shows as merged, and the
+  reply names its last hash, so `git branch <name> <hash>` brings it back.
 - A session that pushes to a branch CI runs on, merges a PR or starts a workflow run waits in that
   session until each run it set off has finished, and reports the result, a green one too: Auto-fix
   wakes a session only on a failure, a merge conflict or a review comment, so a pass would reach no
@@ -569,7 +566,10 @@ apply to one repository belong in that repository's project memory.
   a workflow, is opened for the user in the same turn with `show_pane` and `tasks`, so it shows
   beside the reply while it runs. When `show_pane` answers that the session is in no window, the
   reply names the run and says it is in the session's tasks pane, and every later turn calls
-  `show_pane` with `tasks` again first while a run the session started still goes on.
+  `show_pane` with `tasks` again first while a run the session started still goes on. Work set for
+  later is a task under Scheduled in the app's sidebar, which survives an archive, never
+  `CronCreate` or `ScheduleWakeup`, which die with the session; each reply until it runs names it
+  and its time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic

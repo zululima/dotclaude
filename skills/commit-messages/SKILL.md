@@ -33,6 +33,9 @@ hook that brings an edit of this skill made from another session into a running 
   `<id>+<login>@users.noreply.github.com` address, with the id from `gh api users/<login>`, and
   skip the account when neither resolves. A review alone never earns a `Co-authored-by`, an
   address never comes from another repository, and a bot never gets a trailer.
+- The prompt that says to merge is a prompt about the change too. Add it to the PR's prompts
+  block before merging, and to the prompts section of the squash commit, which is the commit
+  that prompt creates.
 - The prompt section opens with two lines. The first is
   `Prompts behind this commit, as given to Claude Code` and the second is
   `(model <id>, effort <level>):`, with the model id and effort level of the running session,
