@@ -285,16 +285,16 @@ apply to one repository belong in that repository's project memory.
   address the reader opens is a clickable link whose text is the whole address, as
   `[https://example.com](https://example.com)`, so they see where a click leads, never a code block
   or link text that hides or shortens it, in a table too. An address the reader only reads, such as
-  the page that should now open, stays inline. A local web page, PDF or image the user opens, such
-  as a PR's review page or a PDF in `~/Downloads`, gets its `file://` address in a `text` block of
-  its own, which the user copies into Firefox's address bar, never an `open -a Firefox` command. Any
-  other file in the session's folders that the reader opens gets a Markdown link to its path, which
-  the app opens on a click. Any other file outside them, such as a spreadsheet in `~/Downloads`,
-  gets the command that opens it in its default app, `open` with its full `~` path, in a `bash`
-  block of its own, whose Run button opens it. A file outside the session's folders is never sent
-  with SendUserFile or linked, a `file://` link included, since the app's side pane, where a click
-  on either lands, opens only the session's folders and asks the user to add the folder instead, and
-  the user adds none for this.
+  the page that should now open, stays inline. A local web page, PDF or image the user opens or
+  uploads, such as a PR's review page or a PDF in `~/Downloads`, gets its `file://` address in a
+  `text` block of its own to paste into Firefox, never an `open -a Firefox` or `open -R` command.
+  Any other file in the session's folders that the reader opens gets a Markdown link to its path,
+  which the app opens on a click. Any other file outside them, such as a spreadsheet in
+  `~/Downloads`, gets the command that opens it in its default app, `open` with its full `~` path,
+  in a `bash` block of its own, whose Run button opens it. A file outside the session's folders is
+  never sent with SendUserFile or linked, a `file://` link included, since the app's side pane,
+  where a click on either lands, opens only the session's folders and asks the user to add the
+  folder instead, and the user adds none for this.
 - An emoji the user is to pick in an app, such as one per sticker of a sticker pack, stands beside
   the shortest text, typed from the start of a word of its name, that the app's emoji search finds
   it alone by, with the full name in brackets after it, such as coll (collision), so the user types

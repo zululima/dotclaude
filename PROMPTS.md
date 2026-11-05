@@ -5,9 +5,33 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Stop leaving a blank tab in view when sessions wake Claude in Chrome
+## Give a file to upload its file:// address, not a Finder reveal
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a meeting transcript left out]
+
+**2.**
+> [answers about a meeting transcript left out]
+
+**3.**
+> [answers about a meeting transcript left out]
+
+**4.**
+> [an answer about a meeting transcript left out]
+
+**5.**
+> [a question about sharing a meeting transcript left out]
+
+**6.**
+> [a question about search in Slack left out] also just give me pdf
+> file location so i can put that alwaysa to firefox finder sucks.
+> [a note on where to post left out]
+
+## Stop leaving a blank tab in view when sessions wake Claude in Chrome
+
+2026-11-05, commit [0137f8d](https://github.com/zululima/dotclaude/commit/0137f8da5d1941493a7ff79d0805697b05960d09), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > again with the about:blank 😃 can you fix
