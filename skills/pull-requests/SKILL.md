@@ -111,33 +111,42 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
 - Manual steps follow the screen. Before writing one, open the component or the running page and
   take the order of fields and clicks from it, so a dialog that shows type, then name, then
   company is filled in that order and never in the order the step's purpose brings them to mind.
-  Every control is named by the label the reader sees, in bold, in the locale the app renders
-  (the catalog's `msgstr`, or the `msgid` when that is empty), never by what it does for the
-  flow: click **Add item**, search for C and click its card, not "pick an item"; the row's
-  **Delete**, not "remove it". A verb alone never stands for a control. When a label is on more
-  than one control, say which: the row's, the dialog's, the bottom bar's. One action per
-  sentence, followed by what the reader should now see, and two actions that each trigger the
-  same thing get a sentence each, never "both ask too". Test data the reader creates gets the
-  shortest name that works, a, b, c or 1, 2, 3, never a prefix such as the PR's number, unless
-  a screenshot or recording of that step shows other data: then the step has the reader type
-  and pick exactly what the picture shows, so the screen matches the picture. A step
-  that searches by name says what to type and uses the shortest string the seed data does not
-  contain, checked with a search in the grid first. Every action the reader takes is written
-  down, also the ones that feel obvious: copy the address before pasting it, open the new tab
-  before pasting into it, log in again after logging out. A step never relies on something the
-  reader has not been told to do. A step that opens a page gives its full local address, such
-  as `http://localhost:3000/items`, in a `text` block of its own under the step, never the
-  page's name alone and never inline, so the reader copies it in one click instead of hunting
-  through the navigation. Steps run in the order their data needs, deletions last. A
-  step that uses a seeded record says it comes from the seed and what to type to find it. Where
-  the screen shows a stand-in, such as placeholder data, a mock or an unwired part, or a part
-  that ignores the step's input, the step says so. A limitation found while building goes into
-  its step, not only into the reply.
+  Items a step names from a list on screen, such as the rows a search leaves, come in the order the
+  screen lists them. Every control is named by the label the reader sees, in bold, in the locale the
+  app renders (the catalog's `msgstr`, or the `msgid` when that is empty), never by what it does for
+  the flow: click **Add item**, search for C and click its card, not "pick an item"; the row's
+  **Delete**, not "remove it". A verb alone never stands for a control. When a label is on more than
+  one control, say which: the row's, the dialog's, the bottom bar's. One action per sentence,
+  followed by what the reader should now see, and two actions that each trigger the same thing get a
+  sentence each, never "both ask too". Test data the reader creates gets the shortest name that
+  works, a, b, c or 1, 2, 3, never a prefix such as the PR's number, unless a screenshot or
+  recording of that step shows other data: then the step has the reader type and pick exactly what
+  the picture shows, so the screen matches the picture. A step that searches by name says what to
+  type and uses the shortest string the seed data does not contain, checked with a search in the
+  grid first. A value the reader types that is hard to keep in mind, such as a number sequence, an
+  ID or a long name, goes in a `text` block of its own under the sentence that types it, so the
+  review page copies it with one key, while a short word such as a, herv or company1 stays inline.
+  Every action the reader takes is written down, also the ones that feel obvious: copy the address
+  before pasting it, open the new tab before pasting into it, log in again after logging out. A step
+  never relies on something the reader has not been told to do. A step that opens a page gives its
+  full local address, such as `http://localhost:3000/items`, in a `text` block of its own under the
+  step, never the page's name alone and never inline, so the reader copies it in one click instead
+  of hunting through the navigation. Steps run in the order their data needs, deletions last. A step
+  that uses a seeded record says it comes from the seed and what to type to find it. Where the
+  screen shows a stand-in, such as placeholder data, a mock or an unwired part, or a part that
+  ignores the step's input, the step says so. A limitation found while building goes into its step,
+  not only into the reply.
 - The user works through the steps on the review page that Reviewing a PR describes, for every PR
   and not only in a review. The session that opens a PR, or pushes a commit that changes its steps
   or what they show, builds the page in the same turn, after the pictures are in the body, with the
   checks it ran as the overlay's results, and its reply ends with the page's address as a review's
   reply does.
+- The review page is in Finnish, for the people who read it. The PR body, its steps and everything
+  else an agent reads or works from stay English, since models work best in English: the session
+  writes the steps in English as above, then once per build translates each step's title and text,
+  each finding and added step, and each miss into the overlay's `fi`, as `build.py` describes,
+  keeping commands, addresses and values in their blocks as they are. The translation is only for
+  the page: no session reads it or the page back, and a later build translates the English again.
 - Where someone else reviews the repository's PRs, as its project memory or the user says, the user
   still checks the change by hand first, so the session builds the page and the reply ends with its
   address as for any other PR. Once the PR is done, the reply also asks whether the session marks it

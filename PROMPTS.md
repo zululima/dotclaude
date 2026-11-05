@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Have the session fill in forms whose answers a source records
+## pull-requests: Finnish review page, copyable values, screen order
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> in the future give pr review instructiosn in finnish but always
+> always make it so that it never bothers you or you dont actually read
+> the finnish because llms work best with english for now and while
+> coding. so just a translation for us nothing more. also tampere
+> hervanta is latter on the list than hervanta keskusta. your mistake
+> fix in the future. also if review has something human cant remember
+> easily like this number sequence use the copyable thingy there. dont
+> dim the complted one just show its completed tick.
+>
+> [a sign-off on the change under review left out]
+
+## Have the session fill in forms whose answers a source records
+
+2026-11-05, commit [017dc20](https://github.com/zululima/dotclaude/commit/017dc20868b8bcf9c515cde2f85c598894128d2b), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [a step reported done] why cant you do other steps
@@ -5249,6 +5265,7 @@ Stop, add it to dotclaude?)
 - js: JavaScript
 - kwh: kilowatt-hours
 - LLM: large language model
+- llms: large language models
 - lol: laughing out loud
 - m5 air: MacBook Air with the M5 chip
 - md: Markdown

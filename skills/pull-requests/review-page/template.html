@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{LANG}}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -129,8 +129,6 @@ h3.sub { font-size: 0.95rem; margin: 14px 0 6px; }
 .step-label { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
 .step.added .step-label { color: var(--warn); }
 .step-title { font-weight: 600; margin: 2px 0 6px; }
-.step.done .step-title { color: var(--muted); }
-.step.done .step-body { opacity: 0.62; }
 .step-body { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
 .step-body p { margin: 0; max-width: 68ch; }
 .step-body ul { margin: 0; padding-left: 20px; }
@@ -164,9 +162,9 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
 <div class="layout">
   <aside class="rail rail-pr">
     <header class="top">
-      <div class="ref"><a href="{{PR_URL}}" target="_blank" rel="noopener">{{PR_REF}}</a><span>{{BRANCH}}</span><span>head {{HEAD}}</span></div>
+      <div class="ref"><a href="{{PR_URL}}" target="_blank" rel="noopener">{{PR_REF}}</a><span>{{BRANCH}}</span><span>{{HEAD}}</span></div>
       <h1>{{PR_TITLE}}</h1>
-      <div class="meta"><span>By {{AUTHOR}}</span><span>Review built {{BUILT}}</span></div>
+      <div class="meta"><span>{{AUTHOR}}</span><span>{{BUILT}}</span></div>
       <div class="progress">
         <div class="track" aria-hidden="true"><div class="fill"></div></div>
         <span class="count" role="status">0 of 0 done</span>
@@ -184,12 +182,13 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
   </main>
 </div>
 
-<dialog id="viewer" aria-label="Screenshot"><img alt=""></dialog>
+<dialog id="viewer" aria-label="{{SCREENSHOT}}"><img alt=""></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (() => {
   const KEY = "{{STORAGE_KEY}}";
+  const UI = {{UI_JSON}};
   const steps = [...document.querySelectorAll(".step")];
   const done = new Set();
   const fills = document.querySelectorAll(".fill");
@@ -201,7 +200,7 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
   hint.className = "hint";
   const copyHint = document.createElement("span");
   copyHint.className = "c-hint";
-  copyHint.innerHTML = "<kbd>c</kbd> copies this";
+  copyHint.innerHTML = "<kbd>c</kbd> " + UI.copies;
   let focus = -1;
 
   function local(name, value) {
@@ -228,13 +227,13 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
       el.classList.toggle("done", on);
       el.querySelector(".check").setAttribute("aria-checked", on ? "true" : "false");
     }
-    for (const el of counts) el.textContent = n + " of " + steps.length + " done";
+    for (const el of counts) el.textContent = UI.count.replace("%n", n).replace("%t", steps.length);
     for (const el of fills) el.style.width = (steps.length ? (n / steps.length) * 100 : 0) + "%";
   }
 
   function showKeys(el) {
-    const keys = [["x", el.classList.contains("finding") ? "read" : "done"], ["j", "next"], ["k", "back"]];
-    if (el.querySelector(".zoom img")) keys.push(["o", "screenshot"]);
+    const keys = [["x", el.classList.contains("finding") ? UI.read : UI.done], ["j", UI.next], ["k", UI.back]];
+    if (el.querySelector(".zoom img")) keys.push(["o", UI.screenshot]);
     hint.innerHTML = keys.map(([key, what]) => "<span><kbd>" + key + "</kbd> " + what + "</span>").join("");
     el.querySelector(".step-title").after(hint);
     const bar = el.querySelector(".block .block-bar");
@@ -247,6 +246,7 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
     focus = Math.max(0, Math.min(steps.length - 1, i));
     steps.forEach((el, k) => el.classList.toggle("focused", k === focus));
     showKeys(steps[focus]);
+    fitShots();
     if (scroll) {
       const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
       const el = steps[focus];
@@ -283,10 +283,10 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
 
   function copyFrom(container) {
     const code = container.querySelector(".block code");
-    if (!code) { toast("This step has no command"); return; }
+    if (!code) { toast(UI.noCommand); return; }
     const text = code.textContent;
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => toast("Copied"), () => selectText(code));
+      navigator.clipboard.writeText(text).then(() => toast(UI.copied), () => selectText(code));
     } else {
       selectText(code);
     }
@@ -298,12 +298,12 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
     const sel = getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-    toast("Selected, press Cmd+C to copy");
+    toast(UI.selected);
   }
 
   function openImage(container) {
     const img = container.querySelector(".zoom img");
-    if (!img) { toast("This step has no screenshot"); return; }
+    if (!img) { toast(UI.noScreenshot); return; }
     viewer.querySelector("img").src = img.src;
     viewer.querySelector("img").alt = img.alt;
     viewer.showModal();
@@ -332,7 +332,7 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
     if (e.target.closest("input, textarea, select, [contenteditable]")) return;
     if (viewer.open) return;
     const here = focus >= 0 ? steps[focus] : null;
-    const pick = () => toast("Press j to pick a step first");
+    const pick = () => toast(UI.pick);
     switch (e.key) {
       case "j": setFocus(focus + 1, true); break;
       case "k": setFocus(focus < 0 ? 0 : focus - 1, true); break;
@@ -348,6 +348,7 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
   paint();
   fitShots();
   addEventListener("resize", fitShots);
+  document.fonts.ready.then(fitShots);
   for (const img of document.querySelectorAll(".zoom img")) img.addEventListener("load", fitShots);
   // Start on the first step not done, so c and x work without a j first.
   const first = steps.findIndex((el) => !done.has(el.dataset.id));
@@ -357,7 +358,7 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
     localStorage.setItem(KEY + ":probe", "1");
     localStorage.removeItem(KEY + ":probe");
   } catch (e) {
-    save.textContent = "This view cannot keep progress; ticks last until the page closes.";
+    save.textContent = UI.noStorage;
   }
 })();
 </script>

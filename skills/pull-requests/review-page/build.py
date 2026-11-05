@@ -16,10 +16,14 @@ The overlay is JSON:
                  "step": "<step id>"}],
    "added_steps": [{"after": "<step id, or empty for before the first>",
                     "title": "...", "body": "..."}],
-   "missed": [{"step": "<step id>", "text": "..."}]}
+   "missed": [{"step": "<step id>", "text": "...", "fi": "..."}],
+   "fi": {"<step id>": {"title": "...", "body": "..."},
+          "section:<section slug>": {"title": "...", "note": "..."}}}
 Findings come first on the page, as steps, and each miss shows inside the
 step it concerns. A finding or a miss with "fixed": "<commit>" stays off
-the page, since the reader has nothing left to do about it. Bodies are Markdown in the form the pull-requests skill
+the page, since the reader has nothing left to do about it. With "fi" the
+page is in Finnish: every step needs its title and text there, and each
+miss its "fi", while the step's pictures come from the English step. Bodies are Markdown in the form the pull-requests skill
 writes. Step ids are the section's slug and the step's number in the PR's list, such as
 setup-2, while the page numbers the steps from 1 across all sections; build.py prints the ids.
 
@@ -39,6 +43,48 @@ from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.expanduser("~/.claude/drafts/review-page-images")
 IMAGE_TYPES = ("image/png", "image/jpeg", "image/gif", "image/webp")
+
+STRINGS = {
+    "en": {
+        "steps": "Steps", "step": "Step %d", "added": "Added by the review",
+        "finding": "Finding %d, %s", "severity": {"high": "high", "medium": "medium", "low": "low"},
+        "done_label": "Done: %s", "findings": "Findings",
+        "findings_note": "Read these before the manual steps, so changes can be requested first.",
+        "go_to_step": "Go to the step that shows it", "missed": "Missed in the PR",
+        "before": "Before the steps", "failed": "Failed", "not_run": "Not run",
+        "open_one": "1 open finding (%s), the first step below.",
+        "open_many": "%d open findings (%s), the first steps below.",
+        "copy": "Copy", "address": "address", "enlarge": "Enlarge %s", "screenshot": "Screenshot",
+        "into": "%s into %s", "head": "head %s", "by": "By %s", "built": "Review built %s",
+        "js": {
+            "done": "done", "read": "read", "next": "next", "back": "back", "screenshot": "screenshot",
+            "copies": "copies this", "noCommand": "This step has no command", "copied": "Copied",
+            "selected": "Selected, press Cmd+C to copy", "noScreenshot": "This step has no screenshot",
+            "pick": "Press j to pick a step first", "count": "%n of %t done",
+            "noStorage": "This view cannot keep progress; ticks last until the page closes.",
+        },
+    },
+    "fi": {
+        "steps": "Vaiheet", "step": "Vaihe %d", "added": "Katselmoinnin lisäämä",
+        "finding": "Havainto %d, %s", "severity": {"high": "vakava", "medium": "keskitason", "low": "vähäinen"},
+        "done_label": "Tehty: %s", "findings": "Havainnot",
+        "findings_note": "Lue nämä ennen käsin tehtäviä vaiheita, niin muutoksia voi pyytää ensin.",
+        "go_to_step": "Siirry vaiheeseen, jossa se näkyy", "missed": "PR:stä puuttui",
+        "before": "Ennen vaiheita", "failed": "Epäonnistui", "not_run": "Ei ajettu",
+        "open_one": "1 avoin havainto (%s), ensimmäinen vaihe alla.",
+        "open_many": "%d avointa havaintoa (%s), ensimmäiset vaiheet alla.",
+        "copy": "Kopioi", "address": "osoite", "enlarge": "Suurenna %s", "screenshot": "Kuvakaappaus",
+        "into": "%s haaraan %s", "head": "head %s", "by": "Tekijä %s", "built": "Koottu %s",
+        "js": {
+            "done": "tehty", "read": "luettu", "next": "seuraava", "back": "edellinen", "screenshot": "kuva",
+            "copies": "kopioi tämän", "noCommand": "Tässä vaiheessa ei ole komentoa", "copied": "Kopioitu",
+            "selected": "Valittu, kopioi Cmd+C:llä", "noScreenshot": "Tässä vaiheessa ei ole kuvaa",
+            "pick": "Valitse vaihe ensin j:llä", "count": "%n / %t tehty",
+            "noStorage": "Tämä näkymä ei voi tallentaa edistymistä, rastit säilyvät kunnes sivu suljetaan.",
+        },
+    },
+}
+UI = STRINGS["en"]
 
 
 def gh_json(*args):
@@ -117,10 +163,22 @@ def render_image(tag):
             html.escape(alt or "Attachment on GitHub"),
         )
     return (
-        '<figure class="shot"><button type="button" class="zoom" aria-label="Enlarge %s">'
+        '<figure class="shot"><button type="button" class="zoom" aria-label="%s">'
         '<img src="%s" alt="%s" loading="lazy"></button></figure>'
-        % (html.escape(alt or "screenshot"), data, html.escape(alt))
+        % (html.escape(UI["enlarge"] % (alt or UI["screenshot"])), data, html.escape(alt))
     )
+
+
+def render_shots(lines):
+    """Only the pictures of a step, which its translation keeps."""
+    out = []
+    for line in lines:
+        stripped = line.strip()
+        if IMG_TAG.fullmatch(stripped):
+            out.append(render_image(stripped))
+        elif ATTACHMENT.match(stripped):
+            out.append(render_image('<img src="%s" alt="Recording on GitHub">' % stripped))
+    return "".join(out)
 
 
 def render_blocks(lines):
@@ -156,18 +214,18 @@ def render_blocks(lines):
                 # An address to open: a link the reader clicks, and still copies.
                 url = html.escape(body.strip())
                 out.append(
-                    '<div class="block" data-lang="address"><div class="block-bar"><span>address</span>'
-                    '<button type="button" class="copy">Copy</button></div>'
+                    '<div class="block" data-lang="address"><div class="block-bar"><span>%s</span>'
+                    '<button type="button" class="copy">%s</button></div>'
                     '<pre><code><a href="%s" target="_blank" rel="noopener">%s</a></code></pre></div>'
-                    % (url, url)
+                    % (UI["address"], UI["copy"], url, url)
                 )
                 i += 1
                 continue
             out.append(
                 '<div class="block" data-lang="%s"><div class="block-bar"><span>%s</span>'
-                '<button type="button" class="copy">Copy</button></div>'
+                '<button type="button" class="copy">%s</button></div>'
                 "<pre><code>%s</code></pre></div>"
-                % (html.escape(lang), html.escape(lang), html.escape(body))
+                % (html.escape(lang), html.escape(lang), UI["copy"], html.escape(body))
             )
         elif IMG_TAG.fullmatch(stripped):
             flush()
@@ -209,7 +267,7 @@ def parse_verify(body):
     part = rest[: end.start()] if end else rest
 
     sections = []
-    current = {"title": "Steps", "note": [], "steps": []}
+    current = {"title": None, "note": [], "steps": []}
 
     def close():
         if current["steps"] or any(line.strip() for line in current["note"]):
@@ -235,7 +293,7 @@ def parse_verify(body):
     used = set()
     result = []
     for section in sections:
-        base = slug(section["title"])
+        base = slug(section["title"] or "Steps")
         while base in used:
             base += "-x"
         used.add(base)
@@ -250,29 +308,33 @@ def parse_verify(body):
                     "n": step["n"],
                     "title": inline(step["first"]),
                     "body": render_blocks(dedent(lines)),
+                    "shots": render_shots(lines),
                 }
             )
         result.append(
-            {"title": section["title"], "note": render_blocks(dedent(section["note"])), "steps": steps}
+            {"slug": base, "title": section["title"] or UI["steps"], "note": render_blocks(dedent(section["note"])),
+             "steps": steps}
         )
     return result
 
 
 def add_review_steps(sections, review):
     for k, extra in enumerate(review.get("added_steps", []), 1):
+        lines = extra.get("body", "").split("\n")
         if not extra.get("after"):
             # Before the PR's first step, such as command steps the PR lacks.
-            sections.insert(0, {"title": "Added by the review", "note": "", "steps": []})
+            sections.insert(0, {"slug": "review", "title": UI["added"], "note": "", "steps": []})
             sections[0]["steps"].append(
                 {
                     "id": "review-%d" % k,
                     "n": None,
                     "title": inline(extra["title"]),
-                    "body": render_blocks(extra.get("body", "").split("\n")),
+                    "body": render_blocks(lines),
+                    "shots": render_shots(lines),
                     "added": True,
                 }
             )
-            if len(sections) > 1 and sections[1]["title"] == "Added by the review":
+            if len(sections) > 1 and sections[1]["slug"] == "review":
                 sections[0]["steps"] = sections[1]["steps"] + sections[0]["steps"]
                 del sections[1]
             continue
@@ -286,7 +348,8 @@ def add_review_steps(sections, review):
                         "id": "%s-review-%d" % (extra["after"], k),
                         "n": None,
                         "title": inline(extra["title"]),
-                        "body": render_blocks(extra.get("body", "").split("\n")),
+                        "body": render_blocks(lines),
+                        "shots": render_shots(lines),
                         "added": True,
                     },
                 )
@@ -307,24 +370,59 @@ def add_findings(sections, review):
         return
     steps = []
     for n, f in enumerate(findings, 1):
-        body = render_blocks(f.get("body", "").split("\n"))
+        lines = f.get("body", "").split("\n")
+        tail = ""
         if f.get("step"):
-            body += '<p><a class="to-step" href="#%s" data-step="%s">Go to the step that shows it</a></p>' % (
-                f["step"], f["step"])
+            tail = '<p><a class="to-step" href="#%s" data-step="%s">%s</a></p>' % (
+                f["step"], f["step"], UI["go_to_step"])
         steps.append(
             {
                 "id": "finding-%d" % n,
                 "n": n,
                 "title": inline(f["title"]),
-                "body": body,
+                "body": render_blocks(lines) + tail,
+                "shots": render_shots(lines),
+                "tail": tail,
                 "finding": f["severity"],
             }
         )
     sections.insert(0, {
-        "title": "Findings",
-        "note": "<p>Read these before the manual steps, so changes can be requested first.</p>",
+        "slug": "findings",
+        "title": UI["findings"],
+        "note": "<p>%s</p>" % UI["findings_note"],
         "steps": steps,
     })
+
+
+def translate(sections, review):
+    """Every step and miss in Finnish, from the overlay's fi, for the people
+    who read the page; the PR's steps stay English."""
+    fi = review.get("fi")
+    if not fi:
+        return
+    steps = {s["id"]: s for section in sections for s in section["steps"]}
+    known = set(steps) | {"section:" + section["slug"] for section in sections}
+    unknown = sorted(set(fi) - known)
+    if unknown:
+        sys.exit("fi: no step or section %s" % ", ".join(unknown))
+    missing = [i for i in steps if i not in fi]
+    if missing:
+        sys.exit("fi: no translation for %s" % ", ".join(missing))
+    for m in still_open(review.get("missed", [])):
+        if not m.get("fi"):
+            sys.exit("missed: no fi for step %s" % m.get("step"))
+    for section in sections:
+        t = fi.get("section:" + section["slug"])
+        if t:
+            section["title"] = t.get("title", section["title"])
+            if "note" in t:
+                section["note"] = render_blocks(dedent(t["note"].split("\n")))
+    for step_id, t in fi.items():
+        if step_id in steps:
+            step = steps[step_id]
+            step["title"] = inline(t["title"])
+            step["body"] = (step.get("shots", "") + render_blocks(dedent(t.get("body", "").split("\n")))
+                            + step.get("tail", ""))
 
 
 def add_missed(sections, review):
@@ -335,9 +433,10 @@ def add_missed(sections, review):
     for m in still_open(missed):
         if m.get("step") not in by_id:
             sys.exit("missed: no step %s" % m.get("step"))
+        text = m["fi"] if UI is STRINGS["fi"] else m["text"]
         by_id[m["step"]]["body"] = (
-            '<div class="missed"><span class="missed-label">Missed in the PR</span>%s</div>'
-            % render_blocks(m["text"].split("\n"))
+            '<div class="missed"><span class="missed-label">%s</span>%s</div>'
+            % (UI["missed"], render_blocks(text.split("\n")))
         ) + by_id[m["step"]]["body"]
 
 
@@ -360,7 +459,7 @@ def render_review(review):
             '<span class="result-detail">%s</span></li>'
             % (
                 html.escape(r["outcome"]),
-                html.escape({"fail": "Failed", "skip": "Not run"}.get(r["outcome"], r["outcome"])),
+                html.escape({"fail": UI["failed"], "skip": UI["not_run"]}.get(r["outcome"], r["outcome"])),
                 inline(r["name"]),
                 inline(r.get("detail", "")),
             )
@@ -371,15 +470,15 @@ def render_review(review):
         by = {}
         for f in findings:
             by[f["severity"]] = by.get(f["severity"], 0) + 1
+        counts = ", ".join(
+            "%d %s" % (by[k], UI["severity"][k]) for k in ("high", "medium", "low") if k in by)
         parts.append(
-            "<p>%d open finding%s (%s), the first steps below.</p>" % (
-                len(findings), "" if len(findings) == 1 else "s",
-                ", ".join("%d %s" % (by[k], k) for k in ("high", "medium", "low") if k in by),
-            )
+            "<p>%s</p>" % (UI["open_one"] % counts if len(findings) == 1
+                           else UI["open_many"] % (len(findings), counts))
         )
     return (
-        '<section class="review" aria-labelledby="review-h"><h2 id="review-h">Before the steps</h2>%s</section>'
-        % "".join(parts)
+        '<section class="review" aria-labelledby="review-h"><h2 id="review-h">%s</h2>%s</section>'
+        % (UI["before"], "".join(parts))
     )
 
 
@@ -390,23 +489,23 @@ def render_sections(sections):
         steps = []
         for step in section["steps"]:
             if step.get("finding"):
-                label = "Finding %d, %s" % (step["n"], step["finding"])
+                label = UI["finding"] % (step["n"], UI["severity"][step["finding"]])
                 kind = " finding " + html.escape(step["finding"])
             elif step.get("added"):
-                label, kind = "Added by the review", " added"
+                label, kind = UI["added"], " added"
             else:
                 count += 1
-                label, kind = "Step %d" % count, ""
+                label, kind = UI["step"] % count, ""
             steps.append(
                 '<li class="step%s" id="%s" data-id="%s" tabindex="-1">'
-                '<button type="button" class="check" role="checkbox" aria-checked="false" aria-label="Done: %s"></button>'
+                '<button type="button" class="check" role="checkbox" aria-checked="false" aria-label="%s"></button>'
                 '<div class="step-main"><div class="step-label">%s</div><div class="step-title">%s</div>'
                 '<div class="step-body">%s</div></div></li>'
                 % (
                     kind,
                     step["id"],
                     step["id"],
-                    html.escape(re.sub("<[^>]+>", "", step["title"])),
+                    html.escape(UI["done_label"] % re.sub("<[^>]+>", "", step["title"])),
                     label,
                     step["title"],
                     step["body"],
@@ -462,13 +561,16 @@ def main():
         "pr", "view", number, "--repo", repo,
         "--json", "title,url,body,headRefName,baseRefName,headRefOid,author,updatedAt,isDraft",
     )
+    global UI
+    UI = STRINGS["fi" if review.get("fi") else "en"]
     sections = parse_verify(pr["body"])
     if not sections:
         sys.exit("%s#%s has no How to verify? section" % (repo, number))
     if review:
         add_review_steps(sections, review)
-        add_missed(sections, review)
         add_findings(sections, review)
+        translate(sections, review)
+        add_missed(sections, review)
 
     with open(os.path.join(HERE, "template.html")) as f:
         page = f.read()
@@ -479,10 +581,13 @@ def main():
         "PR_TITLE": inline(pr["title"]),
         "PR_URL": html.escape(pr["url"]),
         "PR_REF": html.escape("%s#%s" % (repo, number)),
-        "BRANCH": html.escape("%s into %s" % (pr["headRefName"], pr["baseRefName"])),
-        "HEAD": html.escape(pr["headRefOid"][:7]),
-        "AUTHOR": html.escape(pr["author"]["login"]),
-        "BUILT": datetime.now(timezone.utc).astimezone().strftime("%-d.%-m.%Y %H.%M"),
+        "LANG": "fi" if UI is STRINGS["fi"] else "en",
+        "BRANCH": html.escape(UI["into"] % (pr["headRefName"], pr["baseRefName"])),
+        "HEAD": html.escape(UI["head"] % pr["headRefOid"][:7]),
+        "AUTHOR": html.escape(UI["by"] % pr["author"]["login"]),
+        "BUILT": html.escape(UI["built"] % datetime.now(timezone.utc).astimezone().strftime("%-d.%-m.%Y %H.%M")),
+        "SCREENSHOT": html.escape(UI["screenshot"]),
+        "UI_JSON": json.dumps(UI["js"], ensure_ascii=False).replace("</", "<\\/"),
         "REVIEW": render_review(review),
         "SECTIONS": render_sections(sections),
         "STORAGE_KEY": html.escape("review:%s#%s" % (repo, number)),
