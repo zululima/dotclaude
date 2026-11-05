@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give a file to upload its file:// address, not a Finder reveal
+## Name no control a tool's description promises without seeing it
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**9.**
+> what where is that x you always keep talking about? take a screenshot
+> and show me where?
+
+## Give a file to upload its file:// address, not a Finder reveal
+
+2026-11-05, commit [696c60f](https://github.com/zululima/dotclaude/commit/696c60f991e5d0956756ea4e72b30c2c48e5d124), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a meeting transcript left out]

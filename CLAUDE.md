@@ -101,9 +101,8 @@ apply to one repository belong in that repository's project memory.
   PR. Only prompts about the change under review belong in the PR, and a prompt that adds to or
   corrects what this PR's body says or shows, such as a step, a picture or an upload, is one of
   them: the body edit that answers it adds it to the prompts block.
-  A prompt mainly about the change keeps that part, and its meta part becomes a bracketed note
-  such as `[a question about Claude Code settings left out]`. An abbreviation found only in a
-  left-out part is not listed.
+  A prompt mainly about the change keeps that part, and its meta part becomes a bracketed note such
+  as `[a question about Claude Code settings left out]`.
 - Add a prompt about the change under review to the PR's prompts block in the same turn it is
   answered, whether or not anything is committed. Refresh the prompts block again after every commit
   and push.
@@ -273,10 +272,10 @@ apply to one repository belong in that repository's project memory.
   with its current figures, and its change column is left blank where a value stayed the same.
 - Steps written for a person outside a PR, in a README, a setup section or chat, are run here
   before they are written down, and a menu, tab or button they name is taken from the installed
-  version, such as the app's localized strings or the tool's `--help`, never from memory. A step
-  that cannot be run here, such as a sign-in, a shortcut in another app's dialog, a device build or
-  a setting on a phone, is named in the reply as not run, with the reason, and is never called
-  checked.
+  version, such as the app's localized strings, the tool's `--help` or a screenshot, never from
+  memory or a tool's description of it. A step that cannot be run here, such as a sign-in, a
+  shortcut in another app's dialog, a device build or a setting on a phone, is named in the reply as
+  not run, with the reason, and is never called checked.
 - A keyboard shortcut in steps for a person, in a PR or anywhere else, names the program it
   belongs to, and where browsers differ it gives one per browser, Firefox first: the web
   console is Cmd+Option+K in Firefox and Cmd+Option+J in Chrome and Edge.
