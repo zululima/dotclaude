@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Copy local file addresses and share files from one folder per work
+## Give local files as file:// addresses to copy in CLAUDE.md too
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.** Quoted under [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
+
+**12.** (answer to: a local server for one-click links, or b, keep copying the file:// address?) Quoted under [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
+
+## Copy local file addresses and share files from one folder per work
+
+2026-11-05, commit [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > step one doesnt open it in firefox
