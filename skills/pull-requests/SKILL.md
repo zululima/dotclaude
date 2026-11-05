@@ -241,6 +241,11 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   describes, since a Playwright run at full speed is too fast to follow. Fixture data is what
   the project's own start command leaves, so capture on a stack that no end to end run has
   touched since its last clean start: specs add records the reader's stack lacks.
+- Each PNG holds only the part of the screen its step is about, such as the open dialog or the list
+  the step changes, taken with `locator.screenshot()` or a `clip`, so it stays legible at the size
+  the review page gives it. The window around that part, a dimmed backdrop, empty margins and parts
+  the step does not mention are left out. A picture already taken whole is cropped to that part with
+  `sips -c` and `--cropOffset` before it is uploaded.
 - Open every picture with Read before it is uploaded, and check that it shows the state its step
   describes and nothing a freshly started stack would not show.
 - Whenever screenshots or recordings exist for a PR and show what it changes, upload them to it

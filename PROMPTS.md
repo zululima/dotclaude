@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## review-page: fit each step's screenshot into one window
+## pull-requests: crop each step's screenshot to what the step is about
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> well now step 4 is just abusmally small. crop the images to crop out
+> unnecessary parts. do you need a local model for that or can opus
+> just figure them out
+
+## review-page: fit each step's screenshot into one window
+
+2026-11-05, commit [8202c1d](https://github.com/zululima/dotclaude/commit/8202c1d8211ac2e6c5e3cb72b2d27924755c396f), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [pasted: a screenshot of a review page in Firefox, its step 3 picture
