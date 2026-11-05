@@ -5,9 +5,43 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Open a background Chrome window before giving up on it
+## Give local pages as a one-click Firefox command
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+
+**2.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+
+**3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+
+**4.** Quoted under [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
+
+**5.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+
+**6.**
+> [a command run in the terminal pane left out]
+
+**7.**
+> always give me the html link i can open in firefox [the rest, about
+> a downstream project, left out]
+
+**8.**
+> [an ask about a downstream project left out]
+
+**9.** Quoted under [ca26192](https://github.com/zululima/dotclaude/commit/ca26192e7d051a5d01b10bd35d97ce909c2bd0eb).
+
+**10.**
+> [an ask about a downstream project left out]
+
+**11.**
+> [an ask about a downstream project left out] give me a clickable
+> firefox local file link i cant listen to the audio [the rest left
+> out]
+
+## Open a background Chrome window before giving up on it
+
+2026-11-05, commit [d51ce6f](https://github.com/zululima/dotclaude/commit/d51ce6fc446e109de002f53dad84ce396d428404), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about permissions in a chat workspace left out]
