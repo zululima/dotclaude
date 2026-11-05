@@ -53,11 +53,21 @@ default="${default#"$remote"/}"
 has_head=0
 git rev-parse --verify --quiet HEAD >/dev/null && has_head=1
 
+# During a merge the merge commit does not exist yet, so every walk starts from
+# the heads being merged in as well, as it would from that commit.
+heads=(HEAD)
+merge_heads="$(git rev-parse --git-path MERGE_HEAD)"
+if [ "$has_head" -eq 1 ] && [ -f "$merge_heads" ]; then
+  while read -r hash _; do
+    if [ -n "$hash" ]; then heads+=("$hash"); fi
+  done <"$merge_heads"
+fi
+
 last=""
 if [ -n "$message" ]; then
   last=pending
 elif [ "$has_head" -eq 1 ]; then
-  last="$(git log -1 --format=%H -- PROMPTS.md)"
+  last="$(git log -1 --format=%H "${heads[@]}" -- PROMPTS.md)"
 fi
 
 prs="$(mktemp)"
@@ -65,7 +75,7 @@ out="$(mktemp)"
 trap 'rm -f "$prs" "$out"' EXIT
 
 if [ "$has_head" -eq 1 ]; then
-  git log --merges --format='%H %P%x09%s' HEAD | while IFS=$'\t' read -r hashes subject; do
+  git log --merges --format='%H %P%x09%s' "${heads[@]}" | while IFS=$'\t' read -r hashes subject; do
     case "$subject" in "Merge pull request #"[0-9]*) ;; *) continue ;; esac
     number="${subject#Merge pull request #}"
     number="${number%% *}"
@@ -81,13 +91,13 @@ if [ -n "$current" ] && [ "$current" != "$default" ] && command -v gh >/dev/null
   branch_pr="$(GH_PROMPT_DISABLED=1 gh pr view --json number -q .number 2>/dev/null || true)"
   case "$branch_pr" in "" | *[!0-9]*) branch_pr="" ;; esac
   if [ -n "$branch_pr" ] && git rev-parse --verify --quiet "$remote/$default" >/dev/null; then
-    git rev-list "$remote/$default..HEAD" | sed "s/\$/ $branch_pr/" >>"$prs"
+    git rev-list "${heads[@]}" "^$remote/$default" | sed "s/\$/ $branch_pr/" >>"$prs"
   fi
 fi
 
 {
   if [ "$has_head" -eq 1 ]; then
-    git log --reverse --date=short --format='%x1e%H%x1f%h%x1f%ad%x1f%s%n%B' HEAD
+    git log --reverse --date=short --format='%x1e%H%x1f%h%x1f%ad%x1f%s%n%B' "${heads[@]}"
   fi
   if [ -n "$message" ]; then
     printf '\036pending\037pending\037%s\037%s\n' "$(date +%F)" "$(head -n 1 "$message")"

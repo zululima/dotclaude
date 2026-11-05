@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Rebuild PROMPTS.md mid-merge with the commits merged in
+
+2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [a task another Claude session wrote, left out]
+
 ## Retry dropped API connections for about 6 minutes
 
-2026-11-04, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [4990ea1](https://github.com/zululima/dotclaude/commit/4990ea152eca4d54e9a6381853dc0e3e0972451c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > why was there a [two session names] notifiction of claude code hit an

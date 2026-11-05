@@ -723,6 +723,17 @@ const suites = [
         const text = fs.readFileSync(file, 'utf8')
         return text.includes('add a printer') && text.indexOf('add a printer') < text.indexOf('add a parser')
       }],
+      ['lists the commits a merge in progress brings in, as the merge commit will', () => {
+        const merge = path.join(home, 'pm-merge'), mergeFile = path.join(merge, 'PROMPTS.md')
+        const [base, side, main, msg] = [body('Add the base', 'add a base'), body('Add the side', 'add a side'), body('Add the main', 'add a main'), 'Merge branch side\n']
+          .map((text, i) => write(path.join(home, `pm-merge-${i}.txt`), text))
+        sh(`git init -q ${q(merge)} && cd ${q(merge)} && echo base > PROMPTS.md && git add PROMPTS.md && git commit -q -F ${q(base)} && git switch -q -c side && echo side > PROMPTS.md && git commit -q -a -F ${q(side)} && git switch -q main && echo main > PROMPTS.md && git commit -q -a -F ${q(main)} && { git merge -q --no-commit side >/dev/null 2>&1 || true; }`)
+        const r = run('', { cwd: merge, args: ['--message', msg] })
+        const during = fs.readFileSync(mergeFile, 'utf8')
+        sh(`cd ${q(merge)} && git add PROMPTS.md && git commit -q -F ${q(msg)}`)
+        run('', { cwd: merge })
+        return r.code === 0 && during.includes('> add a side') && during === fs.readFileSync(mergeFile, 'utf8')
+      }],
       ['stops on a missing message file', () => run('', { cwd: work, args: ['--message', path.join(home, 'none.txt')] }).code === 2],
     ]
   }],
