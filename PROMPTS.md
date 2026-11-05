@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Tell the user to archive a session once nothing is left
+## Allow sessions to run the qobuz-ear-pause installer
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about a music app on the Mac left out]
+
+**2.**
+> [a go to build a helper for it left out]
+
+**3.** (answer to: have you added the allow rule, so I can run the    install?)
+> a
+
+## Tell the user to archive a session once nothing is left
+
+2026-11-05, commit [97f1a93](https://github.com/zululima/dotclaude/commit/97f1a937cf7c9ed2c4e34028b800adc586522566), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > if nothing left to do in this session you can tell me to archive a
