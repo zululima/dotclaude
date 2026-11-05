@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: crop each step's screenshot to what the step is about
+## Have the session fill in forms whose answers a source records
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> [a step reported done] why cant you do other steps
+
+## pull-requests: crop each step's screenshot to what the step is about
+
+2026-11-05, commit [f090aa6](https://github.com/zululima/dotclaude/commit/f090aa6a529f6565fea273579f395098ea41eb5f), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > well now step 4 is just abusmally small. crop the images to crop out

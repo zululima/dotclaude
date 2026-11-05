@@ -1,6 +1,6 @@
 ---
 name: pull-requests
-description: Procedures for a pull request. Load it before opening a PR or editing its body, before writing test steps for a change under review in a PR body or in chat, before reviewing a PR, and before capturing or uploading screenshots or recordings for one. It covers the body layout, the prompts block, the template answers, How to verify, manual steps, the review page and its reply, and the pictures.
+description: Procedures for a pull request. Load it before opening a PR or editing its body, before writing test steps for a change under review in a PR body or in chat, before reviewing or merging a PR, and before capturing or uploading screenshots or recordings for one. It covers the body layout, the prompts block, the template answers, How to verify, manual steps, the review page and its reply, the merge and the pictures.
 ---
 
 # Pull requests
@@ -224,6 +224,13 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   wrong, the reply ends with the two command steps as GitHub markdown inside a four-backtick fence,
   so the PR's "How to verify" can take them over unchanged. That block is the one thing in the reply
   written for the PR's body, as the reproductions are the ones written for its author.
+
+## Merging
+
+- Delete the head branch of every PR a session merges, on GitHub and in the local checkout: `gh pr
+  merge` gets `--delete-branch`. A local branch the merge leaves behind, such as when it ran with
+  `--repo` outside the checkout, goes with `git branch -D` once the PR shows as merged, and the
+  reply names its last hash, so `git branch <name> <hash>` brings it back.
 
 ## Screenshots and recordings
 

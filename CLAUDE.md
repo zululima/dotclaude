@@ -80,8 +80,8 @@ apply to one repository belong in that repository's project memory.
 ## Pull requests
 
 - Before opening a PR or editing its body, writing test steps for a change under review, in a PR or
-  in chat, reviewing a PR, or capturing or uploading pictures for one, load the `pull-requests`
-  skill, `~/.claude/skills/pull-requests/SKILL.md`, and follow it.
+  in chat, reviewing or merging a PR, or capturing or uploading pictures for one, load the
+  `pull-requests` skill, `~/.claude/skills/pull-requests/SKILL.md`, and follow it.
 - Open PRs as drafts.
 - One draft PR per issue or feature the user asks to start, such as the next issue. Every other
   change a session is asked to make in a repository, follow-ups to the work under review, docs,
@@ -107,10 +107,6 @@ apply to one repository belong in that repository's project memory.
 - Add a prompt about the change under review to the PR's prompts block in the same turn it is
   answered, whether or not anything is committed. Refresh the prompts block again after every commit
   and push.
-- Delete the head branch of every PR a session merges, on GitHub and in the local checkout: `gh pr
-  merge` gets `--delete-branch`. A local branch the merge leaves behind, such as when it ran with
-  `--repo` outside the checkout, goes with `git branch -D` once the PR shows as merged, and the
-  reply names its last hash, so `git branch <name> <hash>` brings it back.
 - A session that pushes to a branch CI runs on, merges a PR or starts a workflow run waits in that
   session until each run it set off has finished, and reports the result, a green one too: Auto-fix
   wakes a session only on a failure, a merge conflict or a review comment, so a pass would reach no
@@ -618,7 +614,10 @@ apply to one repository belong in that repository's project memory.
   command. The user enters only personal data, such as a name, phone number, address, password or
   payment details, and makes only the decisions the session cannot settle from the request, the code
   or a source; such a decision is asked once with a recommended answer, as the question the closing
-  message ends on, and a go given for another point does not settle it. A fact about the user or a
+  message ends on, and a go given for another point does not settle it. A form whose answers a
+  source records, such as a store's data safety or privacy declaration or the instructions for its
+  reviewers, is a step the session takes: it enters the answers, names them in the reply, and hands
+  the user only a sign-in or a click that a permission check refuses. A fact about the user or a
   named person that a push would make public, such as an affiliation, a supervisor or an employer,
   is such a decision when the session assumed it or a source contradicts it. Once the user says the
   personal input is done, the session carries on with the rest of the task without another go, apart
