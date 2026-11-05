@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: build the review page when someone else reviews
+## review-page: fit each step's screenshot into one window
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> [pasted: a screenshot of a review page in Firefox, its step 3 picture
+> filling the window]
+> oh. also too big for my one screen
+
+## pull-requests: build the review page when someone else reviews
+
+2026-11-05, commit [b25ad07](https://github.com/zululima/dotclaude/commit/b25ad0756380dab02ddcc8155de14d84b9a2123b), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > huh? always add the html thingy where i can verify manually myself

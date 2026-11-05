@@ -140,8 +140,8 @@ h3.sub { font-size: 0.95rem; margin: 14px 0 6px; }
 .block pre { margin: 0; padding: 8px 12px 12px; overflow-x: auto; }
 .block code { background: none; padding: 0; font-size: 13px; white-space: pre; }
 .shot { margin: 0; }
-.zoom { display: block; border: 1px solid var(--line); border-radius: 8px; padding: 0; overflow: hidden; cursor: zoom-in; background: var(--bg); max-width: 100%; }
-.zoom img { display: block; width: 100%; height: auto; }
+.zoom { display: block; width: fit-content; border: 1px solid var(--line); border-radius: 8px; padding: 0; overflow: hidden; cursor: zoom-in; background: var(--bg); max-width: 100%; }
+.zoom img { display: block; width: auto; height: auto; max-width: 100%; }
 
 #viewer { border: none; padding: 0; background: transparent; max-width: 96vw; max-height: 96vh; }
 #viewer::backdrop { background: rgb(0 0 0 / 0.78); }
@@ -256,6 +256,22 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
     }
   }
 
+  // A step fits one window: its screenshots get the height the rest of it leaves, and o shows one full size.
+  function fitShots() {
+    const hintHeight = hint.isConnected ? hint.offsetHeight + parseFloat(getComputedStyle(hint).marginBottom) : 32;
+    for (const el of steps) {
+      const imgs = [...el.querySelectorAll(".zoom img")];
+      if (!imgs.length) continue;
+      const group = el.closest(".group");
+      const lead = group.querySelector(".step") === el ? el.getBoundingClientRect().top - group.getBoundingClientRect().top : 0;
+      const margin = parseFloat(getComputedStyle(lead ? group : el).scrollMarginTop) || 0;
+      const shots = imgs.reduce((sum, img) => sum + img.getBoundingClientRect().height, 0);
+      const rest = el.getBoundingClientRect().height - shots + (el.contains(hint) ? 0 : hintHeight);
+      const room = (innerHeight - margin - lead - rest - 16) / imgs.length;
+      for (const img of imgs) img.style.maxHeight = Math.max(160, room) + "px";
+    }
+  }
+
   function toggle(i) {
     const id = steps[i].dataset.id;
     const on = !done.has(id);
@@ -330,6 +346,9 @@ kbd { font: 500 12px var(--mono); border: 1px solid var(--line); border-bottom-w
 
   for (const id of local("done") || []) done.add(id);
   paint();
+  fitShots();
+  addEventListener("resize", fitShots);
+  for (const img of document.querySelectorAll(".zoom img")) img.addEventListener("load", fitShots);
   // Start on the first step not done, so c and x work without a j first.
   const first = steps.findIndex((el) => !done.has(el.dataset.id));
   setFocus(first < 0 ? 0 : first, first > 0);
