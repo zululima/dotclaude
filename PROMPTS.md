@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Make local pages and PDFs clickable file:// links
+## pull-requests: build the review page when someone else reviews
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> huh? always add the html thingy where i can verify manually myself
+
+## Make local pages and PDFs clickable file:// links
+
+2026-11-05, commit [160b681](https://github.com/zululima/dotclaude/commit/160b68151a806950264711d28c671b8adc4f25ff), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > just clickable pdf link from hereonout like i said in another session
