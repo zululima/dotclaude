@@ -13,6 +13,7 @@ const ALARM = '⏰'
 const ICE = '\u{1F9CA}'
 const HOURGLASS = '\u23F3'
 const COOKIE = '\u{1F36A}'
+const BRAIN = '\u{1F9E0}'
 const LOCK = '\u{1F512}\uFE0F'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
@@ -31,6 +32,7 @@ const width = (text: string) =>
 const minutes = (left: number) => (left >= 60_000 ? String(Math.floor(left / 60_000)) : '<1')
 
 let usage: Usage | undefined
+let compactsAt: number | undefined
 let others: Other[] = []
 let othersReadAt = -Infinity
 let beacon: string | undefined
@@ -360,10 +362,25 @@ const schedule = async ($: EngineInterface) => {
   )
 }
 
+// The session compacts at its compaction window, which can be smaller than the
+// model's, and only a breakdown reports it. A summary one is counted locally,
+// so it is read once a turn.
+const measure = async ($: EngineInterface) => {
+  compactsAt = await $.session
+    .usage({ breakdown: 'summary' })
+    .then(u => u.context.breakdown?.rawMaxTokens)
+    .catch(() => undefined)
+}
+
+// The transcript's figure stands until the session reports its own.
 const show = async ($: EngineInterface) => {
   const id = await $.session.id()
   const { exitCode, stdout } = await $.process.run([`${$.plugin.root}/usage.sh`, '--status', id])
-  const [figures, coldAt, offset, mark = '', signedInUntil = '0'] = stdout.trim().split('\n')
+  const { context } = await $.session.usage().catch(() => ({ context: undefined }))
+  const [read, coldAt, offset, mark = '', signedInUntil = '0'] = stdout.trim().split('\n')
+  const window = compactsAt ?? context?.window
+  const tokens = context?.tokens
+  const figures = read && tokens !== undefined && window ? `${BRAIN} ${Math.round((tokens * 100) / window)}%` : read
   usage =
     exitCode === 0 && figures && coldAt && offset
       ? {
@@ -393,6 +410,7 @@ export const register: Register = on => {
     const started = await next(e)
     await hasNews($)
     await readOthers($)
+    await measure($)
     await show($)
     await sweep($)
     void retitle($)
@@ -416,6 +434,7 @@ export const register: Register = on => {
     const completed = await next(e)
     if (e.agentId === undefined) {
       isBusy = false
+      await measure($)
       await show($)
       void retitle($)
     }

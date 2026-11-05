@@ -43,6 +43,34 @@ test('pins the cache countdown and the figures after a main turn', async ($, on)
   expect(shown).toEqual([`${FIRE} 15m, ${FIGURES}`])
 })
 
+test('counts the context against the window the session compacts at', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', () => warmFor(15))
+  on('session.usage', ($, e) => ({
+    value: {
+      startedAt: 0,
+      context: {
+        tokens: 354_400,
+        window: 1_000_000,
+        percent: 35,
+        ...(e.breakdown === 'summary' && { breakdown: { rawMaxTokens: 400_000 } }),
+      },
+      rateLimits: [],
+    },
+  }))
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('turn.complete', () => ({ text: '' }))
+
+  await $.turn.complete(TURN)
+
+  expect(shown).toEqual([`${FIRE} 15m, \u{1F9E0} 89%`])
+})
+
 test('counts down between turns, then names the day once it is past', async ($, on) => {
   const shown: (string | undefined)[] = []
   let runs = 0

@@ -325,8 +325,9 @@ if [ "${1:-}" = --next ]; then
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
-      # its first response is written. Both seconds follow from the file alone,
-      # so every session reads a transcript again only once it has changed.
+      # its first response is written, for at least the shorter lifetime. Both
+      # seconds follow from the file alone, so every session reads a transcript
+      # again only once it has changed.
       cold=0 ends=0
       stamp=$(stat -f '%z %m' "$f" 2>/dev/null || stat -c '%s %Y' "$f")
       memo="$memos/$id"
@@ -336,7 +337,8 @@ if [ "${1:-}" = --next ]; then
         cold=0 ends=0
         read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
           scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
-          | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor else 0 end) as $cold
+          | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor
+             elif $prompt > 0 then $prompt + 300 | floor else 0 end) as $cold
           | "\($cold) \($ends)"' 2>/dev/null)
         printf '%s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi

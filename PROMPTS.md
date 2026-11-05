@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Say what changed to prevent a fault, not only whose it was
+## Count the brain against the compaction window, warm a new chat
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> whats up brain showin 35 and context showing 99
+
+**2.**
+> also why you show ice for fresh chat
+
+## Say what changed to prevent a fault, not only whose it was
+
+2026-11-05, commit [bbadff2](https://github.com/zululima/dotclaude/commit/bbadff25a5ddcb0a5c41af37a3f2eddc35f391ab), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an answer about a scheduled check left out] also in the future its
