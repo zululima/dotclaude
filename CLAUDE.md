@@ -286,15 +286,15 @@ apply to one repository belong in that repository's project memory.
   block of its own, tagged `text` when it is no command, so the copy button takes it in one click:
   "Open this address:" and the block under it, never the address inline in the sentence. An address
   the reader only reads, such as the page that should now open, stays inline. A local web page, PDF
-  or image the user opens, such as a PR's review page or a PDF in `~/Downloads`, gets `open -a
-  Firefox` with its full `~` path in a `bash` block of its own, on one line whatever its length, so
-  the app's Run button opens it in Firefox. Any other file in the session's folders that the reader
-  opens gets a Markdown link to its path, which the app opens on a click. Any other file outside
-  them, such as a spreadsheet in `~/Downloads`, gets the command that opens it in its default app,
-  `open` with its full `~` path, in a `bash` block of its own, whose Run button opens it. A file
-  outside the session's folders is never sent with SendUserFile or linked, since the app's side pane
-  opens only the session's folders and asks the user to add the folder instead, and the user adds
-  none for this.
+  or image the user opens, such as a PR's review page or a PDF in `~/Downloads`, gets its `file://`
+  address, with the full path from the root, in a `text` block of its own on one line whatever its
+  length, which the user copies into Firefox's address bar, never an `open -a Firefox` command. Any
+  other file in the session's folders that the reader opens gets a Markdown link to its path, which
+  the app opens on a click. Any other file outside them, such as a spreadsheet in `~/Downloads`,
+  gets the command that opens it in its default app, `open` with its full `~` path, in a `bash`
+  block of its own, whose Run button opens it. A file outside the session's folders is never sent
+  with SendUserFile or linked, since the app's side pane opens only the session's folders and asks
+  the user to add the folder instead, and the user adds none for this.
 - An emoji the user is to pick in an app, such as one per sticker of a sticker pack, stands beside
   the shortest text, typed from the start of a word of its name, that the app's emoji search finds
   it alone by, with the full name in brackets after it, such as coll (collision), so the user types
@@ -447,6 +447,11 @@ apply to one repository belong in that repository's project memory.
   session makes, it rewrites those notes itself. A working file that only feeds a tool, such as
   clipboard HTML, goes in `~/.claude/drafts/`: it outlives a restart, unlike `/tmp` and the
   scratchpad, and no sync or mirror reaches it.
+- A document the user sends or uploads for another person to read, such as a filled form, a letter
+  or a CV, goes in `~/Downloads` as a PDF, unless the user or the recipient asks for another format
+  or the recipient is to edit it. The session makes the PDF with a converter that keeps the source's
+  fonts and page breaks, such as LibreOffice headless for an office file, and checks every page, and
+  the page count against any length the recipient set, before the reply hands it over.
 - Environment or deployment tooling runs against a remote environment, such as a deploy, a
   store upload or submission, or a command on a shared database, only when the user asked for
   that action on that target in the session or said go to a reply that named both. The ask
@@ -659,16 +664,6 @@ apply to one repository belong in that repository's project memory.
   rule prompts for edits under `.github/workflows/`. When a change removes a check, such as a
   strict build, say so in the reply and offer a replacement as a choice instead of adding one.
 
-## Documents read aloud
-
-- Text pulled from a PDF or another document for text-to-speech keeps every heading marked as
-  a heading through the cleanup, section and subsection headings included, never as a plain
-  paragraph. The speech step reads each heading on its own, with about two seconds of silence
-  before it where a paragraph break gets under one, and about one second after it; a chapter
-  title gets a longer pause still. Before generating audio, list the headings the cleanup found
-  beside the table of contents and the heading-styled lines of the source, such as all-caps or
-  bold lines, and account for each one.
-
 ## Permissions
 
 - Auto mode blocks a session from editing its own permissions, so when the auto mode
@@ -708,9 +703,9 @@ apply to one repository belong in that repository's project memory.
 - The parts of `~/.claude` that help other people learn this workflow are mirrored in a public git
   repository checked out at `~/Projects/dotclaude`: this file, `settings.json`, `hooks/`,
   `presence/`, `energy/`, `workflows/`, `agents/`, the `session-usage` mod and the `pull-requests`,
-  `commit-messages`, `slack-draft` and `dotclaude` skills. Before changing one of them, adding a
-  hook, skill, command or agent under `~/.claude`, or changing anything in that checkout, load the
-  `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.
+  `commit-messages`, `slack-draft`, `read-aloud` and `dotclaude` skills. Before changing one of
+  them, adding a hook, skill, command or agent under `~/.claude`, or changing anything in that
+  checkout, load the `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then, as whenever a session

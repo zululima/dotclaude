@@ -155,6 +155,8 @@
   you review it.
 - [`skills/slack-draft`](../skills/slack-draft/SKILL.md): Claude drafts a Slack message and puts it
   on your clipboard with links and bold kept. You paste it and press send. Mac only.
+- [`skills/read-aloud`](../skills/read-aloud/SKILL.md): when Claude turns a PDF or another document
+  into speech, every heading stays a heading and gets a pause around it.
 - [`skills/dotclaude`](../skills/dotclaude/SKILL.md): how Claude keeps this copy and my own
   `~/.claude` the same, and what it must never publish here. Claude reads it only before it changes
   the setup, which keeps the rules every session reads shorter.

@@ -5,9 +5,29 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave completed sessions out of the usage mod's next cold slot
+## Send documents as PDF and give local files as file:// addresses
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about filling in a form for an email left out]
+
+**2.**
+> [an answer about the form's content left out]
+
+**3.**
+> bro are you sure i should attach docx and not a pdf of that
+
+**4.** (answer to: shall I add a standing rule that documents for outside readers go as PDF unless asked otherwise?)
+> Yes, add the rule
+
+**5.**
+> dont give me oepn firefox commands just the file location i can open
+> in friefox and copy from here
+
+## Leave completed sessions out of the usage mod's next cold slot
+
+2026-11-05, commit [6a3564d](https://github.com/zululima/dotclaude/commit/6a3564d2d608bdda87a98dba8d22d85a74b2e3b1), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > complteed background sessions shouldnt show up as going cold next in
@@ -5149,6 +5169,7 @@ Stop, add it to dotclaude?)
 - dev: developer
 - dev: the default branch of the repository in question
 - dir: directory
+- docx: the Word document file format
 - e.g.: for example
 - e2e: end to end
 - esim.: esimerkiksi, for example
