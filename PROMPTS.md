@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Make web addresses the reader opens clickable links
+## Make local pages and PDFs clickable file:// links
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> just clickable pdf link from hereonout like i said in another session
+> just inlcude whole url
+
+## Make web addresses the reader opens clickable links
+
+2026-11-05, commit [3ea7fce](https://github.com/zululima/dotclaude/commit/3ea7fce9f496430ac76a2e84a1acd4a63c785a1a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a product search left out]

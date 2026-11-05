@@ -184,10 +184,10 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   rebuilds the page at the same path and they stay; the session cannot read them, so the reader says
   how far they got.
 - The reply gives the results of the verify command and the end to end run, then the findings and
-  the fixes made, and no step list of its own. It ends with the page's `file://` address, with the
-  full path from the root, in a `text` block of its own, which the user copies into Firefox's
-  address bar, as `~/.claude/CLAUDE.md` says for every local page. The block is the last thing
-  before Prompt feedback, where the reader's eye is when they go to copy it.
+  the fixes made, and no step list of its own. It ends with a clickable link to the page's `file://`
+  address, with the full path from the root, whose text is that whole address, as
+  `~/.claude/CLAUDE.md` says for every local page. The link is the last thing before Prompt
+  feedback, where the reader's eye is when they go to click it.
 - Where the PR's steps fall short, the overlay's `added_steps` put the fix on the page, marked as
   added by the review: the two command steps when the PR lacks them (an empty `after` puts a step
   before the PR's first), a step for a change the PR's steps skip, and the bug steps below. They
