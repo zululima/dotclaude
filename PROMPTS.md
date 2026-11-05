@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name scheduled tasks in replies and propose them in dream
+## Leave completed sessions out of the usage mod's next cold slot
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> complteed background sessions shouldnt show up as going cold next in
+> mod
+
+## Name scheduled tasks in replies and propose them in dream
+
+2026-11-05, commit [4e00a20](https://github.com/zululima/dotclaude/commit/4e00a20f3033563c00444b3a230cbb396478a917), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > will teh on-call use cloud or my local machine claude dekstop

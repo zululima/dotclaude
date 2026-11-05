@@ -969,6 +969,38 @@ const suites = [
     ]
   }],
 
+  ['usage.sh --next', () => {
+    const records = path.join(home, 'Library/Application Support/Claude/claude-code-sessions/account/org')
+    const at = new Date(Date.now() - 10_000).toISOString()
+    // A session that answered a prompt ten seconds ago, so its cache is warm, and the desktop app's record of it.
+    const session = (id, record) => {
+      jsonl(path.join(config, `projects/-next/${id}.jsonl`), [
+        { ...human('go'), uuid: `${id}-u`, timestamp: at },
+        { type: 'assistant', uuid: `${id}-a`, parentUuid: `${id}-u`, timestamp: at, message: { id: `msg_${id}`, model: 'claude-opus-5-5', usage: { input_tokens: 10, output_tokens: 5 } } },
+      ])
+      if (record) write(path.join(records, `local_${id}.json`), JSON.stringify({ cliSessionId: id, isArchived: false, title: `Session ${id}`, titleSource: 'tool', lastAssistantUuid: `${id}-a`, ...record }))
+      return id
+    }
+    const rows = kind => spawnSync('bash', [USAGE_SH, '--next', 'self'], { env: ENV, encoding: 'utf8' }).stdout
+      .split('\n').map(row => row.split('\t')).filter(row => row[2] === kind).map(row => row[1])
+    const goesCold = id => rows('cold').some(title => title === `Session ${id}` || title === id)
+    const wrapped = session('wrapped', { turnWrapUp: { description: 'Done.' } })
+    const asking = session('asking', { turnWrapUp: { description: 'Done.', needsUser: 'Shall I push?' } })
+    const summed = session('summed', { postTurnSummary: { status_category: 'completed' }, postTurnSummaryFor: 'summed-a' })
+    const stale = session('stale', { postTurnSummary: { status_category: 'completed' }, postTurnSummaryFor: 'earlier-a' })
+    const blocked = session('blocked', { postTurnSummary: { status_category: 'blocked' }, postTurnSummaryFor: 'blocked-a' })
+    const terminal = session('terminal')
+    return [
+      ['leaves out a session whose last wrap-up asks nothing', () => !goesCold(wrapped)],
+      ['still marks that session\'s title', () => rows('title').includes(`Session ${wrapped}`)],
+      ['names one whose wrap-up asks the user something', () => goesCold(asking)],
+      ['leaves out one whose summary of its last turn says completed', () => !goesCold(summed)],
+      ['names one whose completed summary is of an earlier turn', () => goesCold(stale)],
+      ['names one whose summary says it needs input', () => goesCold(blocked)],
+      ['names a terminal session, which has no record', () => goesCold(terminal)],
+    ]
+  }],
+
   ['own-hunks.sh', run => {
     const checkout = path.join(home, 'Projects/dotclaude'), records = path.join(checkout, '.git/own-hunks')
     const rules = path.join(config, 'CLAUDE.md'), readme = path.join(checkout, 'README.md')

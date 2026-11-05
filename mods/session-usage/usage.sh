@@ -20,7 +20,8 @@
 #                           count down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
-#                           still warm and that wait on no subagent, and those
+#                           still warm, that wait on no subagent and that the
+#                           sidebar does not mark completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
 #                           title, cold or sign-in and its record,
@@ -297,10 +298,12 @@ if [ "${1:-}" = --index ]; then
   exit 0
 fi
 
-# The desktop app's record of a session says whether it is archived and where
-# its title came from; a session without one, such as a terminal's, counts as
-# open. A record changes whenever its session does, so only those of the last
-# hour are read.
+# The desktop app's record of a session says whether it is archived, where its
+# title came from and whether the sidebar marks it completed: its last turn
+# ended asking nothing of the user, by the wrap-up the app clears on the next
+# prompt or else by the summary of that last turn. A session without one, such
+# as a terminal's, counts as open. A record changes whenever its session does,
+# so only those of the last hour are read.
 if [ "${1:-}" = --next ]; then
   now=$(date +%s)
   chrome=false
@@ -308,13 +311,16 @@ if [ "${1:-}" = --next ]; then
   memos="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-next"
   mkdir -p "$memos"
   find "$memos" -type f -mtime +1 -delete 2>/dev/null
-  known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f \
-    -exec jq -r '"\(.cliSessionId)\t\(.isArchived == true)\t\(.titleSource // "none")\t\(input_filename)\t\(.title // "")"' {} + 2>/dev/null)
+  known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f -exec jq -r '
+    def completed: .error == null and .interruptedAwaitingPerson == null
+      and if .turnWrapUp != null then .turnWrapUp.needsUser == null and .postTurnSummary.status_category != "failed"
+        else .postTurnSummaryFor == .lastAssistantUuid and (.postTurnSummary.status_category | IN("completed", "review_ready")) end;
+    "\(.cliSessionId)\t\(.isArchived == true)\t\(completed)\t\(.titleSource // "none")\t\(input_filename)\t\(.title // "")"' {} + 2>/dev/null)
   find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null |
     while IFS= read -r f; do
       id=$(basename "$f" .jsonl)
-      archived='' source='' record='' title=''
-      IFS=$'\t' read -r _ archived source record title < <(printf '%s\n' "$known" | grep -F "$id	")
+      archived='' completed='' source='' record='' title=''
+      IFS=$'\t' read -r _ archived completed source record title < <(printf '%s\n' "$known" | grep -F "$id	")
       [ "$archived" = true ] && continue
       if [ "$id" = "${2:-}" ]; then
         [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\n' "$title" "$record" "$source"
@@ -346,6 +352,7 @@ if [ "${1:-}" = --next ]; then
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\n' "$ends" "$title" "$record"
       waiting "${f%.jsonl}" && continue
+      [ "$completed" = true ] && continue
       [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\n' "$cold" "$title" "$record"
     done | sort -n
   exit 0
