@@ -20,8 +20,9 @@
 #                           count down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
-#                           still warm, that wait on no subagent and that the
-#                           sidebar does not mark completed, and those
+#                           still warm, that wait on no subagent, whose last
+#                           turn the user did not stop and that the sidebar
+#                           does not mark completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
 #                           title, cold or sign-in and its record,
@@ -73,10 +74,16 @@ common='
     | if $n == "computer" then $input.action | IN("screenshot", "zoom", "wait") | not
       elif $n == "browser_batch" then any($input.actions[]?; acting(.name; .input))
       else $n | IN("navigate", "form_input", "javascript_tool", "file_upload", "upload_image") end;
-  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}};
+  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}, stopped: false};
       (if $e.uuid != null then .seen[$e.uuid] = ($e.timestamp | secs) else . end)
       | (if $e.type == "assistant" then reduce ($e.message.content[]? | select(.type? == "tool_use"
           and (.name | startswith("mcp__claude-in-chrome__")) and acting(.name; .input))) as $u (.; .acts[$u.id] = true)
+         else . end)
+      # A turn the user stopped ends on this marker, at most followed by a
+      # synthetic reply, which sends no request.
+      | (if $e.type == "assistant" and $e.message.model == "<synthetic>" then .
+         elif $e.type | IN("user", "assistant") then .stopped = ($e.type == "user" and ($e.message.content
+           | if type == "array" then .[0].text? // "" else tostring end | startswith("[Request interrupted by user")))
          else . end)
       | if $e.type == "assistant" and $e.message.usage != null
           and $e.message.model != "<synthetic>" and $e.message.id != null
@@ -332,27 +339,29 @@ if [ "${1:-}" = --next ]; then
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
       # its first response is written, for at least the shorter lifetime. Both
-      # seconds follow from the file alone, so every session reads a transcript
-      # again only once it has changed.
-      cold=0 ends=0
+      # seconds and whether the user stopped the last turn follow from the
+      # file alone, so every session reads a transcript again only once it has
+      # changed.
+      cold=0 ends=0 stopped=''
       stamp=$(stat -f '%z %m' "$f" 2>/dev/null || stat -c '%s %Y' "$f")
       memo="$memos/$id"
       size='' mtime=''
-      read -r size mtime cold ends 2>/dev/null < "$memo"
-      if [ "$size $mtime" != "$stamp" ]; then
-        cold=0 ends=0
-        read -r cold ends < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
-          scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | grouped
+      read -r size mtime cold ends stopped 2>/dev/null < "$memo"
+      if [ "$size $mtime" != "$stamp" ] || [ -z "$stopped" ]; then
+        cold=0 ends=0 stopped=false
+        read -r cold ends stopped < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
+          scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | .stopped as $stopped | grouped
           | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor
              elif $prompt > 0 then $prompt + 300 | floor else 0 end) as $cold
-          | "\($cold) \($ends)"' 2>/dev/null)
-        printf '%s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" > "$memo.$$" && mv "$memo.$$" "$memo"
+          | "\($cold) \($ends) \($stopped)"' 2>/dev/null)
+        printf '%s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\n' "$ends" "$title" "$record"
       waiting "${f%.jsonl}" && continue
       [ "$completed" = true ] && continue
+      [ "$stopped" = true ] && continue
       [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\n' "$cold" "$title" "$record"
     done | sort -n
   exit 0

@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Allow sessions to run the qobuz-ear-pause installer
+## Leave stopped sessions out of the usage hourglass
 
 2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> flame mod just gave me about blank issue although theres nothing i
+> can do. show me the next going cold that i can prompt again
+
+**2.** (answer to: shall I make the hourglass skip a session whose last    turn you interrupted?)
+> Yes, fix it
+
+## Allow sessions to run the qobuz-ear-pause installer
+
+2026-11-05, commit [0414ca7](https://github.com/zululima/dotclaude/commit/0414ca7de64da4fd0e739a4e5511374ce17d3788), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a music app on the Mac left out]

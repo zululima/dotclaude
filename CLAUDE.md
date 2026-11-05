@@ -389,12 +389,12 @@ apply to one repository belong in that repository's project memory.
   ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
   the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
   is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the other open
-  session whose cache goes cold, unless the sidebar marks it completed, or whose sign-in ends
-  soonest, named by its first word and those of its other words that fit and have Cmd+K in the app
-  list it soonest: alone, or else first among the sessions, each word whole. It also starts the
-  title of each open session in the app with that fire or ice cube, after a rename too, unless the
-  user set the title by hand. The desktop app cuts the line at about 40 characters, so it stays
-  within that with the cache first, and no hook adds it to the transcript as a notice.
+  session whose cache goes cold, unless the sidebar marks it completed or its turn was stopped, or
+  whose sign-in ends soonest, named by its first word and those of its other words that fit and have
+  Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
+  also starts the title of each open session in the app with that fire or ice cube, after a rename
+  too, unless the user set the title by hand. The desktop app cuts the line at about 40 characters,
+  so it stays within that with the cache first, and no hook adds it to the transcript as a notice.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
