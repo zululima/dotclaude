@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name an untitled session by its last prompt in the usage line
+## Let sessions reinstall the mic log agent
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I install the hourly mic log job once you have    run the rule script?)
+> ran it, install
+
+## Name an untitled session by its last prompt in the usage line
+
+2026-11-06, commit [d6e4ab7](https://github.com/zululima/dotclaude/commit/d6e4ab7d627d4fc9d2923e3110de8df0df3552cb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > what is that hourgalss
