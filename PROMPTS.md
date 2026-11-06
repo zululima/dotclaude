@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Let sessions reinstall the mic log agent
+## Allow the release script's APK and Android upload commands
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> [an ask for an APK download link in a project's README left out]
+
+**4.** (answer to: have you run the script that allows the APK release?)
+> Ran it
+
+## Let sessions reinstall the mic log agent
+
+2026-11-06, commit [f5bbc8c](https://github.com/zululima/dotclaude/commit/f5bbc8cbcecbaf49864aeef8719ec59321b3a98c), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I install the hourly mic log job once you have    run the rule script?)
 > ran it, install
@@ -5475,6 +5485,7 @@ Stop, add it to dotclaude?)
 - agpl3orlater: GNU Affero General Public License v3.0 or later
 - agplv3: GNU Affero General Public License, version 3
 - ai: artificial intelligence
+- APK: Android application package
 - arch: Arch Linux
 - btw: by the way
 - ccbysa4.0: Creative Commons Attribution-ShareAlike 4.0 International

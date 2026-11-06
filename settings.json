@@ -61,7 +61,9 @@
       "Bash(~/Projects/dotclaude/sync.sh:*)",
       "Bash(~/.claude/energy/install.sh:*)",
       "Bash(~/Projects/qobuz-ear-pause/install.sh:*)",
-      "Bash(~/.claude/skills/toggl/mic-log.sh:*)"
+      "Bash(~/.claude/skills/toggl/mic-log.sh:*)",
+      "Bash(scripts/release.sh apk-android:*)",
+      "Bash(scripts/release.sh upload-android:*)"
     ],
     "ask": [
       "Bash(brew install:*)",
