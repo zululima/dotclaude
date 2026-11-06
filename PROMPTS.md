@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Close the tasks pane in the turn a background run's end arrives
+## Name an untitled session by its last prompt in the usage line
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> what is that hourgalss
+> [a screenshot of the status line under the prompt box]
+
+**2.**
+> so maybe fix that?
+
+## Close the tasks pane in the turn a background run's end arrives
+
+2026-11-06, commit [bec075e](https://github.com/zululima/dotclaude/commit/bec075e78f60c8feefac7e36788c908b1059c1f7), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > why didnt you close the background tasks again automatically after

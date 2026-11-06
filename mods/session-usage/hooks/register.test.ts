@@ -195,6 +195,33 @@ test('names the other session that goes cold next, cut to fit, read once a minut
   expect(shown.every(text => [...(text ?? '')].length + 3 <= 40)).toBe(true)
 })
 
+test('names an untitled session by its last prompt and reads it each tick until titled', async ($, on) => {
+  const shown: (string | undefined)[] = []
+  let nextRuns = 0
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] !== '--next') return warmFor(59)
+    nextRuns++
+    return nextRuns === 1
+      ? ran(`${NOW / 1000 + 300}\tdoes the app log mic use\tcold\t\tuntitled\n`)
+      : ran(`${NOW / 1000 + 300}\tMic logging\tcold\t\t\n`)
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+
+  await $.session.start(START)
+  await clock.advance(15_000)
+  await clock.advance(15_000)
+
+  expect(nextRuns).toBe(2)
+  expect(shown[0]).toBe(`${FIRE} 59m, ${FIGURES}, ${HOURGLASS} 5m does the app log`)
+  expect(shown.at(-1)).toBe(`${FIRE} 58m, ${FIGURES}, ${HOURGLASS} 4m Mic logging`)
+})
+
 test('shows its own Chrome sign-in in place of the cache while it ends first', async ($, on) => {
   const shown: (string | undefined)[] = []
   const clock = mock.clock(on, { now: NOW })

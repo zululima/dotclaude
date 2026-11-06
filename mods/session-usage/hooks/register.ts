@@ -1,7 +1,7 @@
 import type { EngineInterface, Register, Timer } from 'claude-code'
 
 type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
-type Other = { endsAt: number; title: string; isSignIn: boolean; record: string }
+type Other = { endsAt: number; title: string; isSignIn: boolean; record: string; isUntitled: boolean }
 type Titled = { coldAt: number; title: string; record: string; source: string; isOwn: boolean; retryAt: number }
 type Known = { at: number; pr: string; titles: string[]; written: string[] }
 type SessionRecord = { isArchived?: boolean; title?: string; titleSource?: string }
@@ -138,7 +138,7 @@ const isAbove = (a: number[], b: number[]) => {
 // one name left when the first word alone is too long.
 const findable = (other: Other, room: number) => {
   const cut = fit(other.title, room)
-  if (!cut || !known.has(other.record)) return cut
+  if (!cut || other.isUntitled || !known.has(other.record)) return cut
   const key = [other.record, other.title, room, ownRecord, indexReads].join('\t')
   if (found?.key === key) return found.text
 
@@ -199,11 +199,12 @@ const readOthers = async ($: EngineInterface) => {
   const isTitle = ([, , kind = '']: string[]) => kind === 'title' || kind === 'own'
   others = read
     .filter(row => !isTitle(row))
-    .map(([endsAt = '', title = '', kind = '', record = '']) => ({
+    .map(([endsAt = '', title = '', kind = '', record = '', untitled = '']) => ({
       endsAt: Number(endsAt) * 1000,
       title: bare(title),
       isSignIn: kind === 'sign-in',
       record,
+      isUntitled: untitled === 'untitled',
     }))
   read.filter(isTitle).forEach(keep)
   othersReadAt = await $.clock.now()
@@ -398,9 +399,10 @@ const show = async ($: EngineInterface) => {
 }
 
 // A running turn keeps refreshing the cache, so the transcript is read again.
-// The other sessions are read once a minute too, for what neither file shows.
+// The other sessions are read once a minute too, for what neither file shows,
+// and on each tick while one waits for the app to title it.
 const tick = async ($: EngineInterface) => {
-  if ((await $.clock.now()) - othersReadAt >= 60_000) await readOthers($)
+  if (others.some(o => o.isUntitled) || (await $.clock.now()) - othersReadAt >= 60_000) await readOthers($)
   await (isBusy ? show($) : redraw($))
   await retitle($)
 }

@@ -25,8 +25,10 @@
 #                           does not mark completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
-#                           title, cold or sign-in and its record,
-#                           tab-separated, a line each; then a row per open
+#                           title, cold or sign-in, its record and untitled
+#                           while the app has not titled it, when its last
+#                           prompt stands for the title, tab-separated, a line
+#                           each; then a row per open
 #                           desktop session of the last hour with a title, for
 #                           the mod to put a fire or an ice cube before it: the
 #                           second its cache goes cold (0 for this one), the
@@ -335,6 +337,11 @@ if [ "${1:-}" = --next ]; then
       fi
       named=$title
       [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
+      untitled=''
+      if [ -z "$title" ]; then
+        untitled=untitled
+        title=$(grep '"type":"last-prompt"' "$f" | tail -1 | jq -r '.lastPrompt // empty | gsub("\\s+"; " ")' 2>/dev/null)
+      fi
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
@@ -358,11 +365,11 @@ if [ "${1:-}" = --next ]; then
       fi
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
       # A session waiting on a subagent still holds its tabs.
-      [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\n' "$ends" "$title" "$record"
+      [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\t%s\n' "$ends" "$title" "$record" "$untitled"
       waiting "${f%.jsonl}" && continue
       [ "$completed" = true ] && continue
       [ "$stopped" = true ] && continue
-      [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\n' "$cold" "$title" "$record"
+      [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\t%s\n' "$cold" "$title" "$record" "$untitled"
     done | sort -n
   exit 0
 fi
