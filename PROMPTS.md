@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read bold numbered lines as sections on the review page
+## Sort lists of files picked from a folder by name
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to add a sticker to a Signal sticker pack left out]
+
+**2.**
+> hmm maybe list them in the future in alphabetical order
+
+**3.** (answer to: should the order cover only files picked from a folder,    or every list of named items?)
+> Folder file lists
+
+## Read bold numbered lines as sections on the review page
+
+2026-11-06, commit [7cd7a5a](https://github.com/zululima/dotclaude/commit/7cd7a5aed93daef4953e8c87ab82265f57d816ca), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to review a pull request in a downstream project left out]

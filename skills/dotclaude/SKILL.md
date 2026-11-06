@@ -121,6 +121,11 @@ run and its commit in the same turn.
   `dotclaude` skill says, and it says go, which their copy of these rules waits for. It names no
   project, client or person, so it can be passed on as it is.
 
+## The usage mod
+
+- The desktop app cuts the line at about 40 characters, so it stays within that with the cache
+  first, and no hook adds it to the transcript as a notice.
+
 ## Identity and contents
 
 - Commits there carry the identity configured in the checkout, and the rule in `~/.claude/CLAUDE.md`

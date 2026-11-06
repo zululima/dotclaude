@@ -306,6 +306,8 @@ apply to one repository belong in that repository's project memory.
   `emoji-variation-sequences.txt` lists an emoji style for it, as for U+26AB: without it, a font
   with a plain glyph draws the emoji in the text colour, so a black circle shows white on a dark
   theme.
+- A list of files the user picks from a folder, such as stickers to drag in with their emoji, is
+  sorted by file name, A to Z, as Finder shows the folder.
 - A project's CLAUDE.md holds what Claude runs, such as build, test, verify, install, launch and
   logs, and the rules the code follows. One-time manual setup goes in a doc under `docs/` that
   CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts and every way
@@ -392,8 +394,7 @@ apply to one repository belong in that repository's project memory.
   whose sign-in ends soonest, named by its first word and those of its other words that fit and have
   Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
   also starts the title of each open session in the app with that fire or ice cube, after a rename
-  too, unless the user set the title by hand. The desktop app cuts the line at about 40 characters,
-  so it stays within that with the cache first, and no hook adds it to the transcript as a notice.
+  too, unless the user set the title by hand.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
