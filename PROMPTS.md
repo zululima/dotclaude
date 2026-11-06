@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Say what changes next time in a message owning a mistake
+## Let a draft in the user's voice say we for their employer
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> [an ask about a downstream draft left out] also say in the future
+> [the employer's short name, in two forms] and say us Katson should be
+> katsomme
+
+## Say what changes next time in a message owning a mistake
+
+2026-11-06, commit [89d2b01](https://github.com/zululima/dotclaude/commit/89d2b01b1ae4e5a8ba7b3cf5771ac15a9bdbbccb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a downstream project's failing tests left out]

@@ -160,9 +160,11 @@ apply to one repository belong in that repository's project memory.
   or GitHub's `pull_request_template.md`.
 - Name an organisation by its full registered name every time, apart from a Slack draft for any
   channel or DM that no other organisation shares, which uses the short names the user writes there,
-  without the company form. Never "we", "ours", "they" or "theirs" standing in for a company. The
-  names live in `~/.claude/rules/organisations.md`, which loads in every session, and those of one
-  repository also in its project memory.
+  without the company form. Never "we", "ours", "they" or "theirs" standing in for a company, apart
+  from a draft in the user's voice, which speaks for the user's own employer as "we" and names it by
+  its short name, in a channel shared with another organisation too. The names live in
+  `~/.claude/rules/organisations.md`, which loads in every session, and those of one repository also
+  in its project memory.
 - A command the reader is meant to run goes in a fenced code block tagged with its shell, never
   inline in a sentence. A fenced block reads as a command and copies as one, an inline span hides in
   the prose and breaks at the first backtick. One command per block. Several commands share a block
