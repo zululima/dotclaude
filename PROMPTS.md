@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Set Chrome's window back after a session resizes it
+## Leave PROMPTS.md to the default branch on pull request branches
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> maybe make fix so that [two colleagues'] agents dont create
+> prompts.md conflicts like agents.md repo or something
+
+## Set Chrome's window back after a session resizes it
+
+2026-11-06, commit [377cb8e](https://github.com/zululima/dotclaude/commit/377cb8e6230f4671fecb7f8401b053a4f0e97e2e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is there some reason why chrome opens like this and not full

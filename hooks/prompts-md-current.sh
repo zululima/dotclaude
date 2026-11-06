@@ -6,7 +6,8 @@
 # waiting, so the commit would leave it behind. The checkout comes from git -C
 # or a cd in the command, with a variable the command itself assigns filled in,
 # or else from the session's directory. An amend, the configuration checkout,
-# whose sync.sh rebuilds the file, and the same command run again go through.
+# whose sync.sh rebuilds the file, a pull request branch that holds the file as
+# the default branch had it, and the same command run again go through.
 
 set -u
 
@@ -80,6 +81,18 @@ top="$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null)" || exit 0
 grep -q '^The prompts behind the commits of this repository' "$top/PROMPTS.md" 2>/dev/null || exit 0
 [ -z "$(git -C "$top" status --porcelain -- PROMPTS.md 2>/dev/null)" ] || exit 0
 
+branch="$(git -C "$top" branch --show-current 2>/dev/null)"
+remote=origin
+git -C "$top" remote get-url upstream >/dev/null 2>&1 && remote=upstream
+default="$(git -C "$top" symbolic-ref --quiet --short "refs/remotes/$remote/HEAD" 2>/dev/null)"
+default="${default#"$remote"/}"
+if [ -n "$branch" ] && [ -n "$default" ] && [ "$branch" != "$default" ] &&
+  meet="$(git -C "$top" merge-base "$remote/$default" HEAD 2>/dev/null)" &&
+  [ "$(git -C "$top" rev-parse -q --verify "$meet:PROMPTS.md")" = \
+    "$(git -C "$top" rev-parse -q --verify HEAD:PROMPTS.md)" ]; then
+  exit 0
+fi
+
 state="${TMPDIR:-/tmp}/claude-prompts-md"
 mkdir -p "$state" 2>/dev/null || exit 0
 find "$state" -type f -mtime +7 -delete 2>/dev/null
@@ -92,11 +105,13 @@ cat >&2 <<EOF
 Blocked once by ~/.claude/hooks/prompts-md-current.sh, so no part of the
 command ran: $shown
 keeps PROMPTS.md, and this command neither rebuilds nor stages it.
-~/.claude/CLAUDE.md keeps the file current in every commit: run
+The commit-messages skill keeps the file current in every commit: run
 ~/.claude/hooks/prompts-md.sh --message <file> in that checkout and commit
-PROMPTS.md with the change. A message file this command writes, as with a cat
-heredoc, was not written and holds what it held before, if it exists: add the
-rebuild to the command, after the write, and run the whole command again. When
-this commit should leave the file as it is, run the command again unchanged.
+PROMPTS.md with the change. On a pull request branch the script puts the
+file back as the default branch had it. A message file this command writes,
+as with a cat heredoc, was not written and holds what it held before, if it
+exists: add the rebuild to the command, after the write, and run the whole
+command again. When this commit should leave the file as it is, run the
+command again unchanged.
 EOF
 exit 2

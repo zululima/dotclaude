@@ -13,6 +13,8 @@
 # The pull request comes from a squash subject ending in (#n), from GitHub's
 # merge commit subject, or, for commits not yet on the default branch, from gh
 # for the current branch. A prompt quoted under an older commit is only named.
+# On a branch that merges through a pull request the file is only put back as
+# the default branch has it, unless the branch is the one that adds it.
 #
 # Quoted prompts pass through prompt-log.sh mask, so a message written before
 # the printout masked addresses, home paths and secrets is masked here too, and
@@ -63,6 +65,19 @@ if [ "$has_head" -eq 1 ] && [ -f "$merge_heads" ]; then
   done <"$merge_heads"
 fi
 
+# A branch that merges through a pull request keeps the file as the default
+# branch had it where the two last met, during a merge as after it, so no pull
+# request changes the file and no two conflict over it. A commit made on the
+# default branch rebuilds it, with the pull requests merged since.
+current="$(git branch --show-current)"
+if [ "$has_head" -eq 1 ] && [ -n "$current" ] && [ "$current" != "$default" ] &&
+  meet="$(git merge-base "$remote/$default" "${heads[@]}" 2>/dev/null)" &&
+  git cat-file -e "$meet:PROMPTS.md" 2>/dev/null; then
+  git show "$meet:PROMPTS.md" >"$top/PROMPTS.md"
+  echo "prompts-md: $current merges into $default through a pull request, so PROMPTS.md is left as $remote/$default had it at $(git rev-parse --short "$meet"); a commit on $default rebuilds it" >&2
+  exit 0
+fi
+
 last=""
 if [ -n "$message" ]; then
   last=pending
@@ -86,7 +101,6 @@ if [ "$has_head" -eq 1 ]; then
 fi
 
 branch_pr=""
-current="$(git branch --show-current)"
 if [ -n "$current" ] && [ "$current" != "$default" ] && command -v gh >/dev/null 2>&1; then
   branch_pr="$(GH_PROMPT_DISABLED=1 gh pr view --json number -q .number 2>/dev/null || true)"
   case "$branch_pr" in "" | *[!0-9]*) branch_pr="" ;; esac

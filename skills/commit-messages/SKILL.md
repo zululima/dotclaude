@@ -94,7 +94,11 @@ hook that brings an edit of this skill made from another session into a running 
   file from the prompts sections of the commit messages, newest first, each with its commit and
   PR, so it is never edited by hand. Each rebuild rewrites the whole file and fills in a hash or
   PR that an earlier commit could not name yet, so no commit is amended, force-pushed or added
-  only to update the file, and a conflict in it is settled by taking either side. A repository
-  without the file gets one only when the user asks, and before adding it to one that merges
-  through PRs, tell the user that every open PR rebuilding it will conflict with the others once
-  one of them merges. In the public configuration repository `sync.sh` runs the script itself.
+  only to update the file. On a branch that merges through a PR, the script puts the file back as
+  the default branch had it where the two last met, during a merge as well, so no open PR changes
+  it and no two conflict over it; the next commit made on the default branch itself rebuilds it
+  with the PRs merged since. A conflict in it is settled by running the script again. A
+  repository without the file gets one only when the user asks, and before adding it to one that
+  merges through PRs, tell the user that it shows a merged PR's prompts only once a commit is
+  made on the default branch itself. In the public configuration repository `sync.sh` runs the
+  script itself.

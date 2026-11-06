@@ -66,7 +66,8 @@
 - [`prompt-log.sh`](../hooks/prompt-log.sh): saves every prompt you type, on your computer only, so
   commits and pull requests can quote the prompts behind them.
 - [`prompts-md.sh`](../hooks/prompts-md.sh): builds a `PROMPTS.md` file that lists those prompts per
-  commit, like the one in this repo.
+  commit, like the one in this repo. A branch for a pull request leaves the file as the main branch
+  has it, so two open pull requests never conflict over it.
 - [`prompts-md-current.sh`](../hooks/prompts-md-current.sh): stops a commit once when Claude did not
   rebuild that file for it, in a repository that keeps one.
 - [`no-meta-prompts.sh`](../hooks/no-meta-prompts.sh): keeps prompts about Claude's own setup out of
