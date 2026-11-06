@@ -560,7 +560,8 @@ apply to one repository belong in that repository's project memory.
   closes it before the reply: each tab it opened with `tabs_close_mcp`, never a tab of the user's;
   the panel with the simulator tool's `detach`; and simulators and emulators with their shutdown
   commands. A tab or panel where a step waits on the user stays open. Archiving the session closes
-  the tabs it left: the desktop app does so, and the `archive-files` mod closes what it misses.
+  the tabs it left, through the app and the `archive-files` mod, which also deletes the closed tab
+  groups Chrome saved.
 - A run a session starts in the background, with the Bash tool's `run_in_background`, a `Monitor` or
   a workflow, is opened for the user in the same turn with `show_pane` and `tasks`, so it shows
   beside the reply while it runs. When `show_pane` answers that the session is in no window, the

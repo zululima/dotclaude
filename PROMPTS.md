@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Delete the closed Chrome tab groups archived sessions leave
+
+2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> chrome pls clean up after yourself. some weird bookmark groups here
+> leftover
+
+**2.** (answer to: should archiving a session also delete its saved Chrome    tab group?)
+> Yes, build it
+
 ## Name no control a tool's description promises without seeing it
 
-2026-11-05, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [37a71cd](https://github.com/zululima/dotclaude/commit/37a71cdf21f574373c14480b19661398e2e52e0d), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > what where is that x you always keep talking about? take a screenshot
