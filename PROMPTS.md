@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Let a draft in the user's voice say we for their employer
+## Close the tasks pane in the turn a background run's end arrives
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> why didnt you close the background tasks again automatically after
+> theyre done
+
+## Let a draft in the user's voice say we for their employer
+
+2026-11-06, commit [b8b98b1](https://github.com/zululima/dotclaude/commit/b8b98b139bcc4bb7bbe6d04ef4f2849136bf10b1), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [an ask about a downstream draft left out] also say in the future

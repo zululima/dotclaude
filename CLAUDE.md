@@ -553,24 +553,26 @@ apply to one repository belong in that repository's project memory.
   `~/.claude/presence` keeps the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there while the
   screen is unlocked, and a `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a
   push while it is.
-- Once a Chrome tab, the iOS simulator panel, a simulator or the tasks pane has done its job in a
-  turn, the session closes it before the reply: each tab it opened with `tabs_close_mcp`, never a
-  tab of the user's; the panel with the simulator tool's `detach`; simulators and emulators with
-  their shutdown commands; and the tasks pane, once its runs end, with `close_pane`. A tab or panel
-  where a step waits on the user stays open. Archiving the session closes the tabs it left, through
-  the app and the `archive-files` mod, which also deletes the closed tab groups Chrome saved. Chrome
-  opens its next window at the size of the last one, so before its first `resize_window` the session
-  reads `window.outerWidth` and `window.outerHeight`, and before the reply sets the window back to
-  that size.
+- Once a Chrome tab, the iOS simulator panel or a simulator has done its job in a turn, the session
+  closes it before the reply: each tab it opened with `tabs_close_mcp`, never a tab of the user's;
+  the panel with the simulator tool's `detach`; and simulators and emulators with their shutdown
+  commands. A tab or panel where a step waits on the user stays open. Archiving the session closes
+  the tabs it left, through the app and the `archive-files` mod, which also deletes the closed tab
+  groups Chrome saved. Chrome opens its next window at the size of the last one, so before its first
+  `resize_window` the session reads `window.outerWidth` and `window.outerHeight`, and before the
+  reply sets the window back to that size.
 - A run a session starts in the background, with the Bash tool's `run_in_background`, a `Monitor` or
   a workflow, is shown in the same turn with `show_pane` and `tasks`, beside the reply while it
   runs. When `show_pane` finds the session in no window, the reply names the run and says it is in
   the tasks pane, and every later turn calls `show_pane` with `tasks` again first while the run goes
-  on. Work set for later is a task under Scheduled in the app's sidebar, which survives an archive,
-  never `CronCreate` or `ScheduleWakeup`, which die with the session. A reply whose turn adds,
-  changes or removes anything that runs unattended on a schedule or trigger, such as a scheduled
-  task, local or cloud, a launchd agent or a cron entry, names it, when and where it runs and what
-  it does, and each reply until a one-time one runs names it and its time.
+  on. The turn that learns its last run ended, a task notification's too, calls `close_pane` with
+  `tasks` before the reply, even when no window showed the pane, and while it finds no window, every
+  later turn calls it again first. Work set for later is a task under Scheduled in the app's
+  sidebar, which survives an archive, never `CronCreate` or `ScheduleWakeup`, which die with the
+  session. A reply whose turn adds, changes or removes anything that runs unattended on a schedule
+  or trigger, such as a scheduled task, local or cloud, a launchd agent or a cron entry, names it,
+  when and where it runs and what it does, and each reply until a one-time one runs names it and its
+  time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
