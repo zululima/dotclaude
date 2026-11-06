@@ -278,10 +278,15 @@ def parse_verify(body):
         if line.strip().startswith("```"):
             in_fence = not in_fence
         heading = None if in_fence else re.match(r"^###+\s+(.*)$", line)
+        # A section titled in a bold paragraph, such as "**1. Title.** note".
+        bold = None if in_fence else re.match(r"^\*\*(\d+\.\s+.+?)\.?\*\*\s*(.*)$", line)
         number = None if in_fence else re.match(r"^(\d+)\.\s+(.*)$", line)
         if heading:
             close()
             current = {"title": heading.group(1).strip(), "note": [], "steps": []}
+        elif bold:
+            close()
+            current = {"title": bold.group(1).strip(), "note": [bold.group(2)], "steps": []}
         elif number:
             current["steps"].append({"n": int(number.group(1)), "first": number.group(2), "lines": []})
         elif current["steps"]:

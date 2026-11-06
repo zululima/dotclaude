@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Say in the reply text that a session can be archived
+## Read bold numbered lines as sections on the review page
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to review a pull request in a downstream project left out]
+
+**2.** (answer to: shall I add bold section headings to the skill's    build.py and push it to dotclaude?)
+> yes go ahead [an ask about a downstream project's translation left
+> out]
+
+## Say in the reply text that a session can be archived
+
+2026-11-06, commit [abca499](https://github.com/zululima/dotclaude/commit/abca499c004b32434540ce42f99b15eb5ab0f98c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dont ask me that weird box with x on it. you can just tell me in
