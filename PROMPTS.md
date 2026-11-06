@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the gm script as it now runs, sudo prompt first
+## Write the whole reply below the last fold, earlier replies included
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [57858d1](https://github.com/zululima/dotclaude/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb).
+
+**2.**
+> remember that i will not read anything above grey ran a command
+> thingies so be ready to repeat or do those before you give your
+> summary output. [a note on the hours check left out]
+
+## Show the gm script as it now runs, sudo prompt first
+
+2026-11-06, commit [c785c38](https://github.com/zululima/dotclaude/commit/c785c386ec4f4def81fceaff9f4e0e4cb098fecd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is it possible for gm terminal to ask beforehand sudo so that i dont
