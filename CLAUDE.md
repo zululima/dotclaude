@@ -240,8 +240,8 @@ apply to one repository belong in that repository's project memory.
   before it stops at the run. A PR review's steps are the exception: they live on its review page,
   where the user ticks them off, and each reply gives that page in their place, as the
   `pull-requests` skill says.
-- When nothing is left for the user or the session to do, the closing reply says so and tells the
-  user to archive the session, and the next-step box offers the archive action.
+- When nothing is left for the user or the session to do, the closing reply says so and that the
+  user can archive the session, in its text alone and not in the next-step box.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the

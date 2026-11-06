@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Close the tasks pane once the session's background runs end
+## Say in the reply text that a session can be archived
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> dont ask me that weird box with x on it. you can just tell me in
+> normal text that i can now archive a session
+
+## Close the tasks pane once the session's background runs end
+
+2026-11-06, commit [bde4807](https://github.com/zululima/dotclaude/commit/bde4807aa4830916f6395a9d9fb7d2ea7181e25b), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: archive this session?)
 > yes also you cant hide the bakcground tasks panel after youve opened
