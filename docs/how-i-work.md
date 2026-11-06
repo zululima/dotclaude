@@ -23,10 +23,14 @@ And this is the script it runs:
 #!/bin/zsh
 set -euo pipefail
 
+sudo -v
+while sleep 60; do kill -0 $$ 2>/dev/null && sudo -n -v 2>/dev/null || exit; done &!
+
 if docker info >/dev/null 2>&1; then
   "$HOME/bin/stop-containers.sh" || { print "Update and restart cancelled."; exit 1 }
   docker container prune -f
   docker volume prune -af
+  docker desktop update --quiet || print "Docker Desktop update failed, carrying on."
 fi
 
 brew update
@@ -34,11 +38,23 @@ brew upgrade -y
 brew cleanup
 
 sleep 60
+trace="$HOME/Library/Logs/gm-restart/trace-$(date +%F-%H%M%S).log"
+mkdir -p "${trace:h}"
+/usr/bin/perl -MPOSIX -e 'fork and exit; POSIX::setsid(); open STDIN, "<", "/dev/null";
+  open STDOUT, ">", shift or die; open STDERR, ">&", \*STDOUT; exec "/usr/bin/osascript", "-l", "JavaScript", @ARGV' \
+  "$trace" "$HOME/bin/restart-watch.js"
+print -r -- "$trace" > "$HOME/.cache/gm-restart-pending"
+sleep 1
 touch "$HOME/.cache/gm-clear-screen"
 osascript -e 'tell application "System Events" to restart with state saving preference'
 ```
 
-If Docker is running, it first stops every container with `~/bin/stop-containers.sh`:
+It asks for my password first, so I can type it and walk away. `brew upgrade` needs it for any cask
+that installs from a `.pkg` file, and without it `gm` would wait at a `Password:` prompt halfway
+through. sudo forgets the password after five minutes, so the loop after `sudo -v` renews it every
+minute until the script ends.
+
+If Docker is running, it then stops every container with `~/bin/stop-containers.sh`:
 
 ```zsh
 #!/bin/zsh
@@ -71,22 +87,29 @@ longer when a container's own stop timeout says so. It never kills a container t
 if one is still running then, `gm` ends there and leaves it running, the way an app with unsaved
 work stops a restart. Otherwise `gm` deletes the containers and all their volumes, so each project
 starts the day from fresh test data and nothing from yesterday keeps running. Anything I changed by
-hand in a local database is gone. Then it updates Homebrew and everything Homebrew installed,
-without asking, and removes the old versions. Homebrew installs in the foreground, so nothing is
-left half installed once it returns, and the script then waits a minute more as a margin. Then it
-restarts the Mac the way Restart in the Apple menu does, without the dialog: every app is asked to
-quit and can stop the restart over unsaved work. It follows that dialog's "Reopen windows when
-logging in" choice, which I keep off, so after I log in only the apps set to Open at Login start.
-Without `with state saving preference`, a System Events restart reopens every app whatever the
-choice says. If an update fails, the script stops before the wait and the Mac keeps running. The
-first restart asks once whether the terminal may control System Events. The flag file it leaves in
-`~/.cache` makes `~/.zshrc` clear the output Terminal restores in the first window after the
-restart:
+hand in a local database is gone. It also updates Docker Desktop, and carries on if that update
+fails. Then it updates Homebrew and everything Homebrew installed, without asking, and removes the
+old versions. Homebrew installs in the foreground, so nothing is left half installed once it
+returns, and the script then waits a minute more as a margin. Then it restarts the Mac the way
+Restart in the Apple menu does, without the dialog: every app is asked to quit and can stop the
+restart over unsaved work. It follows that dialog's "Reopen windows when logging in" choice, which I
+keep off, so after I log in only the apps set to Open at Login start. Without `with state saving
+preference`, a System Events restart reopens every app whatever the choice says. If an update fails,
+the script stops before the wait and the Mac keeps running. The first restart asks once whether the
+terminal may control System Events.
+
+Just before the restart, it starts `~/bin/restart-watch.js` detached from Terminal. For up to ten
+minutes it logs mouse buttons, modifier keys and the pointer to `~/Library/Logs/gm-restart/`, so
+when an app stops the restart, I can see what opened that app. The flag files it leaves in
+`~/.cache` make `~/.zshrc` clear the output Terminal restores in the first window after the restart,
+then run `~/bin/gm-restart-report.sh`. It prints which app interrupted the restart, what opened it
+and whether a mouse button was down, and saves that report beside the log:
 
 ```zsh
 if [[ $TERM_PROGRAM == Apple_Terminal && -e $HOME/.cache/gm-clear-screen ]]; then
   rm "$HOME/.cache/gm-clear-screen"
   clear
+  [[ -e $HOME/.cache/gm-restart-pending ]] && "$HOME/bin/gm-restart-report.sh"
 fi
 ```
 

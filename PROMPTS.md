@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Delete the closed Chrome tab groups archived sessions leave
+## Show the gm script as it now runs, sudo prompt first
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> is it possible for gm terminal to ask beforehand sudo so that i dont
+> have to watch if it asks sudo
+
+**2.** (answer to: shall I update dotclaude's how-i-work.md to show the    current gm script?)
+> Yes, update it
+
+## Delete the closed Chrome tab groups archived sessions leave
+
+2026-11-06, commit [cd59c7d](https://github.com/zululima/dotclaude/commit/cd59c7da00d68c3987ecdf235e4e028e7922d307), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > chrome pls clean up after yourself. some weird bookmark groups here
