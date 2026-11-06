@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Write the whole reply below the last fold, earlier replies included
+## Close the tasks pane once the session's background runs end
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: archive this session?)
+> yes also you cant hide the bakcground tasks panel after youve opened
+> it?
+
+## Write the whole reply below the last fold, earlier replies included
+
+2026-11-06, commit [cb74f43](https://github.com/zululima/dotclaude/commit/cb74f431f022da4b221e895e72d954b14ba068d6), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [57858d1](https://github.com/zululima/dotclaude/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb).
 
