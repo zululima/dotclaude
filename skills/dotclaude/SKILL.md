@@ -123,6 +123,17 @@ run and its commit in the same turn.
 
 ## The usage mod
 
+- The `usage` mod in `~/.claude/mods/session-usage`, which `CLAUDE_CODE_PLUGIN_DIRS` in
+  `settings.json` loads in every session and `CLAUDE_CODE_PLUGIN_DIR_WATCH` reloads on every edit,
+  pins a status line under the prompt: a fire emoji and the minutes the prompt cache stays warm, an
+  ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
+  the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
+  is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the other open
+  session whose cache goes cold, unless the sidebar marks it completed or its turn was stopped, or
+  whose sign-in ends soonest, named by its first word and those of its other words that fit and have
+  Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
+  also starts the title of each open session in the app with that fire or ice cube, after a rename
+  too, unless the user set the title by hand.
 - The desktop app cuts the line at about 40 characters, so it stays within that with the cache
   first, and no hook adds it to the transcript as a notice.
 

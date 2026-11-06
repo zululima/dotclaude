@@ -323,12 +323,14 @@ apply to one repository belong in that repository's project memory.
   browser, such as a PR's review page, with a viewport screenshot at 1440x730, about the browser
   area of a 13-inch MacBook Air, taken as the page first opens, unscrolled, with the site's own
   header above the content, never after scrolling the content into view and never with a taller or
-  full-page one alone. A whole README is the one exception: scrolled until its tab bar on GitHub
-  meets the window's top, its last line shows. On a page the user works through, the first screen
-  reaches what they act on first, what stays in view sits at the side or in a thin bar, and a part
-  they call too long gets shorter, not folded behind a toggle. A document modelled on another keeps
-  its page size and page count: a copy of a one-page A4 landscape PDF is one A4 landscape page,
-  never a page stretched to fit the content.
+  full-page one alone. In Claude in Chrome, whose `resize_window` sizes the whole window, that is
+  the window sized until `window.innerWidth` by `window.innerHeight` is 1440x730. A whole README is
+  the one exception: scrolled until its tab bar on GitHub meets the window's top, its last line
+  shows. On a page the user works through, the first screen reaches what they act on first, what
+  stays in view sits at the side or in a thin bar, and a part they call too long gets shorter, not
+  folded behind a toggle. A document modelled on another keeps its page size and page count: a copy
+  of a one-page A4 landscape PDF is one A4 landscape page, never a page stretched to fit the
+  content.
 
 ## Prompt feedback
 
@@ -384,17 +386,6 @@ apply to one repository belong in that repository's project memory.
   stop the project's container stack with the project's own stop command before the reply,
   every turn, even when the next turn will start it again, and say in the reply that it is
   stopped. A project memory that says to keep a stack up does not override this.
-- The `usage` mod in `~/.claude/mods/session-usage`, which `CLAUDE_CODE_PLUGIN_DIRS` in
-  `settings.json` loads in every session and `CLAUDE_CODE_PLUGIN_DIR_WATCH` reloads on every edit,
-  pins a status line under the prompt: a fire emoji and the minutes the prompt cache stays warm, an
-  ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
-  the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
-  is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the other open
-  session whose cache goes cold, unless the sidebar marks it completed or its turn was stopped, or
-  whose sign-in ends soonest, named by its first word and those of its other words that fit and have
-  Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
-  also starts the title of each open session in the app with that fire or ice cube, after a rename
-  too, unless the user set the title by hand.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
@@ -562,7 +553,10 @@ apply to one repository belong in that repository's project memory.
   tab of the user's; the panel with the simulator tool's `detach`; simulators and emulators with
   their shutdown commands; and the tasks pane, once its runs end, with `close_pane`. A tab or panel
   where a step waits on the user stays open. Archiving the session closes the tabs it left, through
-  the app and the `archive-files` mod, which also deletes the closed tab groups Chrome saved.
+  the app and the `archive-files` mod, which also deletes the closed tab groups Chrome saved. Chrome
+  opens its next window at the size of the last one, so before its first `resize_window` the session
+  reads `window.outerWidth` and `window.outerHeight`, and before the reply sets the window back to
+  that size.
 - A run a session starts in the background, with the Bash tool's `run_in_background`, a `Monitor` or
   a workflow, is shown in the same turn with `show_pane` and `tasks`, beside the reply while it
   runs. When `show_pane` finds the session in no window, the reply names the run and says it is in
