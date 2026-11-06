@@ -5,9 +5,28 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave PROMPTS.md to the default branch on pull request branches
+## Say what changes next time in a message owning a mistake
 
 2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about a downstream project's failing tests left out]
+
+**2.**
+> [a question about a downstream project's pull requests left out]
+
+**3.**
+> [a question about a downstream project's pull request left out]
+
+**4.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+
+**5.**
+> messages like that should probably say that what well do try
+> differerntly in future so that things like these dont happen
+
+## Leave PROMPTS.md to the default branch on pull request branches
+
+2026-11-06, commit [2edd729](https://github.com/zululima/dotclaude/commit/2edd72957568962045b03e3d60c30a99a70d531e), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > maybe make fix so that [two colleagues'] agents dont create

@@ -218,6 +218,9 @@ apply to one repository belong in that repository's project memory.
   that draft first, in that format. Reasons, counts and sources come after it, outside the draft.
 - A Finnish reply to a yes-or-no question opens with the answer itself, as in "luku laski, koska
   ...", never with "joo" or "kyllä" in front of it.
+- A message that owns up to a mistake, a draft the user sends or a reply, also says in a sentence
+  what will be done differently from now on so that it does not happen again: the concrete check or
+  change, in the sender's own voice, never only an apology.
 - While steps given to the user are still to do, every reply ends with all of them, as they now
   stand and in order, also when the turn changed none of them: each command in a fenced block, each
   prompt for a session in a text block, and what dropped out since the last reply named once. Each
