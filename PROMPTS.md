@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Wait 75 s for containers to stop before gm restarts
+## Skip Homebrew's sudo reset in the gm script
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> bruh gm still asks sudo again in the process
+
+## Wait 75 s for containers to stop before gm restarts
+
+2026-11-07, commit [46c679f](https://github.com/zululima/dotclaude/commit/46c679f9eb70fe92bdcc16f6d8f69b2d06f54c00), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm terminal failed

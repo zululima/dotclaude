@@ -33,6 +33,8 @@ if docker info >/dev/null 2>&1; then
   docker desktop update --quiet || print "Docker Desktop update failed, carrying on."
 fi
 
+# brew resets the sudo ticket before its first sudo command unless this is set.
+export HOMEBREW_SUDO_CHECKED=1
 brew update
 brew upgrade -y
 brew cleanup
@@ -50,9 +52,12 @@ osascript -e 'tell application "System Events" to restart with state saving pref
 ```
 
 It asks for my password first, so I can type it and walk away. `brew upgrade` needs it for any cask
-that installs from a `.pkg` file, and without it `gm` would wait at a `Password:` prompt halfway
-through. sudo forgets the password after five minutes, so the loop after `sudo -v` renews it every
-minute until the script ends.
+that installs from a `.pkg` file or removes a system service, and without it `gm` would wait at a
+`Password:` prompt halfway through. sudo forgets the password after five minutes, so the loop after
+`sudo -v` renews it every minute until the script ends. Homebrew also clears it with `sudo
+--reset-timestamp` before its first sudo command in each run, unless `HOMEBREW_SUDO_CHECKED=1` says
+that check already ran. That is Homebrew's internal flag rather than a documented setting, so a
+Homebrew update can bring the prompt back.
 
 If Docker is running, it then stops every container with `~/bin/stop-containers.sh`:
 
