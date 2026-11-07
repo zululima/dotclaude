@@ -182,6 +182,22 @@ transcripts() {
   find "$@" -name '*.jsonl' -type f 2>/dev/null
 }
 
+# Size and seconds since the epoch of the last change. GNU first: its -f means
+# the file system and prints that before it fails on the BSD format.
+file_stamp() {
+  stat -c '%s %Y' "$1" 2>/dev/null || stat -f '%z %m' "$1" 2>/dev/null
+}
+
+when() {
+  date -r "$1" "$2" 2>/dev/null || date -d "@$1" "$2" 2>/dev/null
+}
+
+# The browser Claude in Chrome drives: Google Chrome on macOS, chrome or
+# chromium on Linux, whose pgrep has no -q.
+browsing() {
+  pgrep -x 'Google Chrome|chrome|chromium' >/dev/null 2>&1
+}
+
 if [ "${1:-}" = --run ]; then
   [ -d "${2:-}" ] || { echo "usage.sh --run <folder>" >&2; exit 2; }
   files=()
@@ -213,7 +229,7 @@ if [ "${1:-}" = --since ]; then
     | [.[] | select(.at >= $from and .at < $to)] | summary' "$log"/*.jsonl 2>/dev/null | {
     IFS= read -r head || exit 1
     set -- $head
-    printf 'From %s to %s:\n' "$(date -r "${11%.*}" '+%a %d.%m. %H:%M' 2>/dev/null)" "$(date -r "${12%.*}" '+%a %d.%m. %H:%M' 2>/dev/null)"
+    printf 'From %s to %s:\n' "$(when "${11%.*}" '+%a %d.%m. %H:%M')" "$(when "${12%.*}" '+%a %d.%m. %H:%M')"
     { echo "$head"; cat; } | summarise
   }
   exit 0
@@ -227,7 +243,7 @@ fi
 waiting() {
   local meta run size mtime
   local marked="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-waiting/${1##*/}"
-  read -r size mtime < <(stat -f '%z %m' "$marked" 2>/dev/null || stat -c '%s %Y' "$marked" 2>/dev/null)
+  read -r size mtime < <(file_stamp "$marked")
   [ "${size:-0}" -gt 0 ] && [ $((${now:-$(date +%s)} - ${mtime:-0})) -lt 60 ] && return 0
   for meta in "$1"/subagents/agent-*.meta.json; do
     [ -n "$(find "${meta%.meta.json}.jsonl" -mmin -65 2>/dev/null)" ] || continue
@@ -282,6 +298,7 @@ signins='
     | if length > 0 then min | floor else 0 end;'
 
 sessions="$HOME/Library/Application Support/Claude/claude-code-sessions"
+[ -d "$sessions" ] || sessions="${XDG_CONFIG_HOME:-$HOME/.config}/Claude/claude-code-sessions"
 
 # A cache goes cold at most an hour after its last request, and the transcript
 # was written then, so a session quiet for 65 minutes is cold.
@@ -320,7 +337,7 @@ fi
 if [ "${1:-}" = --next ]; then
   now=$(date +%s)
   chrome=false
-  pgrep -xq 'Google Chrome' && chrome=true
+  browsing && chrome=true
   memos="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-next"
   mkdir -p "$memos"
   find "$memos" "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-waiting" -type f -mtime +1 -delete 2>/dev/null
@@ -354,7 +371,7 @@ if [ "${1:-}" = --next ]; then
       # file alone, so every session reads a transcript again only once it has
       # changed.
       cold=0 ends=0 stopped=''
-      stamp=$(stat -f '%z %m' "$f" 2>/dev/null || stat -c '%s %Y' "$f")
+      stamp=$(file_stamp "$f")
       memo="$memos/$id"
       size='' mtime=''
       read -r size mtime cold ends stopped 2>/dev/null < "$memo"
@@ -398,7 +415,7 @@ read -r ctx window warm late ends < <(jq -nrR --arg main "$transcript" "$common$
 ' "$transcript" 2>/dev/null)
 [ -n "${warm:-}" ] || exit 0
 
-at() { LC_ALL=C date -r "$1" "$2" 2>/dev/null || LC_ALL=C date -d "@$1" "$2" 2>/dev/null; }
+at() { LC_ALL=C when "$1" "$2"; }
 
 brain=$(printf '\360\237\247\240')
 figures="$brain $(awk -v c="$ctx" -v w="$window" 'BEGIN { printf "%d", c * 100 / w }')%"
@@ -407,7 +424,7 @@ mark=''
 
 if [ "$status" = true ]; then
   z=$(at "$warm" +%z)
-  pgrep -xq 'Google Chrome' || ends=0
+  browsing || ends=0
   printf '%s\n%s\n%s\n%s\n%s\n' "$figures" "$warm" "$(( ${z:0:1}(10#${z:1:2} * 3600 + 10#${z:3:2} * 60) ))" "${mark:-}" "${ends:-0}"
   exit 0
 fi

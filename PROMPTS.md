@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Suggest the next PR review in a session of its own
+## Read the app's session records on Linux in the usage mod
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> ? you show flame but you also show cold
+
+## Suggest the next PR review in a session of its own
+
+2026-11-07, commit [8241c75](https://github.com/zululima/dotclaude/commit/8241c75215609c6167f60fdf7f3a2fca6777a451), model claude-opus-5-5, effort xhigh.
 
 **8.** (answer to: shall I review the next PR next?)
 > yes in another session. suggest that next time too
