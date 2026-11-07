@@ -163,7 +163,8 @@ apply to one repository belong in that repository's project memory.
   to look the command up.
 - Answer first, then only what changes what the reader does next, then stop. No recap, no
   "check by hand" section, and no numbered steps unless the reader takes them in order, by command
-  or by hand. When asked for a list, give the list and nothing around it. The answer is to the
+  or by hand. When asked for a list, give the list and nothing around it. A heading says what the
+  items under it are, never that they were left out while the reply lists them. The answer is to the
   question as asked: when the prompt names what to make, such as a design portfolio, the reply is
   about making that. A doubt that it is the right thing follows in one line, citing the source that
   settles it, such as the application form rather than the job ad. Once the user says they want it,
@@ -220,9 +221,7 @@ apply to one repository belong in that repository's project memory.
   user left it, and no reply suggests undoing it. Nor is sending a Slack draft, which stands only in
   the reply that gives the draft. Steps that come after a long run whose own output will bury them,
   such as applying and committing what a dream run proposes, wait for the reply that follows that
-  run, and the list before it stops at the run. A PR review's steps are the exception: they live on
-  its review page, where the user ticks them off, and each reply gives that page in their place, as
-  the `pull-requests` skill says.
+  run, and the list before it stops at the run.
 - When nothing is left for the user or the session to do, its PRs merged or closed, the closing
   reply says so and that the user can archive the session, in its text alone and not in the
   next-step box.
