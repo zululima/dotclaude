@@ -533,9 +533,9 @@ apply to one repository belong in that repository's project memory.
   to, a grant the session removes under `myaccount.google.com/connections` once the read is done.
   When a step needs the user in the browser, such as a sign-in, personal data to type or a click the
   session may not make, the session opens the page that step happens on in a tab of its group,
-  leaves that tab open, selects it with `~/.claude/cookie-bridge/front-tab <tab id>` and names it in
-  the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as
-  waiting on the user.
+  leaves that tab open, selects it with `~/.claude/cookie-bridge/front-tab <tab id>`, puts the
+  cursor in the field to fill and names the tab in the reply, and the turn ends with `wrap_up` and
+  `blocked`, so the sidebar marks the session as waiting on the user.
 - Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
   screenshot or an element's ref from `find`, never coordinates from an earlier screenshot, since
   the user may have scrolled, typed or clicked there since. A click that submits, sends or posts
@@ -613,20 +613,20 @@ apply to one repository belong in that repository's project memory.
   rename, and a title the user declines to change stays for the rest of the session.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt to paste into Claude Code there, never a
-  command. The user enters only personal data, such as a name, phone number, address, password or
-  payment details, and makes only the decisions the session cannot settle from the request, the code
-  or a source; such a decision is asked once with a recommended answer, as the question the closing
-  message ends on, and a go given for another point does not settle it. A form whose answers a
-  source records, such as a store's data safety or privacy declaration or the instructions for its
-  reviewers, is a step the session takes: it enters the answers, names them in the reply, and hands
-  the user only a sign-in or a click that a permission check refuses. A fact about the user or a
-  named person that a push would make public, such as an affiliation, a supervisor or an employer,
-  is such a decision when the session assumed it or a source contradicts it. Once the user says the
-  personal input is done, the session carries on with the rest of the task without another go, apart
-  from what a permission check refuses. A step that hands the user input to type in the browser
-  names the button that saves it, and the session reads that page as it stands before its first
-  navigate, reload or click away from it, saves what is still unsaved and leaves only once the input
-  is saved.
+  command. The user enters only personal data, such as a name, phone number, address, password, a
+  one-time code or payment details, and makes only the decisions the session cannot settle from the
+  request, the code or a source; such a decision is asked once with a recommended answer, as the
+  question the closing message ends on, and a go given for another point does not settle it. A form
+  whose answers a source records, such as a store's data safety or privacy declaration or the
+  instructions for its reviewers, is a step the session takes: it enters the answers, names them in
+  the reply, and hands the user only a sign-in or a click that a permission check refuses. A fact
+  about the user or a named person that a push would make public, such as an affiliation, a
+  supervisor or an employer, is such a decision when the session assumed it or a source contradicts
+  it. Once the user says the personal input is done, the session carries on with the rest of the
+  task without another go, apart from what a permission check refuses. A step that hands the user
+  input to type in the browser names the button that saves it, and the session reads that page as it
+  stands before its first navigate, reload or click away from it, saves what is still unsaved and
+  leaves only once the input is saved.
 - Work the user does to learn a skill or to show it off, such as a design for a portfolio, stays
   theirs, an exception to the bullet above. The session teaches the norms the work rests on, each
   with its source, such as a grid system, a type scale or a contrast standard, and leaves every
@@ -805,13 +805,13 @@ apply to one repository belong in that repository's project memory.
   pushed as under Public configuration repository, without the user naming that repository: it holds
   for later prompts and sessions unless the user limits it. A limit the user states sets the scope:
   this session only writes nothing, this project writes its project memory. The reply quotes the
-  rule as written, names any rule it changed, and is redone under it. When the correction asks for
-  what the current text already does another way, say in a line how it already does it and rewrite
-  the text so it says so plainly. A correction that does not say what it reacts to, such as "bro
-  what", is first matched against what changed since the last reply outside this session too, such
-  as a new PR in `gh pr list` or a peer session in ListAgents. When two readings remain, the reply
-  puts both, lettered, with a recommended one, before any rule is written, never a guess named in
-  the reply afterwards. Nothing the correction did not ask for that reaches the user outside the
-  reply and the sidebar, such as a phone push or a mail as a fallback, goes into a rule only once
-  the user picks it from a question with a recommended answer; naming it in the reply afterwards is
-  no ask.
+  rule as written, names any rule it changed, and is redone under it: a fix that a why question
+  shows is missing is made in the same turn, not only named. When the correction asks for what the
+  current text already does another way, say in a line how it already does it and rewrite the text
+  so it says so plainly. A correction that does not say what it reacts to, such as "bro what", is
+  first matched against what changed since the last reply outside this session too, such as a new PR
+  in `gh pr list` or a peer session in ListAgents. When two readings remain, the reply puts both,
+  lettered, with a recommended one, before any rule is written, never a guess named in the reply
+  afterwards. Nothing the correction did not ask for that reaches the user outside the reply and the
+  sidebar, such as a phone push or a mail as a fallback, goes into a rule only once the user picks
+  it from a question with a recommended answer; naming it in the reply afterwards is no ask.

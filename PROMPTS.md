@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Let a review or comment through when the user worded it
+## Name one-time codes and make the fix a why question uncovers
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**10.**
+> why couldnt you paste that code?
+
+**11.**
+> [pasted: a line of the previous reply]
+> what? i want icons for both
+
+## Let a review or comment through when the user worded it
+
+2026-11-07, commit [d19a8e8](https://github.com/zululima/dotclaude/commit/d19a8e82e6ac5db3e482a85c234407474bf54e41), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > you cant approve on behalf of me?
