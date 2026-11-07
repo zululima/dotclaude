@@ -20,7 +20,8 @@
 # a subagent's too, of a session the app has not archived or has no record of,
 # such as a terminal session. When no tab would stay, the front window's
 # active one turns into a New Tab page instead, so the extension keeps the
-# window it connects through.
+# window it connects through. When Chrome takes the front meanwhile, it is
+# hidden again, so the user's typing stays in the app they were in.
 #
 # Then it deletes the tab groups Chrome saved closed, which a window closing or
 # Chrome quitting leaves pinned to the bookmarks bar after every tab is gone: a
@@ -165,6 +166,44 @@ place() {
   echo "$to"
 }
 
+# Between start and stop, hides Chrome each time it takes the front from the
+# app the user is in, which turning a tab into a New Tab page made it do. The
+# app in front before gets it back, as chrome-background.sh relies on. The
+# JXA loop runs the run loop, or the front app it reads goes stale.
+keep_front() {
+  [ -z "$dry" ] || return 0
+  if [ "$1" = stop ]; then
+    sleep 2
+    rm -f "$work/keep-front"
+    wait "$keeper" 2>/dev/null
+    return 0
+  fi
+  : >"$work/keep-front"
+  osascript -l JavaScript - "$work/keep-front" >/dev/null 2>&1 <<'EOF' &
+ObjC.import('AppKit');
+function run(argv) {
+  const files = $.NSFileManager.defaultManager;
+  const front = () => {
+    $.NSRunLoop.currentRunLoop.runUntilDate($.NSDate.dateWithTimeIntervalSinceNow(0.01));
+    const app = $.NSWorkspace.sharedWorkspace.frontmostApplication;
+    return app.isNil() ? null : app;
+  };
+  const isChrome = app => app !== null && app.bundleIdentifier.js === 'com.google.Chrome';
+  const watch = !isChrome(front());
+  $('').writeToFileAtomicallyEncodingError(argv[0] + '.ready', true, $.NSUTF8StringEncoding, null);
+  while (watch && files.fileExistsAtPath(argv[0])) {
+    const app = front();
+    if (isChrome(app)) app.hide;
+  }
+}
+EOF
+  keeper=$!
+  for _ in $(seq 100); do
+    [ -e "$work/keep-front.ready" ] && break
+    sleep 0.03
+  done
+}
+
 # Closes every Chrome tab no session still open names. $1 lists the local ids
 # of the sessions archived, a line each.
 close_tabs() {
@@ -208,6 +247,7 @@ EOF
       }
     }' "$work/tabs" >"$work/plan"
   [ -s "$work/plan" ] || return 0
+  keep_front start
   # shellcheck disable=SC2046
   osascript - "${dry:+list}" $(cat "$work/plan") <<'EOF' 2>/dev/null | while IFS= read -r line; do
 on run argv
@@ -247,6 +287,7 @@ EOF
       clear1) say "would turn the last Chrome tab, on $host, into a New Tab page" ;;
     esac
   done
+  keep_front stop
 }
 
 delete_groups() {

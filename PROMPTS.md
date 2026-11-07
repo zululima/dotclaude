@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Move every session a session starts to top level
+## archive-files: give the front back when Chrome takes it
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> bruh just now the chrome jumped to foreground when i was typing here
+> in cluade dekstop debug and fix that. [an ask about an app store
+> email left out]
+
+## Move every session a session starts to top level
+
+2026-11-07, commit [65cd232](https://github.com/zululima/dotclaude/commit/65cd232ebb69e35bec5668c7c54431ba3c2dcd97), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > can you create new sessions in cluade code desktop or only sub
