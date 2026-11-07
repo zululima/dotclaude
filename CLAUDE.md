@@ -257,8 +257,10 @@ apply to one repository belong in that repository's project memory.
 - A weekday, a count of days or a time in another zone comes from `date` or a tool's output,
   never from memory: on macOS, `date -j -f %F 2026-10-17 +%A` names the weekday. A table or
   list given as a tool's results holds every result, or says which it left out and why, and a
-  person whose address no source gives is named as not checked, never looked up under a
-  guessed address.
+  person whose address no source gives is named as not checked, never looked up under a guessed
+  address. A role or right said to be someone's, the user's included, such as who administers an
+  account or may sign for a company, names its source beside each name, and one no source shows is
+  called not checked, never read from a job title.
 - A figure given as a status or an estimate, such as a percentage done, says next to it what it was
   counted from, such as 3 of 4 issues closed or 1 of 5 data reads moved, and a figure short of done
   also says what holds it there, such as the endpoint it waits on. A figure that is a judgement is

@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Open the tasks pane when a window starts showing the session
+## Name the source for who holds a role or right
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about publishing an app under an employer's store
+> accounts left out]
+
+**2.**
+> i have permissions irl but where did you get [three colleagues] as
+> the responsibel peple for apple and google play
+
+**3.** (answer to: shall I raise the budget and add the rule?)
+> yes, go ahead
+
+## Open the tasks pane when a window starts showing the session
+
+2026-11-07, commit [c05fd43](https://github.com/zululima/dotclaude/commit/c05fd43ac87248a89ad5f29bdf25f42fa44381f1), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > bro you have again a background task but no pane open?
