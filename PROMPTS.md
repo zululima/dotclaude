@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Select the tab a browser step waits on
+## Keep calling show_pane for the tasks pane while a run goes on
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> you have background task running again but no background task pane
+> opened. fix in the futrue
+
+## Select the tab a browser step waits on
+
+2026-11-07, commit [fb2a0cf](https://github.com/zululima/dotclaude/commit/fb2a0cfd3a41c80d0de6514fe94d4f1cfab13d9a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to handle a mail left out]
