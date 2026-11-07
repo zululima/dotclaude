@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show a new GitHub issue in Chrome before opening it
+## Check a Chrome page as it is before each click
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.** (answer to: shall I click Create on the issue in Chrome?)
+> Yes, create it
+
+**7.**
+> next time check that i havent scrolled etc done anything before you
+> click? etc
+
+## Show a new GitHub issue in Chrome before opening it
+
+2026-11-07, commit [4c81dc8](https://github.com/zululima/dotclaude/commit/4c81dc8504777a611b8f7d8aa514d9143cde8aeb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a macOS permission prompt left out]

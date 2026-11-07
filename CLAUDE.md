@@ -66,8 +66,6 @@ apply to one repository belong in that repository's project memory.
 
 ## Commit messages
 
-- Before writing a commit message, load the `commit-messages` skill,
-  `~/.claude/skills/commit-messages/SKILL.md`, and follow it.
 - An edit made to this file, to `~/.claude/skills/pull-requests/SKILL.md` or to the
   `commit-messages` skill from another session reaches a running one through
   `~/.claude/hooks/claude-md-changed.sh`, in place of a re-read before a commit message or a PR
@@ -79,9 +77,6 @@ apply to one repository belong in that repository's project memory.
 
 ## Pull requests
 
-- Before opening a PR or editing its body, writing test steps for a change under review, in a PR or
-  in chat, reviewing or merging a PR, or capturing or uploading pictures for one, load the
-  `pull-requests` skill, `~/.claude/skills/pull-requests/SKILL.md`, and follow it.
 - Open PRs as drafts.
 - One draft PR per issue or feature the user asks to start, such as the next issue. Every other
   change a session is asked to make in a repository, follow-ups to the work under review, docs,
@@ -543,6 +538,11 @@ apply to one repository belong in that repository's project memory.
   opens the page that step happens on in a tab of its group, leaves that tab open and names it in
   the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as
   waiting on the user.
+- Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
+  screenshot or an element's ref from `find`, never coordinates from an earlier screenshot, since
+  the user may have scrolled, typed or clicked there since. A click that submits, sends or posts
+  first checks that the page still holds what the user approved, and a change the user made is named
+  in the reply before it asks again.
 - No reply suggests storing a password in Chrome: not in Chrome's own password manager or through
   its offer to save one, not by importing passwords from Firefox, and not in a password manager's
   Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
