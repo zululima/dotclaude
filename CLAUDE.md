@@ -104,7 +104,9 @@ apply to one repository belong in that repository's project memory.
   a turn before the run does names the run it waits on.
 - Never post a comment, a review thread reply, a review or an issue comment on GitHub, and never
   draft one for the user to post: every word posted goes out under the user's name, and the user
-  writes those. A question about an issue, a comment or a thread is answered in the reply as an
+  writes those. One goes out only when a prompt asks for it and gives every word of it, or when it
+  is an approval with no comment, and the `PreToolUse` hook `~/.claude/hooks/no-github-posts.sh`
+  refuses the rest. A question about an issue, a comment or a thread is answered in the reply as an
   explanation, and no reply or next-step box offers a draft of an answer. A review finding is
   answered by the commit that fixes it, and the reply to the user lists, per thread, what changed
   and in which commit, so the user can answer and resolve the threads themselves. Editing a PR body

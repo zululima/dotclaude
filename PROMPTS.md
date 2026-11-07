@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give an extension or app its icon from the first build
+## Let a review or comment through when the user worded it
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> you cant approve on behalf of me?
+
+**7.** (answer to: shall the hook let through reviews whose every word you typed in the prompt?)
+> Yes, allow that
+
+## Give an extension or app its icon from the first build
+
+2026-11-07, commit [a4f762e](https://github.com/zululima/dotclaude/commit/a4f762e8ea5531ef26323e2175a82618aec1172a), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > [a step done in the browser, left out] also why no icons of cookie

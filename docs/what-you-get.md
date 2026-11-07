@@ -18,7 +18,8 @@
 - [`check-not-piped.sh`](../hooks/check-not-piped.sh): stops Claude from reporting failed tests as
   passed, which happens when the test output goes through another command.
 - [`no-github-posts.sh`](../hooks/no-github-posts.sh): stops Claude from posting comments or reviews
-  on GitHub, where they would appear under your name.
+  on GitHub, where they would appear under your name, unless you typed every word of one in a
+  prompt, or it is an approval with no comment.
 - [`one-draft-pr-per-repo.sh`](../hooks/one-draft-pr-per-repo.sh): stops Claude from opening a
   second draft PR in a repository where you already have one open, unless you asked to start a new
   issue, so a side change joins that PR.

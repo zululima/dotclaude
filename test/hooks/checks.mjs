@@ -76,7 +76,20 @@ const suites = [
     ['ignores a pipe that holds no check', () => quiet(run(bash('git log --oneline | head')))],
   ]],
 
-  ['no-github-posts.sh', run => [
+  ['no-github-posts.sh', run => {
+    jsonl(path.join(config, 'prompt-log', 'gp1.jsonl'), [
+      { session_id: 'gp1', prompt: 'merge with approved comment lgtm   looks\nfine to me' },
+      { session_id: 'gp1', prompt: '<task-notification>\nship it\n</task-notification>' },
+    ])
+    const asUser = command => ({ ...bash(command), session_id: 'gp1' })
+    return [
+    ['lets a review through whose body a prompt holds', () => quiet(run(asUser("gh pr review 12 --approve --body 'lgtm looks fine to me'")))],
+    ['lets an approval with no body through', () => quiet(run(asUser('gh pr review 12 --approve')))],
+    ['refuses a review whose body no prompt holds', () => refused(run(asUser("gh pr review 12 --approve --body 'lgtm, merged'")))],
+    ['refuses words only a task notification holds', () => refused(run(asUser("gh pr comment 12 --body 'ship it'")))],
+    ['refuses a comment review whose body no prompt holds', () => refused(run(asUser("gh pr review 12 -c -b 'other words'")))],
+    ['lets a body file through whose text a prompt holds', () => { write(path.join(home, 'body.md'), 'looks fine\nto me\n'); return quiet(run(asUser('gh pr comment 12 --body-file body.md'))) }],
+    ['refuses a comment read from stdin', () => refused(run(asUser("gh pr comment 12 --body-file - <<'EOF'\nlgtm\nEOF")))],
     ['refuses gh pr comment', () => refused(run(bash('gh pr comment 12 --body hi')))],
     ['refuses gh issue comment', () => refused(run(bash('gh issue comment 3 -b hi')))],
     ['refuses gh pr review', () => refused(run(bash('gh pr review 12 --approve')))],
@@ -88,7 +101,8 @@ const suites = [
     ['lets reading a PR through', () => quiet(run(bash('gh pr view 12 --comments')))],
     ['ignores a gh command named in a grep', () => quiet(run(bash("grep 'gh pr comment' notes.md")))],
     ['lets a PR body edit through', () => quiet(run(bash('gh pr edit 12 --body-file body.md')))],
-  ]],
+    ]
+  }],
 
   ['one-draft-pr-per-repo.sh', run => {
     const fake = path.join(home, 'fake-gh'), args = path.join(home, 'gh-args')
