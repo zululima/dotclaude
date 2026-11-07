@@ -109,7 +109,8 @@
 - [`mods/session-usage`](../mods/session-usage): a line under the prompt box that shows how many
   minutes the cache stays warm (a warm cache makes the next message cheaper), how full Claude's
   memory of the chat is, and which other open session's cache goes cold next, leaving out those
-  whose last turn left you nothing to do, so you can get back to it in time. In the desktop app
+  whose last turn left you nothing to do or that wait on a background run, so you can get back to
+  it in time. In the desktop app
   every session's name starts with a fire while its cache is warm and an ice cube once it is cold,
   or a gear while it waits on a background run, and such a session opens its tasks pane when you
   open it, then closes the pane the next time you open it after the run is done. The tokens and what

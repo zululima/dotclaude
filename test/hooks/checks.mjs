@@ -1021,7 +1021,19 @@ const suites = [
     const stale = session('stale', { postTurnSummary: { status_category: 'completed' }, postTurnSummaryFor: 'earlier-a' })
     const blocked = session('blocked', { postTurnSummary: { status_category: 'blocked' }, postTurnSummaryFor: 'blocked-a' })
     const terminal = session('terminal')
+    // The file usage-waiting.sh writes when a turn ends with background work in flight.
+    const waits = (id, text, ageMs = 0) => {
+      const at = (Date.now() - ageMs) / 1000
+      fs.utimesSync(write(path.join(config, 'usage-waiting', id), text), at, at)
+      return id
+    }
+    const running = waits(session('running', {}), '1\n')
+    const left = waits(session('left', {}), '1\n', 120_000)
+    const emptied = waits(session('emptied', {}), '')
     return [
+      ['leaves out one waiting on background work', () => !goesCold(running)],
+      ['names one whose waiting file is over a minute old', () => goesCold(left)],
+      ['names one whose waiting file is empty', () => goesCold(emptied)],
       ['leaves out a session whose last wrap-up asks nothing', () => !goesCold(wrapped)],
       ['still marks that session\'s title', () => rows('title').includes(`Session ${wrapped}`)],
       ['names one whose wrap-up asks the user something', () => goesCold(asking)],

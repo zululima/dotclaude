@@ -20,9 +20,9 @@
 #                           count down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour whose cache is
-#                           still warm, that wait on no subagent, whose last
-#                           turn the user did not stop and that the sidebar
-#                           does not mark completed, and those
+#                           still warm, that wait on no background work, whose
+#                           last turn the user did not stop and that the
+#                           sidebar does not mark completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
 #                           title, cold or sign-in, its record and untitled
@@ -220,11 +220,15 @@ if [ "${1:-}" = --since ]; then
 fi
 
 # A session waits on a background agent until its meta says finished or the
-# session got its task notification, and on a workflow run until the run's
-# record is written. One quiet for an hour, such as a session the app quit
-# mid-run left, no longer counts.
+# session got its task notification, on a workflow run until the run's record
+# is written, and on any background work while the file usage-waiting.sh wrote
+# for it is under a minute old and not empty. One quiet for an hour, such as a
+# session the app quit mid-run left, no longer counts.
 waiting() {
-  local meta run
+  local meta run size mtime
+  local marked="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-waiting/${1##*/}"
+  read -r size mtime < <(stat -f '%z %m' "$marked" 2>/dev/null || stat -c '%s %Y' "$marked" 2>/dev/null)
+  [ "${size:-0}" -gt 0 ] && [ $((${now:-$(date +%s)} - ${mtime:-0})) -lt 60 ] && return 0
   for meta in "$1"/subagents/agent-*.meta.json; do
     [ -n "$(find "${meta%.meta.json}.jsonl" -mmin -65 2>/dev/null)" ] || continue
     jq -e '.requestShape == "background" and .finished != true' "$meta" >/dev/null 2>&1 || continue

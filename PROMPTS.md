@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Run usage-waiting.sh at every Stop
+## Leave a session with the gear out of the hourglass
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: shall I also leave sessions with the gear out of the    status line's hourglass?)
+> Yes, do it
+
+## Run usage-waiting.sh at every Stop
+
+2026-11-07, commit [8159c76](https://github.com/zululima/dotclaude/commit/8159c763059129b37730d3f400fdb4d3ceca07b1), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: have you run the settings.json command?)
 > Done

@@ -141,15 +141,16 @@ run and its commit in the same turn.
   ice cube emoji and since when it is cold, or a cookie emoji and the minutes left of a sign-in in
   the session's Chrome tabs when that ends first, then a brain emoji and how full the context window
   is, then an hourglass emoji, or a lock emoji for a sign-in, the minutes left and the other open
-  session whose cache goes cold, unless the sidebar marks it completed or its turn was stopped, or
-  whose sign-in ends soonest, named by its first word and those of its other words that fit and have
-  Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
-  shows the tasks pane each time a window starts to show the session, from Claude's `show_pane`
-  with `tasks` to its `close_pane`, reading the app's layout every 5 seconds meanwhile, and closes
-  it on the first such read that finds a window showing the session after a `close_pane` that none
-  showed. It also starts the title of each open session in the app with that fire or ice cube, or
-  with a gear emoji while the session's last turn ended with background work in flight, which the
-  `Stop` hook's input lists, after a rename too, unless the user set the title by hand.
+  session whose cache goes cold, unless the sidebar marks it completed, its turn was stopped or it
+  waits on background work, or whose sign-in ends soonest, named by its first word and those of its
+  other words that fit and have Cmd+K in the app list it soonest: alone, or else first among the
+  sessions, each word whole. It shows the tasks pane each time a window starts to show the session,
+  from Claude's `show_pane` with `tasks` to its `close_pane`, reading the app's layout every 5
+  seconds meanwhile, and closes it on the first such read that finds a window showing the session
+  after a `close_pane` that none showed. It also starts the title of each open session in the app
+  with that fire or ice cube, or with a gear emoji while the session's last turn ended with
+  background work in flight, which the `Stop` hook's input lists, after a rename too, unless the
+  user set the title by hand.
 - The desktop app cuts the line at about 40 characters, so it stays within that with the cache
   first, and no hook adds it to the transcript as a notice.
 
