@@ -626,9 +626,12 @@ apply to one repository belong in that repository's project memory.
   number, address, password, a one-time code or payment details, and makes only the decisions the
   session cannot settle from the request, the code or a source; such a decision is asked once with a
   recommended answer, as the question the closing message ends on, and a go given for another point
-  does not settle it. A form whose answers a source records, such as a store's data safety or
-  privacy declaration or the instructions for its reviewers, is a step the session takes: it enters
-  the answers, names them in the reply, and hands the user only a sign-in or a click that a
+  does not settle it. Nor is the user asked a fact that a source holds, such as which of the
+  lettered commands they ran or which package a step installed: the session reads it from the
+  machine, its logs or a tool's output, and a next-step box after steps the user carries out asks
+  only whether they are done. A form whose answers a source records, such as a store's data safety
+  or privacy declaration or the instructions for its reviewers, is a step the session takes: it
+  enters the answers, names them in the reply, and hands the user only a sign-in or a click that a
   permission check refuses. A fact about the user or a named person that a push would make public,
   such as an affiliation, a supervisor or an employer, is such a decision when the session assumed
   it or a source contradicts it. Once the user says the personal input is done, the session carries

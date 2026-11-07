@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## archive-files: give the front back when Chrome takes it
+## Read facts a source holds instead of asking the user
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to add a private rules file for prompts synced from another
+> machine and to run one of those prompts, left out]
+
+**2.** (answer to: after the reboot, which claude-desktop did your upgrade keep?)
+> ? you check which package i kept
+
+## archive-files: give the front back when Chrome takes it
+
+2026-11-07, commit [f0e0d44](https://github.com/zululima/dotclaude/commit/f0e0d44711148ee7de5a937bccac302c3df7678c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > bruh just now the chrome jumped to foreground when i was typing here
