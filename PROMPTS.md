@@ -5,9 +5,38 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Add hook that keeps your own email out of web requests
+## Select the tab a browser step waits on
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to handle a mail left out]
+
+**2.**
+> [a question about a browser cookie setup left out]
+
+**3.** (answer to: shall I extend the bridge or will you sign in?)
+> [left out]
+
+**4.** (answer to: two-way or one-way?)
+> [left out]
+
+**5.** (answer to: keep the add-on or delete it?)
+> [left out]
+
+**6.** (answer to: delete only after you install it?)
+> [left out]
+
+**7.**
+> [a step done in the browser, left out]
+
+**8.**
+> step 1 in chrome was sign in to chrome cant you switch to that tab in
+> the future for me?
+
+## Add hook that keeps your own email out of web requests
+
+2026-11-07, commit [550c1e5](https://github.com/zululima/dotclaude/commit/550c1e55b4b59678cb0a4f5487690e9dafeac486), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: the address of a Claude Code issue on GitHub] does my

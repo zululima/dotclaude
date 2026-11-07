@@ -522,20 +522,20 @@ apply to one repository belong in that repository's project memory.
   `list_connected_browsers` for up to a minute until it lists a browser, and tries before that are
   no failures. When the extension is still not connected, the reply gives its install page and the
   step to sign in to it from Chrome's side panel, and the browser step waits for that, never moving
-  to the pane. A bot check there is the user's to pass. A local file reaches a page through the
-  extension's `file_upload`, up to 10 MB a call, and a larger one through
-  `~/.claude/hooks/pane-bridge.mjs`, driven as its header says. Rendering is browser work too: no
-  session starts a Chrome of its own, headless or with another profile, also not to turn a page into
-  an image or a PDF. Playwright's own Chromium, which a project's tests and the `pull-requests`
-  skill's screenshots run on, is not that app. A page that has to become a file draws it on a canvas
-  in a Chrome tab, an HTML layout through an SVG `foreignObject` with each font named by its
-  installed family or inlined as a data URL, never a keyword such as `-apple-system` or a linked web
-  font, and posts the blob to the bridge's `/save` from a page the bridge serves. A job Chrome
-  cannot do this way is asked about first. A Google API is read through Google's OAuth 2.0
-  Playground with the narrowest read-only scope the user said yes to, a grant the session removes
-  under `myaccount.google.com/connections` once the read is done. When a step needs the user in the
-  browser, such as a sign-in, personal data to type or a click the session may not make, the session
-  opens the page that step happens on in a tab of its group, leaves that tab open and names it in
+  to the pane. A local file reaches a page through the extension's `file_upload`, up to 10 MB a
+  call, and a larger one through `~/.claude/hooks/pane-bridge.mjs`, driven as its header says.
+  Rendering is browser work too: no session starts a Chrome of its own, headless or with another
+  profile, also not to turn a page into an image or a PDF. Playwright's own Chromium, which a
+  project's tests and the `pull-requests` skill's screenshots run on, is not that app. A page that
+  has to become a file draws it on a canvas in a Chrome tab, an HTML layout through an SVG
+  `foreignObject` with each font named by its installed family or inlined as a data URL, never a
+  keyword such as `-apple-system` or a linked web font, and posts the blob to the bridge's `/save`
+  from a page the bridge serves. A job Chrome cannot do this way is asked about first. A Google API
+  is read through Google's OAuth 2.0 Playground with the narrowest read-only scope the user said yes
+  to, a grant the session removes under `myaccount.google.com/connections` once the read is done.
+  When a step needs the user in the browser, such as a sign-in, personal data to type or a click the
+  session may not make, the session opens the page that step happens on in a tab of its group,
+  leaves that tab open, selects it with `~/.claude/cookie-bridge/front-tab <tab id>` and names it in
   the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session as
   waiting on the user.
 - Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
