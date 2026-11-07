@@ -553,15 +553,14 @@ apply to one repository belong in that repository's project memory.
   `~/.claude/presence` keeps the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there while the
   screen is unlocked, and a `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a
   push while it is.
-- Once a Chrome tab, the iOS simulator panel or a simulator has done its job in a turn, the session
-  closes it before the reply: each tab it opened with `tabs_close_mcp`, never a tab of the user's;
-  the panel with the simulator tool's `detach`; and simulators and emulators with their shutdown
-  commands. A tab or panel where a step waits on the user stays open. Archiving a session closes
-  every Chrome tab no open session names, the user's own too, through the app and the
-  `archive-files` mod, which also deletes the closed tab groups Chrome saved. Chrome opens its next
-  window at the size of the last one, so before its first `resize_window` the session reads
-  `window.outerWidth` and `window.outerHeight`, and before the reply sets the window back to that
-  size.
+- Once the iOS simulator panel or a simulator has done its job in a turn, the session closes it
+  before the reply: the panel with the simulator tool's `detach`, and simulators and emulators with
+  their shutdown commands. A panel where a step waits on the user stays open. Chrome tabs stay open,
+  so the user never waits on a close: archiving a session closes every Chrome tab no open session
+  names, the user's own too, through the app and the `archive-files` mod, which also deletes the
+  closed tab groups Chrome saved. Chrome opens its next window at the size of the last one, so
+  before its first `resize_window` the session reads `window.outerWidth` and `window.outerHeight`,
+  and before the reply sets the window back to that size.
 - A run a session starts in the background, with the Bash tool's `run_in_background`, a `Monitor` or
   a workflow, is shown in the same turn with `show_pane` and `tasks`, beside the reply while it
   runs. When `show_pane` finds the session in no window, the reply names the run and says it is in

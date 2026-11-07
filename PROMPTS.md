@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## archive-files: close every Chrome tab no open session names
+## Leave Chrome tabs open; the archive closes them
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [c594116](https://github.com/zululima/dotclaude/commit/c594116d49caa9e5db6f1070906e6451474d1c82).
+
+**3.** (answer to: should sessions stop closing their Chrome tabs each turn    and leave that to the archive?)
+> Yes, leave them open
+
+## archive-files: close every Chrome tab no open session names
+
+2026-11-07, commit [c594116](https://github.com/zululima/dotclaude/commit/c594116d49caa9e5db6f1070906e6451474d1c82), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > hmmm you can safely close all tabs during archive operation that are
