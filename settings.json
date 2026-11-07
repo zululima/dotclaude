@@ -391,6 +391,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Bash|Write|Edit|MultiEdit|NotebookEdit|WebFetch|WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/no-own-email-in-requests.sh\"",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "Stop": [

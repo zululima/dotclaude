@@ -37,6 +37,10 @@
 - [`no-identity-override.sh`](../hooks/no-identity-override.sh): stops Claude from making up a git
   author, even in a throwaway test repository, and asks you before it changes the name or address
   your commits carry.
+- [`no-own-email-in-requests.sh`](../hooks/no-own-email-in-requests.sh): stops Claude from sending
+  your own email address to a website, in a User-Agent, a From header, a mailto contact, a link or a
+  web search, also from a script it writes. It reads your addresses from your Claude account, your
+  git settings and `~/.claude/own-addresses.txt`, so they are never written in the hook.
 - [`calendar-free-busy-only.sh`](../hooks/calendar-free-busy-only.sh): stops Claude from reading
   other people's calendar events. It can still see when they are free.
 - [`slack-user-search-own-workspace.sh`](../hooks/slack-user-search-own-workspace.sh): tells Claude

@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave Chrome tabs open; the archive closes them
+## Add hook that keeps your own email out of web requests
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [pasted: the address of a Claude Code issue on GitHub] does my
+> claude code do this
+
+**2.** (answer to: shall I add a hook that blocks your addresses in User-Agent headers?)
+> Yes, add the hook
+
+## Leave Chrome tabs open; the archive closes them
+
+2026-11-07, commit [5b39de1](https://github.com/zululima/dotclaude/commit/5b39de16294dc5e575ab2d938c4da435cec6c464), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [c594116](https://github.com/zululima/dotclaude/commit/c594116d49caa9e5db6f1070906e6451474d1c82).
 
