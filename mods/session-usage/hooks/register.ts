@@ -524,10 +524,24 @@ const closeWhenOnScreen = async ($: EngineInterface) => {
   if (seen.open_panes.includes('tasks')) await $.mcp.call(VIEW, 'close_pane', { pane: 'tasks' }).catch(() => undefined)
 }
 
+// The Stop hook usage-waiting.sh sends a turn back once when it ends with no
+// background work in flight while this file says Claude left the pane shown.
+const markTasks = async ($: EngineInterface, isShown: boolean) => {
+  try {
+    const dir = await configDir($)
+    if (dir) await $.fs.write(`${dir}/usage-tasks/${await $.session.id()}`, isShown ? `${await $.clock.now()}\n` : '')
+  } catch {
+    // A session that cannot write the file only loses the reminder.
+  }
+}
+
 export const register: Register = on => {
   on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, async ($, e, next) => {
     const shown = await next(e)
-    if (e.pane === 'tasks') dropClose()
+    if (e.pane === 'tasks') {
+      dropClose()
+      await markTasks($, true)
+    }
     if (e.pane === 'tasks' && !tasksWatch) {
       wasOnScreen = ((await layout($))?.views.length ?? 0) > 0
       tasksWatch = $.clock.every(5_000, () => void keepTasksShown($))
@@ -541,6 +555,7 @@ export const register: Register = on => {
     tasksWatch?.cancel()
     tasksWatch = undefined
     const closed = await next(e)
+    await markTasks($, false)
     if (!closeWatch && ((await layout($))?.views.length ?? 0) === 0)
       closeWatch = $.clock.every(5_000, () => void closeWhenOnScreen($))
 

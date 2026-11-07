@@ -954,6 +954,15 @@ const suites = [
       ['empties the file when a later turn leaves none', () => quiet(run(stop([]))) && text(file) === ''],
       ['takes a missing list for none', () => quiet(run({ hook_event_name: 'Stop', session_id: 's1' })) && text(file) === ''],
       ['ignores a session id that is not a plain name', () => quiet(run({ ...stop([watch]), session_id: '../s2' })) && text(path.join(config, 's2')) === null],
+      ['sends a turn back once when it leaves no run and the tasks pane shown', () => {
+        write(path.join(config, 'usage-tasks/s1'), '1\n')
+        return refused(run(stop([]))) && quiet(run({ ...stop([]), stop_hook_active: true }))
+      }],
+      ['lets the pane stay while a run is in flight', () => quiet(run(stop([watch])))],
+      ['lets a turn end once the pane is closed', () => {
+        write(path.join(config, 'usage-tasks/s1'), '')
+        return quiet(run(stop([])))
+      }],
     ]
   }],
 

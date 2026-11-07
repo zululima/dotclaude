@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep How to verify out of PR reviews
+## Land a promised change, close a stale tasks pane
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+
+**4.** (answer to: shall I fix finding 5 in the PR's body too?)
+> [an ask about a downstream project left out]
+
+**5.**
+> bg pane open again altough nothing runs?
+
+**6.**
+> i dont see no writing to dotclaude command thing log in this session
+> although you say that youll change behavior
+
+## Keep How to verify out of PR reviews
+
+2026-11-07, commit [dc2e8ad](https://github.com/zululima/dotclaude/commit/dc2e8ad64c5e1c5b142b59c97ba4396746b985b3), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
@@ -5794,6 +5810,7 @@ Stop, add it to dotclaude?)
 - ai: artificial intelligence
 - APK: Android application package
 - arch: Arch Linux
+- bg: background
 - btw: by the way
 - ccbysa4.0: Creative Commons Attribution-ShareAlike 4.0 International
 - ccybsa4.0: CC BY-SA 4.0, Creative Commons Attribution-ShareAlike 4.0

@@ -865,3 +865,27 @@ test('closes the tasks pane once a window shows the session, when none did at th
   await clock.advance(10_000)
   expect(asked).toEqual(['close_pane tasks'])
 })
+
+test('marks the tasks pane shown for the Stop hook until Claude closes it', async ($, on) => {
+  mock.clock(on, { now: NOW })
+  mock.env(on, { CLAUDE_CONFIG_DIR: '/config' })
+  const written: [string, string][] = []
+  on('session.id', () => ({ value: 'abc' }))
+  on('fs.write', ($, e) => {
+    written.push([e.path, e.text])
+    return { value: undefined }
+  })
+  on('mcp.call', () => layoutOf(true, ['tasks']))
+  on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, () => ({ result: {} }))
+  on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, () => ({ result: {} }))
+
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'tasks' })
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'diff' })
+  expect(written).toEqual([['/config/usage-tasks/abc', `${NOW}\n`]])
+
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+  expect(written).toEqual([
+    ['/config/usage-tasks/abc', `${NOW}\n`],
+    ['/config/usage-tasks/abc', ''],
+  ])
+})

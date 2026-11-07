@@ -83,7 +83,8 @@
 - [`usage-log.sh`](../hooks/usage-log.sh): writes down the tokens each turn used, so you can add up
   a week later.
 - [`usage-waiting.sh`](../hooks/usage-waiting.sh): notes when a turn ends with a background run
-  still going, so the usage mod puts a gear before that session's name.
+  still going, so the usage mod puts a gear before that session's name. A turn that ends with no run
+  left while the tasks pane Claude opened is still shown goes back once, so Claude closes it.
 
 ## Keeps Claude to the rules
 

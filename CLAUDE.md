@@ -201,7 +201,9 @@ apply to one repository belong in that repository's project memory.
   ...", never with "joo" or "kyllä" in front of it.
 - A message that owns up to a mistake, a draft the user sends or a reply, also says in a sentence
   what will be done differently from now on so that it does not happen again: the concrete check or
-  change, in the sender's own voice, never only an apology.
+  change, in the sender's own voice, never only an apology. A reply makes that change in the same
+  turn, in a rule, skill, hook or memory note a later session loads, and names the file and its
+  commit: a promise kept in the reply reaches no later session.
 - While steps given to the user are still to do, every reply ends with all of them, as they now
   stand and in order, also when the turn changed none of them: each command in a fenced block, each
   prompt for a session in a text block or by its word, and what dropped out since the last reply
@@ -563,12 +565,13 @@ apply to one repository belong in that repository's project memory.
   pane. A call opens nothing while no window shows the session, so the `usage` mod shows the pane
   whenever a window starts to show it. The turn that learns its last run ended, a task
   notification's too, calls `close_pane` with `tasks` once before the reply, and when no window
-  shows the session, the mod closes the pane once a window shows it. Work set for later is a task
-  under Scheduled in the app's sidebar, which survives an archive, never `CronCreate` or
-  `ScheduleWakeup`, which die with the session. A reply whose turn adds, changes or removes anything
-  that runs unattended on a schedule or trigger, such as a scheduled task, local or cloud, a launchd
-  agent or a cron entry, names it, when and where it runs and what it does, and each reply until a
-  one-time one runs names it and its time.
+  shows the session, the mod closes the pane once a window shows it. The `Stop` hook
+  `usage-waiting.sh` sends back once a turn that ends with none in flight while the pane stays
+  shown. Work set for later is a task under Scheduled in the app's sidebar, which survives an
+  archive, never `CronCreate` or `ScheduleWakeup`, which die with the session. A reply whose turn
+  adds, changes or removes anything that runs unattended on a schedule or trigger, such as a
+  scheduled task, local or cloud, a launchd agent or a cron entry, names it, when and where it runs
+  and what it does, and each reply until a one-time one runs names it and its time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
