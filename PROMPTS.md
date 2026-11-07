@@ -5,9 +5,29 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Skip Homebrew's sudo reset in the gm script
+## Show a new GitHub issue in Chrome before opening it
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about a macOS permission prompt left out]
+
+**2.**
+> [a detail of that question left out]
+
+**3.**
+> [an ask to report that bug upstream left out]
+
+**4.**
+> [a correction of the account the reply named left out]
+
+**5.**
+> also i wanna always see it on chrome before you open github issues
+> like that
+
+## Skip Homebrew's sudo reset in the gm script
+
+2026-11-07, commit [4452c92](https://github.com/zululima/dotclaude/commit/4452c9229d22306ce97747cd0cfc934fec7e7f41), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > bruh gm still asks sudo again in the process

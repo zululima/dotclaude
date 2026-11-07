@@ -1,6 +1,6 @@
 ---
 name: pull-requests
-description: Procedures for a pull request. Load it before opening a PR or editing its body, before writing test steps for a change under review in a PR body or in chat, before reviewing or merging a PR, and before capturing or uploading screenshots or recordings for one. It covers the body layout, the prompts block, the template answers, How to verify, manual steps, the review page and its reply, the merge and the pictures.
+description: Procedures for a pull request. Load it before opening a PR or editing its body, before writing test steps for a change under review in a PR body or in chat, before reviewing or merging a PR, before capturing or uploading screenshots or recordings for one, and before opening a GitHub issue. It covers the body layout, the prompts block, the template answers, How to verify, manual steps, the review page and its reply, the merge, the pictures and the Chrome preview of a new issue.
 ---
 
 # Pull requests
@@ -282,3 +282,11 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   player where a `[name](url)` link does not. Write the body back with `gh pr edit`.
 - Redo the set after every push that changes what is on screen, the way the prompts block is
   refreshed, so no reviewer judges a stale picture, and rebuild the review page with it.
+
+## Issues
+
+- A GitHub issue the session opens, in any repository, is first filled in on that repository's
+  new-issue page in Claude in Chrome: the title and every field of its form or template, with
+  nothing submitted. The tab stays open on it, and the reply names that tab and the account the page
+  is signed in as, read from the page. The issue is created only on the user's go after that, with
+  the page's own submit button, so what goes out is what the user saw.
