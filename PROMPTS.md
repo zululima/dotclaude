@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep calling show_pane for the tasks pane while a run goes on
+## Give an extension or app its icon from the first build
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**9.**
+> [a step done in the browser, left out] also why no icons of cookie
+> bridge and desk activity log on firefox about addons
+
+## Keep calling show_pane for the tasks pane while a run goes on
+
+2026-11-07, commit [f3efb0c](https://github.com/zululima/dotclaude/commit/f3efb0c8a1adf54cb1279b2871bc3088b40a5684), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > you have background task running again but no background task pane

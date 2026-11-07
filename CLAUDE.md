@@ -91,13 +91,6 @@ apply to one repository belong in that repository's project memory.
   in play like any other, and no reply offers to move it to a PR of its own. It holds nowhere else
   until the PR merges, so the reply that commits it says so, and until the merge a memory note or
   reply about it names the PR it waits on, never a date it holds since.
-- Leave out meta prompts: anything about Claude Code itself, its memory, this rules file, or how
-  PR bodies are laid out in general, even when the same prompt also asks for a small fix to the
-  PR. Only prompts about the change under review belong in the PR, and a prompt that adds to or
-  corrects what this PR's body says or shows, such as a step, a picture or an upload, is one of
-  them: the body edit that answers it adds it to the prompts block.
-  A prompt mainly about the change keeps that part, and its meta part becomes a bracketed note such
-  as `[a question about Claude Code settings left out]`.
 - Add a prompt about the change under review to the PR's prompts block in the same turn it is
   answered, whether or not anything is committed. Refresh the prompts block again after every commit
   and push.
@@ -458,6 +451,9 @@ apply to one repository belong in that repository's project memory.
   or its last run, it makes itself. An argument is only for an exception the user named or for
   what it cannot read, such as when the user starts work, and a reply on how to run it names no
   other.
+- Anything a session builds that its platform shows with an icon, such as a browser extension in
+  each browser's manifest or an app, carries that icon from its first build, since a signed or
+  published build gains one only through a new release.
 - What the user asked for is built as asked. A part of the request that reads two ways, such as
   spending the whole budget or only what is worth spending, or that the session advises against,
   such as a login saved ahead of time, is asked before that part is built: never settled alone and

@@ -7,7 +7,7 @@ description: Procedures for a pull request. Load it before opening a PR or editi
 
 These procedures sit beside the Pull requests rules in `~/.claude/CLAUDE.md`, which still hold:
 drafts only, one draft PR per issue and every other change on one already open, never post on
-GitHub, meta prompts left out, and downstream names redacted in public and upstream repositories.
+GitHub, and downstream names redacted in public and upstream repositories.
 
 ## Opening
 
@@ -70,6 +70,13 @@ GitHub, meta prompts left out, and downstream names redacted in public and upstr
   the list and check. When the prompts use none, leave the block out.
 - Pasted text inside a quoted prompt is replaced by a bracketed description, as the commit
   message rules say. The prompts may come before the rest of the body here, unlike in a commit.
+- Leave out meta prompts: anything about Claude Code itself, its memory, `~/.claude/CLAUDE.md`, or
+  how PR bodies are laid out in general, even when the same prompt also asks for a small fix to the
+  PR. Only prompts about the change under review belong in the PR, and a prompt that adds to or
+  corrects what this PR's body says or shows, such as a step, a picture or an upload, is one of
+  them: the body edit that answers it adds it to the prompts block. A prompt mainly about the change
+  keeps that part, and its meta part becomes a bracketed note such as `[a question about Claude Code
+  settings left out]`.
 - Below the blocks, fill in the rest of the repository's pull request template when it has one.
   Look in `.github/` for `pull_request_template.md` or `PULL_REQUEST_TEMPLATE.md`, a
   `PULL_REQUEST_TEMPLATE/` directory, and the same names at the repository root and under
