@@ -5,8 +5,8 @@ description: Rules for a commit message, its 72-column wrap included. Load it be
 
 # Commit messages
 
-These rules sit beside the Commit messages section of `~/.claude/CLAUDE.md`, which still holds the
-hook that brings an edit of this skill made from another session into a running one.
+These rules sit beside `~/.claude/CLAUDE.md`. An edit of this skill made from another session
+reaches a running one through the hook that the `dotclaude` skill describes.
 
 - Wrap every line of a commit message at 72 columns, the subject included. Neither GitHub nor
   `git log` reflows long lines, so they break the rendering.

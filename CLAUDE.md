@@ -64,17 +64,6 @@ apply to one repository belong in that repository's project memory.
   `GIT_COMMITTER_DATE` set to the commit's author date, and a `--reset-author` in it comes with
   `--date` set to that date too, since on its own it resets the author date as well.
 
-## Commit messages
-
-- An edit made to this file, to `~/.claude/skills/pull-requests/SKILL.md` or to the
-  `commit-messages` skill from another session reaches a running one through
-  `~/.claude/hooks/claude-md-changed.sh`, in place of a re-read before a commit message or a PR
-  body: once one differs from the copy the session last saw, the hook adds the diff to the next
-  prompt, or to the next `gh pr` create, edit or merge, and for this file and the `commit-messages`
-  skill also to the next commit or `sync.sh --commit`. It blocks that command once with the diff,
-  unless every change lies in a section of this file whose rules shape no commit message or PR body,
-  such as Running things.
-
 ## Pull requests
 
 - Open PRs as drafts.
@@ -420,14 +409,19 @@ apply to one repository belong in that repository's project memory.
   quoted from a README whose paths are relative to the checkout. A file such a command reads or
   writes that belongs to no checkout goes in `~/Downloads` unless the user names a folder.
 - `~/Downloads` holds only files the user opens, sends or uploads, such as a PDF or a spreadsheet,
-  never an HTML page. A file the user is to share, such as a poster to print or a QR code to post,
-  goes in `~/Downloads/<task>/`, one folder per work named as its drafts folder, a name short enough
-  that Finder shows it whole, such as `dphat`. A shared file the user no longer needs, such as a
-  poster newer cards replace, moves to the drafts folder in the turn that makes it so. All else the
-  work makes or downloads, its source material included, goes in `~/.claude/drafts/<task>/`, a
-  subfolder per part. A later turn or session of the same work adds to these, so before its first
-  file a session lists `~/Downloads`, `~/.claude/drafts`, `~/.claude/pages` and `~/.claude/archive`
-  and greps `~/.claude/prompt-log` for the work's words. It builds on what an earlier session left,
+  and files a session downloads to set something up, never an HTML page. A file the user is to
+  share, such as a poster to print or a QR code to post, goes in `~/Downloads/<task>/`, one folder
+  per work named as its drafts folder, a name short enough that Finder shows it whole, such as
+  `dphat`. A shared file the user no longer needs, such as a poster newer cards replace, moves to
+  the drafts folder in the turn that makes it so. A file a session downloads to set something up on
+  the user's machine, such as artwork for a Steam library, an emulator core or a disc image, goes in
+  that `~/Downloads/<task>/` folder too, and the session deletes it in the turn nothing uses it any
+  more, once the app it was for holds its own copy where that app reads it. A file the app can only
+  read from that folder, so that it would break when the file goes, stays there. All else the work
+  makes or downloads, its source material included, goes in `~/.claude/drafts/<task>/`, a subfolder
+  per part. A later turn or session of the same work adds to these, so before its first file a
+  session lists `~/Downloads`, `~/.claude/drafts`, `~/.claude/pages` and `~/.claude/archive` and
+  greps `~/.claude/prompt-log` for the work's words. It builds on what an earlier session left,
   keeping its recorded names and settings unless the user changes them, and its first reply names
   what it found; when the request points to other files, such as a colleague's new upload, it asks
   which to build from. When the user archives the session in the desktop app, the `archive-files`

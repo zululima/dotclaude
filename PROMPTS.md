@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read facts a source holds instead of asking the user
+## Keep setup downloads in Downloads and delete them once unused
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** to 8.
+> [asks about setting up a PS2 game in an emulator and in Steam,
+> ending with artwork downloaded for its Steam shortcut, left out]
+
+**9.**
+> always put things like these to donwloads and rmove afterwards when
+> no use unless steam borks if i remove that from donwloads
+
+## Read facts a source holds instead of asking the user
+
+2026-11-07, commit [7184d6b](https://github.com/zululima/dotclaude/commit/7184d6b51efb28b106d0f6427609d9a6d989e2c4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to add a private rules file for prompts synced from another

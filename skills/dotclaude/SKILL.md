@@ -24,6 +24,14 @@ run and its commit in the same turn.
   the old behaviour, by what the rule governs rather than the words of the incident behind it, and
   rewrites or deletes them in the same turn. After each edit of that file the `PostToolUse` hook
   `~/.claude/hooks/claude-md-memory-index.sh` lists every project's memory index lines.
+- An edit made to `~/.claude/CLAUDE.md`, to `~/.claude/skills/pull-requests/SKILL.md` or to the
+  `commit-messages` skill from another session reaches a running one through
+  `~/.claude/hooks/claude-md-changed.sh`, in place of a re-read before a commit message or a PR
+  body: once one differs from the copy the session last saw, the hook adds the diff to the next
+  prompt, or to the next `gh pr` create, edit or merge, and for `~/.claude/CLAUDE.md` and the
+  `commit-messages` skill also to the next commit or `sync.sh --commit`. It blocks that command once
+  with the diff, unless every change lies in a section of `~/.claude/CLAUDE.md` whose rules shape no
+  commit message or PR body, such as Running things.
 
 ## The checkout
 
