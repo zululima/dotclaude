@@ -13,11 +13,14 @@
 # folder or one of its ~/Downloads/<task>-* files, and no session still open
 # names it.
 #
-# It also closes the Chrome tabs the session's Claude in Chrome results listed
-# and that are still open, through Chrome's AppleScript, whose tab ids are the
-# extension's. The app closes the tab group itself only on an archive by hand
-# while Chrome is connected to it. Chrome never reuses a tab id, and a tab
-# listed only before Chrome last started is skipped all the same.
+# It also closes every Chrome tab that no session still open names, through
+# Chrome's AppleScript, whose tab ids are the extension's: the tabs the archived
+# session left and the user's own, such as one they signed in on. A tab is
+# named when its id stands in a transcript changed since Chrome last started,
+# a subagent's too, of a session the app has not archived or has no record of,
+# such as a terminal session. When no tab would stay, the front window's
+# active one turns into a New Tab page instead, so the extension keeps the
+# window it connects through.
 #
 # Then it deletes the tab groups Chrome saved closed, which a window closing or
 # Chrome quitting leaves pinned to the bookmarks bar after every tab is gone: a
@@ -162,38 +165,69 @@ place() {
   echo "$to"
 }
 
-# The tab ids in the results of the transcript's Claude in Chrome calls since
-# the epoch second $2.
-tab_ids() {
-  jq -rs --argjson since "$2" '
-    [.[] | select(.type == "assistant") | .message.content[]?
-      | select(.type == "tool_use" and (.name | startswith("mcp__claude-in-chrome__"))) | .id] as $calls
-    | .[] | select(.type == "user" and (.timestamp // "" | sub("\\.[0-9]+Z$"; "Z") | fromdate? // 0) >= $since)
-    | .message.content[]? | select(.type == "tool_result" and (.tool_use_id | IN($calls[])))
-    | .content | tostring | scan("tabId[^0-9]{1,6}([0-9]{6,})")[0]' "$1" 2>/dev/null | sort -u
-}
-
+# Closes every Chrome tab no session still open names. $1 lists the local ids
+# of the sessions archived, a line each.
 close_tabs() {
-  local chrome started ids line verb=closed
-  [ -n "$dry" ] && verb='would close'
-  grep -qF 'mcp__claude-in-chrome__' "$1" || return 0
+  local chrome started act url host line
   chrome=$(pgrep -x 'Google Chrome' | head -1)
   [ -n "$chrome" ] || return 0
   started=$(LC_ALL=C date -j -f '%a %b %e %T %Y' "$(LC_ALL=C ps -o lstart= -p "$chrome" | sed 's/ *$//')" +%s) || return 0
-  ids=$(tab_ids "$1" "$started")
-  [ -n "$ids" ] || return 0
-  osascript - "${dry:+list}" $ids <<'EOF' 2>/dev/null | while IFS= read -r line; do
+  touch -t "$(date -r "$started" +%Y%m%d%H%M.%S)" "$work/chrome-start"
+  # Each tab's id, whether it is its window's active one, and its URL, front window first.
+  osascript >"$work/tabs" 2>/dev/null <<'EOF' || return 0
+set sep to character id 9
+set out to ""
+tell application "Google Chrome"
+  repeat with w in windows
+    set a to id of active tab of w
+    repeat with t in tabs of w
+      set out to out & (id of t) & sep & (a = (id of t)) & sep & (URL of t) & linefeed
+    end repeat
+  end repeat
+end tell
+return out
+EOF
+  cut -f1 "$work/tabs" | grep -E '^[0-9]+$' >"$work/ids"
+  [ -s "$work/ids" ] || return 0
+  jq -r --rawfile ids "$1" '($ids | split("\n")) as $a
+    | select(.isArchived == true or ((.sessionId // "") | IN($a[]))) | .cliSessionId // empty' \
+    "$sessions"/*/*/local_*.json 2>/dev/null | sed 's|^|/|' >"$work/gone"
+  find "$HOME/.claude/projects" -name '*.jsonl' -newer "$work/chrome-start" | grep -vF -f "$work/gone" |
+    tr '\n' '\0' | xargs -0 grep -ohwF -f "$work/ids" 2>/dev/null | sort -u >"$work/held"
+  awk -F'\t' -v heldfile="$work/held" '
+    BEGIN { while ((getline id < heldfile) > 0) held[id] }
+    NF < 3 { next }
+    $1 in held { kept = 1; next }
+    { doomed[++n] = $1; url[$1] = $3 }
+    front == "" && $2 == "true" { front = $1 }
+    END {
+      for (i = 1; i <= n; i++) {
+        id = doomed[i]
+        if (!kept && id == front) { if (url[id] !~ /^chrome:\/\/newtab/) print "clear", id }
+        else print "close", id
+      }
+    }' "$work/tabs" >"$work/plan"
+  [ -s "$work/plan" ] || return 0
+  # shellcheck disable=SC2046
+  osascript - "${dry:+list}" $(cat "$work/plan") <<'EOF' 2>/dev/null | while IFS= read -r line; do
 on run argv
   set listOnly to item 1 of argv is "list"
   set out to ""
   tell application "Google Chrome"
-    repeat with i from 2 to count of argv
-      set n to (item i of argv) as integer
+    repeat with i from 2 to count of argv by 2
+      set act to item i of argv
+      set n to (item (i + 1) of argv) as integer
       repeat with w in windows
         set found to (tabs of w whose id is n)
         if found is not {} then
-          set out to out & (URL of item 1 of found) & linefeed
-          if not listOnly then close item 1 of found
+          set out to out & act & " " & (URL of item 1 of found) & linefeed
+          if not listOnly then
+            if act is "clear" then
+              set URL of item 1 of found to "chrome://newtab/"
+            else
+              close item 1 of found
+            end if
+          end if
           exit repeat
         end if
       end repeat
@@ -203,8 +237,15 @@ on run argv
 end run
 EOF
     [ -n "$line" ] || continue
-    line=${line#*://}
-    say "  $verb a Chrome tab on ${line%%/*}"
+    act=${line%% *} url=${line#* }
+    host=${url#*://} host=${host%%/*}
+    [ -n "$host" ] || host=${url%%:*}
+    case $act$dry in
+      close) say "closed a Chrome tab on $host" ;;
+      close1) say "would close a Chrome tab on $host" ;;
+      clear) say "turned the last Chrome tab, on $host, into a New Tab page" ;;
+      clear1) say "would turn the last Chrome tab, on $host, into a New Tab page" ;;
+    esac
   done
 }
 
@@ -313,7 +354,6 @@ handle() {
     say "  no transcript on this machine"
     return
   fi
-  close_tabs "$t"
   created=$(jq -r '(.createdAt // 0) / 1000 | floor' "$record")
   since=$(( ($(date +%s) - created) / 60 + 2 ))
   # A task folder's name has no dot, a working file's in drafts has its extension.
@@ -334,6 +374,8 @@ if [ "${1:-}" = --dry-run ]; then
       [ -f "$record" ] && handle "$record"
     done
   done
+  printf '%s\n' "$@" >"$work/given"
+  close_tabs "$work/given"
   delete_groups
   exit 0
 fi
@@ -362,4 +404,7 @@ for idx in "$sessions"/*/*/archived-sessions.idx; do
   done
 done
 sort -u "$work/now" >"$seen"
-if [ -n "${archived:-}" ]; then delete_groups; fi
+if [ -n "${archived:-}" ]; then
+  close_tabs "$work/now"
+  delete_groups
+fi

@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Check a Chrome page as it is before each click
+## archive-files: close every Chrome tab no open session names
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> hmmm you can safely close all tabs during archive operation that are
+> not in the sessions in chrome for example my login to [a sign-in
+> site] so taht i dont have to wait for you
+
+**2.** [an ask about another session's work left out]
+
+## Check a Chrome page as it is before each click
+
+2026-11-07, commit [c2f95d4](https://github.com/zululima/dotclaude/commit/c2f95d4eb32c819af583e7291b223860a71c5391), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I click Create on the issue in Chrome?)
 > Yes, create it

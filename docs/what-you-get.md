@@ -109,14 +109,16 @@
 - [`mods/archive-files`](../mods/archive-files): when you archive a session in the desktop app, the
   files it made for you, its drafts folder and its folder in `~/Downloads`, move to
   `~/.claude/archive/` within seconds, and memory notes that named them point to where they went. It
-  also closes the Chrome tabs the session's Claude in Chrome calls left open, the ones the app's own
-  close on archive misses, through Chrome's AppleScript, so macOS asks once whether Claude may
-  control Google Chrome. Then it deletes the tab groups Chrome saved closed for sessions no longer
-  open, which a window closing or Chrome quitting leaves pinned to the bookmarks bar. Chrome has no
-  API for those, so it opens each group's menu on the bar through accessibility, only while Chrome
-  is visible with a New Tab page in front, and the menu shows for about a second per group. It reads
-  the app's own list of archived sessions, which is not documented and may change in an update. If
-  files stop moving, `~/Library/Logs/claude-archive-files.log` shows the last time it worked.
+  also closes every Chrome tab that no open session uses, the archived session's and your own, such
+  as a page you signed in on, through Chrome's AppleScript, so macOS asks once whether Claude may
+  control Google Chrome. When no tab would stay, the last one turns into a New Tab page, so Claude
+  in Chrome keeps the window it connects through. Then it deletes the tab groups Chrome saved closed
+  for sessions no longer open, which a window closing or Chrome quitting leaves pinned to the
+  bookmarks bar. Chrome has no API for those, so it opens each group's menu on the bar through
+  accessibility, only while Chrome is visible with a New Tab page in front, and the menu shows for
+  about a second per group. It reads the app's own list of archived sessions, which is not
+  documented and may change in an update. If files stop moving,
+  `~/Library/Logs/claude-archive-files.log` shows the last time it worked.
 - [`presence`](../presence/install.sh): my phone gets Claude's pushes, such as a question waiting
   for an answer, only while the Mac is locked.
   [`lock-listener.swift`](../presence/lock-listener.swift) keeps the file that
