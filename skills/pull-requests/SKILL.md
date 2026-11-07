@@ -151,9 +151,9 @@ GitHub, and downstream names redacted in public and upstream repositories.
 - The review page is in Finnish, for the people who read it. The PR body, its steps and everything
   else an agent reads or works from stay English, since models work best in English: the session
   writes the steps in English as above, then once per build translates each step's title and text,
-  each finding and added step, and each miss into the overlay's `fi`, as `build.py` describes,
-  keeping commands, addresses and values in their blocks as they are. The translation is only for
-  the page: no session reads it or the page back, and a later build translates the English again.
+  and each finding and added step, into the overlay's `fi`, as `build.py` describes, keeping
+  commands, addresses and values in their blocks as they are. The translation is only for the page:
+  no session reads it or the page back, and a later build translates the English again.
 - Where someone else reviews the repository's PRs, as its project memory or the user says, the user
   still checks the change by hand first, so the session builds the page and the reply ends with its
   address as for any other PR. Once the PR is done, the reply also asks whether the session marks it
@@ -180,25 +180,24 @@ GitHub, and downstream names redacted in public and upstream repositories.
   Artifact. The script takes the steps of the PR body's How to verify? as GitHub holds them, embeds
   the PR's screenshots, downloaded with the `gh` token, and adds from the overlay the review's
   results, its findings and the steps it adds. The findings come first, as steps, so the reader can
-  request changes before the manual pass, and each miss shows inside the step it concerns. A finding
-  or a miss fixed during the review carries `fixed` with its commit and stays off the page, since
-  the reader has nothing left to do about it; the reply names the fix. A result's name says in plain
-  words what ran, such as manual steps replayed by a script, and its detail is a few words, what ran
-  on which head with what count, such as 119 of 119 on abc1234, and the script refuses a longer one.
-  The browser tab reads Review PR and the number, with a tick for an icon. Checks that failed or did
-  not run and the count of open findings go in a box above the steps, and a review where all is well
-  shows none. The page numbers its steps from 1 across all sections and opens on the first step not
-  done, so its keys work at once. `j` and `k` move to the next or the previous step and scroll it to
-  the top of the window, alone on the screen with nothing of the steps before or after it in view,
-  and a section's first step brings the section's heading and note along. `x` ticks it and moves on
-  to the next one, or clears a tick and stays, `c` copies its first command or address and `o` opens
-  its screenshot. The current step lists these keys under its title and its first block says that
-  `c` copies it, so the page has no key list of its own. On a wide window the steps sit centred,
-  with the PR and the progress in a rail on the left that stays in view while the steps scroll; a
-  narrow one keeps only a thin progress bar at the top. An address in a `text` block is a link on
-  the page. The ticks live in the browser's storage for that file, so a later review of the same PR
-  rebuilds the page at the same path and they stay; the session cannot read them, so the reader says
-  how far they got.
+  request changes before the manual pass. A finding fixed during the review carries `fixed` with its
+  commit and stays off the page, since the reader has nothing left to do about it; the reply names
+  the fix. A result's name says in plain words what ran, such as manual steps replayed by a script,
+  and its detail is a few words, what ran on which head with what count, such as 119 of 119 on
+  abc1234, and the script refuses a longer one. The browser tab reads Review PR and the number, with
+  a tick for an icon. Checks that failed or did not run and the count of open findings go in a box
+  above the steps, and a review where all is well shows none. The page numbers its steps from 1
+  across all sections and opens on the first step not done, so its keys work at once. `j` and `k`
+  move to the next or the previous step and scroll it to the top of the window, alone on the screen
+  with nothing of the steps before or after it in view, and a section's first step brings the
+  section's heading and note along. `x` ticks it and moves on to the next one, or clears a tick and
+  stays, `c` copies its first command or address and `o` opens its screenshot. The current step
+  lists these keys under its title and its first block says that `c` copies it, so the page has no
+  key list of its own. On a wide window the steps sit centred, with the PR and the progress in a
+  rail on the left that stays in view while the steps scroll; a narrow one keeps only a thin
+  progress bar at the top. An address in a `text` block is a link on the page. The ticks live in the
+  browser's storage for that file, so a later review of the same PR rebuilds the page at the same
+  path and they stay; the session cannot read them, so the reader says how far they got.
 - The reply gives the results of the verify command and the end to end run, then the findings and
   the fixes made, and no step list of its own. It ends with the page's `file://` address, with the
   full path from the root, in a `text` block of its own, which the user copies into Firefox's
@@ -218,7 +217,8 @@ GitHub, and downstream names redacted in public and upstream repositories.
   applies to what the PR changes, also one made about another page, such as where a back link
   lands or how a field looks. Before opening, fix each miss on the branch. In a review each miss
   is a finding that quotes the comment and links it, and the overlay's `results` carry the check,
-  with how many corrections applied and how many of those the PR follows.
+  with how many corrections applied and how many of those the PR follows. A correction about the How
+  to verify section is left out of a review, as the last bullet says.
 - Each finding carries its severity, high, medium or low. Every finding that is not low gets the
   shortest reproduction that shows it, so the reviewer can send the author back to fix it before
   reviewing anything by hand: from the stack running the PR's branch on its seed data, the fewest
@@ -231,15 +231,10 @@ GitHub, and downstream names redacted in public and upstream repositories.
   `step` names it, so the reader can go from either to the other. The bug's step undoes any change
   the later steps do not expect. A bug nothing on screen can show, such as a race or a path no click
   reaches, says so in its finding.
-- Each entry of the overlay's `missed` names a step and says what the PR's instructions missed
-  there, and an empty list says nothing was: a label that is not on screen; a click left out; a step
-  the seed data cannot do, or state the reviewer builds by hand through a workflow the specs already
-  cover, which the PR should have seeded; a change without a step, named on the added step that
-  covers it; a command that fails pasted into a new terminal; a check that failed or a claim the run
-  disproved; a picture placed after the step it shows. When the PR's command steps are missing or
-  wrong, the reply ends with the two command steps as GitHub markdown inside a four-backtick fence,
-  so the PR's "How to verify" can take them over unchanged. That block is the one thing in the reply
-  written for the PR's body, as the reproductions are the ones written for its author.
+- A review says nothing about the PR's How to verify section, in the reply or on the page: no
+  finding, no `missed` entry and no command steps or step text written for the PR's body. Where
+  those steps fall short, the added steps above give the reader what they need without comment, and
+  the reproductions stay the one thing in the reply written for the author.
 
 ## Merging
 
