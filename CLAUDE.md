@@ -302,7 +302,9 @@ apply to one repository belong in that repository's project memory.
   with a plain glyph draws the emoji in the text colour, so a black circle shows white on a dark
   theme.
 - A list of files the user picks from a folder, such as stickers to drag in with their emoji, is
-  sorted by file name, A to Z, as Finder shows the folder.
+  sorted by file name, A to Z, as Finder shows the folder. Every reply on stickers the user adds to
+  an app by hand, such as a Signal pack, shows that list as a table of every sticker still to add,
+  with its emoji and search text, also when the turn changed one sticker or none.
 - A project's CLAUDE.md holds what Claude runs, such as build, test, verify, install, launch and
   logs, and the rules the code follows. One-time manual setup goes in a doc under `docs/` that
   CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts and every way
@@ -763,11 +765,7 @@ apply to one repository belong in that repository's project memory.
 - A memory note states what holds now. When a fact changes, rewrite the sentence that states
   it, never append a paragraph calling an earlier one stale, and re-read the note from disk
   first, since a peer session may have written the same fact.
-- A session that adds or changes a rule in this file finds the memory notes that state the old
-  behaviour, by what the rule governs rather than the words of the incident behind it, and
-  rewrites or deletes them in the same turn. After each edit of this file the `PostToolUse`
-  hook `~/.claude/hooks/claude-md-memory-index.sh` lists every project's memory index lines.
-  When the user reverses what a note records, edit the note first and act after.
+- When the user reverses what a note records, edit the note first and act after.
 - An index line is `- [Title](file.md): hook`, with a colon where the built-in memory template
   shows an em dash. The `PostToolUse` hook `~/.claude/hooks/memory-plain-characters.sh` hands
   back every em dash in a memory file changed in the last two minutes.

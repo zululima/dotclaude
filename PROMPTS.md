@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name one-time codes and make the fix a why question uncovers
+## Show the sticker table in every reply on a sticker pack
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask for a sticker made from a meme left out]
+
+**2.**
+> [an answer about the sticker's crop left out]
+
+**3.**
+> ok but always show in signal sticker the table of signal sitcekrs i
+> have to add cuz i need thsoe. [an ask about one sticker's emoji left
+> out]
+
+## Name one-time codes and make the fix a why question uncovers
+
+2026-11-07, commit [0ea99e0](https://github.com/zululima/dotclaude/commit/0ea99e02391428f074ab14f7b3464c50e65c5311), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > why couldnt you paste that code?

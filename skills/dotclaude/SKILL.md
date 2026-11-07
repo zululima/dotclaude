@@ -20,6 +20,10 @@ run and its commit in the same turn.
   fewest letters that work, not a whole word. What the session already knows about that reach, such
   as a search that matches any part of a name, goes into the rule and into the work redone under it.
   A question on the rule's scope offers that full reach as one option, never only narrower ones.
+- A session that adds or changes a rule in `~/.claude/CLAUDE.md` finds the memory notes that state
+  the old behaviour, by what the rule governs rather than the words of the incident behind it, and
+  rewrites or deletes them in the same turn. After each edit of that file the `PostToolUse` hook
+  `~/.claude/hooks/claude-md-memory-index.sh` lists every project's memory index lines.
 
 ## The checkout
 
