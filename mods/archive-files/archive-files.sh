@@ -13,14 +13,14 @@
 # folder or one of its ~/Downloads/<task>-* files, and no session still open
 # names it.
 #
-# It also closes every Chrome tab that no session still open names, through
-# Chrome's AppleScript, whose tab ids are the extension's: the tabs the archived
-# session left and the user's own, such as one they signed in on. A tab is
-# named when its id stands in a transcript changed since Chrome last started,
-# a subagent's too, of a session the app has not archived or has no record of,
-# such as a terminal session. When no tab would stay, the front window's
-# active one turns into a New Tab page instead, so the extension keeps the
-# window it connects through. When Chrome takes the front meanwhile, it is
+# On macOS it also closes every Chrome tab that no session still open names,
+# through Chrome's AppleScript, whose tab ids are the extension's: the tabs the
+# archived session left and the user's own, such as one they signed in on. A
+# tab is named when its id stands in a transcript changed since Chrome last
+# started, a subagent's too, of a session the app has not archived or has no
+# record of, such as a terminal session. When no tab would stay, the front
+# window's active one turns into a New Tab page instead, so the extension keeps
+# the window it connects through. When Chrome takes the front meanwhile, it is
 # hidden again, so the user's typing stays in the app they were in.
 #
 # Then it deletes the tab groups Chrome saved closed, which a window closing or
@@ -37,9 +37,11 @@ set -u
 PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
 
 sessions="$HOME/Library/Application Support/Claude/claude-code-sessions"
+[ -d "$sessions" ] || sessions="${XDG_CONFIG_HOME:-$HOME/.config}/Claude/claude-code-sessions"
 archive="$HOME/.claude/archive"
 seen="$archive/.archived-sessions"
 log="$HOME/Library/Logs/claude-archive-files.log"
+[ -d "${log%/*}" ] || log="${XDG_STATE_HOME:-$HOME/.local/state}/claude-archive-files.log"
 dry=
 
 say() {
@@ -83,8 +85,9 @@ named_by_open_session() {
 
 rewrite_notes() {
   local old=$1 new=$2 f
-  for f in "$HOME"/.claude/projects/*/memory/*.md "$HOME"/.claude/rules/*.md "$HOME"/.claude/about-me/*.md; do
-    [ -f "$f" ] || continue
+  for f in "$HOME"/.claude/projects/*/memory/*.md "$HOME"/.claude/rules/*.md "$HOME"/.claude/about-me/*.md \
+    "$HOME"/.claude/*.md; do
+    [ -f "$f" ] && [ "$f" != "$HOME/.claude/CLAUDE.md" ] || continue
     grep -qF -e "~/${old#"$HOME"/}" -e "$old" "$f" || continue
     cp "$f" "$work/note"
     OLD="~/${old#"$HOME"/}" NEW="~/${new#"$HOME"/}" perl -pi -e 's{\Q$ENV{OLD}\E(?![A-Za-z0-9._-])}{$ENV{NEW}}g' "$f"

@@ -11,8 +11,10 @@ const indexPaths = async ($: EngineInterface) => {
     (await $.fs.list(path).catch(() => [])).filter(e => e.kind === 'dir').map(e => `${path}/${e.name}`)
   try {
     const home = await $.env.get('HOME')
-    const root = `${home}/Library/Application Support/Claude/claude-code-sessions`
-    const accounts = home === undefined ? [] : (await Promise.all((await dirs(root)).map(dirs))).flat()
+    const config = (await $.env.get('XDG_CONFIG_HOME')) ?? `${home}/.config`
+    const roots = [`${home}/Library/Application Support`, config].map(dir => `${dir}/Claude/claude-code-sessions`)
+    const orgs = home === undefined ? [] : (await Promise.all(roots.map(dirs))).flat()
+    const accounts = (await Promise.all(orgs.map(dirs))).flat()
     indexes = accounts.map(dir => `${dir}/archived-sessions.idx`)
   } catch {
     indexes = []

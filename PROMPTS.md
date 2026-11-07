@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name what listed items are in their heading
+## Move an archived session's files on Linux too
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I fix the same macOS-only paths in the    archive-files mod?)
+> Yes, fix it
+
+## Name what listed items are in their heading
+
+2026-11-07, commit [ac6467c](https://github.com/zululima/dotclaude/commit/ac6467c3b6054342944e002ffc15ec60b35e15ea), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [a quoted part of an earlier reply: a list of restaurants under the
