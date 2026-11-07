@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep setup downloads in Downloads and delete them once unused
+## Start Chromium hidden for Claude in Chrome on KDE Plasma
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> make chromium open to background in startup or maybe when its needed
+> by claude or maybe when cladue starts.
+
+## Keep setup downloads in Downloads and delete them once unused
+
+2026-11-07, commit [29a4be4](https://github.com/zululima/dotclaude/commit/29a4be4da1e0959183918c30c97d547c250579a5), model claude-opus-5-5, effort xhigh.
 
 **1.** to 8.
 > [asks about setting up a PS2 game in an emulator and in Steam,

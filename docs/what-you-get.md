@@ -162,7 +162,10 @@
 - [`chrome-background.sh`](../hooks/chrome-background.sh): opens the Chrome window Claude in Chrome
   needs to connect when Chrome has none and keeps Chrome hidden meanwhile, so it never lands on top
   of your work. The window's tab, [`chrome-anchor.html`](../hooks/chrome-anchor.html), closes itself
-  when you come back to it. Mac only.
+  when you come back to it. On a Mac it hides Chrome itself. On Linux with KDE Plasma, Chromium or
+  Chrome starts with that tab as its only window, and
+  [`chrome-anchor-kwin.js`](../hooks/chrome-anchor-kwin.js), a KWin script, hides the window as it
+  opens.
 - [`skills/pull-requests/review-page`](../skills/pull-requests/review-page/build.py): turns a pull
   request's test steps and screenshots into a checklist page you tick off with the keyboard while
   you review it.

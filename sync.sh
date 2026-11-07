@@ -177,6 +177,7 @@ mirrored=(
   hooks/pane-bridge.mjs
   hooks/chrome-background.sh
   hooks/chrome-anchor.html
+  hooks/chrome-anchor-kwin.js
   hooks/energy-session-pid.sh
   presence/install.sh
   presence/lock-listener.swift

@@ -12,10 +12,47 @@
 # CGWindowListCopyWindowInfo, neither of which needs a permission. open -a
 # without a URL would send a reopen, and Chrome brings itself to the front for
 # that.
+#
+# On Linux with KDE Plasma, Chromium (or Chrome) gets the anchor as its only
+# window and chrome-anchor-kwin.js hides that window as KWin maps it: minimized
+# and left out of the taskbar, pager and switcher. KWin's window runner counts
+# the browser's windows, hidden ones included. --new-window would also open a
+# New Tab window when the browser was not running yet, so the URL goes alone.
 
 set -u
 
-anchor="$(cd "$(dirname "$0")" && pwd)/chrome-anchor.html"
+hooks="$(cd "$(dirname "$0")" && pwd)"
+anchor="$hooks/chrome-anchor.html"
+
+if [ "$(uname -s)" = Linux ]; then
+  browser=$(command -v chromium google-chrome-stable | head -n 1)
+  [ -n "$browser" ] || { echo "Neither Chromium nor Chrome is installed"; exit 1; }
+  kwin() { busctl --user call org.kde.KWin "$@" 2>/dev/null; }
+  windows() {
+    busctl --user --json=short call org.kde.KWin /WindowsRunner org.kde.krunner1 Match s chrom \
+      2>/dev/null | jq '[.data[0][] | select(.[1] | test(" - (Chromium|Google Chrome)$"))] | length'
+  }
+  if [ "$(windows)" -gt 0 ] 2>/dev/null; then
+    echo "Chromium already has a window for Claude in Chrome"
+    exit 0
+  fi
+  kwin /Scripting org.kde.kwin.Scripting unloadScript s claude-chrome-anchor >/dev/null
+  id=$(kwin /Scripting org.kde.kwin.Scripting loadScript ss "$hooks/chrome-anchor-kwin.js" \
+    claude-chrome-anchor | awk '{print $2}')
+  [ -n "$id" ] && kwin "/Scripting/Script$id" org.kde.kwin.Script run
+  setsid -f "$browser" "file://$anchor" >/dev/null 2>&1 </dev/null
+  if [ -z "$id" ]; then
+    echo "Chromium has a window for Claude in Chrome, left in view since KWin did not answer"
+    exit 0
+  fi
+  for _ in $(seq 60); do
+    [ "$(windows)" -gt 0 ] 2>/dev/null && break
+    sleep 0.5
+  done
+  kwin /Scripting org.kde.kwin.Scripting unloadScript s claude-chrome-anchor >/dev/null
+  echo "Chromium has a hidden window for Claude in Chrome"
+  exit 0
+fi
 
 jxa() {
   osascript -l JavaScript -e 'ObjC.import("AppKit"); ObjC.import("CoreGraphics");
