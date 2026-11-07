@@ -678,3 +678,68 @@ test('refuses a title that another session title holds, or that holds one', asyn
   expect((await rename('local_store', 'Store status 2')).deny).toBeUndefined()
   expect(asked).toEqual([`self: ${FIRE} Retry rule`, `self: ${FIRE} This work, part`, 'local_store: Store status 2'])
 })
+
+const layoutOf = (isOnScreen: boolean, panes: string[] = []) => ({
+  value: {
+    content: [{ type: 'text', text: JSON.stringify({ views: isOnScreen ? [{ placement: 'primary' }] : [], open_panes: panes }) }],
+    isError: false,
+  },
+})
+
+test('shows the tasks pane each time a window starts showing the session', async ($, on) => {
+  const clock = mock.clock(on, { now: NOW })
+  let isOnScreen = false
+  const shown: unknown[] = []
+  on('mcp.call', ($, e) => {
+    if (e.tool !== 'show_pane') return layoutOf(isOnScreen)
+    shown.push(e.args.pane)
+    return { value: { content: [], isError: false } }
+  })
+  on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, () => ({ result: {} }))
+  on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, () => ({ result: {} }))
+  const reopen = async () => {
+    isOnScreen = false
+    await clock.advance(5_000)
+    isOnScreen = true
+    await clock.advance(5_000)
+    await clock.advance(5_000)
+  }
+
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'tasks' })
+  await clock.advance(5_000)
+  expect(shown).toEqual([])
+
+  await reopen()
+  expect(shown).toEqual(['tasks'])
+  await reopen()
+  expect(shown).toEqual(['tasks', 'tasks'])
+
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+  await reopen()
+  expect(shown).toEqual(['tasks', 'tasks'])
+})
+
+test('leaves the tasks pane alone while it is open or another pane was asked for', async ($, on) => {
+  const clock = mock.clock(on, { now: NOW })
+  let isOnScreen = false
+  const shown: unknown[] = []
+  on('mcp.call', ($, e) => {
+    if (e.tool !== 'show_pane') return layoutOf(isOnScreen, ['tasks'])
+    shown.push(e.args.pane)
+    return { value: { content: [], isError: false } }
+  })
+  on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, () => ({ result: {} }))
+  on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, () => ({ result: {} }))
+
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'diff' })
+  isOnScreen = true
+  await clock.advance(5_000)
+  expect(shown).toEqual([])
+
+  isOnScreen = false
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'tasks' })
+  isOnScreen = true
+  await clock.advance(5_000)
+  expect(shown).toEqual([])
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+})

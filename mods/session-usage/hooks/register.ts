@@ -407,7 +407,53 @@ const tick = async ($: EngineInterface) => {
   await retitle($)
 }
 
+// The app opens a pane only while a window shows the session, and nothing opens
+// it when one does later. So from Claude's showing the tasks pane until Claude
+// closes it, the pane is shown each time a window starts to show the session.
+const VIEW = 'ccd_view'
+let tasksWatch: Timer | undefined
+let wasOnScreen = false
+
+const layout = async ($: EngineInterface) => {
+  try {
+    const { content, isError } = await $.mcp.call(VIEW, 'get_layout')
+    const text = content.find(block => block.type === 'text')?.text
+    if (isError || !text) return undefined
+    return JSON.parse(text.slice(text.indexOf('{'))) as { views: unknown[]; open_panes: string[] }
+  } catch {
+    return undefined
+  }
+}
+
+const keepTasksShown = async ($: EngineInterface) => {
+  const seen = await layout($)
+  if (!seen) return
+  const isOnScreen = seen.views.length > 0
+  if (isOnScreen && !wasOnScreen && !seen.open_panes.includes('tasks'))
+    await $.mcp.call(VIEW, 'show_pane', { pane: 'tasks' }).catch(() => undefined)
+  wasOnScreen = isOnScreen
+}
+
 export const register: Register = on => {
+  on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, async ($, e, next) => {
+    const shown = await next(e)
+    if (e.pane === 'tasks' && !tasksWatch) {
+      wasOnScreen = ((await layout($))?.views.length ?? 0) > 0
+      tasksWatch = $.clock.every(5_000, () => void keepTasksShown($))
+    }
+
+    return shown
+  })
+
+  on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, async ($, e, next) => {
+    if (e.pane === 'tasks') {
+      tasksWatch?.cancel()
+      tasksWatch = undefined
+    }
+
+    return next(e)
+  })
+
   on('session.start', async ($, e, next) => {
     const started = await next(e)
     await hasNews($)

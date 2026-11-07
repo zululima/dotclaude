@@ -136,6 +136,8 @@ run and its commit in the same turn.
   session whose cache goes cold, unless the sidebar marks it completed or its turn was stopped, or
   whose sign-in ends soonest, named by its first word and those of its other words that fit and have
   Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
+  shows the tasks pane each time a window starts to show the session, from Claude's `show_pane`
+  with `tasks` to its `close_pane`, reading the app's layout every 5 seconds meanwhile. It
   also starts the title of each open session in the app with that fire or ice cube, after a rename
   too, unless the user set the title by hand.
 - The desktop app cuts the line at about 40 characters, so it stays within that with the cache

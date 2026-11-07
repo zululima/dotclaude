@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Hand prompts for another computer over as a one-word file
+## Open the tasks pane when a window starts showing the session
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**8.**
+> bro you have again a background task but no pane open?
+
+**9.** [an ask about a downstream project left out]
+
+**10.** [an ask about a downstream project left out]
+
+**11.** (answer to: shall I build the mod change that opens the tasks pane when you open a session with a run going?)
+> Yes, build it
+
+## Hand prompts for another computer over as a one-word file
+
+2026-11-07, commit [696dffa](https://github.com/zululima/dotclaude/commit/696dffab3bbe00d898809de0075023bf72318531), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about using a desktop computer from a laptop left out]

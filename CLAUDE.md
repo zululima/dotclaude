@@ -562,17 +562,17 @@ apply to one repository belong in that repository's project memory.
   before its first `resize_window` the session reads `window.outerWidth` and `window.outerHeight`,
   and before the reply sets the window back to that size.
 - A run a session starts in the background, with Bash's `run_in_background`, a `Monitor`, a workflow
-  or a subagent, gets `show_pane` with `tasks` in the message that starts it. It opens nothing while
-  the session is in no window, which the user may open any time, so while a run goes on the session
-  calls it again in each message that calls a tool and before each reply, which says the run is in
-  the tasks pane. The turn that learns its last run ended, a task notification's too, calls
-  `close_pane` with `tasks` before the reply, even when no window showed the pane, and while it
-  finds no window, every later turn calls it again first. Work set for later is a task under
-  Scheduled in the app's sidebar, which survives an archive, never `CronCreate` or `ScheduleWakeup`,
-  which die with the session. A reply whose turn adds, changes or removes anything that runs
-  unattended on a schedule or trigger, such as a scheduled task, local or cloud, a launchd agent or
-  a cron entry, names it, when and where it runs and what it does, and each reply until a one-time
-  one runs names it and its time.
+  or a subagent, gets `show_pane` with `tasks` in the message that starts it, and in each later
+  message calling a tool and before each reply while it goes on, which says the run is in the tasks
+  pane. A call opens nothing while no window shows the session, so the `usage` mod shows the pane
+  whenever a window starts to show it. The turn that learns its last run ended, a task
+  notification's too, calls `close_pane` with `tasks` before the reply, even when no window showed
+  the pane, and while it finds no window, every later turn calls it again first. Work set for later
+  is a task under Scheduled in the app's sidebar, which survives an archive, never `CronCreate` or
+  `ScheduleWakeup`, which die with the session. A reply whose turn adds, changes or removes anything
+  that runs unattended on a schedule or trigger, such as a scheduled task, local or cloud, a launchd
+  agent or a cron entry, names it, when and where it runs and what it does, and each reply until a
+  one-time one runs names it and its time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
