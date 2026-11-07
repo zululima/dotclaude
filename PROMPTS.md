@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Wait 75 s for containers to stop before gm restarts
+
+2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> gm terminal failed
+
+**2.**
+> no stop i just meant that the gm terminal command failed dont run the
+> skill like that in the future
+
 ## Allow the release script's APK and Android upload commands
 
-2026-11-06, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [cdb2dee](https://github.com/zululima/dotclaude/commit/cdb2deeb4d0d29fe771d1010089c85e5c17fb106), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [an ask for an APK download link in a project's README left out]

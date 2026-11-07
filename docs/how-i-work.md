@@ -61,7 +61,7 @@ If Docker is running, it then stops every container with `~/bin/stop-containers.
 set -euo pipefail
 
 running=(${(f)"$(docker ps -q)"})
-wait_s=45
+wait_s=75
 if (( ${#running} )); then
   print "Stopping containers (${#running})..."
 fi
@@ -82,21 +82,22 @@ if [[ -n $(docker ps -q) ]]; then
 fi
 ```
 
-It sends each container the signal that container is set to stop on and waits up to 45 seconds, or
-longer when a container's own stop timeout says so. It never kills a container that does not stop:
-if one is still running then, `gm` ends there and leaves it running, the way an app with unsaved
-work stops a restart. Otherwise `gm` deletes the containers and all their volumes, so each project
-starts the day from fresh test data and nothing from yesterday keeps running. Anything I changed by
-hand in a local database is gone. It also updates Docker Desktop, and carries on if that update
-fails. Then it updates Homebrew and everything Homebrew installed, without asking, and removes the
-old versions. Homebrew installs in the foreground, so nothing is left half installed once it
-returns, and the script then waits a minute more as a margin. Then it restarts the Mac the way
-Restart in the Apple menu does, without the dialog: every app is asked to quit and can stop the
-restart over unsaved work. It follows that dialog's "Reopen windows when logging in" choice, which I
-keep off, so after I log in only the apps set to Open at Login start. Without `with state saving
-preference`, a System Events restart reopens every app whatever the choice says. If an update fails,
-the script stops before the wait and the Mac keeps running. The first restart asks once whether the
-terminal may control System Events.
+It sends each container the signal that container is set to stop on and waits up to 75 seconds, or
+longer when a container's own stop timeout says so. That covers a container whose loop sleeps a
+minute before its shell acts on the signal. It never kills a container that does not stop: if one is
+still running then, `gm` ends there and leaves it running, the way an app with unsaved work stops a
+restart. Otherwise `gm` deletes the containers and all their volumes, so each project starts the day
+from fresh test data and nothing from yesterday keeps running. Anything I changed by hand in a local
+database is gone. It also updates Docker Desktop, and carries on if that update fails. Then it
+updates Homebrew and everything Homebrew installed, without asking, and removes the old versions.
+Homebrew installs in the foreground, so nothing is left half installed once it returns, and the
+script then waits a minute more as a margin. Then it restarts the Mac the way Restart in the Apple
+menu does, without the dialog: every app is asked to quit and can stop the restart over unsaved
+work. It follows that dialog's "Reopen windows when logging in" choice, which I keep off, so after I
+log in only the apps set to Open at Login start. Without `with state saving preference`, a System
+Events restart reopens every app whatever the choice says. If an update fails, the script stops
+before the wait and the Mac keeps running. The first restart asks once whether the terminal may
+control System Events.
 
 Just before the restart, it starts `~/bin/restart-watch.js` detached from Terminal. For up to ten
 minutes it logs mouse buttons, modifier keys and the pointer to `~/Library/Logs/gm-restart/`, so
