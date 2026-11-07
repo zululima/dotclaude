@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name the source for who holds a role or right
+## Move every session a session starts to top level
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**12.**
+> can you create new sessions in cluade code desktop or only sub
+> sessions
+
+**13.**
+> ok then [an ask to review a downstream pull request left out] and
+> never do sub sessions in any session also make a new session not
+> subsession for [that review] too
+
+## Name the source for who holds a role or right
+
+2026-11-07, commit [ff0f522](https://github.com/zululima/dotclaude/commit/ff0f522d554d233d11c020e2b8d88365a3ea337b), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about publishing an app under an employer's store
