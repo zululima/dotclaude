@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read the app's session records on Linux in the usage mod
+## Hold the usage mod to macOS and Linux alike
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [f4298ba](https://github.com/zululima/dotclaude/commit/f4298ba24de4da4c052910cddae540d50f1593af).
+
+## Read the app's session records on Linux in the usage mod
+
+2026-11-07, commit [f4298ba](https://github.com/zululima/dotclaude/commit/f4298ba24de4da4c052910cddae540d50f1593af), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > ? you show flame but you also show cold

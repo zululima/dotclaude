@@ -153,6 +153,13 @@ run and its commit in the same turn.
   user set the title by hand.
 - The desktop app cuts the line at about 40 characters, so it stays within that with the cache
   first, and no hook adds it to the transcript as a notice.
+- The mod and its scripts run on macOS and on Linux alike. The app keeps its session records in
+  `~/Library/Application Support/Claude` on macOS and in `~/.config/Claude` on Linux, and every
+  path to them tries both. Every shell call works with the BSD and the GNU tools: GNU `stat -c`
+  before BSD `stat -f`, `date -d @<seconds>` after `date -r`, `pgrep` without `-q`, and Chrome
+  matched as `Google Chrome`, `chrome` or `chromium`. A change to the mod is run on this machine
+  against the live sessions before it is committed, not only through `claude plugin test`, whose
+  mocks never run the scripts.
 
 ## Identity and contents
 
