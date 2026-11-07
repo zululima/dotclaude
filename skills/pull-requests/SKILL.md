@@ -238,6 +238,9 @@ GitHub, and downstream names redacted in public and upstream repositories.
   finding, no `missed` entry and no command steps or step text written for the PR's body. Where
   those steps fall short, the added steps above give the reader what they need without comment, and
   the reproductions stay the one thing in the reply written for the author.
+- A reply that suggests the next PR review, such as once the PR before it is merged, suggests it in
+  a session of its own, never as more work in this session: a `start_session` card with the whole
+  brief, which the user starts with a click.
 
 ## Merging
 
