@@ -30,10 +30,10 @@
 #                           prompt stands for the title, tab-separated, a line
 #                           each; then a row per open
 #                           desktop session of the last hour with a title, for
-#                           the mod to put a fire or an ice cube before it: the
-#                           second its cache goes cold (0 for this one), the
-#                           title, own or title, its record and where the title
-#                           came from
+#                           the mod to put a fire, an ice cube or a gear before
+#                           it: the second its cache goes cold (0 for this one),
+#                           the title, own or title, its record, where the title
+#                           came from and its session id
 #   usage.sh --titles <session id>
 #                           those rows for the open desktop sessions quiet for
 #                           over an hour, whose cache is cold for certain
@@ -294,7 +294,7 @@ if [ "${1:-}" = --titles ]; then
         [ -n "$(find "$f" -mmin -65)" ] && continue 2
         found=true
       done
-      [ "$found" = true ] && printf '0\t%s\t%s\t%s\t%s\n' "$title" "$kind" "$record" "$source"
+      [ "$found" = true ] && printf '0\t%s\t%s\t%s\t%s\t%s\n' "$title" "$kind" "$record" "$source" "$id"
     done
   exit 0
 fi
@@ -319,7 +319,7 @@ if [ "${1:-}" = --next ]; then
   pgrep -xq 'Google Chrome' && chrome=true
   memos="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-next"
   mkdir -p "$memos"
-  find "$memos" -type f -mtime +1 -delete 2>/dev/null
+  find "$memos" "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-waiting" -type f -mtime +1 -delete 2>/dev/null
   known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f -exec jq -r '
     def completed: .error == null and .interruptedAwaitingPerson == null
       and if .turnWrapUp != null then .turnWrapUp.needsUser == null and .postTurnSummary.status_category != "failed"
@@ -332,7 +332,7 @@ if [ "${1:-}" = --next ]; then
       IFS=$'\t' read -r _ archived completed source record title < <(printf '%s\n' "$known" | grep -F "$id	")
       [ "$archived" = true ] && continue
       if [ "$id" = "${2:-}" ]; then
-        [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\n' "$title" "$record" "$source"
+        [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\t%s\n' "$title" "$record" "$source" "$id"
         continue
       fi
       named=$title
@@ -363,7 +363,7 @@ if [ "${1:-}" = --next ]; then
           | "\($cold) \($ends) \($stopped)"' 2>/dev/null)
         printf '%s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi
-      [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source"
+      [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source" "$id"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\t%s\n' "$ends" "$title" "$record" "$untitled"
       waiting "${f%.jsonl}" && continue

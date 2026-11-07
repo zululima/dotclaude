@@ -562,9 +562,9 @@ apply to one repository belong in that repository's project memory.
   message calling a tool and before each reply while it goes on, which says the run is in the tasks
   pane. A call opens nothing while no window shows the session, so the `usage` mod shows the pane
   whenever a window starts to show it. The turn that learns its last run ended, a task
-  notification's too, calls `close_pane` with `tasks` before the reply, even when no window showed
-  the pane, and while it finds no window, every later turn calls it again first. Work set for later
-  is a task under Scheduled in the app's sidebar, which survives an archive, never `CronCreate` or
+  notification's too, calls `close_pane` with `tasks` once before the reply, and when no window
+  shows the session, the mod closes the pane once a window shows it. Work set for later is a task
+  under Scheduled in the app's sidebar, which survives an archive, never `CronCreate` or
   `ScheduleWakeup`, which die with the session. A reply whose turn adds, changes or removes anything
   that runs unattended on a schedule or trigger, such as a scheduled task, local or cloud, a launchd
   agent or a cron entry, names it, when and where it runs and what it does, and each reply until a

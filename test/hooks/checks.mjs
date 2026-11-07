@@ -940,6 +940,23 @@ const suites = [
     ]
   }],
 
+  ['usage-waiting.sh', run => {
+    const file = path.join(config, 'usage-waiting/s1'), beacon = path.join(config, 'usage-beacon')
+    const stop = tasks => ({ hook_event_name: 'Stop', session_id: 's1', stop_hook_active: false, background_tasks: tasks })
+    const watch = { id: 'b1', type: 'shell', status: 'running', description: 'gh run watch', command: 'gh run watch 1' }
+    const text = f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null
+    return [
+      ['writes nothing for a turn that leaves no run', () => {
+        fs.rmSync(beacon, { force: true })
+        return quiet(run(stop([]))) && text(file) === null && text(beacon) === null
+      }],
+      ['writes the time and the beacon when a run is left in flight', () => quiet(run(stop([watch]))) && /^\d+\n$/.test(text(file)) && text(beacon) === 's1\n'],
+      ['empties the file when a later turn leaves none', () => quiet(run(stop([]))) && text(file) === ''],
+      ['takes a missing list for none', () => quiet(run({ hook_event_name: 'Stop', session_id: 's1' })) && text(file) === ''],
+      ['ignores a session id that is not a plain name', () => quiet(run({ ...stop([watch]), session_id: '../s2' })) && text(path.join(config, 's2')) === null],
+    ]
+  }],
+
   ['usage.sh --status', () => {
     const t = path.join(config, 'projects/-signin/s.jsonl'), fake = path.join(home, 'fake-pgrep')
     fs.chmodSync(write(path.join(fake, 'pgrep'), '#!/bin/sh\nexit 0\n'), 0o755)

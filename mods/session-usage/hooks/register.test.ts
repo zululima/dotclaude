@@ -10,6 +10,7 @@ const HOURGLASS = '\u23F3'
 const COOKIE = '\u{1F36A}'
 const LOCK = '\u{1F512}️'
 const LATE = '\u{1F4B8}'
+const GEAR = '⚙️'
 // 12:20 on 20 Oct at UTC+3, and the next midnight there
 const NOW = 1792488000_000
 const MIDNIGHT = 1792530000_000
@@ -408,8 +409,8 @@ test('leaves a subagent turn alone and clears on no line', async ($, on) => {
 })
 
 const record = (id: string) => `/me/sessions/org/account/local_${id}.json`
-const titleRow = (coldAt: number, title: string, kind: string, id: string, source = 'tool') =>
-  `${coldAt / 1000}\t${title}\t${kind}\t${record(id)}\t${source}`
+const titleRow = (coldAt: number, title: string, kind: string, id: string, source = 'tool', sessionId = '') =>
+  `${coldAt / 1000}\t${title}\t${kind}\t${record(id)}\t${source}\t${sessionId}`
 
 const indexRow = (id: string, at: number, titles: string[], pr = '') => [record(id), at, pr, ...titles].join('\t')
 
@@ -567,6 +568,94 @@ test('marks each title with a fire while its cache is warm and an ice cube once 
   await $.turn.start({ text: 'go', turnId: 't1' })
   await clock.advance(1)
   expect(renamed.slice(5)).toEqual([`local_own: ${FIRE} This work`])
+})
+
+test('marks a title with a gear while its file under usage-waiting is fresh', async ($, on) => {
+  const records = new Map([
+    [record('own'), { title: 'This work', titleSource: 'auto' }],
+    [record('store'), { title: 'Store status', titleSource: 'tool' }],
+  ])
+  const renamed: string[] = []
+  const dir = '/config/usage-waiting'
+  const own = `${dir}/abc`
+  // A file an earlier process of this session left.
+  const files = new Map([[own, { text: '1\n', at: NOW - 1_000 }]])
+  const clock = mock.clock(on, { now: NOW })
+  mock.env(on, { CLAUDE_CONFIG_DIR: '/config' })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--next')
+      return ran(
+        `${titleRow(0, 'This work', 'own', 'own', 'auto', 'abc')}\n` +
+          `${titleRow(NOW + 3_600_000, 'Store status', 'title', 'store', 'tool', 'def')}\n`,
+      )
+    if (e.argv[1] === '--status') return warmFor(30)
+    return ran('')
+  })
+  on('ui.status', () => ({ value: undefined }))
+  on('fs.stat', () => ({ value: { kind: 'file', size: 4, mtimeMs: NOW - 600_000, isLink: false } }))
+  on('fs.write', ($, e) => {
+    files.set(e.path, { text: e.text, at: clock.now() })
+    return { value: undefined }
+  })
+  on('fs.list', ($, e) => {
+    expect(e.path).toBe(dir)
+    const entries = [...files].filter(([path]) => path.startsWith(`${dir}/`))
+    return {
+      value: entries.map(([path, { text, at }]) => ({
+        name: path.slice(dir.length + 1),
+        kind: 'file' as const,
+        size: text.length,
+        mtimeMs: at,
+        isLink: false,
+      })),
+    }
+  })
+  on('fs.read', ($, e) => {
+    const found = records.get(e.path)
+    return found ? { value: JSON.stringify(found) } : { deny: 'missing' }
+  })
+  on('mcp.call', ($, e) => {
+    const { session_id: id, title } = e.args as { session_id: string; title: string }
+    renamed.push(`${id}: ${title}`)
+    const path = `/me/sessions/org/account/${id}.json`
+    records.set(path, { ...records.get(path)!, title, titleSource: 'tool' })
+    return { value: { content: [], isError: false } }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', () => ({ text: '' }))
+
+  // The Stop hook writes the file when a run is left in flight.
+  const turn = async (turnId: string, isRunLeft: boolean) => {
+    await $.turn.start({ text: 'go', turnId })
+    if (isRunLeft) files.set(own, { text: `${NOW / 1000}\n`, at: clock.now() })
+    await $.turn.complete({ ...TURN, turnId })
+    await clock.advance(1)
+  }
+
+  await $.session.start(START)
+  await clock.advance(1)
+  expect(renamed).toEqual([`local_own: ${FIRE} This work`, `local_store: ${FIRE} Store status`])
+
+  await turn('t1', true)
+  expect(renamed.slice(2)).toEqual([`local_own: ${GEAR} This work`])
+
+  // Kept fresh on each tick, and the other session's file read on each pass.
+  files.set(`${dir}/def`, { text: '1\n', at: clock.now() })
+  await clock.advance(15_000)
+  expect(files.get(own)?.at).toBe(NOW + 15_000)
+  expect(renamed.slice(3)).toEqual([`local_store: ${GEAR} Store status`])
+
+  // Its file goes stale once its process ends.
+  await clock.advance(60_000)
+  expect(renamed.slice(4)).toEqual([`local_store: ${FIRE} Store status`])
+
+  // The wake-up turn ends with nothing in flight.
+  await turn('t2', false)
+  await clock.advance(30_000)
+  expect(renamed.slice(5)).toEqual([`local_own: ${FIRE} This work`])
+  expect(files.get(own)?.text).toBe('')
 })
 
 test('tries a rename the app declines again ten minutes later', async ($, on) => {
@@ -742,4 +831,37 @@ test('leaves the tasks pane alone while it is open or another pane was asked for
   await clock.advance(5_000)
   expect(shown).toEqual([])
   await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+})
+
+test('closes the tasks pane once a window shows the session, when none did at the close', async ($, on) => {
+  const clock = mock.clock(on, { now: NOW })
+  let isOnScreen = false
+  const asked: string[] = []
+  on('mcp.call', ($, e) => {
+    if (e.tool === 'get_layout') return layoutOf(isOnScreen, ['tasks'])
+    asked.push(`${e.tool} ${String(e.args.pane)}`)
+    return { value: { content: [], isError: false } }
+  })
+  on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, () => ({ result: {} }))
+  on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, () => ({ result: {} }))
+
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+  await clock.advance(10_000)
+  expect(asked).toEqual([])
+
+  isOnScreen = true
+  await clock.advance(5_000)
+  await clock.advance(10_000)
+  expect(asked).toEqual(['close_pane tasks'])
+
+  // A show of the pane drops a close still waiting, and one made on screen
+  // needs none.
+  isOnScreen = false
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+  await $.tool.call({ tool: 'mcp__ccd_view__show_pane', pane: 'tasks' })
+  isOnScreen = true
+  await clock.advance(10_000)
+  await $.tool.call({ tool: 'mcp__ccd_view__close_pane', pane: 'tasks' })
+  await clock.advance(10_000)
+  expect(asked).toEqual(['close_pane tasks'])
 })

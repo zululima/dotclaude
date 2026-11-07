@@ -145,9 +145,11 @@ run and its commit in the same turn.
   whose sign-in ends soonest, named by its first word and those of its other words that fit and have
   Cmd+K in the app list it soonest: alone, or else first among the sessions, each word whole. It
   shows the tasks pane each time a window starts to show the session, from Claude's `show_pane`
-  with `tasks` to its `close_pane`, reading the app's layout every 5 seconds meanwhile. It
-  also starts the title of each open session in the app with that fire or ice cube, after a rename
-  too, unless the user set the title by hand.
+  with `tasks` to its `close_pane`, reading the app's layout every 5 seconds meanwhile, and closes
+  it on the first such read that finds a window showing the session after a `close_pane` that none
+  showed. It also starts the title of each open session in the app with that fire or ice cube, or
+  with a gear emoji while the session's last turn ended with background work in flight, which the
+  `Stop` hook's input lists, after a rename too, unless the user set the title by hand.
 - The desktop app cuts the line at about 40 characters, so it stays within that with the cache
   first, and no hook adds it to the transcript as a notice.
 

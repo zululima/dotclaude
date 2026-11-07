@@ -82,6 +82,8 @@
   message spells it out too.
 - [`usage-log.sh`](../hooks/usage-log.sh): writes down the tokens each turn used, so you can add up
   a week later.
+- [`usage-waiting.sh`](../hooks/usage-waiting.sh): notes when a turn ends with a background run
+  still going, so the usage mod puts a gear before that session's name.
 
 ## Keeps Claude to the rules
 
@@ -109,9 +111,10 @@
   memory of the chat is, and which other open session's cache goes cold next, leaving out those
   whose last turn left you nothing to do, so you can get back to it in time. In the desktop app
   every session's name starts with a fire while its cache is warm and an ice cube once it is cold,
-  and a session with a background run opens its tasks pane when you open the session. The tokens and
-  what they would cost show once a week instead, in the report of the last `/dream` run before the
-  weekly reset.
+  or a gear while it waits on a background run, and such a session opens its tasks pane when you
+  open it, then closes the pane the next time you open it after the run is done. The tokens and what
+  they would cost show once a week instead, in the report of the last `/dream` run before the weekly
+  reset.
 - [`mods/archive-files`](../mods/archive-files): when you archive a session in the desktop app, the
   files it made for you, its drafts folder and its folder in `~/Downloads`, move to
   `~/.claude/archive/` within seconds, and memory notes that named them point to where they went. It

@@ -2,7 +2,15 @@ import type { EngineInterface, Register, Timer } from 'claude-code'
 
 type Usage = { figures: string; coldAt: number; offset: number; mark: string; signedInUntil: number }
 type Other = { endsAt: number; title: string; isSignIn: boolean; record: string; isUntitled: boolean }
-type Titled = { coldAt: number; title: string; record: string; source: string; isOwn: boolean; retryAt: number }
+type Titled = {
+  coldAt: number
+  title: string
+  record: string
+  source: string
+  isOwn: boolean
+  retryAt: number
+  sessionId: string
+}
 type Known = { at: number; pr: string; titles: string[]; written: string[] }
 type SessionRecord = { isArchived?: boolean; title?: string; titleSource?: string }
 
@@ -15,10 +23,13 @@ const HOURGLASS = '\u23F3'
 const COOKIE = '\u{1F36A}'
 const BRAIN = '\u{1F9E0}'
 const LOCK = '\u{1F512}\uFE0F'
+const GEAR = '\u2699\uFE0F'
 // The desktop app cuts the status line at about this many characters.
 const WIDTH = 40
-const MARK = new RegExp(`^(${FIRE}|${ICE}) `, 'u')
+const MARK = new RegExp(`^(${FIRE}|${ICE}|\u2699\uFE0F?) `, 'u')
 const RETRY = 600_000
+// A waiting session rewrites its file on each 15-second tick.
+const STALE = 60_000
 const MOST_WORDS = 8
 // A sidebar row with a pull request badge, indented under another session,
 // fades out text past about this many characters.
@@ -40,6 +51,7 @@ let archives: string[] | undefined
 const heardAt = new Map<string, number>()
 let shown: string | undefined
 let isBusy = false
+let isWaiting = false
 let flip: Timer | undefined
 const titled = new Map<string, Titled>()
 let titling = Promise.resolve()
@@ -220,11 +232,11 @@ const rows = async ($: EngineInterface, args: string[]) => {
     : []
 }
 
-const keep = ([coldAt = '0', title = '', kind = '', record = '', source = '']: string[]) => {
+const keep = ([coldAt = '0', title = '', kind = '', record = '', source = '', sessionId = '']: string[]) => {
   if (!record) return
   if (kind === 'own') ownRecord = record
   const retryAt = titled.get(record)?.retryAt ?? 0
-  titled.set(record, { coldAt: Number(coldAt) * 1000, title, record, source, isOwn: kind === 'own', retryAt })
+  titled.set(record, { coldAt: Number(coldAt) * 1000, title, record, source, isOwn: kind === 'own', retryAt, sessionId })
 }
 
 // The sessions quiet for over an hour are cold for certain and change only
@@ -256,32 +268,93 @@ const rename = async ($: EngineInterface, t: Titled, mark: string, now: number) 
   else t.retryAt = now + RETRY
 }
 
+const markOf = (t: Titled, now: number, waiting: Set<string>) => {
+  if (t.isOwn ? isWaiting : waiting.has(t.sessionId)) return GEAR
+  const isWarm = t.isOwn ? isBusy || (usage?.coldAt ?? 0) > now : t.coldAt > now
+
+  return isWarm ? FIRE : ICE
+}
+
 // Each desktop session's title starts with a fire while its cache is warm and
 // an ice cube once it is cold. This session's own is warm while a turn runs.
-// One pass at a time, so two never rename the same session.
+// A gear stands for both while a session's turn has ended with background work
+// in flight. One pass at a time, so two never rename the same session.
 const retitle = ($: EngineInterface) =>
   (titling = titling.then(async () => {
     const now = await $.clock.now()
+    const waiting = await waitingSessions($, now)
+    if (!isBusy) isWaiting = waiting.has(await $.session.id())
     for (const t of titled.values()) {
-      const isWarm = t.isOwn ? isBusy || (usage?.coldAt ?? 0) > now : t.coldAt > now
-      const mark = isWarm ? FIRE : ICE
+      const mark = markOf(t, now, waiting)
       if (t.source !== 'user' && !t.title.startsWith(`${mark} `) && t.retryAt <= now) await rename($, t, mark, now)
     }
   }).catch(() => undefined))
+
+const configDir = async ($: EngineInterface) => {
+  try {
+    return (await $.env.get('CLAUDE_CONFIG_DIR')) ?? (await $.env.get('HOME'))?.concat('/.claude')
+  } catch {
+    return undefined
+  }
+}
 
 // Every session's main turn rewrites the beacon, beside the usage log, so the
 // others read again within seconds, not at their next minute.
 const beaconPath = async ($: EngineInterface) => {
   if (beacon !== undefined) return beacon
 
-  try {
-    const dir = (await $.env.get('CLAUDE_CONFIG_DIR')) ?? (await $.env.get('HOME'))?.concat('/.claude')
-    beacon = dir === undefined ? '' : `${dir}/usage-beacon`
-  } catch {
-    beacon = ''
-  }
+  const dir = await configDir($)
+  beacon = dir === undefined ? '' : `${dir}/usage-beacon`
 
   return beacon
+}
+
+// The Stop hook usage-waiting.sh writes a session's file under its id when its
+// turn ends with background work in flight. The session's own mod keeps the
+// file fresh while it waits and empties it when a turn starts, and a file its
+// last process left goes stale, since only a file written since this load
+// counts as its own.
+let waitingDir: string | undefined
+let loadedAt = 0
+let hasOwnFile = false
+
+const waitingPath = async ($: EngineInterface) => {
+  if (waitingDir === undefined) {
+    const dir = await configDir($)
+    waitingDir = dir === undefined ? '' : `${dir}/usage-waiting`
+  }
+
+  return waitingDir
+}
+
+const ownWaitingPath = async ($: EngineInterface) => {
+  const dir = await waitingPath($)
+  return dir && `${dir}/${await $.session.id()}`
+}
+
+const keepWaiting = async ($: EngineInterface) => {
+  const path = await ownWaitingPath($)
+  if (path) await $.fs.write(path, `${await $.clock.now()}\n`).catch(() => undefined)
+}
+
+const clearWaiting = async ($: EngineInterface) => {
+  if (!isWaiting && !hasOwnFile) return
+  isWaiting = false
+  hasOwnFile = false
+  const path = await ownWaitingPath($)
+  if (path) await $.fs.write(path, '').catch(() => undefined)
+}
+
+const waitingSessions = async ($: EngineInterface, now: number) => {
+  const dir = titled.size > 0 ? await waitingPath($) : ''
+  if (!dir) return new Set<string>()
+
+  const id = await $.session.id()
+  const entries = (await $.fs.list(dir).catch(() => [])).filter(e => e.kind === 'file' && e.size > 0)
+  hasOwnFile = entries.some(e => e.name === id)
+  const isFresh = (e: (typeof entries)[number]) => now - e.mtimeMs < STALE && (e.name !== id || e.mtimeMs >= loadedAt)
+
+  return new Set(entries.filter(isFresh).map(e => e.name))
 }
 
 // The desktop app rewrites its index of archived sessions on each archive, just
@@ -404,6 +477,7 @@ const show = async ($: EngineInterface) => {
 const tick = async ($: EngineInterface) => {
   if (others.some(o => o.isUntitled) || (await $.clock.now()) - othersReadAt >= 60_000) await readOthers($)
   await (isBusy ? show($) : redraw($))
+  if (isWaiting) await keepWaiting($)
   await retitle($)
 }
 
@@ -434,9 +508,26 @@ const keepTasksShown = async ($: EngineInterface) => {
   wasOnScreen = isOnScreen
 }
 
+// A close is left undone in the same way, and the app shows the pane again
+// when a window shows the session, so it waits for that window.
+let closeWatch: Timer | undefined
+
+const dropClose = () => {
+  closeWatch?.cancel()
+  closeWatch = undefined
+}
+
+const closeWhenOnScreen = async ($: EngineInterface) => {
+  const seen = await layout($)
+  if (!seen || seen.views.length === 0) return
+  dropClose()
+  if (seen.open_panes.includes('tasks')) await $.mcp.call(VIEW, 'close_pane', { pane: 'tasks' }).catch(() => undefined)
+}
+
 export const register: Register = on => {
   on('tool.call', { tool: 'mcp__ccd_view__show_pane' }, async ($, e, next) => {
     const shown = await next(e)
+    if (e.pane === 'tasks') dropClose()
     if (e.pane === 'tasks' && !tasksWatch) {
       wasOnScreen = ((await layout($))?.views.length ?? 0) > 0
       tasksWatch = $.clock.every(5_000, () => void keepTasksShown($))
@@ -446,16 +537,19 @@ export const register: Register = on => {
   })
 
   on('tool.call', { tool: 'mcp__ccd_view__close_pane' }, async ($, e, next) => {
-    if (e.pane === 'tasks') {
-      tasksWatch?.cancel()
-      tasksWatch = undefined
-    }
+    if (e.pane !== 'tasks') return next(e)
+    tasksWatch?.cancel()
+    tasksWatch = undefined
+    const closed = await next(e)
+    if (!closeWatch && ((await layout($))?.views.length ?? 0) === 0)
+      closeWatch = $.clock.every(5_000, () => void closeWhenOnScreen($))
 
-    return next(e)
+    return closed
   })
 
   on('session.start', async ($, e, next) => {
     const started = await next(e)
+    loadedAt = await $.clock.now()
     await hasNews($)
     await readOthers($)
     await measure($)
@@ -471,6 +565,7 @@ export const register: Register = on => {
   on('turn.start', async ($, e, next) => {
     if (e.agentId === undefined) {
       isBusy = true
+      await clearWaiting($)
       await signal($)
       void retitle($)
     }
@@ -505,8 +600,9 @@ export const register: Register = on => {
     const t = [...titled.values()].find(t => (isSelf ? t.isOwn : t.record.endsWith(`/${e.session_id}.json`)))
     if (!isSelf && !t) return next(e)
 
-    const isWarm = isSelf || (t?.coldAt ?? 0) > (await $.clock.now())
-    const title = `${isWarm ? FIRE : ICE} ${bare(e.title)}`
+    const now = await $.clock.now()
+    const mark = isSelf || !t ? FIRE : markOf(t, now, await waitingSessions($, now))
+    const title = `${mark} ${bare(e.title)}`
     const renamed = await next({ ...e, title })
     if (t && renamed.deny === undefined && renamed.isError !== true) t.title = title
 
