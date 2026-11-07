@@ -80,9 +80,6 @@ apply to one repository belong in that repository's project memory.
   in play like any other, and no reply offers to move it to a PR of its own. It holds nowhere else
   until the PR merges, so the reply that commits it says so, and until the merge a memory note or
   reply about it names the PR it waits on, never a date it holds since.
-- Add a prompt about the change under review to the PR's prompts block in the same turn it is
-  answered, whether or not anything is committed. Refresh the prompts block again after every commit
-  and push.
 - A session that pushes to a branch CI runs on, merges a PR or starts a workflow run waits in that
   session until each run it set off has finished, and reports the result, a green one too: Auto-fix
   wakes a session only on a failure, a merge conflict or a review comment, so a pass would reach no
@@ -469,6 +466,9 @@ apply to one repository belong in that repository's project memory.
   tool with the app next, never the product's name alone. Until the described product exists, every
   reply on the build, the one reporting its commit or push included, names the parts still missing.
 - Probe before spending quota on rate-limited APIs. Read retry-after, no blind retry loops.
+- Before a session swaps what a program uses, such as a server or a setting, it reads the program's
+  own log for errors from the new choice: a test with another tool, such as curl, proves nothing for
+  the program.
 - Advice on cutting a cost, such as battery drain, never asks the user to run fewer Claude Code
   sessions or to do less in them: the sessions are the user's work. It names a change that keeps
   that work, such as a setting or a fix to something a session left running.

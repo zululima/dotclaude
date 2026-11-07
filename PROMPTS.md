@@ -5,9 +5,31 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Offer the archive only once the session's PRs are done
+## Read a program's log before swapping its source
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to debug a stalled download left out]
+
+**2.** (answer to: shall I check again after the switch?)
+> Switched, re-check
+
+**3.**
+> [an ask about a second download left out]
+
+**4.** (answer to: shall I restart the client with the faster mirror?)
+> Yes, go ahead
+
+**5.** (answer to: shall I fetch the files directly instead?)
+> Yes, download it
+
+**6.** (answer to: shall I remove the stalled downloads?)
+> Yes, remove them
+
+## Offer the archive only once the session's PRs are done
+
+2026-11-07, commit [a3c46a9](https://github.com/zululima/dotclaude/commit/a3c46a909596ee96aea9efdb29d14732d20afda5), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > lol you should probably not say archive since im not done. [an ask

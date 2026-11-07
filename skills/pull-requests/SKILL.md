@@ -64,6 +64,9 @@ GitHub, and downstream names redacted in public and upstream repositories.
   order and quote each verbatim, typos and lowercase included, as a `>` blockquote (`**1.**` on its
   own line, then the `>` quote). Include prompts that produced no commit. Mark answers to questions
   with a short parenthetical after the number, such as `**2.** (answer to: shall I build it?)`.
+- Add a prompt about the change under review to the PR's prompts block in the same turn it is
+  answered, whether or not anything is committed. Refresh the prompts block again after every commit
+  and push.
 - Directly under the model line, before the first prompt, a nested
   `<details><summary>Abbreviations</summary>` block lists every abbreviation used anywhere in the
   quoted prompts with its expansion, one per line, so a reader who does not know one can open
