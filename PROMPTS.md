@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Mark a session waiting on background work with a gear
+## Run usage-waiting.sh at every Stop
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: have you run the settings.json command?)
+> Done
+
+## Mark a session waiting on background work with a gear
+
+2026-11-07, commit [edbfa19](https://github.com/zululima/dotclaude/commit/edbfa19c6f143901104f2a4a919f0467777cde0e), model claude-opus-5-5, effort xhigh.
 
 **1.** [a task another Claude session wrote, left out] Quoted under [812f476](https://github.com/zululima/dotclaude/commit/812f476244a367b44587dfe76d47635f613df9b5).
 

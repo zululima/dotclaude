@@ -426,6 +426,11 @@
             "command": "\"$HOME/.claude/hooks/usage-log.sh\"",
             "timeout": 60,
             "async": true
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/usage-waiting.sh\"",
+            "timeout": 10
           }
         ]
       }
