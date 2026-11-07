@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Land a promised change, close a stale tasks pane
+## Offer the archive only once the session's PRs are done
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.**
+> lol you should probably not say archive since im not done. [an ask
+> about a downstream project left out]
+
+## Land a promised change, close a stale tasks pane
+
+2026-11-07, commit [3d4204a](https://github.com/zululima/dotclaude/commit/3d4204a2cd59786e3993029d30a41735ef761797), model claude-opus-5-5, effort xhigh.
 
 **3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
