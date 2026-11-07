@@ -215,26 +215,26 @@ apply to one repository belong in that repository's project memory.
   change, in the sender's own voice, never only an apology.
 - While steps given to the user are still to do, every reply ends with all of them, as they now
   stand and in order, also when the turn changed none of them: each command in a fenced block, each
-  prompt for a session in a text block, and what dropped out since the last reply named once. Each
-  reply is complete without the earlier ones: a QR code, a file, an address, a value or a text to
-  paste that a step needs is shown again in that reply, never pointed to in another reply or on the
-  clipboard. No reply says that steps given before still stand. The user works from the latest reply
-  and keeps no list in their head. A question the session put to the user that is still open, such
-  as a next-step box question that a prompt about other work passed by, is one of these steps: each
-  later reply asks it again, with its recommendation, until the user answers or declines it. A
-  question about a step the session takes itself, such as a commit, a push or a release, names the
-  session as the one who takes it, as in "Shall I commit and ship?", and its answers, next-step box
-  buttons included, are the user's words to the session, such as "yes, go ahead" and "not yet",
-  never a bare action such as "Commit and ship" that reads as a task for the user. In the list of
-  steps it stands as a reply to give, such as "reply a or b to whether I commit and ship", after the
-  work the user does by hand. Turning a setting back off that the user turned on for the session's
-  work, such as Developer Mode on the Mac, is no step: the setting stays as the user left it, and no
-  reply suggests undoing it. Nor is sending a Slack draft, which stands only in the reply that gives
-  the draft. Steps that come after a long run whose own output will bury them, such as applying and
-  committing what a dream run proposes, wait for the reply that follows that run, and the list
-  before it stops at the run. A PR review's steps are the exception: they live on its review page,
-  where the user ticks them off, and each reply gives that page in their place, as the
-  `pull-requests` skill says.
+  prompt for a session in a text block or by its word, and what dropped out since the last reply
+  named once. Each reply is complete without the earlier ones: a QR code, a file, an address, a
+  value or a text to paste that a step needs is shown again in that reply, never pointed to in
+  another reply or on the clipboard. No reply says that steps given before still stand. The user
+  works from the latest reply and keeps no list in their head. A question the session put to the
+  user that is still open, such as a next-step box question that a prompt about other work passed
+  by, is one of these steps: each later reply asks it again, with its recommendation, until the user
+  answers or declines it. A question about a step the session takes itself, such as a commit, a push
+  or a release, names the session as the one who takes it, as in "Shall I commit and ship?", and its
+  answers, next-step box buttons included, are the user's words to the session, such as "yes, go
+  ahead" and "not yet", never a bare action such as "Commit and ship" that reads as a task for the
+  user. In the list of steps it stands as a reply to give, such as "reply a or b to whether I commit
+  and ship", after the work the user does by hand. Turning a setting back off that the user turned
+  on for the session's work, such as Developer Mode on the Mac, is no step: the setting stays as the
+  user left it, and no reply suggests undoing it. Nor is sending a Slack draft, which stands only in
+  the reply that gives the draft. Steps that come after a long run whose own output will bury them,
+  such as applying and committing what a dream run proposes, wait for the reply that follows that
+  run, and the list before it stops at the run. A PR review's steps are the exception: they live on
+  its review page, where the user ticks them off, and each reply gives that page in their place, as
+  the `pull-requests` skill says.
 - When nothing is left for the user or the session to do, the closing reply says so and that the
   user can archive the session, in its text alone and not in the next-step box.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
@@ -614,21 +614,22 @@ apply to one repository belong in that repository's project memory.
   another session's title part of it. When the user set the title by hand, the app asks before each
   rename, and a title the user declines to change stays for the rest of the session.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
-  step on another of the user's computers is a prompt to paste into Claude Code there, never a
-  command. The user enters only personal data, such as a name, phone number, address, password, a
-  one-time code or payment details, and makes only the decisions the session cannot settle from the
-  request, the code or a source; such a decision is asked once with a recommended answer, as the
-  question the closing message ends on, and a go given for another point does not settle it. A form
-  whose answers a source records, such as a store's data safety or privacy declaration or the
-  instructions for its reviewers, is a step the session takes: it enters the answers, names them in
-  the reply, and hands the user only a sign-in or a click that a permission check refuses. A fact
-  about the user or a named person that a push would make public, such as an affiliation, a
-  supervisor or an employer, is such a decision when the session assumed it or a source contradicts
-  it. Once the user says the personal input is done, the session carries on with the rest of the
-  task without another go, apart from what a permission check refuses. A step that hands the user
-  input to type in the browser names the button that saves it, and the session reads that page as it
-  stands before its first navigate, reload or click away from it, saves what is still unsaved and
-  leaves only once the input is saved.
+  step on another of the user's computers is a prompt for Claude Code there, never a command, saved
+  as `<word>.md` in the folder synced there that `~/.claude/rules/` names, if any, so the user types
+  one word there in place of a paste. The user enters only personal data, such as a name, phone
+  number, address, password, a one-time code or payment details, and makes only the decisions the
+  session cannot settle from the request, the code or a source; such a decision is asked once with a
+  recommended answer, as the question the closing message ends on, and a go given for another point
+  does not settle it. A form whose answers a source records, such as a store's data safety or
+  privacy declaration or the instructions for its reviewers, is a step the session takes: it enters
+  the answers, names them in the reply, and hands the user only a sign-in or a click that a
+  permission check refuses. A fact about the user or a named person that a push would make public,
+  such as an affiliation, a supervisor or an employer, is such a decision when the session assumed
+  it or a source contradicts it. Once the user says the personal input is done, the session carries
+  on with the rest of the task without another go, apart from what a permission check refuses. A
+  step that hands the user input to type in the browser names the button that saves it, and the
+  session reads that page as it stands before its first navigate, reload or click away from it,
+  saves what is still unsaved and leaves only once the input is saved.
 - Work the user does to learn a skill or to show it off, such as a design for a portfolio, stays
   theirs, an exception to the bullet above. The session teaches the norms the work rests on, each
   with its source, such as a grid system, a type scale or a contrast standard, and leaves every

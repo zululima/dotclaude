@@ -5,9 +5,31 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show the sticker table in every reply on a sticker pack
+## Hand prompts for another computer over as a one-word file
 
 2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about using a desktop computer from a laptop left out]
+
+**2.**
+> [an answer about where it is used left out]
+
+**3.**
+> [a clarification of what to run there left out]
+
+**4.** (answer to: shall I install the streaming client?)
+> [a yes left out]
+
+**5.**
+> about pasting stuff to claude code cant you just put those to some
+> syncthing folder and i just say something one word that you choose
+> like "moonlight" per case and claude code fetches that [an aside
+> about VPN use left out]
+
+## Show the sticker table in every reply on a sticker pack
+
+2026-11-07, commit [fb92817](https://github.com/zululima/dotclaude/commit/fb92817b6f3721450be8b76e621481876f64545f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask for a sticker made from a meme left out]
