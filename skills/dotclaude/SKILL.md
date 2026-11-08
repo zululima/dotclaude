@@ -11,6 +11,9 @@ run and its commit in the same turn.
 
 ## Writing a rule
 
+- A `dotclaude` ask is how the user asks for a rule change, alone or inside a prompt about other
+  work. The Prompt feedback section never calls it unclear or a second job, and a rewritten prompt
+  keeps it.
 - A rule in a mirrored file states what holds now. The incident behind it, its date and the wording
   it replaced go into the commit message, never into the file, and a changed rule is rewritten in
   place rather than followed by a note on what it used to say.

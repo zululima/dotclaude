@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Hold every claim in a reply to a cited source
+## Read independent tests before picking a product
 
 2026-11-08, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> [pasted: an address of a consumer car seat test page]
+>
+> otitko tämän sivun jo huomioon
+
+## Hold every claim in a reply to a cited source
+
+2026-11-08, commit [617ceb9](https://github.com/zululima/dotclaude/commit/617ceb9a860b6f665a5a291d928124da5d2ace98), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > luulin että isofix on turvallisempi kuin turvavyö

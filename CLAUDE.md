@@ -351,10 +351,8 @@ apply to one repository belong in that repository's project memory.
   section keeps normal capitals and punctuation, so `Rewritten: "pull pr 94 and redo the
   review"` is right and `Rewritten: "Pull PR 94, redo the review!"` is not.
   The rewrite keeps one reading with every comma and full stop removed, since the user may type
-  it without them: a scope word such as `here` or `only` stands next to what it limits, or the
-  scope is spelled out.
-- A `dotclaude` ask is how the user asks for a rule change, alone or inside a prompt about other
-  work. The feedback never calls it unclear or a second job, and a rewritten prompt keeps it.
+  it without them: a scope word such as `here` or `only` stands next to what it limits, or the scope
+  is spelled out.
 
 ## Comments
 
@@ -583,11 +581,13 @@ apply to one repository belong in that repository's project memory.
   repeats what a service says it does, such as a data residency or privacy claim on its product
   page, the session checks it against the service's own docs and privacy policy, and a claim they
   contradict is given with both sources. Any limit or claim a reply names cites the file or page
-  that shows it, or is called not checked. A vendor's list of supported platforms shows what it
-  supports, not what runs, so before a reply calls a program unavailable on a platform, the session
-  searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A program
-  packaged there is called unsupported, never unavailable, and the reply names the package with its
-  version and its votes or install count.
+  that shows it, or is called not checked. A pick or comparison of products reads the independent
+  tests of them, such as a consumer organisation's crash test of a child seat, and gives each result
+  beside its product. A vendor's list of supported platforms shows what it supports, not what runs,
+  so before a reply calls a program unavailable on a platform, the session searches that platform's
+  own package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
+  unsupported, never unavailable, and the reply names the package with its version and its votes or
+  install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.
