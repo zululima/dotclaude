@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read independent tests before picking a product
+## Check a part's fit on its own page and the maker's catalogue
 
 2026-11-08, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to pick up a chat about the car's wipers, left out]
+
+**2.**
+> and and so how could you recommend me those before even though i gave
+> you my vin?
+
+## Read independent tests before picking a product
+
+2026-11-08, commit [ad31083](https://github.com/zululima/dotclaude/commit/ad31083944a7b355d3035af778c8eda398b28baa), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [pasted: an address of a consumer car seat test page]
@@ -5993,6 +6004,7 @@ Stop, add it to dotclaude?)
 - uri: uniform resource identifier
 - url: uniform resource locator
 - usd: US dollars
+- VIN: vehicle identification number
 - vpn: virtual private network
 - VTI: Statens väg- och transportforskningsinstitut, the Swedish National Road and Transport Research Institute
 - wth: what the hell

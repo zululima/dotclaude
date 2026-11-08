@@ -561,16 +561,14 @@ apply to one repository belong in that repository's project memory.
 - A run a session starts in the background, with Bash's `run_in_background`, a `Monitor`, a workflow
   or a subagent, gets `show_pane` with `tasks` in the message that starts it, and in each later
   message calling a tool and before each reply while it goes on, which says the run is in the tasks
-  pane. A call opens nothing while no window shows the session, so the `usage` mod shows the pane
-  whenever a window starts to show it. The turn that learns its last run ended, a task
-  notification's too, calls `close_pane` with `tasks` once before the reply, and when no window
-  shows the session, the mod closes the pane once a window shows it. The `Stop` hook
-  `usage-waiting.sh` sends back once a turn that ends with none in flight while the pane stays
-  shown. Work set for later is a task under Scheduled in the app's sidebar, which survives an
-  archive, never `CronCreate` or `ScheduleWakeup`, which die with the session. A reply whose turn
-  adds, changes or removes anything that runs unattended on a schedule or trigger, such as a
-  scheduled task, local or cloud, a launchd agent or a cron entry, names it, when and where it runs
-  and what it does, and each reply until a one-time one runs names it and its time.
+  pane. The turn that learns its last run ended, a task notification's too, calls `close_pane` with
+  `tasks` once before the reply. The `Stop` hook `usage-waiting.sh` sends back once a turn that ends
+  with none in flight while the pane stays shown. Work set for later is a task under Scheduled in
+  the app's sidebar, which survives an archive, never `CronCreate` or `ScheduleWakeup`, which die
+  with the session. A reply whose turn adds, changes or removes anything that runs unattended on a
+  schedule or trigger, such as a scheduled task, local or cloud, a launchd agent or a cron entry,
+  names it, when and where it runs and what it does, and each reply until a one-time one runs names
+  it and its time.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
@@ -583,11 +581,13 @@ apply to one repository belong in that repository's project memory.
   contradict is given with both sources. Any limit or claim a reply names cites the file or page
   that shows it, or is called not checked. A pick or comparison of products reads the independent
   tests of them, such as a consumer organisation's crash test of a child seat, and gives each result
-  beside its product. A vendor's list of supported platforms shows what it supports, not what runs,
-  so before a reply calls a program unavailable on a platform, the session searches that platform's
-  own package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
-  unsupported, never unavailable, and the reply names the package with its version and its votes or
-  install count.
+  beside its product. A part for something the user owns matches all its fit turns on, such as a
+  wiper blade's arm attachment and length, read from that product's own page, and the factory part
+  from the maker's catalogue for its model code or VIN. A vendor's list of supported platforms shows
+  what it supports, not what runs, so before a reply calls a program unavailable on a platform, the
+  session searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A
+  program packaged there is called unsupported, never unavailable, and the reply names the package
+  with its version and its votes or install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.
