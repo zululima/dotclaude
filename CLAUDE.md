@@ -582,7 +582,7 @@ apply to one repository belong in that repository's project memory.
   the guides they point to, such as an onboarding guide in another repository. Before a reply
   repeats what a service says it does, such as a data residency or privacy claim on its product
   page, the session checks it against the service's own docs and privacy policy, and a claim they
-  contradict is given with both sources. A limit or claim the reply names cites the file or page
+  contradict is given with both sources. Any limit or claim a reply names cites the file or page
   that shows it, or is called not checked. A vendor's list of supported platforms shows what it
   supports, not what runs, so before a reply calls a program unavailable on a platform, the session
   searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A program

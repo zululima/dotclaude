@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Spell out abbreviations the user has not marked as known
+## Hold every claim in a reply to a cited source
 
 2026-11-08, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> luulin että isofix on turvallisempi kuin turvavyö
+
+## Spell out abbreviations the user has not marked as known
+
+2026-11-08, commit [e2510ef](https://github.com/zululima/dotclaude/commit/e2510ef85bbf926ea5b292752c9526fc738283e9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a child car seat left out]
@@ -5917,6 +5924,7 @@ Stop, add it to dotclaude?)
 - exfil: exfiltrate
 - ext: external
 - ext: external, a file posted by another organisation in a shared channel
+- FAQ: frequently asked questions
 - feat: feature
 - ff-only: fast-forward only
 - fri: Friday
@@ -5933,6 +5941,7 @@ Stop, add it to dotclaude?)
 - idc: I don't care
 - ip: intellectual property
 - ip: internet protocol address
+- ISOFIX: the ISO standard for fixing a child seat to anchor points in the car's frame
 - js: JavaScript
 - kwh: kilowatt-hours
 - LLM: large language model
