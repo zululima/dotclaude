@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Spell out abbreviations the user has not marked as known
+
+2026-11-08, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a child car seat left out]
+
+**2.** (answer to: shall I save the car and child facts?)
+> [a reply about a car seat left out]
+
+**3.**
+> mikä ihmeen vti? avaa aina jatkossa kerran lyhenteet joita en ole
+> erikseen merkannut sellaisiksi jotka tunnen
+
 ## Move an archived session's files on Linux too
 
-2026-11-07, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [b2c79e7](https://github.com/zululima/dotclaude/commit/b2c79e7ae412509fce945c56f99955b55c44eb24), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I fix the same macOS-only paths in the    archive-files mod?)
 > Yes, fix it
@@ -5962,5 +5976,6 @@ Stop, add it to dotclaude?)
 - url: uniform resource locator
 - usd: US dollars
 - vpn: virtual private network
+- VTI: Statens väg- och transportforskningsinstitut, the Swedish National Road and Transport Research Institute
 - wth: what the hell
 - XDG: X Desktop Group, now freedesktop.org
