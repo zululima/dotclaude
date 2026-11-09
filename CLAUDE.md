@@ -50,17 +50,14 @@ apply to one repository belong in that repository's project memory.
   whether the pin moved. `gh pr checkout` is a switch too and leaves submodules alone unless
   given `--recurse-submodules`. This holds for switches run and for switch commands given to the
   user.
-- A `PostToolUse` hook, `~/.claude/hooks/git-submodule-update-after-switch.sh`, runs the update
-  after every Bash command that switches and adds `git submodule status`, or the error that
-  stopped the update, to the context. A switch given to the user still carries the update.
-- Every rebase keeps each commit's original dates: run it with `--committer-date-is-author-date`,
-  in commands run and in commands given to the user. A plain rebase keeps the author date but
-  sets the committer date to the time of the rebase, and GitHub shows the committer date on a
-  commit's page, in the commit list and in a pull request's Commits tab, so every rebased commit
-  there looks written on the day of the rebase. Git has no config setting for the flag. An `-x`
-  step that amends each commit sets the committer date again, so it runs the amend with
-  `GIT_COMMITTER_DATE` set to the commit's author date, and a `--reset-author` in it comes with
-  `--date` set to that date too, since on its own it resets the author date as well.
+- Every rebase keeps each commit's original dates: run it with `--committer-date-is-author-date`, in
+  commands run and in commands given to the user. A plain rebase keeps the author date but sets the
+  committer date to the time of the rebase, and GitHub shows the committer date on a commit's page,
+  in the commit list and in a pull request's Commits tab, so every rebased commit there looks
+  written on the day of the rebase. Git has no config setting for the flag. An `-x` step that amends
+  each commit sets the committer date again, so it runs the amend with `GIT_COMMITTER_DATE` set to
+  the commit's author date, and a `--reset-author` in it comes with `--date` set to that date too,
+  since on its own it resets the author date as well.
 
 ## Pull requests
 
@@ -572,15 +569,17 @@ apply to one repository belong in that repository's project memory.
   tool showed included, cites the file, page or code run that shows it, or is called not checked. A
   tax, benefit or legal rule comes from the authority's current page, read that turn with its
   updated date: an expired guide, an unread law or memory is no source, and a rule no current page
-  shows stays out of every figure. A pick or comparison of products reads the independent tests of
-  them, such as a consumer organisation's crash test of a child seat, and gives each result beside
-  its product. A part for something the user owns matches all its fit turns on, such as a wiper
-  blade's arm attachment and length, read from that product's own page, and the factory part from
-  the maker's catalogue for its model code or VIN. A vendor's list of supported platforms shows what
-  it supports, not what runs, so before a reply calls a program unavailable on a platform, the
-  session searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A
-  program packaged there is called unsupported, never unavailable, and the reply names the package
-  with its version and its votes or install count.
+  shows stays out of every figure. An option a reply suggests for raising, collecting or moving
+  money, such as donations, a crowdfunding page or a payment route, is checked against the law that
+  governs it, on the authority's current page, before the reply names it. A pick or comparison of
+  products reads the independent tests of them, such as a consumer organisation's crash test of a
+  child seat, and gives each result beside its product. A part for something the user owns matches
+  all its fit turns on, such as a wiper blade's arm attachment and length, read from that product's
+  own page, and the factory part from the maker's catalogue for its model code or VIN. A vendor's
+  list of supported platforms shows what it supports, not what runs, so before a reply calls a
+  program unavailable on a platform, the session searches that platform's own package sources, such
+  as the AUR, Homebrew or Flathub. A program packaged there is called unsupported, never
+  unavailable, and the reply names the package with its version and its votes or install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.

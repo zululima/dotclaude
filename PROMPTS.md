@@ -5,9 +5,43 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Archive a session once a merging reviewer has its PR
+## Check a money option against its law before naming it
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a personal project left out]
+
+**2.**
+> [an ask about a personal project left out]
+
+**3.**
+> [an ask about a personal project left out]
+
+**4.**
+> [an ask about a personal project left out]
+
+**5.**
+> [an ask about a personal project left out]
+
+**6.**
+> [an ask about a personal project left out]
+
+**7.**
+> [an ask about a personal project left out]
+
+**8.**
+> [an ask about a personal project left out]
+
+**9.** (answer to: shall I add the rule to CLAUDE.md?)
+> Kyllä, lisää
+
+**10.**
+> [an ask about a personal project left out]
+
+## Archive a session once a merging reviewer has its PR
+
+2026-11-09, commit [99bed71](https://github.com/zululima/dotclaude/commit/99bed71e4ea4eeb1de063515cfb447a38ea44f38), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > no [a teammate] reviews adn merges it when they see fit. ill archive
