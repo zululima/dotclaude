@@ -129,6 +129,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$HOME/.claude/hooks/sync-conflicts.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "\"$HOME/.claude/hooks/claude-md-changed.sh\"",
             "timeout": 10
           }

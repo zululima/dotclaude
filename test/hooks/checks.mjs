@@ -470,6 +470,33 @@ const suites = [
     ]
   }],
 
+  ['sync-conflicts.sh', run => {
+    const prompt = (session_id = 'sc1') => run({ hook_event_name: 'UserPromptSubmit', session_id })
+    const memory = path.join(config, 'projects/-sync/memory/MEMORY.sync-conflict-20261109-090000-ABCDEFG.md')
+    const rules = path.join(config, 'rules/a.sync-conflict-20261109-090100-ABCDEFG.md')
+    return [
+      ['says nothing while no copy exists', () => quiet(prompt())],
+      ['skips folders that hold one machine\'s runtime state', () => {
+        write(path.join(config, 'telemetry/t.sync-conflict-20261109-090000-ABCDEFG.json'), '{}')
+        const r = quiet(prompt())
+        fs.rmSync(path.join(config, 'telemetry'), { recursive: true })
+        return r
+      }],
+      ['names a copy with a home path shortened to ~', () => {
+        write(memory, '- a\n')
+        return context(prompt()).includes('~/.claude/projects/-sync/memory/MEMORY.sync-conflict-')
+      }],
+      ['names the same copies once per session', () => quiet(prompt())],
+      ['names them to another session', () => context(prompt('sc2')).includes('MEMORY.sync-conflict-')],
+      ['names a new set again', () => { write(rules, '- b\n'); return context(prompt()).includes('a.sync-conflict-') }],
+      ['ignores a session id that is not a plain name', () => quiet(prompt('../sc3'))],
+      ['says nothing once the copies are merged away', () => {
+        fs.rmSync(memory); fs.rmSync(rules)
+        return quiet(prompt('sc4'))
+      }],
+    ]
+  }],
+
   ['git-fetch-prune.sh', run => {
     const origin = path.join(home, 'fetch-origin.git'), other = path.join(home, 'fetch-other'), work = path.join(home, 'fetch-work')
     const env = { CLAUDE_PROJECT_DIR: work }

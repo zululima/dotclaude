@@ -109,6 +109,9 @@
   `CLAUDE.md`, shows it every memory note index, so it fixes the notes that still say the old thing.
 - [`share-memories.sh`](../hooks/share-memories.sh): shares Claude's notes about a project with your
   team. It does nothing until you set it up.
+- [`sync-conflicts.sh`](../hooks/sync-conflicts.sh): if you keep `~/.claude` the same on two
+  computers with Syncthing, tells Claude about each file both changed at once, which Syncthing keeps
+  twice, so Claude merges the two back. It does nothing otherwise.
 
 ## Extras
 

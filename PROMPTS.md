@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Bring the app forward from a notification, never Script Editor
+## Name Syncthing conflict copies in ~/.claude to each session
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> make ALL my claude things sync to my cachyos so that they both have
+> the same context always. like memories etcliterally everything
+
+**2.** (answer to: shall I add a hook that warns each session about    Syncthing conflict copies in ~/.claude?)
+> Yes, add the hook
+
+## Bring the app forward from a notification, never Script Editor
+
+2026-11-09, commit [71009ba](https://github.com/zululima/dotclaude/commit/71009ba86bd30a1f74a964722cd7e2d3af9c8a4a), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an ask for a notification when a long command ends, left out]

@@ -182,6 +182,7 @@ mirrored=(
   hooks/chrome-anchor-kwin.js
   hooks/energy-session-pid.sh
   hooks/usage-waiting.sh
+  hooks/sync-conflicts.sh
   presence/install.sh
   presence/lock-listener.swift
   energy/install.sh
