@@ -219,9 +219,9 @@ apply to one repository belong in that repository's project memory.
   the reply that gives the draft. Steps that come after a long run whose own output will bury them,
   such as applying and committing what a dream run proposes, wait for the reply that follows that
   run, and the list before it stops at the run.
-- When nothing is left for the user or the session to do, its PRs merged or closed, the closing
-  reply says so and that the user can archive the session, in its text alone and not in the
-  next-step box.
+- When nothing is left for the user or the session to do, its PRs merged, closed or left to a
+  reviewer who merges them, the closing reply says so and that the user can archive the session, in
+  its text alone and not in the next-step box.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the

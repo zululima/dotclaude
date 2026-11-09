@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Start each new issue in a session of its own
+## Archive a session once a merging reviewer has its PR
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**17.**
+> no [a teammate] reviews adn merges it when they see fit. ill archive
+> this session now
+
+## Start each new issue in a session of its own
+
+2026-11-09, commit [b5cc517](https://github.com/zululima/dotclaude/commit/b5cc5173bc3c83568d6b8db7a170f8aafec95358), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > never here. dotclaude pls remember you should suggest ask start issue
