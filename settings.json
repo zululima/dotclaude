@@ -529,6 +529,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "^mcp__ccd_session__(start_session|hand_off_to_session)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/detach-started-session.sh\"",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [

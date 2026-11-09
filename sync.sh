@@ -170,6 +170,7 @@ mirrored=(
   hooks/prompts-md-current.sh
   hooks/cd-fall-through.sh
   hooks/slack-user-search-own-workspace.sh
+  hooks/detach-started-session.sh
   hooks/permission-mode-changed.sh
   hooks/no-foreground-wait.sh
   hooks/stop-unreachable-claim.sh

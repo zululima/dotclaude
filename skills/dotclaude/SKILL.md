@@ -179,6 +179,9 @@ run and its commit in the same turn.
 - A `PreToolUse` hook, `~/.claude/hooks/cd-fall-through.sh`, refuses a Bash command with a part
   after a `cd` that runs when the `cd` failed, unless the `cd` goes into a directory that exists
   already. It backs the rule in `~/.claude/CLAUDE.md` on commands that run in another directory.
+- A `PostToolUse` hook, `~/.claude/hooks/detach-started-session.sh`, hands the `detach_session`
+  step back to the model after each `start_session` and `hand_off_to_session` call. It backs the
+  rule in `~/.claude/CLAUDE.md` that no session nests under another.
 - A `PostToolUse` hook, `~/.claude/hooks/git-submodule-update-after-switch.sh`, runs the update
   after every Bash command that switches and adds `git submodule status`, or the error that
   stopped the update, to the context. A switch given to the user still carries the update.

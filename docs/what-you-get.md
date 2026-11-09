@@ -103,6 +103,8 @@
   you typed ends with a short note on how your prompt could have been better.
 - [`archive-when-done.sh`](../hooks/archive-when-done.sh): when Claude finishes with nothing left to
   ask or do, makes it say that you can archive the session.
+- [`detach-started-session.sh`](../hooks/detach-started-session.sh): when Claude starts another
+  session, reminds it to move that session to the top of the sidebar instead of under its own.
 - [`memory-plain-characters.sh`](../hooks/memory-plain-characters.sh): points out long dashes in
   Claude's memory notes, so Claude swaps them for plain punctuation.
 - [`claude-md-memory-index.sh`](../hooks/claude-md-memory-index.sh): when Claude changes a rule in

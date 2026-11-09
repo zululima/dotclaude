@@ -585,8 +585,9 @@ apply to one repository belong in that repository's project memory.
   asks for that.
 - No session nests under another. Every session a session starts, with `start_session` or
   `hand_off_to_session`, goes to top level with `detach_session` in the next message, a card the
-  user has it start included. It then reports nothing back, so the reply links it, and a step that
-  needs its result waits for the user to say it is done.
+  user has it start included, and one another session started detaches itself first, with `self`. It
+  then reports nothing back, so the reply links it, and a step that needs its result waits for the
+  user to say it is done.
 - A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
   asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
   browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.
@@ -713,9 +714,8 @@ apply to one repository belong in that repository's project memory.
 
 ## Public configuration repository
 
-- The parts of `~/.claude` that help other people learn this workflow, the files the `mirrored` list
-  of `sync.sh` names, are mirrored in a public git repository checked out at `~/Projects/dotclaude`,
-  and the `dotclaude` skill says how.
+- The parts of `~/.claude` that help other people learn this workflow are mirrored in a public git
+  repository checked out at `~/Projects/dotclaude`, and the `dotclaude` skill says how.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then it commits and pushes
