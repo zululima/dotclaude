@@ -101,8 +101,8 @@
   you switched its permission mode, so it never names the old one.
 - [`prompt-feedback-box.sh`](../hooks/prompt-feedback-box.sh): makes sure every reply to a prompt
   you typed ends with a short note on how your prompt could have been better.
-- [`archive-when-done.sh`](../hooks/archive-when-done.sh): when Claude finishes with nothing left
-  to ask or do, makes it say that you can archive the session.
+- [`archive-when-done.sh`](../hooks/archive-when-done.sh): when Claude finishes with nothing left to
+  ask or do, makes it say that you can archive the session.
 - [`memory-plain-characters.sh`](../hooks/memory-plain-characters.sh): points out long dashes in
   Claude's memory notes, so Claude swaps them for plain punctuation.
 - [`claude-md-memory-index.sh`](../hooks/claude-md-memory-index.sh): when Claude changes a rule in
