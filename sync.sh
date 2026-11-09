@@ -185,6 +185,7 @@ mirrored=(
   hooks/sync-conflicts.sh
   presence/install.sh
   presence/lock-listener.swift
+  presence/lock-listener-kde.sh
   energy/install.sh
   energy/energy-sampler.swift
   energy/report.py

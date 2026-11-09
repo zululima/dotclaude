@@ -141,13 +141,15 @@
   files stop moving, `~/Library/Logs/claude-archive-files.log` on a Mac, or
   `~/.local/state/claude-archive-files.log` on Linux, shows the last time it worked.
 - [`presence`](../presence/install.sh): my phone gets Claude's pushes, such as a question waiting
-  for an answer, only while the Mac is locked.
-  [`lock-listener.swift`](../presence/lock-listener.swift) keeps the file that
-  `CLAUDE_CLIENT_PRESENCE_FILE` in `settings.json` names in step with the screen lock: it is there
-  while the screen is unlocked, and Claude Code skips the push then. The desktop app pushes a
-  session that no window shows even while you work in another one, so
+  for an answer, only while the computer is locked or its displays are off.
+  [`lock-listener.swift`](../presence/lock-listener.swift) on a Mac and
+  [`lock-listener-kde.sh`](../presence/lock-listener-kde.sh) on Linux with KDE Plasma keep the file
+  that `CLAUDE_CLIENT_PRESENCE_FILE` in `settings.json` names in step with the screen: it is there
+  while the screen is unlocked, and on KDE also a display is on, and Claude Code skips the push
+  then. The desktop app pushes a session that no window shows even while you work in another one, so
   [`push-only-when-locked.sh`](../hooks/push-only-when-locked.sh) stops Claude's own pushes while
-  the file is there. Mac only. This builds the listener and starts it at every login:
+  the file is there. This starts the listener at every login, as a LaunchAgent on a Mac and a
+  systemd user service on Linux:
   ```zsh
   ~/.claude/presence/install.sh
   ```

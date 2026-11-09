@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name the permission modes as the app's menu does
+## Keep pushes off the phone while a KDE desktop is in use
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> claude keeps sending me notifications from cachyos to iphone although
+> my cachyos is definitely not locked or timed out or anything
+
+## Name the permission modes as the app's menu does
+
+2026-11-09, commit [b026bf6](https://github.com/zululima/dotclaude/commit/b026bf61a79bd3571cf95b0383b1a0d15b84fa98), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to run three prompt files on another machine, left out]

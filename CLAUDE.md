@@ -532,12 +532,11 @@ apply to one repository belong in that repository's project memory.
   its offer to save one, not by importing passwords from Firefox, and not in a password manager's
   Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
   time a site asks, from the password manager they keep outside Chrome.
-- A `PushNotification` goes out only while the Mac's screen is locked. A session that no window
+- A `PushNotification` goes out only while the screen is locked or off. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
-  the screen is unlocked the reply and the sidebar reach them. The presence listener in
-  `~/.claude/presence` keeps the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there while the
-  screen is unlocked, and a `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a
-  push while it is.
+  the screen is on and unlocked the reply and the sidebar reach them. The listeners in
+  `~/.claude/presence` keep the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there meanwhile, and a
+  `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a push while it is.
 - A desktop notification a session sets up or sends, a test one too, brings the app it is about to
   the front when clicked, such as the terminal a command ran in. On macOS, `osascript`'s `display
   notification` does not: macOS shows it as Script Editor's, and a click opens Script Editor's Open
