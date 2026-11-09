@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Refresh the evals for 2 to 9 November
+## Test the Chrome window script and the own address hook
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I add tests for the two hooks that have none?)
+> Yes, go ahead
+
+## Refresh the evals for 2 to 9 November
+
+2026-11-09, commit [b3cedff](https://github.com/zululima/dotclaude/commit/b3cedffc939a642460e4769b7d895f4eb8e7f8a4), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [7c32637](https://github.com/zululima/dotclaude/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd).
 

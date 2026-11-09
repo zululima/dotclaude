@@ -11,7 +11,7 @@ node ~/Projects/dotclaude/test/evals.mjs
 <!-- evals:start -->
 | Suite | What it checks | Result |
 | --- | --- | --- |
-| [Hook tests](../test/hooks/checks.mjs) | every hook, fed the input Claude Code sends it | 303 of 304 pass |
+| [Hook tests](../test/hooks/checks.mjs) | every hook, fed the input Claude Code sends it | 325 of 325 pass |
 | [Dream simulation](../test/dream-sim/checks.mjs) | how `/dream` spends usage and when it stops | 122 of 122 pass |
 | [Usage mod tests](../mods/session-usage/hooks/register.test.ts) | the line under the prompt box | 29 of 29 pass |
 

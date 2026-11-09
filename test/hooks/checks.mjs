@@ -806,6 +806,85 @@ const suites = [
     ]
   }],
 
+  ['no-own-email-in-requests.sh', run => {
+    const own = address('test')
+    // The hook refuses an edit that names the setting or variable an address comes from, so these are put together too.
+    const gitKey = ['user', 'email'].join('.')
+    const envKey = ['CLAUDE', 'CODE', 'USER', 'EMAIL'].join('_')
+    const tool = (tool_name, tool_input) => ({ hook_event_name: 'PreToolUse', tool_name, tool_input, cwd: home, session_id: 's1' })
+    const refusedFor = (r, place) => refused(r) && r.err.includes(place)
+    const listed = path.join(config, 'own-addresses.txt')
+    return [
+      ['lets a request with no address through', () => quiet(run(bash('curl -A "tool/1.0" https://api.example.org')))],
+      ['refuses the git address in a curl User-Agent', () => refusedFor(run(bash(`curl -A "tool/1.0 (${own})" https://api.example.org`)), 'a User-Agent')],
+      ['refuses a User-Agent that reads git config', () => refusedFor(run(bash(`curl -A "tool ($(git config ${gitKey}))" https://api.example.org`)), 'a User-Agent')],
+      ['refuses the address in a fetched URL, percent-encoded too', () => refusedFor(run(tool('WebFetch', { url: `https://api.example.org/?e=${own}` })), 'a URL')
+        && refusedFor(run(tool('WebFetch', { url: `https://api.example.org/?e=${own.replace('@', '%40')}` })), 'a URL')],
+      ['refuses a web search for the address', () => refusedFor(run(tool('WebSearch', { query: own })), 'a web search')],
+      ['refuses a From header in a written script', () => refusedFor(run(tool('Write', { file_path: path.join(home, 'x.py'), content: `requests.get(url, headers={'From': '${own}'})\n` })), 'a From header')],
+      ['refuses a mailto contact in an edit', () => refusedFor(run(tool('Edit', { file_path: path.join(home, 'x.js'), old_string: 'a', new_string: `const agent = { mailto: '${own}' }` })), 'a mailto contact')],
+      ['lets a mailto link in a page through', () => quiet(run(tool('Write', { file_path: path.join(home, 'x.html'), content: `<a href="mailto:${own}">mail</a>\n` })))],
+      ['lets the address through where it reaches no website', () => quiet(run(bash(`git log --author=${own}`)))],
+      ['lets another person\'s address through', () => quiet(run(bash(`curl -A "tool (${address('someone')})" https://api.example.org`)))],
+      ['takes addresses from own-addresses.txt and the environment', () => {
+        write(listed, `# work\n${address('work', 'example.org')}\n`)
+        const fromFile = refusedFor(run(tool('WebFetch', { url: `https://x.example.net/?e=${address('work', 'example.org')}` })), 'a URL')
+        fs.rmSync(listed)
+        return fromFile && refusedFor(run(tool('WebSearch', { query: address('env') }), { env: { [envKey]: address('env') } }), 'a web search')
+      }],
+      ['leaves edits of the hook itself alone', () => quiet(run(tool('Edit', { file_path: path.join(config, 'hooks/no-own-email-in-requests.sh'), old_string: 'a', new_string: `curl -A "x (${own})" https://api.example.org` })))],
+      ['leaves other tools alone', () => quiet(run(tool('Read', { file_path: path.join(home, own) })))],
+    ]
+  }],
+
+  ['chrome-background.sh', run => {
+    const bin = path.join(home, 'chrome-stubs')
+    const browser = path.join(home, 'chrome-browser')
+    const calls = path.join(home, 'chrome-calls')
+    const started = path.join(home, 'chrome-started')
+    const stub = (dir, name, body) => { write(path.join(dir, name), `#!/usr/bin/env bash\n${body}\n`); fs.chmodSync(path.join(dir, name), 0o755) }
+    stub(bin, 'uname', 'echo "$FAKE_OS"')
+    stub(bin, 'open', `echo "open $*" >> ${q(calls)}`)
+    stub(bin, 'osascript', `case "$*" in
+  *'"front"'*) echo "$CHROME_STATE" ;;
+  *'chrome().hide;'*) echo hide >> ${q(calls)} ;;
+  *) echo keep-hidden >> ${q(calls)} ;;
+esac`)
+    stub(bin, 'setsid', `echo "setsid $*" >> ${q(calls)}; touch ${q(started)}`)
+    stub(bin, 'busctl', `case "$*" in
+  *WindowsRunner*) if [ "$WINDOWS" = 1 ] || [ -e ${q(started)} ]; then echo '{"data":[[["1","Page - Chromium","",100,1,{}]]]}'; else echo '{"data":[[]]}'; fi ;;
+  *unloadScript*) echo unload >> ${q(calls)} ;;
+  *loadScript*) echo load >> ${q(calls)}; [ "$KWIN" = up ] && echo 'i 7' ;;
+  *Script7*) echo run-script >> ${q(calls)} ;;
+esac`)
+    stub(browser, 'chromium', 'exit 0')
+    fs.symlinkSync(spawnSync('bash', ['-c', 'command -v jq'], { encoding: 'utf8' }).stdout.trim(), path.join(bin, 'jq'))
+    const go = (env, withBrowser = true) => {
+      fs.rmSync(calls, { force: true })
+      fs.rmSync(started, { force: true })
+      const r = run({}, { env: { PATH: `${withBrowser ? `${browser}:` : ''}${bin}:/usr/bin:/bin`, CHROME_STATE: '', WINDOWS: '0', KWIN: 'up', ...env } })
+      return { ...r, calls: fs.existsSync(calls) ? fs.readFileSync(calls, 'utf8').trim().split('\n') : [] }
+    }
+    const mac = state => go({ FAKE_OS: 'Darwin', CHROME_STATE: state })
+    const linux = (env = {}, withBrowser) => go({ FAKE_OS: 'Linux', ...env }, withBrowser)
+    const opens = (line, flags) => line.startsWith(`open ${flags} -a Google Chrome `) && line.endsWith('/chrome-anchor.html')
+    return [
+      ['leaves a Chrome that has a window alone', () => { const r = mac('window'); return r.code === 0 && r.out.includes('already has a window') && !r.calls.length }],
+      ['opens the anchor in the background when Chrome is not running, then keeps it hidden', () => { const r = mac('none'); return r.code === 0 && opens(r.calls[0], '-g -j') && r.calls[1] === 'keep-hidden' }],
+      ['hides a windowless Chrome before it opens the anchor', () => { const r = mac('back'); return r.code === 0 && r.calls[0] === 'hide' && opens(r.calls[1], '-g') && r.calls[2] === 'keep-hidden' }],
+      ['leaves Chrome in view when it was the app in front', () => { const r = mac('front'); return r.code === 0 && r.calls.length === 1 && opens(r.calls[0], '-g') }],
+      ['on Linux, stops when neither Chromium nor Chrome is installed', () => { const r = linux({}, false); return r.code === 1 && r.out.includes('Neither Chromium nor Chrome') }],
+      ['on Linux, leaves a browser that has a window alone', () => { const r = linux({ WINDOWS: '1' }); return r.code === 0 && r.out.includes('already has a window') && !r.calls.some(c => c.startsWith('setsid')) }],
+      ['on Linux, runs the KWin script before it starts the browser on the anchor', () => {
+        const r = linux()
+        const s = r.calls.findIndex(c => c.startsWith('setsid'))
+        return r.code === 0 && r.out.includes('hidden window') && r.calls.indexOf('run-script') > -1 && r.calls.indexOf('run-script') < s
+          && /chromium file:\/\/.*\/chrome-anchor\.html$/.test(r.calls[s]) && r.calls[r.calls.length - 1] === 'unload'
+      }],
+      ['on Linux, says the window stays in view when KWin does not answer', () => { const r = linux({ KWIN: 'down' }); return r.code === 0 && r.out.includes('KWin did not answer') && r.calls.some(c => c.startsWith('setsid')) }],
+    ]
+  }],
+
   ['slack-user-search-own-workspace.sh', run => {
     const search = { hook_event_name: 'PostToolUse', tool_name: 'mcp__slack__slack_search_users', tool_input: { query: 'Ville' }, tool_response: 'No results found' }
     return [
