@@ -19,7 +19,8 @@
 #                           Chrome tabs ends or 0, a line each, for the mod to
 #                           count down from
 #   usage.sh --next <session id>
-#                           the other sessions of the last hour whose cache is
+#                           the other sessions of the last hour that ran on
+#                           this machine, whose cache is
 #                           still warm, whose last turn has ended, that wait on
 #                           no background work, whose last turn the user did
 #                           not stop and that the sidebar does not mark
@@ -79,6 +80,7 @@ common='
       else $n | IN("navigate", "form_input", "javascript_tool", "file_upload", "upload_image") end;
   def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}, stopped: false, ended: false};
       (if $e.uuid != null then .seen[$e.uuid] = ($e.timestamp | secs) else . end)
+      | (if $e.cwd != null then .cwd = $e.cwd else . end)
       | (if $e.type == "assistant" then reduce ($e.message.content[]? | select(.type? == "tool_use"
           and (.name | startswith("mcp__claude-in-chrome__")) and acting(.name; .input))) as $u (.; .acts[$u.id] = true)
          else . end)
@@ -377,21 +379,25 @@ if [ "${1:-}" = --next ]; then
       # seconds and whether the last turn ended or the user stopped it follow
       # from the file alone, so every session reads a transcript again only
       # once it has changed.
-      cold=0 ends=0 stopped='' ended=''
+      cold=0 ends=0 stopped='' ended='' cwd=''
       stamp=$(file_stamp "$f")
       memo="$memos/$id"
       size='' mtime=''
-      read -r size mtime cold ends stopped ended 2>/dev/null < "$memo"
-      if [ "$size $mtime" != "$stamp" ] || [ -z "$ended" ]; then
-        cold=0 ends=0 stopped=false ended=false
-        read -r cold ends stopped ended < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
+      read -r size mtime cold ends stopped ended cwd 2>/dev/null < "$memo"
+      if [ "$size $mtime" != "$stamp" ] || [ -z "$cwd" ]; then
+        cold=0 ends=0 stopped=false ended=false cwd=/
+        read -r cold ends stopped ended cwd < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
           scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | .stopped as $stopped | .ended as $ended
+          | (.cwd // "/") as $cwd
           | grouped
           | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor
              elif $prompt > 0 then $prompt + 3600 | floor else 0 end) as $cold
-          | "\($cold) \($ends) \($stopped) \($ended)"' 2>/dev/null)
-        printf '%s %s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" "${ended:-false}" > "$memo.$$" && mv "$memo.$$" "$memo"
+          | "\($cold) \($ends) \($stopped) \($ended) \($cwd)"' 2>/dev/null)
+        printf '%s %s %s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" "${ended:-false}" "${cwd:-/}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi
+      # Syncthing brings the other machine's transcripts too. Its sessions ran
+      # in a folder this machine lacks, and only that machine can prompt them.
+      [ -d "${cwd:-/}" ] || continue
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source" "$id"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\t%s\n' "$ends" "$title" "$record" "$untitled"
