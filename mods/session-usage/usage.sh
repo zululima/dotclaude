@@ -366,7 +366,7 @@ if [ "${1:-}" = --next ]; then
       title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
-      # its first response is written, for at least the shorter lifetime. Both
+      # its first response is written, for the hour a main thread writes. Both
       # seconds and whether the user stopped the last turn follow from the
       # file alone, so every session reads a transcript again only once it has
       # changed.
@@ -380,7 +380,7 @@ if [ "${1:-}" = --next ]; then
         read -r cold ends stopped < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
           scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | .stopped as $stopped | grouped
           | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor
-             elif $prompt > 0 then $prompt + 300 | floor else 0 end) as $cold
+             elif $prompt > 0 then $prompt + 3600 | floor else 0 end) as $cold
           | "\($cold) \($ends) \($stopped)"' 2>/dev/null)
         printf '%s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi

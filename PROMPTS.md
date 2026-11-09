@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Cite the code run behind a figure a tool showed
+## Count a session's first prompt warm for an hour
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** Quoted under [7bc0838](https://github.com/zululima/dotclaude/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd).
+
+**3.** (answer to: shall I make the usage mod guess 1 hour instead of 5    minutes for a new prompt?)
+> Yes, fix it
+
+## Cite the code run behind a figure a tool showed
+
+2026-11-09, commit [7bc0838](https://github.com/zululima/dotclaude/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > 3m [a session title]? bug fix?
