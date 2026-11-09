@@ -150,6 +150,7 @@ mirrored=(
   hooks/no-git-checkout.sh
   hooks/no-identity-override.sh
   hooks/no-own-email-in-requests.sh
+  hooks/no-secrets-in-commands.sh
   hooks/no-home-search.sh
   hooks/prompt-log.sh
   hooks/memory-plain-characters.sh
@@ -641,9 +642,22 @@ scan_credentials() {
     -e 'AKIA[0-9A-Z]{16}' \
     -e 'AIza[0-9A-Za-z_-]{35}' \
     -e 'eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}' \
-    -e '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+    -e '-----BEGIN [A-Z ]*PRIVATE KEY-----' \
+    -e 'npm_[A-Za-z0-9]{36}' \
+    -e 'glpat-[A-Za-z0-9_-]{20,}' \
+    -e 'sbp_[a-f0-9]{40}' \
+    -e '[sr]k_live_[A-Za-z0-9]{20,}'
   scan "credential-like assignment$1" -i -E \
     -e '(api[_-]?key|secret|token|passw(or)?d)[^A-Za-z0-9]{0,3}[:=][^A-Za-z0-9]{0,3}[A-Za-z0-9/+_.-]{16,}'
+  local quote="[\`'\"]?" lit="[^\$\`'\"[:space:]<{][^\`'\"[:space:]]{7,}"
+  scan "password in a command$1" -i -E \
+    -e "(pgpassword|mysql_pwd|sshpass)=$quote$lit" \
+    -e "sshpass +-p *$quote$lit" \
+    -e "(mysql|mariadb|mysqldump)[^|;&]* -p$quote$lit" \
+    -e "--password[= ]$quote$lit" \
+    -e "authorization: *(bearer|basic|token) +$lit" \
+    -e "(x-api-key|private-token): *$lit" \
+    -e "://[^/[:space:]:@]+:[^\$/[:space:]@<{][^/[:space:]@]{5,}@[a-z0-9-]+\.[a-z]"
 }
 scan_credentials ""
 

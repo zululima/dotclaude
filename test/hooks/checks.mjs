@@ -10,10 +10,12 @@ const HOOKS = path.resolve(process.argv[2] || path.join(ROOT, 'hooks'))
 const USAGE_SH = path.join(ROOT, 'mods/session-usage/usage.sh')
 const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hook-checks-')))
 const config = path.join(home, '.claude')
-// Addresses and home paths are put together at run time, so the sync.sh scan does not take them for real ones.
+// Addresses, home paths and secrets are put together at run time, so the sync.sh scan does not take them for real ones.
 const address = (name, domain = 'example.com') => [name, domain].join('@')
 const otherHome = ['', 'Users', 'someone'].join('/')
 const linuxHome = ['', 'home', 'someone'].join('/')
+const fakeSecret = ['s3cr', 'etValue9'].join('')
+const publicHost = ['db', 'example', 'com'].join('.')
 const ENV = { PATH: process.env.PATH, HOME: home, CLAUDE_CONFIG_DIR: config, TMPDIR: path.join(home, 'tmp'), LANG: 'en_US.UTF-8', GIT_CONFIG_NOSYSTEM: '1' }
 
 const write = (file, text) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, text); return file }
@@ -202,6 +204,36 @@ const suites = [
     ['lets git switch through', () => quiet(run(bash('git switch main')))],
     ['ignores the word in an echo', () => quiet(run(bash('echo git checkout is old')))],
   ]],
+
+  ['no-secrets-in-commands.sh', run => {
+    // A key is put together at run time too, and a variable is written as '$' + name so JavaScript leaves it alone.
+    const key = ['sk', 'ant', 'api03', 'a'.repeat(30)].join('-')
+    const variable = name => '$' + name
+    const refusedFor = (r, what) => refused(r) && r.err.includes(what) && !r.err.includes(fakeSecret) && !r.err.includes(key)
+    return [
+      ['refuses a password in PGPASSWORD for a public host', () => refusedFor(run(bash(`PGPASSWORD=${fakeSecret} psql -h ${publicHost} -U app`)), 'PGPASSWORD')],
+      ['refuses a password after sshpass -p', () => refusedFor(run(bash(`sshpass -p '${fakeSecret}' ssh deploy@203.0.113.5`)), 'sshpass -p')],
+      ['refuses a password after mysql -p', () => refusedFor(run(bash(`mysql -h ${publicHost} -uapp -p${fakeSecret} app`)), 'after -p')],
+      ['refuses a password after --password and curl -u', () =>
+        refusedFor(run(bash(`docker login -u me --password ${fakeSecret} registry.example.org`)), '--password') &&
+        refusedFor(run(bash(`curl -u me:${fakeSecret} https://api.example.org`)), 'after -u')],
+      ['refuses a token in an Authorization header', () => refusedFor(run(bash(`curl -H "Authorization: Bearer ${fakeSecret}${fakeSecret}" https://api.example.org`)), 'a header')],
+      ['refuses a password in an address on a public host', () => refusedFor(run(bash(`psql postgres://app:${fakeSecret}@${publicHost}/app`)), `address on ${publicHost}`)],
+      ['refuses a key in a provider\'s format and shows only its start', () => refusedFor(run(bash(`curl -H "x-api-key: ${key}" https://api.example.org`)), 'provider')],
+      ['lets a value read from a variable or a command through', () =>
+        quiet(run(bash(`PGPASSWORD="${variable('DB_PASSWORD')}" psql -h ${publicHost}`))) &&
+        quiet(run(bash(`psql "postgres://app:${variable('{PW}')}@${publicHost}/app"`))) &&
+        quiet(run(bash('curl -H "Authorization: Bearer $(gh auth token)" https://api.github.com/user')))],
+      ['lets a local default and a password for a local host through', () =>
+        quiet(run(bash('docker compose exec -T db mysql -uroot -proot app'))) &&
+        quiet(run(bash(`PGPASSWORD=${fakeSecret} psql -h localhost -U app`))) &&
+        quiet(run(bash(`psql postgres://app:${fakeSecret}@localhost:5432/app`)))],
+      ['lets a placeholder and --password-stdin through', () =>
+        quiet(run(bash(`PGPASSWORD=${['PASTE', 'VALUE', 'HERE'].join('_')} psql -h ${publicHost}`))) &&
+        quiet(run(bash(`echo "${variable('T')}" | docker login -u me --password-stdin registry.example.org`)))],
+      ['ignores a search for the patterns themselves', () => quiet(run(bash("grep -E 'PGPASSWORD=[^$ ]|sk-ant-|Bearer [A-Za-z]' notes.md")))],
+    ]
+  }],
 
   ['claude-md-changed.sh', run => {
     const rules = path.join(config, 'CLAUDE.md')
@@ -797,6 +829,15 @@ const suites = [
         const r = run({}, { env })
         settle()
         return r.code === 2 && r.err.includes('login.md') && !fs.existsSync(path.join(dest, 'login.md'))
+      }],
+      ['holds back a note with a password inside a command, but not a local default', () => {
+        fs.rmSync(path.join(memory, 'login.md'))
+        note('db.md', `Connect with PGPASSWORD=${fakeSecret} psql -h ${publicHost}.\n`)
+        note('local.md', 'Local: docker compose exec -T db mysql -uroot -proot app\n')
+        const r = run({}, { env })
+        settle()
+        return r.code === 2 && r.err.includes('db.md') && !r.err.includes('local.md') &&
+          !fs.existsSync(path.join(dest, 'db.md')) && fs.existsSync(path.join(dest, 'local.md'))
       }],
       ['leaves repositories of other owners alone', () => {
         sh(`git -C ${q(proj)} remote set-url origin https://github.com/other/proj.git`)

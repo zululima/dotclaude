@@ -51,7 +51,12 @@ touch "$state/$key.started"
 
 q="[\`'\"]"
 nq="[^\`'\"[:space:]]"
-secret="(password|passwd|salasana)[ :=]*(is )?$q$nq{8,}$q|figd_|ghp_|gho_|ghs_|github_pat_|xox[abpors]-|sk-[A-Za-z0-9]{20}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY"
+lit="[^\$\`'\"[:space:]<{]$nq{7,}"
+secret="(password|passwd|salasana)[ :=]*(is )?$q$nq{8,}$q|figd_|ghp_|gho_|ghs_|github_pat_|xox[abpors]-|(^|[^a-z0-9])sk-[a-z0-9_-]{20,}"
+secret="$secret|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY|npm_[a-z0-9]{36}|glpat-|sbp_[a-f0-9]{40}|[sr]k_live_|AIza[0-9a-z_-]{35}"
+secret="$secret|(pgpassword|mysql_pwd|sshpass)=$q?$lit|sshpass +-p *$q?$lit|(mysql|mariadb|mysqldump)[^|;&]* -p$q?$lit"
+secret="$secret|--password[= ]$q?$lit|authorization: *(bearer|basic|token) +$lit|(x-api-key|private-token): *$lit"
+secret="$secret|://[^/[:space:]:@]+:[^\$/[:space:]@<{][^/[:space:]@]{5,}@[a-z0-9-]+\.[a-z]"
 # Claude Code's memory tool moves the flag under metadata: and quotes it on save.
 share_value() {
   awk 'NR == 1 && $0 != "---" { exit } NR > 1 && $0 == "---" { exit }

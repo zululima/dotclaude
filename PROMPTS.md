@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Test the Chrome window script and the own address hook
+## Refuse secrets typed into commands, and scan for them
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [pasted: the address of Apiiro's article on coding agents leaking
+> secrets to GitHub] thoughts? am i affected? can i patch this
+
+**2.** (answer to: shall I build patch option a?)
+> Yes, build a
+
+## Test the Chrome window script and the own address hook
+
+2026-11-09, commit [4f1b05b](https://github.com/zululima/dotclaude/commit/4f1b05b172b4cf764045eaaade8ef5921113bd90), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I add tests for the two hooks that have none?)
 > Yes, go ahead

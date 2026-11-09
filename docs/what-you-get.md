@@ -42,6 +42,11 @@
   your own email address to a website, in a User-Agent, a From header, a mailto contact, a link or a
   web search, also from a script it writes. It reads your addresses from your Claude account, your
   git settings and `~/.claude/own-addresses.txt`, so they are never written in the hook.
+- [`no-secrets-in-commands.sh`](../hooks/no-secrets-in-commands.sh): stops Claude from typing a
+  password, token or key into a command, where "Yes, and don't ask again" would save it in the
+  project's `.claude/settings.local.json` and the transcript would keep it. Claude reads the value
+  from a file, the keychain or a variable instead. Local defaults such as `root`, and passwords for
+  a local database or a container, still go through.
 - [`calendar-free-busy-only.sh`](../hooks/calendar-free-busy-only.sh): stops Claude from reading
   other people's calendar events. It can still see when they are free.
 - [`slack-user-search-own-workspace.sh`](../hooks/slack-user-search-own-workspace.sh): tells Claude
