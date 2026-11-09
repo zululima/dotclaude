@@ -578,16 +578,17 @@ apply to one repository belong in that repository's project memory.
   the guides they point to, such as an onboarding guide in another repository. Before a reply
   repeats what a service says it does, such as a data residency or privacy claim on its product
   page, the session checks it against the service's own docs and privacy policy, and a claim they
-  contradict is given with both sources. Any limit or claim a reply names cites the file or page
-  that shows it, or is called not checked. A pick or comparison of products reads the independent
-  tests of them, such as a consumer organisation's crash test of a child seat, and gives each result
-  beside its product. A part for something the user owns matches all its fit turns on, such as a
-  wiper blade's arm attachment and length, read from that product's own page, and the factory part
-  from the maker's catalogue for its model code or VIN. A vendor's list of supported platforms shows
-  what it supports, not what runs, so before a reply calls a program unavailable on a platform, the
-  session searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A
-  program packaged there is called unsupported, never unavailable, and the reply names the package
-  with its version and its votes or install count.
+  contradict is given with both sources. Any limit or claim a reply names, the cause of a figure a
+  tool showed included, cites the file, page or code run that shows it, or is called not checked. A
+  pick or comparison of products reads the independent tests of them, such as a consumer
+  organisation's crash test of a child seat, and gives each result beside its product. A part for
+  something the user owns matches all its fit turns on, such as a wiper blade's arm attachment and
+  length, read from that product's own page, and the factory part from the maker's catalogue for its
+  model code or VIN. A vendor's list of supported platforms shows what it supports, not what runs,
+  so before a reply calls a program unavailable on a platform, the session searches that platform's
+  own package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
+  unsupported, never unavailable, and the reply names the package with its version and its votes or
+  install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.
