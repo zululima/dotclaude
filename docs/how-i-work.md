@@ -234,10 +234,11 @@ around the reset:
    dream review
    ```
 
-   It shows the latest report first and reruns the evals, then applies most steps without asking and
-   goes through the rest one question at a time, each with the exact change, a moment where things
-   went wrong and how that moment goes once the change is in. I answer "Add it" or "Not now", and
-   Claude applies what I added and pushes it here. Then I carry on with my own work.
+   It shows the latest report first, unless an earlier review showed it, and reruns the evals, then
+   applies most steps without asking and goes through the rest one question at a time, each with the
+   exact change, a moment where things went wrong and how that moment goes once the change is in. I
+   answer "Add it" or "Not now", and Claude applies what I added and pushes it here. Then I carry on
+   with my own work.
 
 3. Saturday, when I am done: connect the charger again and send `/dream` in a new Code session. On
    the reset day this is a final run. It spends the rest of the week, down to 1 percentage point,

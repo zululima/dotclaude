@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
@@ -390,8 +390,8 @@ const REVIEW_SETUP = {
   properties: { today: { type: 'string' }, report: { type: 'string' }, backlog: SCOUT.properties.backlog, shown: { type: 'string' }, weeklyResetsAt: { type: 'string' } },
 }
 const SHOWN_FILE = `${OUT}/shown.txt`
-// A review skips the run, shows the latest report, reruns the evals and asks about the open backlog.
-// From gm it shows the report and reruns the evals only at the first gm after the weekly reset, never a report already shown.
+// A review skips the run, shows the latest report unless a review showed it already, reruns the evals and asks about the open backlog.
+// From gm it shows the report and reruns the evals only at the first gm after the weekly reset.
 if (opts.review === true || /^\s*review\s*$/i.test(runNote)) {
   phase('Scout')
   const r = await dreamAgent(`Get ready to go through the open proposals of the user's dream backlog.
@@ -414,11 +414,14 @@ ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'lo
   const weekStartMs = Date.parse(r.weeklyResetsAt) - 7 * 24 * 3600 * 1000
   const [shownWeek = '', shownReport = ''] = (r.shown || '').trim().split(/\s+/)
   const fileName = p => p.split('/').pop()
-  const showReport = !!r.report && (opts.gm !== true || (fileName(r.report) !== fileName(shownReport) && !(Date.parse(shownWeek) >= weekStartMs)))
+  const seen = !!r.report && fileName(r.report) === fileName(shownReport)
+  const showReport = !!r.report && !seen && (opts.gm !== true || !(Date.parse(shownWeek) >= weekStartMs))
   const weekStart = new Date(Number.isFinite(weekStartMs) ? weekStartMs : Date.now()).toISOString()
   const shown = showReport
     ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included, leaving out every row and figure about a Fable limit. Then write the line "${weekStart} ${r.report}" to ${SHOWN_FILE}, replacing what it held. ${EVALS} `
-    : opts.gm === true ? '' : `Say in one line that no dream report was found. ${EVALS} `
+    : opts.gm === true ? ''
+    : seen ? `Say in one line that no dream has run since ${fileName(r.report).replace(/\.md$/, '')}, whose report was shown already, and show nothing of that report again, neither its text nor its proposals. ${EVALS} `
+    : `Say in one line that no dream report was found. ${EVALS} `
   return {
     forTheSession: due.length
       ? `${shown}${waiting ? `${waiting} open proposals wait for their askAgainAfter date and are left out. ` : ''}${waitingOnPr ? `${waitingOnPr} wait for their pull request to merge and are left out until a dream run checks it. ` : ''}${walk[0].toUpperCase()}${walk.slice(1)} A script was tested against the files as they stood when its run wrote it, so test it in a sandbox before running it for real, and regenerate it when it fails.${uncheckedCount ? ` Say in one line that ${uncheckedCount} unchecked proposals wait for the next dream run, which checks them first.` : ''} The steps, in order, each with its script file where it has one: ${JSON.stringify(due.map(i => ({ key: i.key, title: i.title, impact: i.impact, target: i.target, scriptFile: i.scriptFile || '', ...(i.waitsOn && i.unmerged ? { waitsOn: i.waitsOn, unmerged: i.unmerged.note } : {}) })))}`

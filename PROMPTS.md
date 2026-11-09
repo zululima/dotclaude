@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Fix stale facts found in passing without asking
+## Show a dream report in a review only once
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> so no new proposals
+
+**3.**
+> lol dont show me old stuff again
+
+## Fix stale facts found in passing without asking
+
+2026-11-09, commit [8369b54](https://github.com/zululima/dotclaude/commit/8369b545d06d7ad2cee6a943b8d58fc434dc700c), model claude-opus-5-5, effort xhigh.
 
 **1.** [an ask about pricing a consulting job left out]
 

@@ -252,6 +252,11 @@ const scenarios = [
   ['first review from gm after the reset, its report already shown in a review', { ...wed, week: 30, sessions: 4, args: { review: true, gm: true }, shown: '2026-10-03T13:59:59.000Z /srv/dreams/2026-10-17.md' }, [
     ['shows it no second time', (st, r) => !/show all of it/.test(r.forTheSession) && !/evals\.mjs/.test(r.forTheSession)],
   ]],
+  ['review typed again after its report was shown, a week later', { ...wed, week: 30, sessions: 4, args: { review: true }, shown: '2026-10-03T13:59:59.000Z /srv/dreams/2026-10-17.md' }, [
+    ['shows the report no second time', (st, r) => !/show all of it/.test(r.forTheSession) && !/shown\.txt, replacing/.test(r.forTheSession)],
+    ['says no dream ran since it, and shows none of its proposals', (st, r) => r.forTheSession.startsWith('Say in one line that no dream has run since 2026-10-17') && /neither its text nor its proposals/.test(r.forTheSession)],
+    ['still refreshes the evals', (st, r) => /evals\.mjs --write/.test(r.forTheSession)],
+  ]],
   ['upstreams', { ...wed, week: 30, sessions: 4, args: { only: ['upstreams'] }, upstreams: [
     { upstream: '~/Projects/template', derived: ['~/Projects/app', '~/Projects/app2'], note: '' },
     { upstream: 'o/tool', derived: ['~/Projects/app'], note: 'the CLI the apps run' },
