@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Count a session's first prompt warm for an hour
+## Take tax and benefit rules only from a current page
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a personal matter left out]
+
+**2.**
+> [an answer about a personal matter left out]
+
+**3.** (answer to: shall I add the rule on tax sources to CLAUDE.md?)
+> Kyllä, lisää
+
+**4.**
+> [an ask about a personal matter left out]
+
+## Count a session's first prompt warm for an hour
+
+2026-11-09, commit [ee06012](https://github.com/zululima/dotclaude/commit/ee06012f608922932f89544ef201acf4f3aa1f5f), model claude-opus-5-5, effort xhigh.
 
 **2.** Quoted under [7bc0838](https://github.com/zululima/dotclaude/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd).
 

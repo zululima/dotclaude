@@ -16,6 +16,8 @@ GitHub, and downstream names redacted in public and upstream repositories.
   <default branch>`. In a direct checkout, open it with `--head <branch>`.
 - Upstream PRs only when asked. First check what is already open with `gh pr list --repo
   <upstream-owner>/<repo> --author @me` and prefer adding to an open PR.
+- Never add `Co-Authored-By: Claude`, "Generated with Claude Code", or any Claude or Anthropic
+  attribution to commits, PR bodies, or issues. The `attribution` setting also enforces this.
 
 ## The body
 

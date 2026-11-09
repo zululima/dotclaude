@@ -5,15 +5,13 @@ keyed to the start directory, so rules that hold everywhere live here instead of
 file names no person, organisation, customer or repository, so anyone can copy it as is. Names that
 apply to one repository belong in that repository's project memory.
 
-## Git identity and attribution
+## Git identity
 
 - Never override the git author, in a scratch or test repository too. Use the identity already
   configured in the repo or globally (check with `git config user.email`), and never guess an
   address. A `PreToolUse` hook, `~/.claude/hooks/no-identity-override.sh`, refuses `-c user.name=`
-  and `-c user.email=`, the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` name and email variables and
-  `git commit --author`, and asks the user before `git config` sets or unsets a name or address.
-- Never add `Co-Authored-By: Claude`, "Generated with Claude Code", or any Claude or Anthropic
-  attribution to commits, PR bodies, or issues. The `attribution` setting also enforces this.
+  and `-c user.email=`, the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` name and email variables and `git
+  commit --author`, and asks the user before `git config` sets or unsets a name or address.
 
 ## Remote state
 
@@ -66,7 +64,6 @@ apply to one repository belong in that repository's project memory.
 
 ## Pull requests
 
-- Open PRs as drafts.
 - One draft PR per issue or feature the user asks to start, such as the next issue. Every other
   change a session is asked to make in a repository, follow-ups to the work under review, docs,
   rules, templates and unrelated small changes alike, goes to the branch of the PR in play, or in a
@@ -580,15 +577,17 @@ apply to one repository belong in that repository's project memory.
   page, the session checks it against the service's own docs and privacy policy, and a claim they
   contradict is given with both sources. Any limit or claim a reply names, the cause of a figure a
   tool showed included, cites the file, page or code run that shows it, or is called not checked. A
-  pick or comparison of products reads the independent tests of them, such as a consumer
-  organisation's crash test of a child seat, and gives each result beside its product. A part for
-  something the user owns matches all its fit turns on, such as a wiper blade's arm attachment and
-  length, read from that product's own page, and the factory part from the maker's catalogue for its
-  model code or VIN. A vendor's list of supported platforms shows what it supports, not what runs,
-  so before a reply calls a program unavailable on a platform, the session searches that platform's
-  own package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
-  unsupported, never unavailable, and the reply names the package with its version and its votes or
-  install count.
+  tax, benefit or legal rule comes from the authority's current page, read that turn with its
+  updated date: an expired guide, an unread law or memory is no source, and a rule no current page
+  shows stays out of every figure. A pick or comparison of products reads the independent tests of
+  them, such as a consumer organisation's crash test of a child seat, and gives each result beside
+  its product. A part for something the user owns matches all its fit turns on, such as a wiper
+  blade's arm attachment and length, read from that product's own page, and the factory part from
+  the maker's catalogue for its model code or VIN. A vendor's list of supported platforms shows what
+  it supports, not what runs, so before a reply calls a program unavailable on a platform, the
+  session searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A
+  program packaged there is called unsupported, never unavailable, and the reply names the package
+  with its version and its votes or install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.

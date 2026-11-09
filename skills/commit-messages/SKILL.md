@@ -19,13 +19,14 @@ reaches a running one through the hook that the `dotclaude` skill describes.
   Where one is asked for, it goes into the message file with the name and address `git config`
   gives. Git reads the `Abbreviations:` lines as trailers, so `git commit -s` alone appends the
   sign-off to them, and once the file holds it, `-s` adds no second one.
+- Never add `Co-Authored-By: Claude`, "Generated with Claude Code", or any Claude or Anthropic
+  attribution to commits, PR bodies, or issues. The `attribution` setting also enforces this.
 - When squashing a pull request, by squash merge or by squashing its commits into one before
   merging, add a `Co-authored-by: <name> <address>` trailer to the squashed commit for every human
   account whose commits are being squashed, apart from the author the squashed commit already
   carries. Take each name and address from `git log --format='%an <%ae>'` over the squashed range,
   never from memory. GitHub drafts these trailers in its squash-merge dialog: keep them. The
-  attribution rule in `~/.claude/CLAUDE.md` still holds, so no trailer ever names Claude or
-  Anthropic.
+  attribution rule above still holds, so no trailer ever names Claude or Anthropic.
 - When squashing a pull request, also add a `Reviewed-by: <name> <address>` trailer for every
   human account that submitted a review on it. Take the identity from that account's own commits
   in the same repository: `gh api 'repos/<owner>/<repo>/commits?author=<login>&per_page=1'`
