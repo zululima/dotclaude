@@ -1155,10 +1155,11 @@ esac`)
     const records = path.join(home, 'Library/Application Support/Claude/claude-code-sessions/account/org')
     const at = new Date(Date.now() - 10_000).toISOString()
     // A session that answered a prompt ten seconds ago, so its cache is warm, and the desktop app's record of it.
-    const session = (id, record) => {
+    const session = (id, record, stop = 'end_turn', after = []) => {
       jsonl(path.join(config, `projects/-next/${id}.jsonl`), [
         { ...human('go'), uuid: `${id}-u`, timestamp: at },
-        { type: 'assistant', uuid: `${id}-a`, parentUuid: `${id}-u`, timestamp: at, message: { id: `msg_${id}`, model: 'claude-opus-5-5', usage: { input_tokens: 10, output_tokens: 5 } } },
+        { type: 'assistant', uuid: `${id}-a`, parentUuid: `${id}-u`, timestamp: at, message: { id: `msg_${id}`, model: 'claude-opus-5-5', stop_reason: stop, usage: { input_tokens: 10, output_tokens: 5 } } },
+        ...after,
       ])
       if (record) write(path.join(records, `local_${id}.json`), JSON.stringify({ cliSessionId: id, isArchived: false, title: `Session ${id}`, titleSource: 'tool', lastAssistantUuid: `${id}-a`, ...record }))
       return id
@@ -1172,6 +1173,8 @@ esac`)
     const stale = session('stale', { postTurnSummary: { status_category: 'completed' }, postTurnSummaryFor: 'earlier-a' })
     const blocked = session('blocked', { postTurnSummary: { status_category: 'blocked' }, postTurnSummaryFor: 'blocked-a' })
     const terminal = session('terminal')
+    const working = session('working', {}, 'tool_use')
+    const prompted = session('prompted', {}, 'end_turn', [{ ...human('next'), uuid: 'prompted-u2', timestamp: at }])
     // The file usage-waiting.sh writes when a turn ends with background work in flight.
     const waits = (id, text, ageMs = 0) => {
       const at = (Date.now() - ageMs) / 1000
@@ -1192,6 +1195,9 @@ esac`)
       ['names one whose completed summary is of an earlier turn', () => goesCold(stale)],
       ['names one whose summary says it needs input', () => goesCold(blocked)],
       ['names a terminal session, which has no record', () => goesCold(terminal)],
+      ['leaves out one whose turn waits on a tool call', () => !goesCold(working)],
+      ['still marks that session\'s title', () => rows('title').includes(`Session ${working}`)],
+      ['leaves out one whose new prompt has no answer yet', () => !goesCold(prompted)],
     ]
   }],
 

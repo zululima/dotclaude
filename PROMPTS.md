@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read what a user's car or device came with from its catalogue
+## Leave a session that is still working out of the hourglass
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> dont show [a session] or others here when they are not clearly
+> finished? [with a screenshot of the status line naming that session]
+
+## Read what a user's car or device came with from its catalogue
+
+2026-11-09, commit [32f4b85](https://github.com/zululima/dotclaude/commit/32f4b85945145d7842791497c40a74bcd989a4c4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about car parts and workshops left out]
