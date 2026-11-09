@@ -5,9 +5,31 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: notify when a long verify step ends
+## Put the readers' question in a reply draft
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+
+**2.**
+> [an answer about the same project left out]
+
+**3.**
+> [a sign-in for a test environment left out]
+
+**4.**
+> [an ask to sign in left out]
+
+**5.**
+> [an ask for what to answer a colleague's message, in Finnish, left
+> out]
+
+**6.**
+> eihan tuossa ole kysymystä
+
+## pull-requests: notify when a long verify step ends
+
+2026-11-09, commit [7cb8b34](https://github.com/zululima/dotclaude/commit/7cb8b3401480f387f684c3047235d6d118b05b08), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > terminal didnt tell me when the e2e verify was done

@@ -13,9 +13,11 @@ or changed, and what the reader should do with it. A step, a sign-in, a person t
 that the linked page already gives stays out of the draft, and so does a list of what the page
 holds.
 
-A draft that reports what the session found, such as figures or options for a channel, is the
-session's report in its own words, never written as the user speaking: the user posts it with words
-of their own around it. It holds the findings, and the questions to the readers stay the user's.
+A draft of figures or options that a step of the reply has the user show a channel is the session's
+report in its own words, never written as the user speaking: the user posts it with words of their
+own around it. A draft the user asks for as their own message, such as what to answer in a thread,
+is that whole message in the user's voice: the greeting, the answers and every question the readers
+must answer for the work to go on, such as a decision that is theirs to make.
 
 Each item of a list in a draft, such as a line per issue, is one line: what the item is and where it
 stands, in a clause, never several sentences. A list of paragraphs is hard to read, so what does not
