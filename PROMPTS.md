@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Stop a final dream run before its scout when no work can start
+
+2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+
+**2.** (answer to: shall I make dream check the cutoff before its scout?)
+> Yes, go ahead
+
 ## Check a part's fit on its own page and the maker's catalogue
 
-2026-11-08, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-08, commit [b74b977](https://github.com/zululima/dotclaude/commit/b74b977040dc688d71f83c983eaf1c1c8a53dde4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to pick up a chat about the car's wipers, left out]

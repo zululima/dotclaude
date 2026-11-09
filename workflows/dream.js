@@ -349,6 +349,8 @@ const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 's
 
 // Agents read each other's prompt cache only when type and tools match, so all run as dream-worker.
 let watching = false
+const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset'], properties: { ...USAGE.properties, utcOffset: { type: 'string' } } }
+
 const dreamAgent = (prompt, opts = {}) => {
   const run = agent(prompt, { agentType: 'dream-worker', ...opts })
   if (!watching) return run
@@ -428,6 +430,27 @@ ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'lo
   }
 }
 
+const parseOffset = s => {
+  const m = /^([+-])(\d{2}):?(\d{2})$/.exec(s || '')
+  return m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) * 60000 : 0
+}
+// The scout reads every transcript of the window, so a final run that no work could start in stops on a reading of the card before it.
+if (!askedMode || askedMode === 'final') {
+  phase('Scout')
+  const pre = await dreamAgent(`${READ_USAGE} Then run date +%z and return it as utcOffset.`, { label: 'usage before the scout', phase: 'Scout', model: 'haiku', effort: 'low', schema: PRE_USAGE })
+  const card = pre && pre.available && Array.isArray(pre.windows) ? pre.windows.find(w => /all models/i.test(w.label)) : null
+  const at = pre ? Date.parse(pre.now) : NaN
+  const resetMs = card ? Date.parse(card.resetsAt) : NaN
+  const shift = ms => new Date(ms + parseOffset(pre && pre.utcOffset)).toISOString()
+  const lastStartMs = resetMs - (STALE_MINUTES + TASK_MINUTES + TAIL_MINUTES) * 60000
+  const final = askedMode === 'final' || (Number.isFinite(at) && Number.isFinite(resetMs) && shift(at).slice(0, 10) === shift(resetMs).slice(0, 10))
+  if (final && at > lastStartMs) {
+    const time = ms => shift(ms).slice(11, 16)
+    const shown = pre.windows.filter(w => !/fable/i.test(w.label)).map(w => `${w.label} ${w.percentUsed}%`).join(', ')
+    return { error: `Nothing ran. This would be a final run, since the weekly limit resets today at ${time(resetMs)}, and a run started after ${time(lastStartMs)} can start no work before that reset. It is ${time(at)}, so the run stopped before its scout. A dream run started after the ${time(resetMs)} reset spends the new week. Usage: ${shown}.` }
+  }
+}
+
 phase('Scout')
 const scout = await dreamAgent(`Set up a dream run, a review of this user's Claude Code use since the last run.
 1. Run date -u +%Y-%m-%dT%H:%M:%SZ for now, date +%F for today and date +%z for utcOffset.
@@ -478,10 +501,7 @@ let usage = readable(scout.usage) ? scout.usage : null
 const startUsage = usage
 let lastNowMs = nowMs
 
-const offsetMs = (() => {
-  const m = /^([+-])(\d{2}):?(\d{2})$/.exec(scout.utcOffset || '')
-  return m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) * 60000 : 0
-})()
+const offsetMs = parseOffset(scout.utcOffset)
 const localDay = ms => new Date(ms + offsetMs).toISOString().slice(0, 10)
 const localTime = ms => new Date(ms + offsetMs).toISOString().slice(11, 16)
 const weeklyCard = usage && usage.windows.find(w => /all models/i.test(w.label))

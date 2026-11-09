@@ -65,6 +65,7 @@ export async function simulate(wf, sc) {
       upstreams: sc.upstreams || [],
       prs: [1, 2, 3, 4].map(i => ({ url: `https://github.com/o/r/pull/${i}`, repo: 'o/r', number: i, title: `pr ${i}`, isDraft: true, updatedAt: `2026-10-1${i}T00:00:00Z` })),
     }
+    if (label === 'usage before the scout') return { ...usageCard(), utcOffset: sc.utcOffset || '+0300' }
     if (label.startsWith('usage')) return usageCard()
     if (/^(timer|clock)/.test(label)) return { now: new Date(st.now).toISOString() }
     if (label === 'backlog check') return { items: sc.checks || [] }

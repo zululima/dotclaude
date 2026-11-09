@@ -150,7 +150,13 @@ const scenarios = [
     ['gives the report its pace: what it had to spend at its start did not fit before 14:45', st => { const p = block(st, 'Pace'); return p.cutoff === '14:45' && p.fitsAtThatPace === false && p.perHour > 0 && p.pool === 7 }],
     noHits,
   ]],
-  ['night of 31 Oct, stopped by the 5-hour limit with time to spare', { ...oct31, args: { mode: 'night' }, now: '2026-10-31T07:00:00Z', five: 60, fiveReset: '2026-10-31T09:00:00Z', week: 50 }, [
+  ['final of 7 Nov, started at 15:00 after the 14:35 cutoff', { five: 12, fiveReset: '2026-11-07T15:20:00Z', week: 83, weekReset: '2026-11-07T14:00:00Z', now: '2026-11-07T13:00:44Z', since: '2026-10-31T11:14:25Z', utcOffset: '+0200', sessions: 154 }, [
+    ['stops on the usage card before the scout and names the reset', (st, r) => !st.labels.scout && /stopped before its scout/.test(r.error || '') && /resets today at 16:00, and a run started after 14:35 can start no work/.test(r.error)],
+  ]],
+  ['final of 7 Nov, started at 14:30 before the cutoff', { five: 12, fiveReset: '2026-11-07T15:20:00Z', week: 83, weekReset: '2026-11-07T14:00:00Z', now: '2026-11-07T12:30:00Z', since: '2026-10-31T11:14:25Z', utcOffset: '+0200', sessions: 20 }, [
+    ['runs its scout', (st, r) => st.labels.scout === 1 && !/stopped before its scout/.test(r.error || '')],
+  ]],
+  ['night of 31 Oct, stopped by the 5-hour limit with time to spare',{ ...oct31, args: { mode: 'night' }, now: '2026-10-31T07:00:00Z', five: 60, fiveReset: '2026-10-31T09:00:00Z', week: 50 }, [
     ['offers another run from its end until the last start before the 14:45 cutoff', (st, r) => /another \/dream after \d\d:\d\d local time and before 14:34 can spend them/.test(stopped(r))],
     noHits,
   ]],

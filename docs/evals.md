@@ -12,7 +12,7 @@ node ~/Projects/dotclaude/test/evals.mjs
 | Suite | What it checks | Result |
 | --- | --- | --- |
 | [Hook tests](../test/hooks/checks.mjs) | every hook, fed the input Claude Code sends it | 270 of 270 pass |
-| [Dream simulation](../test/dream-sim/checks.mjs) | how `/dream` spends usage and when it stops | 120 of 120 pass |
+| [Dream simulation](../test/dream-sim/checks.mjs) | how `/dream` spends usage and when it stops | 122 of 122 pass |
 | [Usage mod tests](../mods/session-usage/hooks/register.test.ts) | the line under the prompt box | 9 of 9 pass |
 
 How often Claude kept rules from [`CLAUDE.md`](../CLAUDE.md) from 2026-10-27 to 2026-11-03, in 123 of my own sessions and the commits of the 9 repositories they worked in, counted by [`test/rules/adherence.mjs`](../test/rules/adherence.mjs):
