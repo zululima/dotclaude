@@ -246,7 +246,8 @@ apply to one repository belong in that repository's project memory.
 - A figure given as a status or an estimate, such as a percentage done, says next to it what it was
   counted from, such as 3 of 4 issues closed or 1 of 5 data reads moved, and a figure short of done
   also says what holds it there, such as the endpoint it waits on. A figure that is a judgement is
-  called one and names the facts it weighs. When a count and a judgement disagree, both are given.
+  called one and names the facts it weighs. When a count and a judgement disagree, both are given. A
+  figure made from several counts names each beside it, such as seats and members.
 - A table of what changed since a point, such as progress since the last meeting, lists every row
   with its current figures, and its change column is left blank where a value stayed the same.
 - Steps written for a person outside a PR, in a README, a setup section or chat, are run here

@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: free the PR branch from a session's worktree
+## Name every count a figure is made from beside it
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**11.** (answer to: shall I change the fee clause of the rules?)
+> [an ask about a personal project left out]
+
+**12.**
+> täh miksi kalliimpi mitä enemmän jäseniä
+
+## pull-requests: free the PR branch from a session's worktree
+
+2026-11-09, commit [f3d6c7d](https://github.com/zululima/dotclaude/commit/f3d6c7d381dfb920c38a344a8eb2788667e83b9c), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
