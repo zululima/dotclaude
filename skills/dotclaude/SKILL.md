@@ -171,6 +171,14 @@ run and its commit in the same turn.
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
   that backs the rule in `~/.claude/CLAUDE.md` that tries Claude in Chrome before calling a page out
   of reach.
+- Two hooks back the two stack rules in Running things of `~/.claude/CLAUDE.md` and replace
+  neither. A `Stop` hook, `~/.claude/hooks/stop-running-stack.sh`, sends a turn back once when it
+  started a stack that is still up. A `PreToolUse` hook, `~/.claude/hooks/stack-held-by-peer.sh`,
+  refuses another session's start, restart, stop or removal of a stack that an active session
+  started.
+- A `PreToolUse` hook, `~/.claude/hooks/cd-fall-through.sh`, refuses a Bash command with a part
+  after a `cd` that runs when the `cd` failed, unless the `cd` goes into a directory that exists
+  already. It backs the rule in `~/.claude/CLAUDE.md` on commands that run in another directory.
 
 ## Identity and contents
 

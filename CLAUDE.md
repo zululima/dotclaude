@@ -369,21 +369,15 @@ apply to one repository belong in that repository's project memory.
 - A compose stack with fixed container names is one per machine, shared by every session of
   the repository and its worktrees. A stack another live session started stays that session's
   until its containers are down: ask it with SendMessage to say when they are, and run what
-  needs no stack meanwhile. A notice sent before a start is not an ask, and a send result
-  saying the message is not yet read is no answer.
-- Two hooks back the two stack rules above and replace neither. A `Stop` hook,
-  `~/.claude/hooks/stop-running-stack.sh`, sends a turn back once when it started a stack that is
-  still up. A `PreToolUse` hook, `~/.claude/hooks/stack-held-by-peer.sh`, refuses another session's
-  start, restart, stop or removal of a stack that an active session started.
-- A command that must run in another directory uses the tool's own directory flag, such as
-  `git -C` or `npm --prefix`, and otherwise a subshell, `(cd playwright && npx playwright test)`,
-  which returns on its own. Every part after the `cd` depends on it: joined with `&&`, or in a
-  subshell that opens with `cd <dir> || exit 1`. A part after a `;` or a line break still runs
-  when the `cd` failed, inside a subshell too, and runs in the start directory, which in a
-  shared checkout holds another session's branch. This holds in commands run and in commands
-  given to the user, since the working directory persists from one command to the next.
-- A `PreToolUse` hook, `~/.claude/hooks/cd-fall-through.sh`, refuses a Bash command with such a
-  part unless the `cd` goes into a directory that exists already. It backs the rule above.
+  needs no stack meanwhile. A notice sent before a start is not an ask, and a send result saying the
+  message is not yet read is no answer.
+- A command that must run in another directory uses the tool's own directory flag, such as `git -C`
+  or `npm --prefix`, and otherwise a subshell, `(cd playwright && npx playwright test)`, which
+  returns on its own. Every part after the `cd` depends on it: joined with `&&`, or in a subshell
+  that opens with `cd <dir> || exit 1`. A part after a `;` or a line break still runs when the `cd`
+  failed, inside a subshell too, and runs in the start directory, which in a shared checkout holds
+  another session's branch. This holds in commands run and in commands given to the user, since the
+  working directory persists from one command to the next.
 - The Bash tool runs zsh, as the user's terminal does. A block in `~/.zshrc` sets `nonomatch`,
   `noequals` and `shwordsplit` for the tool alone, so a glob, a leading `=` and an unquoted variable
   act as in bash. The rest still differs: write `${var}` before a colon, as in `${ref}:src/app.php`,
@@ -544,6 +538,10 @@ apply to one repository belong in that repository's project memory.
   `~/.claude/presence` keeps the file that `CLAUDE_CLIENT_PRESENCE_FILE` names there while the
   screen is unlocked, and a `PreToolUse` hook, `~/.claude/hooks/push-only-when-locked.sh`, refuses a
   push while it is.
+- A desktop notification a session sets up or sends, a test one too, brings the app it is about to
+  the front when clicked, such as the terminal a command ran in. On macOS, `osascript`'s `display
+  notification` does not: macOS shows it as Script Editor's, and a click opens Script Editor's Open
+  dialog over the user's work.
 - Once the iOS simulator panel or a simulator has done its job in a turn, the session closes it
   before the reply: the panel with the simulator tool's `detach`, and simulators and emulators with
   their shutdown commands. A panel where a step waits on the user stays open. Chrome tabs stay open,

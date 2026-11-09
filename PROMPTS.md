@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave a session that is still working out of the hourglass
+## Bring the app forward from a notification, never Script Editor
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> [an ask for a notification when a long command ends, left out]
+
+**6.**
+> bah the notificaton openeed this
+> [a screenshot of Script Editor's Open dialog]
+
+## Leave a session that is still working out of the hourglass
+
+2026-11-09, commit [492fa03](https://github.com/zululima/dotclaude/commit/492fa03f46903653a63c23c9434cb823bcbf4c7a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dont show [a session] or others here when they are not clearly
