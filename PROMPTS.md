@@ -5,9 +5,26 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep archive-files from moving the other machine's drafts
+## Name the permission modes as the app's menu does
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask to run three prompt files on another machine, left out]
+
+**2.** (answer to: how shall I run a revert that auto mode refused?)
+> a
+
+**3.** (answer to: two questions on that revert)
+> 1a. 2a. this is in auto mode theres no such things as default. only
+> auto manual acceptedits and plan
+
+**4.** (answer to: switch the mode, then reply go)
+> go
+
+## Keep archive-files from moving the other machine's drafts
+
+2026-11-09, commit [0af8baa](https://github.com/zululima/dotclaude/commit/0af8baa1ff420f80a60fba2af4a1c6c88f659b13), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

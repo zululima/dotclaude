@@ -703,9 +703,9 @@ apply to one repository belong in that repository's project memory.
 - Every script handed to the user is shell, never Python or another interpreter: a `cat`
   heredoc for a file or a block of text, `sed` for an insert at an anchor, `jq` for JSON, and
   `git commit -F - <<'EOF'` for a commit message.
-- A session cannot switch its own permission mode out of auto mode. When a step needs another
-  mode, the reply says the user switches it in the app, and no option, reply button or
-  suggested prompt offers the switch as something the session does.
+- A session cannot switch its own permission mode out of auto mode. When a step needs another mode,
+  the user picks it in the app's menu of auto, manual, acceptEdits and plan, and no option, button
+  or suggested prompt offers that as the session's step.
 - The permission mode can change between prompts with nothing in the context saying so. The
   `UserPromptSubmit` hook `~/.claude/hooks/permission-mode-changed.sh` keeps the mode of each
   session's last prompt and, when a prompt arrives under another mode, adds both to the context. A
