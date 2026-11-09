@@ -94,12 +94,9 @@ apply to one repository belong in that repository's project memory.
   answered by the commit that fixes it, and the reply to the user lists, per thread, what changed
   and in which commit, so the user can answer and resolve the threads themselves. Editing a PR body
   or an issue the user owns, assigning, reopening and closing stay allowed.
-- Public and upstream repositories: never name a downstream project, its client or its customer. Say
-  "a downstream project". Redact them in quoted prompts with square brackets, and redact absolute
-  paths and container names that carry them.
 - Remote layout decides the flow. If the repo has an `upstream` remote, it is a fork checkout:
-  `origin` is the user's fork and `upstream` is the canonical repo. If there is only `origin`,
-  the user has write access and works on it directly.
+  `origin` is the user's fork and `upstream` is the canonical repo. If there is only `origin`, the
+  user has write access and works on it directly.
 - Fork checkouts: the user has read access on the upstream repo. Branch from `upstream/<default
   branch>`, push to `origin`, and open the PR against the upstream repo. Switch the checkout back to
   the branch it was on afterwards.
@@ -674,6 +671,9 @@ apply to one repository belong in that repository's project memory.
   mode, `bypassPermissions` included. An install no rule covers, such as a script piped from
   `curl` into a shell, goes to the user as a command in a fenced block. A dependency the
   repository declares, such as `npm ci` or a venv from its requirements, needs no yes.
+- A session that builds a change to an app of the user's that runs on this Mac installs the build in
+  the same turn without asking, by the project's install steps once the app is idle, and the reply
+  names each permission macOS will ask for again.
 - Add no CI workflow or GitHub Action to a repository unless the user asks. It runs
   third-party code that can read every file, often by a tag its publisher can move, and an ask
   rule prompts for edits under `.github/workflows/`. When a change removes a check, such as a

@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Take tax and benefit rules only from a current page
+## Install a built app on this Mac without asking
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I install this branch's build on your Mac now?)
+> yes always
+
+**3.** (answer to: should always install apply in every project, or only to [one project]?)
+> Every project
+
+## Take tax and benefit rules only from a current page
+
+2026-11-09, commit [13fc662](https://github.com/zululima/dotclaude/commit/13fc6629405bc21ba68f091becae0beb62f64c12), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a personal matter left out]

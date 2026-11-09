@@ -6,11 +6,14 @@ description: Procedures for a pull request. Load it before opening a PR or editi
 # Pull requests
 
 These procedures sit beside the Pull requests rules in `~/.claude/CLAUDE.md`, which still hold:
-drafts only, one draft PR per issue and every other change on one already open, never post on
-GitHub, and downstream names redacted in public and upstream repositories.
+drafts only, one draft PR per issue and every other change on one already open, and never post on
+GitHub.
 
 ## Opening
 
+- Public and upstream repositories: never name a downstream project, its client or its customer. Say
+  "a downstream project". Redact them in quoted prompts with square brackets, and redact absolute
+  paths and container names that carry them.
 - In a fork checkout, resolve the GitHub handle at runtime with `gh api user --jq .login` (never
   hardcode it) and open the PR with `--repo <upstream-owner>/<repo> --head <handle>:<branch> --base
   <default branch>`. In a direct checkout, open it with `--head <branch>`.
