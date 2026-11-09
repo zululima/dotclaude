@@ -13,6 +13,13 @@
 # folder or one of its ~/Downloads/<task>-* files, and no session still open
 # names it.
 #
+# ~/.claude is synced between machines, so the app also holds records it
+# imported from the other machine's transcripts. A record that started outside
+# this machine's home, temp and removable-drive folders is such a one: it is
+# skipped when archived and counts as open, since the other machine may still
+# work in its tasks. The list of archives already handled is kept per machine,
+# outside the synced folder.
+#
 # On macOS it also closes every Chrome tab that no session still open names,
 # through Chrome's AppleScript, whose tab ids are the extension's: the tabs the
 # archived session left and the user's own, such as one they signed in on. A
@@ -39,10 +46,21 @@ PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
 sessions="$HOME/Library/Application Support/Claude/claude-code-sessions"
 [ -d "$sessions" ] || sessions="${XDG_CONFIG_HOME:-$HOME/.config}/Claude/claude-code-sessions"
 archive="$HOME/.claude/archive"
-seen="$archive/.archived-sessions"
+state="$HOME/Library/Application Support/claude-archive-files"
+[ -d "${state%/*}" ] || state="${XDG_STATE_HOME:-$HOME/.local/state}/claude-archive-files"
+seen="$state/archived-sessions"
 log="$HOME/Library/Logs/claude-archive-files.log"
 [ -d "${log%/*}" ] || log="${XDG_STATE_HOME:-$HOME/.local/state}/claude-archive-files.log"
 dry=
+
+# macOS records /tmp as /private/tmp, so the temp folders count resolved.
+roots=$({
+  echo "${HOME%/}"
+  realpath -q "${TMPDIR:-/tmp}" /tmp
+  [ -d /Volumes ] && echo /Volumes
+  [ -d /run/media ] && echo "/run/media/$(id -un)"
+} | jq -Rn '[inputs | select(length > 0)] | unique')
+here='def foreign: (.cwd // "") as $c | any($roots[]; . as $r | $c == $r or ($c | startswith($r + "/"))) | not;'
 
 say() {
   if [ -n "$dry" ]; then echo "$*"; else echo "$(date '+%F %T') $*" >>"$log"; fi
@@ -66,7 +84,7 @@ open_transcripts() {
   open_list="$work/open"
   : >"$open_list"
   for r in "$sessions"/*/*/local_*.json; do
-    [ "$(jq -r '.isArchived == true' "$r" 2>/dev/null)" = false ] || continue
+    [ "$(jq -r --argjson roots "$roots" "$here"' .isArchived != true or foreign' "$r" 2>/dev/null)" = true ] || continue
     t=$(transcript_of "$r")
     [ -n "$t" ] && echo "$t" >>"$open_list"
   done
@@ -231,8 +249,8 @@ return out
 EOF
   cut -f1 "$work/tabs" | grep -E '^[0-9]+$' >"$work/ids"
   [ -s "$work/ids" ] || return 0
-  jq -r --rawfile ids "$1" '($ids | split("\n")) as $a
-    | select(.isArchived == true or ((.sessionId // "") | IN($a[]))) | .cliSessionId // empty' \
+  jq -r --rawfile ids "$1" --argjson roots "$roots" "$here"'($ids | split("\n")) as $a
+    | select(foreign | not) | select(.isArchived == true or ((.sessionId // "") | IN($a[]))) | .cliSessionId // empty' \
     "$sessions"/*/*/local_*.json 2>/dev/null | sed 's|^|/|' >"$work/gone"
   find "$HOME/.claude/projects" -name '*.jsonl' -newer "$work/chrome-start" | grep -vF -f "$work/gone" |
     tr '\n' '\0' | xargs -0 grep -ohwF -f "$work/ids" 2>/dev/null | sort -u >"$work/held"
@@ -296,7 +314,7 @@ EOF
 delete_groups() {
   local line
   pgrep -x 'Google Chrome' >/dev/null || return 0
-  jq -n '[inputs | {title: (.title // ""), open: (.isArchived != true)}]' \
+  jq -n --argjson roots "$roots" "$here"'[inputs | {title: (.title // ""), open: (.isArchived != true or foreign)}]' \
     "$sessions"/*/*/local_*.json >"$work/titles" 2>/dev/null || return 0
   osascript -l JavaScript - "${dry:+list}" "$work/titles" <<'EOF' 2>&1 | while IFS= read -r line; do
 ObjC.import('Foundation');
@@ -394,6 +412,10 @@ handle() {
   t=$(transcript_of "$record")
   current=$t
   say "$(jq -r '.title // .sessionId' "$record")"
+  if [ "$(jq -r --argjson roots "$roots" "$here"' foreign' "$record")" = true ]; then
+    say "  skipped, started in $(jq -r '.cwd // "an unknown folder"' "$record"), outside this machine's home, temp and removable-drive folders"
+    return
+  fi
   if [ -z "$t" ]; then
     say "  no transcript on this machine"
     return
@@ -424,8 +446,8 @@ if [ "${1:-}" = --dry-run ]; then
   exit 0
 fi
 
-lock="$archive/.archive-files.lock"
-mkdir -p "$archive"
+lock="$state/lock"
+mkdir -p "$state"
 locked=
 for _ in $(seq 60); do
   mkdir "$lock" 2>/dev/null && locked=1 && break
@@ -434,6 +456,15 @@ for _ in $(seq 60); do
 done
 [ -n "$locked" ] || exit 0
 trap 'rm -rf "$work"; rmdir "$lock"' EXIT
+
+# The list used to sit in the synced folder, where it may hold the other
+# machine's ids by now; this machine's own archives stand in for it then.
+old="$archive/.archived-sessions"
+if [ ! -f "$seen" ] && [ -f "$old" ]; then
+  jq -r '.archived[]' "$sessions"/*/*/archived-sessions.idx 2>/dev/null | sort -u >"$work/all"
+  if comm -23 "$old" "$work/all" | grep -q .; then cp "$work/all" "$seen"; else cp "$old" "$seen"; fi
+  rm -f "$old"
+fi
 
 : >"$work/now"
 for idx in "$sessions"/*/*/archived-sessions.idx; do

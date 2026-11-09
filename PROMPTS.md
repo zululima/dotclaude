@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Leave the other machine's sessions out of the usage line
+## Keep archive-files from moving the other machine's drafts
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+## Leave the other machine's sessions out of the usage line
+
+2026-11-09, commit [af37f51](https://github.com/zululima/dotclaude/commit/af37f51b52f73dcaec9d4c4655aed61f3a101186), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > this is not correct as its a session living on my mac laptop and not
