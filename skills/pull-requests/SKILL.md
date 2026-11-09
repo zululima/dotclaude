@@ -123,6 +123,10 @@ GitHub.
   command and the end to end run. Both run in a subshell that opens with `cd` into the checkout, as
   in `(cd ~/Projects/<repo> && git fetch --all --prune && ...)`, since the reader pastes them into a
   new terminal, which starts in `~`. The manual steps follow them.
+- A session that works in a worktree of its own detaches it from the PR's branch, with `git switch
+  --detach` there, before the reply that hands over the steps or the review page: git refuses to
+  switch the reader's checkout to a branch another worktree holds, so the first step fails.
+  `build.py` checks this and exits 1, naming the command, while a worktree still holds the branch.
 - Manual steps follow the screen. Before writing one, open the component or the running page and
   take the order of fields and clicks from it, so a dialog that shows type, then name, then
   company is filled in that order and never in the order the step's purpose brings them to mind.

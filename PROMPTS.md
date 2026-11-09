@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Check a money option against its law before naming it
+## pull-requests: free the PR branch from a session's worktree
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+**2.**
+> [pasted: a screenshot of git refusing to switch to a branch that
+> another worktree holds]
+> wot
+
+## Check a money option against its law before naming it
+
+2026-11-09, commit [818a0ae](https://github.com/zululima/dotclaude/commit/818a0ae092e9e16d75e959d989be57bff3b4ec8e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a personal project left out]

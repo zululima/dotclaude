@@ -28,6 +28,8 @@ writes. Step ids are the section's slug and the step's number in the PR's list, 
 setup-2, while the page numbers the steps from 1 across all sections; build.py prints the ids.
 
 Run it with python3 -I. It needs the gh CLI signed in to the PR's host.
+It exits 1 after writing the page when a worktree other than the main
+checkout holds the PR's branch, and names the command that frees it.
 """
 
 import base64
@@ -541,6 +543,15 @@ def default_out(name, number):
     return os.path.join(top, ".reviews", "%s-%s.html" % (name, number))
 
 
+def worktrees_holding(branch):
+    listing = subprocess.run(
+        ["git", "worktree", "list", "--porcelain"], check=True, capture_output=True, text=True
+    ).stdout
+    trees = [dict(line.split(" ", 1) for line in tree.splitlines() if " " in line) for tree in listing.split("\n\n")]
+    # The first entry is the main checkout, where the reader's switch runs.
+    return [t["worktree"] for t in trees[1:] if t.get("branch") == "refs/heads/" + branch]
+
+
 def take(args, flag):
     if flag not in args:
         return None
@@ -604,6 +615,12 @@ def main():
     for section in sections:
         print(section["title"] + ": " + ", ".join(s["id"] for s in section["steps"]))
     print("wrote %s (%d kB)" % (out_path, os.path.getsize(out_path) // 1024))
+    held = worktrees_holding(pr["headRefName"])
+    if held:
+        sys.exit(
+            "%s is checked out in %s, so the reader's git switch to it fails. Free it before the reply:\n%s"
+            % (pr["headRefName"], ", ".join(held), "\n".join("git -C %s switch --detach" % t for t in held))
+        )
 
 
 if __name__ == "__main__":
