@@ -64,14 +64,16 @@ apply to one repository belong in that repository's project memory.
 
 ## Pull requests
 
-- One draft PR per issue or feature the user asks to start, such as the next issue. Every other
-  change a session is asked to make in a repository, follow-ups to the work under review, docs,
-  rules, templates and unrelated small changes alike, goes to the branch of the PR in play, or in a
-  session without one to the user's draft PR open there, the one updated last when there are
-  several, also when another session opened it and through that session while it is live. A PR for
-  such a change is opened only when the repository has no draft PR of the user's open, or when the
-  user says so in that session, and never for a patch no teammate cares about, such as a rule for
-  the repository's agents, which goes straight onto the default branch.
+- One draft PR per issue or feature the user asks to start, such as the next issue, each in a
+  session of its own at top level, never one holding other work: an offer to start one is a
+  `start_session` card, never a button to do it here. Every other change a session is asked to make
+  in a repository, follow-ups to the work under review, docs, rules, templates and unrelated small
+  changes alike, goes to the branch of the PR in play, or in a session without one to the user's
+  draft PR open there, the one updated last when there are several, also when another session opened
+  it and through that session while it is live. A PR for such a change is opened only when the
+  repository has no draft PR of the user's open, or when the user says so in that session, and never
+  for a patch no teammate cares about, such as a rule for the repository's agents, which goes
+  straight onto the default branch.
 - A change on that branch to a file every branch of the repository reads, such as the pull request
   template, `AGENTS.md` or `CLAUDE.md`, the test runner's config or the git hooks, stays in the PR
   in play like any other, and no reply offers to move it to a PR of its own. It holds nowhere else

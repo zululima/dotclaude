@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name Syncthing conflict copies in ~/.claude to each session
+## Start each new issue in a session of its own
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**14.**
+> never here. dotclaude pls remember you should suggest ask start issue
+> x on separate session (not subsession)
+
+## Name Syncthing conflict copies in ~/.claude to each session
+
+2026-11-09, commit [ed3ea7c](https://github.com/zululima/dotclaude/commit/ed3ea7c6008663c310ada60ea3c2c07c37e1cf70), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > make ALL my claude things sync to my cachyos so that they both have
