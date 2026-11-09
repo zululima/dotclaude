@@ -127,6 +127,12 @@ GitHub.
   --detach` there, before the reply that hands over the steps or the review page: git refuses to
   switch the reader's checkout to a branch another worktree holds, so the first step fails.
   `build.py` checks this and exits 1, naming the command, while a worktree still holds the branch.
+- A command step that runs for minutes, such as the second, ends after its subshell with a
+  notification that says how the run went and brings the reader's terminal to the front when
+  clicked, so the reader can work elsewhere meanwhile: `(...) && m=passed || m=failed;
+  terminal-notifier -title 'PR <n>' -message "verify and e2e $m" -activate com.apple.Terminal ||
+  printf '\a'`. The `&&` and `||` let it fire on a failure too, the id is Terminal.app's unless the
+  reader uses another terminal, and the bell stands in where `terminal-notifier` is missing.
 - Manual steps follow the screen. Before writing one, open the component or the running page and
   take the order of fields and clicks from it, so a dialog that shows type, then name, then
   company is filled in that order and never in the order the step's purpose brings them to mind.

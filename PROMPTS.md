@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name every count a figure is made from beside it
+## pull-requests: notify when a long verify step ends
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> terminal didnt tell me when the e2e verify was done
+
+## Name every count a figure is made from beside it
+
+2026-11-09, commit [243adfe](https://github.com/zululima/dotclaude/commit/243adfeeb28acc50e6772ea020928703cb92954d), model claude-opus-5-5, effort xhigh.
 
 **11.** (answer to: shall I change the fee clause of the rules?)
 > [an ask about a personal project left out]
