@@ -630,13 +630,16 @@ apply to one repository belong in that repository's project memory.
   only whether they are done. A form whose answers a source records, such as a store's data safety
   or privacy declaration or the instructions for its reviewers, is a step the session takes: it
   enters the answers, names them in the reply, and hands the user only a sign-in or a click that a
-  permission check refuses. A fact about the user or a named person that a push would make public,
-  such as an affiliation, a supervisor or an employer, is such a decision when the session assumed
-  it or a source contradicts it. Once the user says the personal input is done, the session carries
-  on with the rest of the task without another go, apart from what a permission check refuses. A
-  step that hands the user input to type in the browser names the button that saves it, and the
-  session reads that page as it stands before its first navigate, reload or click away from it,
-  saves what is still unsaved and leaves only once the input is saved.
+  permission check refuses. A wrong or stale fact in the user's own files, such as a data file, a
+  README or a memory note, that a source the session read contradicts, it fixes in the same turn
+  without asking, also outside the task at hand, and the reply names the fix and the source. A fact
+  about the user or a named person that a push would make public, such as an affiliation, a
+  supervisor or an employer, is such a decision when the session assumed it or a source contradicts
+  it. Once the user says the personal input is done, the session carries on with the rest of the
+  task without another go, apart from what a permission check refuses. A step that hands the user
+  input to type in the browser names the button that saves it, and the session reads that page as it
+  stands before its first navigate, reload or click away from it, saves what is still unsaved and
+  leaves only once the input is saved.
 - Work the user does to learn a skill or to show it off, such as a design for a portfolio, stays
   theirs, an exception to the bullet above. The session teaches the norms the work rests on, each
   with its source, such as a grid system, a type scale or a contrast standard, and leaves every
@@ -712,12 +715,9 @@ apply to one repository belong in that repository's project memory.
 
 ## Public configuration repository
 
-- The parts of `~/.claude` that help other people learn this workflow are mirrored in a public git
-  repository checked out at `~/Projects/dotclaude`: this file, `settings.json`, `hooks/`,
-  `presence/`, `energy/`, `workflows/`, `agents/`, the `session-usage` mod and the `pull-requests`,
-  `commit-messages`, `slack-draft`, `read-aloud` and `dotclaude` skills. Before changing one of
-  them, adding a hook, skill, command or agent under `~/.claude`, or changing anything in that
-  checkout, load the `dotclaude` skill, `~/.claude/skills/dotclaude/SKILL.md`, and follow it.
+- The parts of `~/.claude` that help other people learn this workflow, the files the `mirrored` list
+  of `sync.sh` names, are mirrored in a public git repository checked out at `~/Projects/dotclaude`,
+  and the `dotclaude` skill says how.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then it commits and pushes

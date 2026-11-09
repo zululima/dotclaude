@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Refuse secrets typed into commands, and scan for them
+## Fix stale facts found in passing without asking
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [an ask about pricing a consulting job left out]
+
+**2.** (answer to: shall I fix the stale fact in that project's file?)
+> Kyllä, korjaa
+
+**3.**
+> korjaa aina tuollaiset itse
+
+**4.** [an ask to delete a demo project left out]
+
+**5.** [a tax question about a client left out]
+
+## Refuse secrets typed into commands, and scan for them
+
+2026-11-09, commit [23b1ec0](https://github.com/zululima/dotclaude/commit/23b1ec0debc059fc1807231978dfce8b25826189), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: the address of Apiiro's article on coding agents leaking
