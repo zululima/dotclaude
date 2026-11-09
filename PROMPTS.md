@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Stop a final dream run before its scout when no work can start
+## Refresh the evals for 2 to 9 November
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [7c32637](https://github.com/zululima/dotclaude/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd).
+
+## Stop a final dream run before its scout when no work can start
+
+2026-11-09, commit [7fc86ac](https://github.com/zululima/dotclaude/commit/7fc86ac5631bc542e8684aca604771d190ba75aa), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
