@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Install a built app on this Mac without asking
+## Read what a user's car or device came with from its catalogue
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about car parts and workshops left out]
+
+**2.**
+> lol eiksulla oo mun vin mut joo [a registration number]
+
+**3.** (answer to: does the wheel have audio buttons?)
+> [an answer about the car left out] miten et muka löytänyt sitä vin
+> perusteella. [an ask about a workshop left out]
+
+## Install a built app on this Mac without asking
+
+2026-11-09, commit [79e3071](https://github.com/zululima/dotclaude/commit/79e3071eecb484b19490da51c52743b1d100c29c), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I install this branch's build on your Mac now?)
 > yes always

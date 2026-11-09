@@ -164,6 +164,14 @@ run and its commit in the same turn.
   against the live sessions before it is committed, not only through `claude plugin test`, whose
   mocks never run the scripts.
 
+## Hooks that back rules
+
+- A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
+  closing message says in the first person that something could not be opened, read, reached, found
+  or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
+  that backs the rule in `~/.claude/CLAUDE.md` that tries Claude in Chrome before calling a page out
+  of reach.
+
 ## Identity and contents
 
 - Commits there carry the identity configured in the checkout, and the rule in `~/.claude/CLAUDE.md`

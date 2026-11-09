@@ -563,10 +563,6 @@ apply to one repository belong in that repository's project memory.
   schedule or trigger, such as a scheduled task, local or cloud, a launchd agent or a cron entry,
   names it, when and where it runs and what it does, and each reply until a one-time one runs names
   it and its time.
-- A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
-  closing message says in the first person that something could not be opened, read, reached, found
-  or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
-  that backs the rule above.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
   suit a kind of user, the session reads that setup's own install scripts, README and settings, and
   the guides they point to, such as an onboarding guide in another repository. Before a reply
@@ -622,11 +618,14 @@ apply to one repository belong in that repository's project memory.
   session cannot settle from the request, the code or a source; such a decision is asked once with a
   recommended answer, as the question the closing message ends on, and a go given for another point
   does not settle it. Nor is the user asked a fact that a source holds, such as which of the
-  lettered commands they ran or which package a step installed: the session reads it from the
-  machine, its logs or a tool's output, and a next-step box after steps the user carries out asks
-  only whether they are done. A form whose answers a source records, such as a store's data safety
-  or privacy declaration or the instructions for its reviewers, is a step the session takes: it
-  enters the answers, names them in the reply, and hands the user only a sign-in or a click that a
+  lettered commands they ran, which package a step installed or what a car or device of theirs came
+  with: the session reads it from the machine, its logs, a tool's output or, for a thing the user
+  owns, the maker's parts catalogue for its VIN, serial or model code, found in the background facts
+  or in the photos of earlier sessions, and a next-step box after steps the user carries out asks
+  only whether they are done. Such an identifier read from a photo goes into the file for background
+  facts in the same turn. A form whose answers a source records, such as a store's data safety or
+  privacy declaration or the instructions for its reviewers, is a step the session takes: it enters
+  the answers, names them in the reply, and hands the user only a sign-in or a click that a
   permission check refuses. A wrong or stale fact in the user's own files, such as a data file, a
   README or a memory note, that a source the session read contradicts, it fixes in the same turn
   without asking, also outside the task at hand, and the reply names the fix and the source. A fact
