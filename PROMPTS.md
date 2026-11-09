@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Detach started sessions from both ends
+## Count a goal a later step narrows as a request read two ways
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> [an ask about the session's permission mode, left out]
+
+**6.**
+> why didnt you sync those to mac
+
+## Detach started sessions from both ends
+
+2026-11-09, commit [3ffe6ec](https://github.com/zululima/dotclaude/commit/3ffe6ece65ad90a40d3ba6733fbedfc76db3da32), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
