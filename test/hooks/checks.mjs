@@ -646,6 +646,28 @@ const suites = [
     ]
   }],
 
+  ['archive-when-done.sh', run => {
+    const t = path.join(home, 'archive.jsonl')
+    const repo = path.join(home, 'archive-repo')
+    const box = input => uses('mcp__ccd_turn__wrap_up', { recap: 'r', ...input })
+    const stop = (last, extra = {}) => ({ hook_event_name: 'Stop', transcript_path: t, cwd: home, stop_hook_active: false, background_tasks: [], last_assistant_message: last, ...extra })
+    return [
+      ['sends back a turn whose box asked nothing and whose reply names no archive', () => { jsonl(t, [human('fix it'), box({}), says('Fixed.')]); return refused(run(stop('Fixed.'))) }],
+      ['lets the turn end once the reply says the session can be archived', () => { jsonl(t, [human('fix it'), box({})]); return quiet(run(stop('Fixed. You can archive this session.'))) }],
+      ['lets a turn through whose box asked a question', () => { jsonl(t, [human('fix it'), box({ ask: 'Commit it?', actions: [{ label: 'Yes' }] })]); return quiet(run(stop('Fixed.'))) }],
+      ['lets a turn through that called no box', () => { jsonl(t, [human('what is x'), says('x is y.')]); return quiet(run(stop('x is y.'))) }],
+      ['reads only the box of the current turn', () => { jsonl(t, [human('fix it'), box({}), human('and why'), says('Because.')]); return quiet(run(stop('Because.'))) }],
+      ['lets a turn through with background work in flight', () => { jsonl(t, [human('fix it'), box({})]); return quiet(run(stop('Fixed.', { background_tasks: [{ id: 'b1' }] }))) }],
+      ['lets the second stop of a turn through', () => { jsonl(t, [human('fix it'), box({})]); return quiet(run(stop('Fixed.', { stop_hook_active: true }))) }],
+      ['lets a turn through on a branch other than the default one', () => {
+        sh(`git init -q ${q(repo)} && git -C ${q(repo)} commit -q --allow-empty -m one && git -C ${q(repo)} update-ref refs/remotes/origin/main HEAD && git -C ${q(repo)} symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main && git -C ${q(repo)} switch -q -c feature`)
+        jsonl(t, [human('fix it'), box({})])
+        return quiet(run(stop('Fixed.', { cwd: repo })))
+      }],
+      ['still sends it back on the default branch', () => { sh(`git -C ${q(repo)} switch -q main`); return refused(run(stop('Fixed.', { cwd: repo }))) }],
+    ]
+  }],
+
   ['permission-mode-changed.sh', run => {
     const prompt = (session_id, permission_mode) => ({ hook_event_name: 'UserPromptSubmit', session_id, permission_mode, prompt: 'go on' })
     return [

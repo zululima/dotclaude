@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Show a dream report in a review only once
+## Send a finished turn back until it offers the archive
 
 2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> voinko siis arkistoida tämän. jos niin, mikset sanonut sitä
+
+## Show a dream report in a review only once
+
+2026-11-09, commit [9c76a1e](https://github.com/zululima/dotclaude/commit/9c76a1e29cdb901a92df505878294b1b14a31cb5), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > so no new proposals

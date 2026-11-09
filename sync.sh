@@ -163,6 +163,7 @@ mirrored=(
   hooks/no-github-posts.sh
   hooks/one-draft-pr-per-repo.sh
   hooks/prompt-feedback-box.sh
+  hooks/archive-when-done.sh
   hooks/no-meta-prompts.sh
   hooks/abbreviations-listed.sh
   hooks/prompts-md.sh
