@@ -195,8 +195,9 @@
 - [`skills/models`](../skills/models/SKILL.md): which model and effort each kind of work runs on,
   with the benchmark scores behind each pick, so a subagent or a side session that only looks things
   up runs on a small model and one that writes code on the strongest. A session asked to write code
-  on another model stops first and says which model to pick, since it cannot switch its own.
-  `/dream` keeps the table current from each new model's launch page.
+  on another model hands the work to a copy of itself on the right model and effort, since it cannot
+  switch its own. `/dream` keeps the table current from each new model's launch page and from the
+  unofficial trackers that watch for a model quietly getting worse.
 - [`skills/dotclaude`](../skills/dotclaude/SKILL.md): how Claude keeps this copy and my own
   `~/.claude` the same, and what it must never publish here. Claude reads it only before it changes
   the setup, which keeps the rules every session reads shorter.

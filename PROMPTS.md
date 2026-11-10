@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Stop before software work on the wrong model; show Fable
+## Hand software work to a session on its row; read nerf trackers
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> cant i just use haiku and then it automaticalyl switches to correct
+> one? or any model initially then? shouldnt stop at every mismatch and
+> switch could it spawn sessions with diff models?
+
+**6.** (answer to: shall I replace the stop with spawning a Fable session for software work?)
+> yes spawn it but fable xhigh is for example the curretn benchmark
+> good so keep that effort in mind. also in dreaming cehck nerfbench
+> etc on unofficial results on which models are being nerfed so as to
+> get consensus on which models to use after dreaming
+
+## Stop before software work on the wrong model; show Fable
+
+2026-11-10, commit [a022278](https://github.com/zululima/dotclaude/commit/a022278711461bb19453fcf675a7e17c2d020d51), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I show the Fable weekly limit in dream reports again?)
 > Yes, show it

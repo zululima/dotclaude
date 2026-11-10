@@ -11,19 +11,21 @@ description: Which Claude model and effort level each kind of work runs on, with
   that fits two rows takes the stronger one. This skill is the instruction the Agent tool's
   `effort` field waits for.
 - `start_session` takes a model and effort only at or below the starting session's own. A session
-  that needs a stronger model or a higher effort is switched with `set_session_model` and
-  `set_session_effort` right after the start, which the app may ask the user to approve, and the
-  reply says that its first turn ran on the model it started with.
+  that needs another model or effort, both as its row gives them, starts with a prompt that asks it
+  only to reply `ready` and run no tools, so its first turn costs next to nothing. It then gets
+  `detach_session`, `set_session_model` and `set_session_effort`, which the app may ask the user to
+  approve, and only then its task with `send_message`.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
   on software work it does worse than xhigh.
 - A session cannot switch its own model or effort, so at the prompt that starts a task it reads
-  them with `get_session` and `self` and compares them with the task's row. A prompt that starts
-  software work in a session off the software row's model or effort gets no work in that turn: the
-  reply names the row's model and effort to pick in the app's model menu, and the turn ends with
-  `wrap_up` and `blocked`. The work starts at the next prompt, once `get_session` shows the row's
-  model and effort. Any other task runs on the session's model as it is, and the first line of the
-  reply that starts it names its row's model and effort.
+  them with `get_session` and `self` and compares them with the task's row. Software work in a
+  session off the software row's model or effort goes to a new session started as above, with
+  `context` "fork" so it holds this conversation, and with a task that asks it to carry out the
+  user's last prompt there, so the prompt stays the user's own in its log and its commits.
+  The reply links that session and says the work goes on there, and this session does none of it.
+  Any other task runs on the session's model as it is, and the first line of the reply that starts
+  it names its row's model and effort.
 
 | Task | Model | Effort | Benchmarks behind it |
 |---|---|---|---|
@@ -34,9 +36,10 @@ description: Which Claude model and effort level each kind of work runs on, with
 | A bounded step that needs judgement, such as summarising one file | Sonnet 5.5 (`sonnet`) | medium | Anthropic: move down to Sonnet or Haiku when a task is simpler |
 | A mechanical step: a lookup, a listing, reading one value, a format check | Haiku 5.5 (`haiku`) | low | The same guidance |
 
-- The table changes only when newer benchmarks back another pick. The dream workflow's `anthropic`
-  source reads each model launch page and proposes the row as it would read, with the scores
-  behind it.
+- The table changes only when newer benchmarks back another pick, or when two or more independent
+  trackers that rerun a fixed test on live models show a row's model has dropped. The dream
+  workflow's `anthropic` source reads each model launch page and those trackers, and proposes the
+  row as it would read, with the scores behind it.
 
 Sources: Claude Fable 5.2 and Mythos 5.2 launch page, 9 November 2026,
 [https://www.anthropic.com/claude-fable-and-mythos-5-2](https://www.anthropic.com/claude-fable-and-mythos-5-2),
