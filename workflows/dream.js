@@ -1230,13 +1230,14 @@ Read:
 - the Claude Code changelog, https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md, for every version released after ${lastRan.anthropic ? `the last check on ${new Date(lastRan.anthropic).toISOString()}` : scout.lookbackFrom} and every version newer than the installed ${scout.installedVersion}; npm view @anthropic-ai/claude-code time --json gives release dates;
 - the weekly digests under https://code.claude.com/docs/en/whats-new/ for those weeks;
 - the Claude Platform release notes, https://platform.claude.com/docs/en/release-notes/overview, for the same time, and the pages of the docs index https://platform.claude.com/llms.txt that cover what they announce. Read the Managed Agents pages on dreams (https://platform.claude.com/docs/en/managed-agents/dreams), memory stores, scheduled deployments, multiagent orchestration and session budgets every time, since they do jobs this setup does by hand, and note anything on them that is new;
-- Anthropic's news at https://www.anthropic.com/news for posts in that time about Claude Code, models or the API.
-Then read ~/.claude/settings.json, ~/.claude/hooks/, ~/.claude/CLAUDE.md, ~/.claude/workflows/ and ~/.claude/skills/ and match each change against them:
+- Anthropic's news at https://www.anthropic.com/news for posts in that time about Claude Code, models or the API;
+- every model launch page and system card published in that time, such as https://www.anthropic.com/claude-fable-and-mythos-5-2, and the models overview, https://platform.claude.com/docs/en/about-claude/models/overview: each benchmark table, the effort and the cost per task beside each score, and what Anthropic says each model and effort level suits.
+Then read ~/.claude/skills/models/SKILL.md, ~/.claude/settings.json, ~/.claude/hooks/, ~/.claude/CLAUDE.md, ~/.claude/workflows/ and ~/.claude/skills/ and match each change against them:
 - a new official feature that replaces a hook, a script, a rule or a step of a workflow the user built by hand (the user prefers official features over custom glue);
 - a feature whose design a workflow could copy, above all ~/.claude/workflows/dream.js, which does for Claude Code transcripts and memory files what Managed Agents dreams do for sessions and memory stores: name the step and what it would do differently;
 - a deprecated or removed setting, flag, command or model the user still uses;
 - a new setting or command that fixes friction the rules describe;
-- a model or effort change worth making.
+- a row of the table in ~/.claude/skills/models/SKILL.md that the newest benchmarks no longer back, or a kind of task a benchmark covers that has no row: kind "rule-change", naming the benchmark, each model's score with its effort and the cost figure the page gives, and the row as it would read. A row stays when no published score beats it.
 A Claude API or Managed Agents feature needs an API key, bills at API token rates outside the Claude plan's limits, and works on its own sessions and memory stores, not on Claude Code transcripts or memory files. A finding about one says what it would cost, what the user would have to set up, which part of their own version it would replace, and, for a research preview, how access is requested.
 Skip changes that do not touch this setup. Cite the changelog version or URL for every finding.
 ${WINDOW}

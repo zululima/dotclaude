@@ -209,6 +209,7 @@ mirrored=(
   skills/slack-draft/SKILL.md
   skills/slack-draft/copy-rich.sh
   skills/read-aloud/SKILL.md
+  skills/models/SKILL.md
   workflows/dream.js
   agents/dream-worker.md
 )

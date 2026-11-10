@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep steps short where the user types them by hand
+## Pick the model and effort per task from benchmarks
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> could we make a dream check out latest benchmarks like the ones
+> stated here [pasted: the address of the Claude Fable 5.2 and Mythos
+> 5.2 launch page] and every prompt should use a proper model for each
+> task. for example from hereon out i should be using fable 5.2 xhigh
+> for software creation
+
+**2.**
+> also correct effort too since fable max dont work on sfotware
+> development
+
+## Keep steps short where the user types them by hand
+
+2026-11-10, commit [a10b365](https://github.com/zululima/dotclaude/commit/a10b3659e303bf9044f2763a9bc3802a80841dfb), model claude-opus-5-5, effort xhigh.
 
 **7.** to 21.
 > [fifteen prompts about setting up a TV box left out]
