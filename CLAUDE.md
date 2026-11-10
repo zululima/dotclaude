@@ -19,13 +19,6 @@ apply to one repository belong in that repository's project memory.
   default branch is, whether a branch was merged, what an open PR is based on. Remote-tracking
   refs go stale between sessions, and a decision made on a stale ref is wrong in a way that is
   hard to notice afterwards.
-- A `UserPromptSubmit` hook in `~/.claude/settings.json` runs `~/.claude/hooks/git-fetch-prune.sh`
-  in the background on every prompt. Inside a repository with remotes it fetches all of them with
-  pruning at most once every 15 minutes per repository, with every credential prompt disabled so
-  it can never hang a prompt. It is a safety net, not a substitute for fetching before a decision.
-  A `PreToolUse` hook, `~/.claude/hooks/git-fetch-before-remote-base.sh`, is that fetch for a
-  command that branches, rebases, merges, hard-resets or adds a worktree from an `origin/` or
-  `upstream/` ref: it runs the same script and waits, unless a fetch ran in the last 2 minutes.
 - A `SessionStart` hook runs `~/.claude/hooks/git-prune-gone-branches.sh` when a session starts,
   resumes, is cleared or is forked. Inside a repository with remotes it runs the fetch above, then
   deletes every local branch whose upstream branch is gone, as long as nothing on it would be
@@ -614,9 +607,12 @@ apply to one repository belong in that repository's project memory.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt for Claude Code there, never a command, saved
   as `<word>.md` in the folder synced there that `~/.claude/rules/` names, if any, so the user types
-  one word there in place of a paste. The user enters only personal data, such as a name, phone
-  number, address, password, a one-time code or payment details, and makes only the decisions the
-  session cannot settle from the request, the code or a source; such a decision is asked once with a
+  one word there in place of a paste. Where no Claude Code runs, such as on a TV box, the user types
+  each step by hand while reading the reply on another screen: each command is short enough to type,
+  one per block, and longer logic goes onto that machine as a file, by a stick or a synced folder,
+  that one short command runs. The user enters only personal data, such as a name, phone number,
+  address, password, a one-time code or payment details, and makes only the decisions the session
+  cannot settle from the request, the code or a source; such a decision is asked once with a
   recommended answer, as the question the closing message ends on, and a go given for another point
   does not settle it. Nor is the user asked a fact that a source holds, such as which of the
   lettered commands they ran, which package a step installed or what a car or device of theirs came

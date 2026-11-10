@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## pull-requests: never push to another author's PR branch
+## Keep steps short where the user types them by hand
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**7.** to 21.
+> [fifteen prompts about setting up a TV box left out]
+
+**22.**
+> huh? paste? this session is on my mac and im doing steambox. try to
+> have more situational awareness in the future
+
+## pull-requests: never push to another author's PR branch
+
+2026-11-10, commit [a1390de](https://github.com/zululima/dotclaude/commit/a1390de1b4629ed7b43680a438c99761125e2b4c), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > next time dont push directly to someone elses branch althoguh you fix

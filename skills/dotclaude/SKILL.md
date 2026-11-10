@@ -166,6 +166,13 @@ run and its commit in the same turn.
 
 ## Hooks that back rules
 
+- A `UserPromptSubmit` hook in `~/.claude/settings.json` runs `~/.claude/hooks/git-fetch-prune.sh`
+  in the background on every prompt. Inside a repository with remotes it fetches all of them with
+  pruning at most once every 15 minutes per repository, with every credential prompt disabled so
+  it can never hang a prompt. It is a safety net, not a substitute for fetching before a decision.
+  A `PreToolUse` hook, `~/.claude/hooks/git-fetch-before-remote-base.sh`, is that fetch for a
+  command that branches, rebases, merges, hard-resets or adds a worktree from an `origin/` or
+  `upstream/` ref: it runs the same script and waits, unless a fetch ran in the last 2 minutes.
 - A `Stop` hook, `~/.claude/hooks/stop-unreachable-claim.sh`, sends a turn back once when its
   closing message says in the first person that something could not be opened, read, reached, found
   or uploaded, and no Claude in Chrome tool ran since the prompt. Its phrase list is a heuristic
