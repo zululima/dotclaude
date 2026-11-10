@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep the window and carried transcripts in a one-source dream run
+## Give find its times without milliseconds in the dream prompts
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**4.** (answer to: shall I fix the dream workflow so a one-part run keeps its carried transcripts?) Quoted under [24b7eb4](https://github.com/zululima/dotclaude/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca).
+
+## Keep the window and carried transcripts in a one-source dream run
+
+2026-11-10, commit [24b7eb4](https://github.com/zululima/dotclaude/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca), model claude-fable-5-2, effort xhigh.
 
 **3.** (answer to: shall I run the dream workflow's new Finnish check once now, on last week's texts?)
 > Yes, run it

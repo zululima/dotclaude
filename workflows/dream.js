@@ -489,6 +489,8 @@ const history = scout.historyLines
   .map(line => { try { return JSON.parse(line) } catch (e) { return null } })
   .filter(r => r && r.ledger)
 const nowMs = Date.parse(scout.now)
+// BSD find and bfs reject the milliseconds toISOString adds, so a time that goes into find -newermt drops them.
+const findTime = ms => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z')
 const lastRan = {}
 for (const r of history) {
   const at = Date.parse(r.time || `${r.date}T00:00:00Z`)
@@ -1140,7 +1142,7 @@ ${GROUND}`,
 }
 
 if (only.includes('battery')) {
-  const batterySince = lastRan.battery ? new Date(lastRan.battery).toISOString() : scout.lookbackFrom
+  const batterySince = lastRan.battery ? findTime(lastRan.battery) : scout.lookbackFrom
   tasks.push({
     source: 'battery',
     tier: 1,
@@ -1273,7 +1275,7 @@ ${GROUND}`,
 }
 
 if (only.includes('finnish')) {
-  const termsSince = lastRan.finnish ? new Date(lastRan.finnish).toISOString() : scout.lookbackFrom
+  const termsSince = lastRan.finnish ? findTime(lastRan.finnish) : scout.lookbackFrom
   tasks.push({
     source: 'finnish',
     tier: 2,
@@ -1403,7 +1405,7 @@ if (DEEP && Number.isFinite(oldestMs) && deepEnd <= oldestMs) {
   log('Earlier weekend runs already went back to the oldest transcript kept, so the deeper pass has nothing left to read')
   DEEP = false
 }
-const subagentsFrom = lastRan.subagents ? new Date(lastRan.subagents).toISOString() : null
+const subagentsFrom = lastRan.subagents ? findTime(lastRan.subagents) : null
 
 let checks = { items: [] }
 let stillOpen = backlog.open
@@ -1548,7 +1550,7 @@ function verifyTier(n, proposals) {
 
 const olderListed = (DEEP || only.includes('subagents'))
   ? outside('merge', () => dreamAgent(`List two sets of Claude Code transcripts.
-1. older: ${DEEP ? `the main session transcripts whose lastActivity is after ${new Date(deepFrom).toISOString()} and not after ${new Date(deepEnd).toISOString()}: of the files ${FIND_MAIN} -newermt <the first of those times> prints. ${LAST_ACTIVITY}` : 'return an empty list.'}
+1. older: ${DEEP ? `the main session transcripts whose lastActivity is after ${findTime(deepFrom)} and not after ${findTime(deepEnd)}: of the files ${FIND_MAIN} -newermt <the first of those times> prints. ${LAST_ACTIVITY}` : 'return an empty list.'}
 2. subagents: ${only.includes('subagents') ? `the subagent transcripts modified ${subagentsFrom ? `after ${subagentsFrom} and ` : ''}not after ${scout.now}, so this run's own agents wait for the next run: the files find ~/.claude/projects/ -path '*/subagents/*' -type f -name 'agent-*.jsonl'${subagentsFrom ? ` -newermt ${subagentsFrom}` : ''} ! -newermt ${scout.now} prints. Return one row for each workflow run folder, a folder named wf_* under subagents/workflows/, with its absolute path without a trailing slash as path, how many of those files it holds as agents, their total size as bytes and the newest of their modification times as mtime, and one row for each other file, newest first, at most ${MAX_SUBAGENT_FILES} rows.` : 'return an empty list.'}
 ${FIND_ONCE} ${LIST_FILES}
 ${GROUND}`, { label: 'list older', phase: 'Older', effort: 'low', schema: OLDER }))

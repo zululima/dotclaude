@@ -287,7 +287,8 @@ const scenarios = [
     ['is not due yet', (st, r) => !st.labels.battery && r.sources.notDue.includes('battery')],
   ]],
   ['battery read 21 hours ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranBattery('2026-10-13T21:00:00Z')] }, [
-    ['is due, and covers the time since that run', st => st.labels.battery === 1 && battery(st).includes('Cover 2026-10-13T21:00:00.000Z to')],
+    ['is due, and covers the time since that run', st => st.labels.battery === 1 && battery(st).includes('Cover 2026-10-13T21:00:00Z to')],
+    ['and gives find that time without milliseconds, which BSD find and bfs reject', st => /-newermt 2026-10-13T21:00:00Z /.test(battery(st))],
   ]],
   ['finnish terms', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] } }, [
     ['one agent reads the Finnish the sessions wrote', st => st.labels.finnish === 1],
@@ -305,7 +306,7 @@ const scenarios = [
     ['are not due yet', (st, r) => !st.labels.finnish && r.sources.notDue.includes('finnish')],
   ]],
   ['finnish terms read 8 days ago, asked for alone', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [ranFinnish('2026-10-06T10:00:00Z')] }, [
-    ['cover the time since that run', st => st.labels.finnish === 1 && finnish(st).includes('between 2026-10-06T10:00:00.000Z and')],
+    ['cover the time since that run', st => st.labels.finnish === 1 && finnish(st).includes('between 2026-10-06T10:00:00Z and') && /-newermt 2026-10-06T10:00:00Z /.test(finnish(st))],
   ]],
   ['one source asked for alone, after a run that carried a transcript over', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [carried('2026-10-13T18:00:00Z')] }, [
     ['the scout takes the window start from readTo, and from the time of a line without one', st => /the readTo field of the last line of \S+ when it has one, else that line's time field/.test(st.prompts.scout || '')],
