@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Name the cheaper official route beside a paid pick
+
+2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**13.**
+> [an ask about a personal project left out]
+
+**14.**
+> häh miksi omat säännöt miksei vaan 60€
+
 ## Count a goal a later step narrows as a request read two ways
 
-2026-11-09, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [70c4b2e](https://github.com/zululima/dotclaude/commit/70c4b2ebda8bcf0f92216433d6f5fcc898eab19e), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an ask about the session's permission mode, left out]

@@ -185,6 +185,10 @@ run and its commit in the same turn.
 - A `PostToolUse` hook, `~/.claude/hooks/git-submodule-update-after-switch.sh`, runs the update
   after every Bash command that switches and adds `git submodule status`, or the error that
   stopped the update, to the context. A switch given to the user still carries the update.
+- While the screen is on and unlocked, the listeners in `~/.claude/presence` keep the file that
+  `CLAUDE_CLIENT_PRESENCE_FILE` names there, and a `PreToolUse` hook,
+  `~/.claude/hooks/push-only-when-locked.sh`, refuses a push while it is. They back the
+  `PushNotification` rule in Running things of `~/.claude/CLAUDE.md`.
 
 ## Identity and contents
 
