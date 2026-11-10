@@ -5,9 +5,35 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Read an archived copy before setting a search figure aside
+## Say why a started session's model and effort fit its task
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> does my claude switch to automatically opus 5.5 for knowledge work
+> like according to this [pasted: the address of Anthropic's launch
+> page for Fable 5.2]
+
+**2.**
+> but claude can spawn sessions with different models though? couldnt
+> it check with model x that a task is best suitable for model x and
+> then spawn a session that uses that better model
+
+**3.**
+> ok but can claude spawn a new session when i for example want to
+> start working on feature x on [a project] using sonnet, haiku or
+> opus or fable depending on the task?
+
+**4.** (answer to: shall I make the models skill also move long non-software tasks to Opus 5.5 sessions?)
+> No, leave it
+
+**5.**
+> also when it creates a new session it should tell why the model and
+> effort is best for that particular session
+
+## Read an archived copy before setting a search figure aside
+
+2026-11-10, commit [9101c18](https://github.com/zululima/dotclaude/commit/9101c18fd757ebaa17237eab15c5a5d1d1438852), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > [a question about a service's plans left out]

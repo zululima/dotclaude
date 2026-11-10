@@ -16,6 +16,11 @@ description: Which Claude model and effort level each kind of work runs on, with
   `detach_session`, `set_session_model` and `set_session_effort`, which the app may ask the user to
   approve, and only then its task with `send_message`.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
+- The reply that links a session this one started, or shows the card that proposes one, names that
+  session's model and effort and says why they are the best for it: what in its task puts it on its
+  row, and what the score or guidance behind the row means for that task, such as that a feature
+  touching the backend and the frontend is software work, where Fable 5.2 scores highest at xhigh.
+  The reason is written for that session's task, never the row's last cell copied as it stands.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
   on software work it does worse than xhigh.
 - A session cannot switch its own model or effort, so at the prompt that starts a task it reads
