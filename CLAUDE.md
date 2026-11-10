@@ -140,13 +140,14 @@ apply to one repository belong in that repository's project memory.
   only joined with `&&`, when they form one sequence in which each step needs the one before it to
   have succeeded, so a paste stops at the first failure. Independent commands, and alternatives, get
   a block each. Decide which of the two it is every time, never list unjoined commands on separate
-  lines of one block. A command longer than 80 columns is split between arguments, before a flag or
-  after an `&&` and never inside quotes, each line but the last ending in ` \` and each continuation
-  indented two spaces, so it reads without sideways scrolling and still pastes as one. This holds
-  for every Markdown a person reads: PR bodies, docs and chat. A memory note, read by a session that
-  runs the command itself, may give it inline, but a block in one still joins dependent commands
-  with `&&`. A command that a sentence describes rather than asks the reader to run, such as a note
-  that `gh pr create --body-file` replaces the template, stays inline.
+  lines of one block. A command longer than 80 columns is split between arguments when every line
+  then fits in 80, before a flag or after an `&&` and never inside quotes, each line but the last
+  ending in ` \` and each continuation indented two spaces, so it reads without sideways scrolling
+  and still pastes as one. This holds for every Markdown a person reads: PR bodies, docs and chat. A
+  memory note, read by a session that runs the command itself, may give it inline, but a block in
+  one still joins dependent commands with `&&`. A command that a sentence describes rather than asks
+  the reader to run, such as a note that `gh pr create --body-file` replaces the template, stays
+  inline.
 - A step in a list is no exception, and the "How to verify" steps of a PR body are where this
   slips: the fenced block goes under the step, indented to it, not inline in the step's
   sentence. A step that tells the reader to do something a command does, such as "recreate the

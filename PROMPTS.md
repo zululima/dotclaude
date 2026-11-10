@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Name the cheaper official route beside a paid pick
+## Keep a command on one line when a split cannot fit it
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** to 5.
+> [five prompts about connecting game controllers left out]
+
+**6.**
+> >
+>
+> [pasted: the numbered step whose split command rendered broken]
+>
+> you should probably just render this in monospace etc so taht i
+> wouldnt even consider copying that
+
+## Name the cheaper official route beside a paid pick
+
+2026-11-10, commit [0db367c](https://github.com/zululima/dotclaude/commit/0db367c490bc847e48aa0a8e1ff748dd4840549d), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > [an ask about a personal project left out]
