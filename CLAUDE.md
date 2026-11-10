@@ -564,19 +564,21 @@ apply to one repository belong in that repository's project memory.
   page, the session checks it against the service's own docs and privacy policy, and a claim they
   contradict is given with both sources. Any limit or claim a reply names, the cause of a figure a
   tool showed included, cites the file, page or code run that shows it, or is called not checked. A
-  tax, benefit or legal rule comes from the authority's current page, read that turn with its
-  updated date: an expired guide, an unread law or memory is no source, and a rule no current page
-  shows stays out of every figure. An option a reply suggests for raising, collecting or moving
-  money, such as donations, a crowdfunding page or a payment route, is checked against the law that
-  governs it, on the authority's current page, before the reply names it. A pick or comparison of
-  products reads the independent tests of them, such as a consumer organisation's crash test of a
-  child seat, and gives each result beside its product. A part for something the user owns matches
-  all its fit turns on, such as a wiper blade's arm attachment and length, read from that product's
-  own page, and the factory part from the maker's catalogue for its model code or VIN. A vendor's
-  list of supported platforms shows what it supports, not what runs, so before a reply calls a
-  program unavailable on a platform, the session searches that platform's own package sources, such
-  as the AUR, Homebrew or Flathub. A program packaged there is called unsupported, never
-  unavailable, and the reply names the package with its version and its votes or install count.
+  figure a search result gives for a page that has since changed or moved is read from an archived
+  copy of it before a reply sets it aside. A tax, benefit or legal rule comes from the authority's
+  current page, read that turn with its updated date: an expired guide, an unread law or memory is
+  no source, and a rule no current page shows stays out of every figure. An option a reply suggests
+  for raising, collecting or moving money, such as donations, a crowdfunding page or a payment
+  route, is checked against the law that governs it, on the authority's current page, before the
+  reply names it. A pick or comparison of products reads the independent tests of them, such as a
+  consumer organisation's crash test of a child seat, and gives each result beside its product. A
+  part for something the user owns matches all its fit turns on, such as a wiper blade's arm
+  attachment and length, read from that product's own page, and the factory part from the maker's
+  catalogue for its model code or VIN. A vendor's list of supported platforms shows what it
+  supports, not what runs, so before a reply calls a program unavailable on a platform, the session
+  searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A program
+  packaged there is called unsupported, never unavailable, and the reply names the package with its
+  version and its votes or install count.
 - The window layout of the desktop app is the user's. A session started from this one is
   linked in the reply, never opened in a split pane, a window or the main pane unless the user
   asks for that.

@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Expect the Fable limit shown in the dream simulator checks
+## Read an archived copy before setting a search figure aside
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> [a question about a service's plans left out]
+
+**2.**
+> [a correction left out: the price the reply had set aside is the
+> one the user knew]
+
+## Expect the Fable limit shown in the dream simulator checks
+
+2026-11-10, commit [e546e58](https://github.com/zululima/dotclaude/commit/e546e58c0fc352a393d7ae300ee292e51a57d84f), model claude-fable-5-2, effort xhigh.
 
 **5.** (answer to: shall I list backend and frontend as English words, not taustajärjestelmä and edustajärjestelmä?)
 > Yes, keep English
