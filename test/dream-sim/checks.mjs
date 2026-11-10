@@ -105,7 +105,7 @@ const scenarios = [
     ['mode is final', (st, r) => r.mode.startsWith('final')],
     ['nothing used after the weekly reset', st => st.afterWeekReset === 0],
     ['the session is told to show only the points the run used, leaving the report to the review', (st, r) => /show in the chat only how many percentage points/.test(r.forTheSession) && !/show all of it/.test(r.forTheSession)],
-    ['with no row for the Fable limit, in the chat or the report', (st, r) => /a row per limit but the Fable one/.test(r.forTheSession) && !/Fable/.test(st.prompts.report || '')],
+    ['with a row for every limit, the Fable one too, in the chat and the report', (st, r) => /a table with a row per limit and the columns/.test(r.forTheSession) && !/but the Fable one/.test(r.forTheSession) && /Weekly · Fable/.test(st.prompts.report || '')],
     ['the report is asked to stay near 4,000 characters, the setup changes and coverage in a line each', st => /at most about 2,500 characters/.test(st.prompts.report || '') && /one line per impact level naming its ids, such as "High: p1, p2, p4\. Medium: p3, p5\.", and nothing else/.test(st.prompts.report || '') && /7\. Coverage: one line:/.test(st.prompts.report || '') && !/every open proposal in plan order/.test(st.prompts.report || '')],
     ['and to add the tokens and dollars the run spent to the report file', (st, r) => /usage\.sh --run/.test(r.forTheSession) && /the dollars at API list prices/.test(r.forTheSession) && /under a heading Cost/.test(r.forTheSession)],
     ['and last week and this week of all sessions, from reset to reset', (st, r) => /usage\.sh --since 2026-10-03T13:59:59\.000Z 2026-10-10T13:59:59\.000Z/.test(r.forTheSession) && /under a heading Week/.test(r.forTheSession)],
@@ -251,7 +251,7 @@ const scenarios = [
     ['and says only that no proposal is due', (st, r) => r.forTheSession.startsWith('No open proposal is due')],
   ]],
   ['first review from gm after the weekly reset', { ...wed, week: 30, sessions: 4, args: { review: true, gm: true }, shown: '2026-10-03T13:59:59.000Z ~/.claude/dream/2026-10-03.md' }, [
-    ['shows the newest report in full, without the Fable limit', (st, r) => r.forTheSession.startsWith('Read ~/.claude/dream/2026-10-17.md and show all of it') && /leaving out every row and figure about a Fable limit/.test(r.forTheSession)],
+    ['shows the newest report in full, the Fable limit included', (st, r) => r.forTheSession.startsWith('Read ~/.claude/dream/2026-10-17.md and show all of it') && /its usage and the week's figures included\. Then write/.test(r.forTheSession) && !/leaving out/.test(r.forTheSession)],
     ['records it as shown in this week', (st, r) => r.forTheSession.includes('"2026-10-10T13:59:59.000Z ~/.claude/dream/2026-10-17.md"')],
     ['and refreshes the evals', (st, r) => /evals\.mjs --write/.test(r.forTheSession)],
   ]],

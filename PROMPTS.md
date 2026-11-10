@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give find its times without milliseconds in the dream prompts
+## Expect the Fable limit shown in the dream simulator checks
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**5.** (answer to: shall I list backend and frontend as English words, not taustajärjestelmä and edustajärjestelmä?)
+> Yes, keep English
+
+**6.** (answer to: shall I update the two stale simulator checks to expect the Fable limit shown?)
+> Yes, update them
+
+## Give find its times without milliseconds in the dream prompts
+
+2026-11-10, commit [b65d4ef](https://github.com/zululima/dotclaude/commit/b65d4ef2cd97724cd43c43c78b3a723d536516ec), model claude-fable-5-2, effort xhigh.
 
 **4.** (answer to: shall I fix the dream workflow so a one-part run keeps its carried transcripts?) Quoted under [24b7eb4](https://github.com/zululima/dotclaude/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca).
 
