@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Hand software work to a session on its row; read nerf trackers
+## Read the whole thread around a search hit before citing it
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [a question about a shared account's sign-in left out]
+
+**2.** (answer to: shall I add a rule to read the whole Slack thread    behind a search hit?)
+> yes, add it
+
+## Hand software work to a session on its row; read nerf trackers
+
+2026-11-10, commit [ad1de0e](https://github.com/zululima/dotclaude/commit/ad1de0e2804e546fa290b01f90a9d68194c4ed42), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > cant i just use haiku and then it automaticalyl switches to correct

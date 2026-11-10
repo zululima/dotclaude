@@ -487,11 +487,14 @@ apply to one repository belong in that repository's project memory.
   source that could bear on it: the sources the project's memory lists for its subject, every
   connected source, Slack's private channels and DMs included with no ask first, the deployed and
   legacy environments, the shared memories folder that `~/.claude/shared-memories.conf` names and
-  the user's earlier prompts in `~/.claude/prompt-log`. For a draft, the prompts about drafts for
-  the same app or recipient carry over a format settled in another session, such as a line width.
-  The reply names each source read and each one skipped, with the reason. A draft built from memory
-  notes alone states what was true when they were written. A `retry` or `r`, or another ask to redo
-  an answer, reads its sources again, other sessions and git logs too, as the user's work moves on.
+  the user's earlier prompts in `~/.claude/prompt-log`. A hit inside a thread, such as a Slack
+  thread, an email thread or an issue's comments, is read with its whole thread before the reply
+  quotes or rests on it, since a later message may settle or reverse it. For a draft, the prompts
+  about drafts for the same app or recipient carry over a format settled in another session, such as
+  a line width. The reply names each source read and each one skipped, with the reason. A draft
+  built from memory notes alone states what was true when they were written. A `retry` or `r`, or
+  another ask to redo an answer, reads its sources again, other sessions and git logs too, as the
+  user's work moves on.
 - Browser work runs in Claude in Chrome, the extension in the user's own Chrome, which the user also
   calls Chrome and is signed in to, never in the desktop app's built-in browser pane, whose user
   agent cannot be changed. A page, a file or an upload is tried there before a reply calls it out of
