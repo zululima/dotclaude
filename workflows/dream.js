@@ -1,11 +1,11 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
-    { title: 'Weekly', detail: 'tier 2: rule effectiveness, token waste, harness, doctor, Anthropic and skill repositories' },
+    { title: 'Weekly', detail: 'tier 2: rule effectiveness, token waste, harness, doctor, Anthropic, Hacker News, Finnish terms and skill repositories' },
     { title: 'Work', detail: 'tier 3: project audits, what derived projects should take over from their upstreams, reviews of open pull requests and, in a final run, a Monday brief' },
     { title: 'Older', detail: 'tier 4, eve and final runs: subagent transcripts, then older transcripts a week at a time, newest first' },
     { title: 'Usage', detail: 'readings of the plan usage card as work finishes and as one agent is left working alone, and timers for checks that run long' },
@@ -22,10 +22,12 @@ const HISTORY_FILE = '~/.claude/dream/usage-history.jsonl'
 const WEEKS_FILE = '~/.claude/dream/weekly-usage.jsonl'
 const EVALS_FILE = '~/.claude/dream/evals-checkout.txt'
 const BACKLOG_FILE = `${OUT}/backlog.json`
-const SOURCES = ['transcripts', 'config', 'github', 'battery', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'hn', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
+// The glossary of Finnish words for terms from English: its own rules say how sessions use it and that the user's entries are final.
+const TERMS_FILE = '~/.claude/rules/finnish-terms.md'
+const SOURCES = ['transcripts', 'config', 'github', 'battery', 'rules', 'waste', 'harness', 'doctor', 'anthropic', 'hn', 'finnish', 'skills', 'projects', 'library', 'upstreams', 'prs', 'brief', 'subagents']
 const TIER_PHASE = { 1: 'Recent', 2: 'Weekly', 3: 'Work', 4: 'Older' }
 const TIER_PREFIX = { 1: 'n', 2: 'w', 3: 'k', 4: 'd' }
-const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, battery: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, hn: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
+const CADENCE_HOURS = { transcripts: 0, config: 0, github: 20, battery: 20, rules: 160, waste: 160, harness: 160, doctor: 160, anthropic: 160, hn: 160, finnish: 160, skills: 160, projects: 160, library: 160, upstreams: 160, prs: 160, brief: 0, subagents: 0 }
 // In eve and final runs a weekly source is due once per weekend, so a final run picks up what the eve run had no usage for.
 const WEEKEND_CADENCE_HOURS = 36
 const LOOKBACK_DAYS = 7
@@ -1261,6 +1263,34 @@ curl -sG https://hn.algolia.com/api/v1/search --data-urlencode tags=story --data
 - a technique a hook, a rule or a workflow could copy: name the step and what it would do differently;
 - a claim about Claude Code or the Claude plan that contradicts what a rule assumes.
 A story that reports news with no consequence for this setup is no finding. Cite the article URL and https://news.ycombinator.com/item?id=<objectID> for every finding. Say in coverage how many stories you listed, which you picked, which you read and which failed to load.
+${BACKLOG_NOTE}
+${OUTPUT}
+${GROUND}`,
+  })
+}
+
+if (only.includes('finnish')) {
+  const termsSince = lastRan.finnish ? new Date(lastRan.finnish).toISOString() : scout.lookbackFrom
+  tasks.push({
+    source: 'finnish',
+    tier: 2,
+    label: 'finnish terms',
+    prompt: `Grow the user's glossary of Finnish words for terms that come from English, ${TERMS_FILE}, from the Finnish their sessions wrote between ${termsSince} and ${scout.now}. When the file is missing, return no findings and say so in coverage.
+1. Read the file whole: its rules, its two lists and who set each entry. The entries the user set show where the user draws the line, and none of them is yours to change.
+2. Collect the candidates. Keep the main session transcripts of that time that hold Finnish, the files ${FIND_MAIN} -newermt ${termsSince} -exec grep -l -E 'että|myös|eivät' {} + prints. ${FIND_ONCE} From each, take what Claude wrote, its replies and the files it wrote, and keep the lines with ä or ö in a file in your scratch folder:
+jq -r 'select(.type == "assistant" and .isSidechain != true and .sessionId == (input_filename | split("/") | last | rtrimstr(".jsonl"))) | .message.content[]? | if .type == "text" then .text elif .type == "tool_use" and (.name == "Write" or .name == "Edit") then (.input.content // .input.new_string // "") else empty end' FILE | grep -E '[äöÄÖ]'
+That is about a megabyte a week, so do not read it whole: list its words by count, read the list for candidates and open the lines around each. Take:
+- each English term left standing in Finnish prose that the glossary does not list, such as the name of an interface part or a technical concept, in its inflected forms too, as in toastin. Leave out product names, commands, code and quoted labels;
+- each Finnish word Claude wrote for such a term that the glossary does not list and that is no everyday word a general dictionary has, as murupolku and paikkamerkki were before their entries;
+- each moment the user said that a Finnish word is wrong or does not exist, or named the word to use, and no entry records it: the user's prompts of that time are in ~/.claude/prompt-log/, one JSON line per prompt with timestamp and prompt, so grep them for the words on Finnish wording, such as suomenn, suomea and in finnish;
+- each moment after an entry's date where a session still wrote a word the entry rules out.
+3. Look each candidate term up, and stop at the first source that settles it. Send each request with a plain client name, such as -A term-lookup, and nothing about the user:
+- the Finnish Wikipedia. The English Wikipedia's article on the thing links its Finnish one: curl -sG https://en.wikipedia.org/w/api.php --data-urlencode action=query --data-urlencode "titles=<English title>" --data-urlencode prop=langlinks --data-urlencode lllang=fi --data-urlencode redirects=1 --data-urlencode format=json, after list=search with srsearch=<term> in place of titles and prop when the title is unknown. The same call on https://fi.wikipedia.org/w/api.php with prop=extracts, exintro=1 and explaintext=1 gives the Finnish article's first sentences. The Finnish article's title is the word, also over a second name its first sentence gives, as Linkkipolku stands over murupolku, and an article titled with the English word settles the term for the English word;
+- the term banks: Finto, curl -sG https://api.finto.fi/rest/v1/search --data-urlencode "query=<English term>*" --data-urlencode lang=en --data-urlencode labellang=fi, whose prefLabel is the Finnish word, and Tieteen termipankki, the list=search call on https://tieteentermipankki.fi/w/api.php with srnamespace=*. Kielitoimiston sanakirja answers only behind a captcha, so leave it out and say so in coverage;
+- a web search for the term on the pages of the Finnish bodies that set terms, such as Kotus and Sanastokeskus.
+A Finnish word that only translated software or scattered pages use is not established: that is where paikkamerkki comes from, which the user ruled out.
+4. Return one finding of kind "memory" with target ${TERMS_FILE} that holds every new entry, since they go into one file as one change and the file's own rules ask for them. A term a session wrote once is enough for an entry. The proposal gives each entry word for word as the bullet to add, in the file's format, in its A to Z place under the heading it belongs to: "Use the Finnish word" when step 3 found a Finnish word established, "Keep the English word" when it found none, naming the sources read. Each entry names the words to avoid that a session wrote, its source as a URL, and that the dream set it on ${scout.today}. An entry for words of the user's that no entry records quotes them with their date and says the user set it. The evidence gives, per term, the moment a session wrote it and the page that settles it. Leave out a term an open proposal already holds and a term you could not settle, and name the unsettled ones in coverage.
+A word a session wrote against an entry, after the entry's date, is a second finding, one for all such moments, of kind "rule-change" with the same target: it names each entry and moment and the wording of the file's rules that would have held.
 ${BACKLOG_NOTE}
 ${OUTPUT}
 ${GROUND}`,

@@ -69,6 +69,9 @@ const nov6 = { five: 10, fiveReset: '2026-11-06T18:00:00Z', weekReset: '2026-11-
 // A usage history row of a run that read the battery logs at the given time.
 const ranBattery = time => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['battery'] })
 const battery = st => st.prompts.battery || ''
+// The same for a run that read the Finnish the sessions wrote.
+const ranFinnish = time => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['finnish'] })
+const finnish = st => st.prompts['finnish terms'] || ''
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -282,6 +285,24 @@ const scenarios = [
   ]],
   ['battery read 21 hours ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranBattery('2026-10-13T21:00:00Z')] }, [
     ['is due, and covers the time since that run', st => st.labels.battery === 1 && battery(st).includes('Cover 2026-10-13T21:00:00.000Z to')],
+  ]],
+  ['finnish terms', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] } }, [
+    ['one agent reads the Finnish the sessions wrote', st => st.labels.finnish === 1],
+    ['it covers the week before the window when no run read it yet', st => finnish(st).includes('between 2026-10-06T18:00:00.000Z and 2026-10-14T18:00:00Z')],
+    ['it reads the glossary first and changes no entry the user set', st => /Read the file whole/.test(finnish(st)) && /none of them is yours to change/.test(finnish(st))],
+    ['it lists the transcripts with find, without -L', st => /find ~\/\.claude\/projects\/ -mindepth 2 -maxdepth 2 -type f/.test(finnish(st)) && /without -L/.test(finnish(st))],
+    ['the Finnish Wikipedia article\'s title settles a term first, over a second name', st => /stop at the first source that settles it/.test(finnish(st)) && /The Finnish article's title is the word, also over a second name/.test(finnish(st))],
+    ['a word only translated software uses is not established', st => /only translated software or scattered pages use is not established/.test(finnish(st))],
+    ['a term with no established Finnish word keeps its English one', st => /"Keep the English word" when it found none/.test(finnish(st))],
+    ['every new entry goes into one finding for the glossary file', st => /Return one finding of kind "memory" with target ~\/\.claude\/rules\/finnish-terms\.md/.test(finnish(st))],
+    ['its requests carry nothing about the user', st => /nothing about the user/.test(finnish(st))],
+    ['the run records the source', st => /"finnish"/.test(st.historyLine || '')],
+  ]],
+  ['finnish terms read 2 days ago', { ...wed, week: 30, sessions: 4, extraHistory: [ranFinnish('2026-10-12T18:00:00Z')] }, [
+    ['are not due yet', (st, r) => !st.labels.finnish && r.sources.notDue.includes('finnish')],
+  ]],
+  ['finnish terms read 8 days ago, asked for alone', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [ranFinnish('2026-10-06T10:00:00Z')] }, [
+    ['cover the time since that run', st => st.labels.finnish === 1 && finnish(st).includes('between 2026-10-06T10:00:00.000Z and')],
   ]],
   ['symlinked project folders', { ...fri, five: 5, week: 30, sessions: 12, dupes: true }, [
     ['reads each transcript, carried or listed twice, once', st => {

@@ -5,9 +5,25 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Add a Finnish terms source to the dream run
+
+2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.** (typed in a session on claude-opus-5-5, which handed the work to this one)
+> maybe we should start building a finnish dictionary locally since
+> things like murupolku is linkkipolku in wikipedia. maybe add that to
+> dreaming so that it would find any proper use cases of a
+> finnishisezed word or a wikipedia rticle etc. we would use that.
+> otherwise we would use the the english word like breadcrumbs. i
+> should be able to tell on sesions too that a word doesnt really exist
+> in finnish and should be used the english oen
+
+**2.**
+> [a task another Claude session wrote, left out]
+
 ## Read the whole thread around a search hit before citing it
 
-2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [91a0b8a](https://github.com/zululima/dotclaude/commit/91a0b8a5360f757fd48a9c4870d312b087e500f2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a shared account's sign-in left out]

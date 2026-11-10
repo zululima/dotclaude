@@ -208,7 +208,11 @@
   before your usage limits, and in the chat it says only how much of them it used. Type `/dream
   review` in a new session to read its report and go through the changes. When
   `~/.claude/dream/evals-checkout.txt` names a copy of this repository, the review also reruns the
-  [evals](evals.md) and publishes their numbers.
+  [evals](evals.md) and publishes their numbers. When you keep a glossary at
+  `~/.claude/rules/finnish-terms.md`, with a list headed "Use the Finnish word" and one headed "Keep
+  the English word", `/dream` also reads the Finnish your sessions wrote and proposes entries for
+  the terms from English it has none for: the Finnish Wikipedia's article title or a term bank
+  decides the word, and a term with neither keeps its English one.
 - [`agents/dream-worker.md`](../agents/dream-worker.md): a lighter agent for `/dream`, so it uses
   fewer tokens.
 
