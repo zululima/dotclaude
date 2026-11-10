@@ -5,9 +5,19 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Add a Finnish terms source to the dream run
+## Keep the window and carried transcripts in a one-source dream run
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**3.** (answer to: shall I run the dream workflow's new Finnish check once now, on last week's texts?)
+> Yes, run it
+
+**4.** (answer to: shall I fix the dream workflow so a one-part run keeps its carried transcripts?)
+> Yes, fix it
+
+## Add a Finnish terms source to the dream run
+
+2026-11-10, commit [28b457c](https://github.com/zululima/dotclaude/commit/28b457cff8ad62697be25d7cf1a1630e6a6a1c7a), model claude-fable-5-2, effort xhigh.
 
 **1.** (typed in a session on claude-opus-5-5, which handed the work to this one)
 > maybe we should start building a finnish dictionary locally since

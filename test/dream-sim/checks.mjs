@@ -72,6 +72,9 @@ const battery = st => st.prompts.battery || ''
 // The same for a run that read the Finnish the sessions wrote.
 const ranFinnish = time => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['finnish'] })
 const finnish = st => st.prompts['finnish terms'] || ''
+// A usage history row whose run carried one transcript over, and the row a simulated run records.
+const carried = (time, more = {}) => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['transcripts'], pending: [{ path: '/t/carried.jsonl', project: 'p', bytes: 1e6, mtime: time, from: '2026-10-12T00:00:00Z' }], ...more })
+const recorded = st => ({ pending: [], ...JSON.parse(st.historyLine || '{}') })
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -303,6 +306,17 @@ const scenarios = [
   ]],
   ['finnish terms read 8 days ago, asked for alone', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [ranFinnish('2026-10-06T10:00:00Z')] }, [
     ['cover the time since that run', st => st.labels.finnish === 1 && finnish(st).includes('between 2026-10-06T10:00:00.000Z and')],
+  ]],
+  ['one source asked for alone, after a run that carried a transcript over', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [carried('2026-10-13T18:00:00Z')] }, [
+    ['the scout takes the window start from readTo, and from the time of a line without one', st => /the readTo field of the last line of \S+ when it has one, else that line's time field/.test(st.prompts.scout || '')],
+    ['the run hands on the transcript carried to it', st => recorded(st).pending.length === 1 && recorded(st).pending[0].path === '/t/carried.jsonl' && recorded(st).pending[0].from === '2026-10-12T00:00:00Z'],
+    ['and the window start it got, under its own time', st => recorded(st).readTo === '2026-10-13T18:00:00Z' && recorded(st).time === '2026-10-14T18:00:00Z'],
+  ]],
+  ['a second such run', { ...wed, week: 30, sessions: 4, args: { only: ['finnish'] }, extraHistory: [carried('2026-10-14T08:00:00Z', { readTo: '2026-10-13T18:00:00Z', sources: ['battery'] })] }, [
+    ['keeps the window start and the transcript of the first', st => recorded(st).readTo === '2026-10-13T18:00:00Z' && recorded(st).pending.length === 1],
+  ]],
+  ['a run that reads the transcripts', { ...wed, week: 30, sessions: 4 }, [
+    ['moves the window start to its own time', st => recorded(st).readTo === '2026-10-14T18:00:00Z' && recorded(st).time === '2026-10-14T18:00:00Z'],
   ]],
   ['symlinked project folders', { ...fri, five: 5, week: 30, sessions: 12, dupes: true }, [
     ['reads each transcript, carried or listed twice, once', st => {

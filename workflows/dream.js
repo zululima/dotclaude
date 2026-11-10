@@ -460,7 +460,7 @@ phase('Scout')
 const scout = await dreamAgent(`Set up a dream run, a review of this user's Claude Code use since the last run.
 1. Run date -u +%Y-%m-%dT%H:%M:%SZ for now, date +%F for today and date +%z for utcOffset.
 2. List the files in ${OUT} named YYYY-MM-DD.md or YYYY-MM-DD-N.md (expand ~, the directory may not exist yet). Return their paths, newest first, as previousReports. Return as runId today's date when no report of today exists, else today's date with the next free -N, such as ${'<today>'}-2.
-3. since is ${opts.since ? `"${opts.since}", given by the user` : `the time field of the last line of ${HISTORY_FILE} that has one, else that line's date at 00:00 UTC, else now minus 7 days`}, as an ISO time in UTC.${runNote ? ` The user started the run with this note, which may name a different window: "${runNote}".` : ''} Say in sinceReason how you chose it. lookbackFrom is since minus ${LOOKBACK_DAYS} days, as an ISO time.
+3. since is ${opts.since ? `"${opts.since}", given by the user` : `the readTo field of the last line of ${HISTORY_FILE} when it has one, else that line's time field, else its date at 00:00 UTC, else now minus 7 days`}, as an ISO time in UTC.${runNote ? ` The user started the run with this note, which may name a different window: "${runNote}".` : ''} Say in sinceReason how you chose it. lookbackFrom is since minus ${LOOKBACK_DAYS} days, as an ISO time.
 4. Run "$CLAUDE_CODE_EXECPATH" --version, the Claude Code build this session runs on, or claude --version when that variable is unset, and return the version number.
 5. ${requested.includes('transcripts') ? `List the main session transcripts used after since: of the files ${FIND_MAIN} -newermt <since> prints, those whose lastActivity is after since. ${FIND_ONCE} ${LIST_FILES} ${LAST_ACTIVITY} Also return as oldestTranscript the modification time, as an ISO time in UTC, of the oldest file ${FIND_MAIN} prints.` : 'Transcripts are out of scope for this run. Return an empty sessions list.'}
 6. ${requested.includes('skills') ? `Read ${REPOS_FILE} if it exists. Each non-empty line not starting with # names a GitHub repository as owner/repo, optionally followed by /path to a folder inside it, then optionally a note after whitespace. Return each as repo and note, the note empty when there is none. Return an empty list when the file is missing.` : 'Skill repositories are out of scope for this run. Return an empty skillRepos list.'}
@@ -496,6 +496,9 @@ for (const r of history) {
 }
 const lastEntry = history.length ? history[history.length - 1] : null
 const pending = lastEntry && Array.isArray(lastEntry.pending) ? lastEntry.pending : []
+// A run without the transcripts source lists no transcripts, so it hands on the window start and the carried transcripts as it got them.
+const READS_TRANSCRIPTS = requested.includes('transcripts')
+const readBefore = lastEntry ? lastEntry.readTo || lastEntry.time || `${lastEntry.date}T00:00:00Z` : scout.since
 
 const sameModel = history.filter(r => r.model === scout.model)
 const sameEffort = sameModel.filter(r => r.effort === scout.effort)
@@ -1668,7 +1671,7 @@ if (!results.length && !reviewed.length && !briefDone && (tasks.length || prList
 }
 if (unchecked.length) log(`${unchecked.length} proposals left unchecked: ${[...new Set(unchecked.map(p => p.why))].join('; ')}`)
 
-const nextPending = overflow.slice()
+const nextPending = READS_TRANSCRIPTS ? overflow.slice() : pending.slice()
 for (const o of tierOuts[1] || []) {
   if (o.task.source === 'transcripts' && o.result && o.result.skipped) nextPending.push(...o.task.sessions)
 }
@@ -1974,6 +1977,7 @@ const ranSources = Object.keys(sourceDone).filter(s => sourceDone[s])
 const entry = {
   date: scout.today,
   time: scout.now,
+  readTo: READS_TRANSCRIPTS ? scout.now : readBefore,
   runId: scout.runId,
   mode: MODE,
   sources: ranSources,
