@@ -186,7 +186,9 @@ GitHub.
   answer only. A fix the request, the code or a source cannot settle, such as a choice between two
   layouts, is asked as under Running things in `~/.claude/CLAUDE.md`, and a step beyond the branch,
   such as a merge or a change outside the repository, stays a proposal. A review of a PR another
-  author opened stays findings for that author, as this section says.
+  author opened stays findings for that author, as this section says, and no session pushes to that
+  author's branch, a fix it has made and tested included: the fix goes into the finding as the
+  change the review would make, for the author to commit.
 - A PR review switches the checkout to the PR's branch and leaves it there, runs the two command
   steps above itself, and checks the PR's manual steps against the screen. "Here" or "only" in a
   review prompt limits where the reply goes, never what runs.
@@ -263,6 +265,9 @@ GitHub.
   merge` gets `--delete-branch`. A local branch the merge leaves behind, such as when it ran with
   `--repo` outside the checkout, goes with `git branch -D` once the PR shows as merged, and the
   reply names its last hash, so `git branch <name> <hash>` brings it back.
+- A check a repository runs before a merge on the branch with the default branch merged in, on a PR
+  another author opened, runs on a local merge commit that is never pushed, since no session pushes
+  to that author's branch. GitHub's squash merge lands the same tree when it reports no conflict.
 
 ## Screenshots and recordings
 

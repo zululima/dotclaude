@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Keep a command on one line when a split cannot fit it
+## pull-requests: never push to another author's PR branch
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> next time dont push directly to someone elses branch althoguh you fix
+> something. [an ask about a pull request left out]
+
+## Keep a command on one line when a split cannot fit it
+
+2026-11-10, commit [da4c232](https://github.com/zululima/dotclaude/commit/da4c2326ebfe1e3b26c33cd34175e9f15db4711b), model claude-opus-5-5, effort xhigh.
 
 **1.** to 5.
 > [five prompts about connecting game controllers left out]
