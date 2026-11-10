@@ -1,6 +1,6 @@
 ---
 name: models
-description: Which Claude model and effort level each kind of work runs on, with the benchmarks behind each pick. Load it before choosing the model or effort of any work a session starts, such as a subagent, a workflow agent, another session, a scheduled task or a prompt for another machine.
+description: Which Claude model and effort level each kind of work runs on, with the benchmarks behind each pick. Load it at a prompt that starts software work, such as building, changing, debugging or reviewing code, before any other step, and before choosing the model or effort of any work a session starts, such as a subagent, a workflow agent, another session, a scheduled task or a prompt for another machine.
 ---
 
 # Models and effort
@@ -17,6 +17,13 @@ description: Which Claude model and effort level each kind of work runs on, with
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
   on software work it does worse than xhigh.
+- A session cannot switch its own model or effort, so at the prompt that starts a task it reads
+  them with `get_session` and `self` and compares them with the task's row. A prompt that starts
+  software work in a session off the software row's model or effort gets no work in that turn: the
+  reply names the row's model and effort to pick in the app's model menu, and the turn ends with
+  `wrap_up` and `blocked`. The work starts at the next prompt, once `get_session` shows the row's
+  model and effort. Any other task runs on the session's model as it is, and the first line of the
+  reply that starts it names its row's model and effort.
 
 | Task | Model | Effort | Benchmarks behind it |
 |---|---|---|---|

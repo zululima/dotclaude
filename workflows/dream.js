@@ -418,7 +418,7 @@ ${GROUND}`, { label: 'review setup', phase: 'Scout', model: 'haiku', effort: 'lo
   const showReport = !!r.report && !seen && (opts.gm !== true || !(Date.parse(shownWeek) >= weekStartMs))
   const weekStart = new Date(Number.isFinite(weekStartMs) ? weekStartMs : Date.now()).toISOString()
   const shown = showReport
-    ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included, leaving out every row and figure about a Fable limit. Then write the line "${weekStart} ${r.report}" to ${SHOWN_FILE}, replacing what it held. ${EVALS} `
+    ? `Read ${r.report} and show all of it in the chat first, unshortened, since the user reads the dream report only here, its usage and the week's figures included. Then write the line "${weekStart} ${r.report}" to ${SHOWN_FILE}, replacing what it held. ${EVALS} `
     : opts.gm === true ? ''
     : seen ? `Say in one line that no dream has run since ${fileName(r.report).replace(/\.md$/, '')}, whose report was shown already, and show nothing of that report again, neither its text nor its proposals. ${EVALS} `
     : `Say in one line that no dream report was found. ${EVALS} `
@@ -449,7 +449,7 @@ if (!askedMode || askedMode === 'final') {
   const final = askedMode === 'final' || (Number.isFinite(at) && Number.isFinite(resetMs) && shift(at).slice(0, 10) === shift(resetMs).slice(0, 10))
   if (final && at > lastStartMs) {
     const time = ms => shift(ms).slice(11, 16)
-    const shown = pre.windows.filter(w => !/fable/i.test(w.label)).map(w => `${w.label} ${w.percentUsed}%`).join(', ')
+    const shown = pre.windows.map(w => `${w.label} ${w.percentUsed}%`).join(', ')
     return { error: `Nothing ran. This would be a final run, since the weekly limit resets today at ${time(resetMs)}, and a run started after ${time(lastStartMs)} can start no work before that reset. It is ${time(at)}, so the run stopped before its scout. A dream run started after the ${time(resetMs)} reset spends the new week. Usage: ${shown}.` }
   }
 }
@@ -588,9 +588,7 @@ if (!backlogValid) log(`${BACKLOG_FILE} could not be read, so the run starts wit
 const carriedUnchecked = backlog.unchecked.filter(i => i.key).map(p => ({ ...p, id: p.key, fromBacklog: true }))
 
 const ledger = {}
-// The user does not use Fable, so its limit stays out of everything a run shows.
-const notFable = w => !/fable/i.test(w.label)
-const showUsage = u => u.windows.filter(notFable).map(w => `${w.label} ${w.percentUsed}%`).join(', ')
+const showUsage = u => u.windows.map(w => `${w.label} ${w.percentUsed}%`).join(', ')
 if (usage) log(`Usage at start: ${showUsage(usage)}. Estimating from ${pastRuns.length} earlier runs on ${scout.model}, leaving ${MARGIN} points free, ${POOL} pieces of work at a time`)
 else log('The usage card is not readable here, so the run goes without the usage guard')
 
@@ -1694,7 +1692,7 @@ function weeklyRecap() {
     if (typeof r.dreamSpent === 'number') w.dreamSpent += r.dreamSpent
     if (r.readAt >= w.readAt) {
       w.readAt = r.readAt
-      w.windows = r.windows.filter(x => !/hour/i.test(x.label) && notFable(x)).map(x => ({ label: x.label, percentUsed: x.percentUsed }))
+      w.windows = r.windows.filter(x => !/hour/i.test(x.label)).map(x => ({ label: x.label, percentUsed: x.percentUsed }))
     }
   }
   const list = Object.values(weeks).sort((a, b) => b.endsAt.localeCompare(a.endsAt))
@@ -1921,7 +1919,7 @@ Skipped work, as JSON:
 ${JSON.stringify(skippedWork.map(s => ({ label: s.label, tier: s.tier, reason: s.reason })))}
 
 Usage, as JSON (windows are plan limits in percent used, ledger is percentage points and units of work measured this run per kind):
-${JSON.stringify(startUsage ? { start: startUsage.windows.filter(notFable), beforeReport: usage ? usage.windows.filter(notFable) : null, ledger: Object.fromEntries(Object.entries(ledger).map(([kind, byLimit]) => [kind, Object.fromEntries(Object.entries(byLimit).filter(([label]) => notFable({ label })))])), reserveForTomorrow: MODE === 'eve' ? RESERVE : null, estimatesFrom: pastRuns.length ? `${pastRuns.length} earlier runs` : 'defaults and this run' } : null)}
+${JSON.stringify(startUsage ? { start: startUsage.windows, beforeReport: usage ? usage.windows : null, ledger, reserveForTomorrow: MODE === 'eve' ? RESERVE : null, estimatesFrom: pastRuns.length ? `${pastRuns.length} earlier runs` : 'defaults and this run' } : null)}
 
 Pace, as JSON (weekly percentage points, hours from the start of the run to this report, the cutoff in local time):
 ${JSON.stringify(pace)}
@@ -2007,7 +2005,7 @@ const stoppedBy = skippedWork.length
 const NO_REPORT = 'The report agent returned nothing: say so and list the open proposals below.'
 const STOP = `Then read the usage card with mcp__ccd_session_mgmt__get_usage and add to the end of the report file a section headed Where the run stopped: a table of the 5-hour limit and the weekly limit for all models at the start of the run, at its end and now, with this ${MODE} run's weekly target of ${weeklyTarget}%, and one line on why the run stopped where it did: ${stoppedBy}. When the weekly limit now sits below that target, add in plain words how many weekly points lapse at the reset and at what local time, why the run left them, such as that it had no work left or that the 5-hour limit stopped it, and whether a run started once the 5-hour window reopens can still spend them before the reset.`
 // The run's reply carries only the usage it spent: the report, its figures and the steps wait for dream review.
-const POINTS = `${MODE === 'final' ? 'Then' : 'Then read the usage card with mcp__ccd_session_mgmt__get_usage and'} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit but the Fable one and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
+const POINTS = `${MODE === 'final' ? 'Then' : 'Then read the usage card with mcp__ccd_session_mgmt__get_usage and'} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
 
 return {
   forTheSession: `${report ? `The report file is ${report.path}.` : NO_REPORT} ${MODE === 'final' ? `${SPENT} ${WEEKS} ${STOP}` : ENERGY} ${POINTS}`,

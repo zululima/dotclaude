@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Pick the model and effort per task from benchmarks
+## Stop before software work on the wrong model; show Fable
 
 2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I show the Fable weekly limit in dream reports again?)
+> Yes, show it
+
+**4.** (answer to: what should a session do when its own model or effort does not fit the prompt?)
+> yeah i mean if the benchmarks havent shown any new results regards to
+> software work in dreaming then yes a)
+
+## Pick the model and effort per task from benchmarks
+
+2026-11-10, commit [b5d7f8c](https://github.com/zululima/dotclaude/commit/b5d7f8c39d8c10ac54200ffb2e70c9e8fda72caf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > could we make a dream check out latest benchmarks like the ones
