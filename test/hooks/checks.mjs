@@ -1075,6 +1075,21 @@ esac`)
         jsonl(t, [browser, human('add up the invoices'), says(s)])
         return refused(run(stop(s)))
       }],
+      ['sends back a claim made in Finnish', () => {
+        const s = 'Liite jäi lukematta, koska palvelin antoi virheen.'
+        jsonl(t, [browser, human('lue liite'), says(s)])
+        return refused(run(stop(s)))
+      }],
+      ['sends back a Finnish claim whose verb comes later', () => {
+        const s = 'En saanut sivua auki, joten hinta puuttuu.'
+        jsonl(t, [browser, human('hae hinta'), says(s)])
+        return refused(run(stop(s)))
+      }],
+      ['lets a Finnish reply through that only names what it left unchecked', () => {
+        const s = 'En tarkistanut hintaa, koska et pyytänyt sitä.'
+        jsonl(t, [browser, human('hae hinta'), says(s)])
+        return quiet(run(stop(s)))
+      }],
       ['lets a claim through about what Claude cannot see', () => {
         const s = "I can't see the status line in the app, so check it there."
         jsonl(t, [browser, human('does it fit now'), says(s)])

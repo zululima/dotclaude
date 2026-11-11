@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Catch Finnish claims of an unreachable source in the Stop hook
+
+2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> [a question about where to park left out]
+
+**2.**
+> miksi osm antaa 502? firefoxilla toimii ihan hyvin mites chrome ei
+> builtin
+
+**3.**
+> [an ask for map links left out]
+
 ## Have every brief tell its session to move to top level first
 
-2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+2026-11-11, commit [03b51da](https://github.com/zululima/dotclaude/commit/03b51da26ee7b49efc1ec8c532ece5cc99b44852), model claude-fable-5-2, effort high.
 
 **2.**
 > you again asked for a new session that was sub session for a while
@@ -6536,6 +6550,7 @@ Stop, add it to dotclaude?)
 - mds: Markdown files
 - mon: Monday
 - ofc: of course
+- osm: OpenStreetMap
 - oy: osakeyhtiö, the Finnish limited company form
 - p13: step 13 of the dream review
 - p14: step 14 of the dream review

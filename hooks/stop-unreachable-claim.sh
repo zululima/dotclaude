@@ -6,9 +6,9 @@
 # Chrome tool ran since the prompt, it sends the turn back once, so Chrome
 # is tried or the reply says why it cannot help. A session whose transcript
 # never names the extension's tools passes. The phrase list is a
-# heuristic and English only. The turn is read from the transcript, whose
-# format Claude Code does not document, so a change there makes this hook
-# quietly pass.
+# heuristic, in English and in Finnish, where the verb alone carries the
+# first person. The turn is read from the transcript, whose format Claude
+# Code does not document, so a change there makes this hook quietly pass.
 
 set -u
 
@@ -23,6 +23,8 @@ last="$(printf '%s' "$input" | jq -r '.last_assistant_message // empty' 2>/dev/n
 
 q="['\\x{2019}]"
 claim="\\bI(${q}m| am| was| have)? (could ?n${q}?t|could not|can${q}?t|cannot|can not|was ?n${q}?t able to|not able to|unable to|no way to)\\b[^.\\n]{0,40}\\b(open|read|reach|access|view|download|upload|attach|load|find|get|fetch|list)\\b"
+finnish="\\b(en (saanut|pystynyt|voinut|onnistunut)\\b[^.\\n]{0,60}\\b(auki|ava|lue|luk|hae|hak|la[dt]a|tavoit|yhtey)|en päässyt\\b|jäi (lukematta|avaamatta|hakematta|lataamatta|tavoittamatta)\\b|ei (auennut|latautunut)\\b)"
+claim="(${claim}|${finnish})"
 
 jq -Rn -e --arg re "$claim" --arg last "$last" --arg browser "$browser" '
   [inputs | fromjson? // empty] as $lines
