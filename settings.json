@@ -557,6 +557,7 @@
   "claudeMdExcludes": [
     "**/dotclaude/CLAUDE.md"
   ],
+  "enableWorkflows": true,
   "skipWorkflowUsageWarning": true,
   "workflowKeywordTriggerEnabled": false,
   "cleanupPeriodDays": 90,
@@ -597,5 +598,10 @@
   "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
   "inputNeededNotifEnabled": true,
-  "autoCompactWindow": 400000
+  "autoCompactWindow": 400000,
+  "statusLine": {
+    "type": "command",
+    "command": "\"$HOME/.claude/hooks/plan-limits.sh\"",
+    "refreshInterval": 60
+  }
 }

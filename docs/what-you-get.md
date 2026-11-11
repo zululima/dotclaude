@@ -114,6 +114,11 @@
 - [`sync-conflicts.sh`](../hooks/sync-conflicts.sh): if you keep `~/.claude` the same on two
   computers with Syncthing, tells Claude about each file both changed at once, which Syncthing keeps
   twice, so Claude merges the two back. It does nothing otherwise.
+- [`plan-limits.sh`](../hooks/plan-limits.sh): a status line for Claude Code in a terminal, which
+  shows how much of your plan's 5-hour and weekly limits is used, on the plans that report it, and
+  keeps those figures in a file. With it `/dream` stops before your limits in a terminal session
+  too, where the usage card of the desktop app is out of reach. On other plans it shows and writes
+  nothing.
 
 ## Extras
 
@@ -216,7 +221,10 @@
   `~/.claude/rules/finnish-terms.md`, with a list headed "Use the Finnish word" and one headed "Keep
   the English word", `/dream` also reads the Finnish your sessions wrote and proposes entries for
   the terms from English it has none for: the Finnish Wikipedia's article title or a term bank
-  decides the word, and a term with neither keeps its English one.
+  decides the word, and a term with neither keeps its English one. Started with `unattended: true`,
+  as a timer on a computer nobody sits at would, it stops before it reads anything when it cannot
+  see your limits. When two computers share `~/.claude`, only one run goes at a time, and each run
+  estimates from the earlier runs of its own computer, since their plans may differ.
 - [`agents/dream-worker.md`](../agents/dream-worker.md): a lighter agent for `/dream`, so it uses
   fewer tokens.
 

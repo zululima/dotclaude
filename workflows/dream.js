@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>, unattended: true for a run nobody watches, which stops before its scout when the limits of the plan cannot be read and starts no more work once they can no longer be}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
@@ -14,13 +14,20 @@ export const meta = {
 }
 
 const opts = typeof args === 'object' && args !== null ? args : {}
-const runNote = typeof args === 'string' ? args : ''
+const UNATTENDED = opts.unattended === true || /^\s*unattended\s*$/i.test(typeof args === 'string' ? args : '')
+const runNote = typeof args === 'string' && !UNATTENDED ? args : ''
 const OUT = opts.out || '~/.claude/dream'
 const REPOS_FILE = '~/.claude/dream/skill-repos.txt'
 const UPSTREAMS_FILE = '~/.claude/dream/upstreams.txt'
 const HISTORY_FILE = '~/.claude/dream/usage-history.jsonl'
 const WEEKS_FILE = '~/.claude/dream/weekly-usage.jsonl'
 const EVALS_FILE = '~/.claude/dream/evals-checkout.txt'
+// One run goes at a time across the machines that share this folder: a run keeps its machine, id, start and last sign of life here.
+const MARKER_FILE = '~/.claude/dream/running.json'
+const MARKER_MINUTES = 30
+// Where the status line script hooks/plan-limits.sh keeps the plan's limits for sessions without the usage card, and how old it may be.
+const LIMITS_FILE = '~/.claude/plan-limits.json'
+const LIMITS_MINUTES = 5
 const BACKLOG_FILE = `${OUT}/backlog.json`
 // The glossary of Finnish words for terms from English: its own rules say how sessions use it and that the user's entries are final.
 const TERMS_FILE = '~/.claude/rules/finnish-terms.md'
@@ -128,11 +135,12 @@ const SESSION = {
 
 const SCOUT = {
   type: 'object',
-  required: ['now', 'today', 'utcOffset', 'runId', 'since', 'lookbackFrom', 'installedVersion', 'previousReports', 'sessions', 'skillRepos', 'model', 'effort', 'usage', 'historyLines', 'weekLines', 'backlog', 'ruleSections', 'repos', 'upstreams', 'prs'],
+  required: ['now', 'today', 'utcOffset', 'machine', 'runId', 'since', 'lookbackFrom', 'installedVersion', 'previousReports', 'sessions', 'skillRepos', 'model', 'effort', 'usage', 'historyLines', 'weekLines', 'backlog', 'ruleSections', 'repos', 'upstreams', 'prs'],
   properties: {
     now: { type: 'string' },
     today: { type: 'string' },
     utcOffset: { type: 'string', description: 'The output of date +%z, such as +0300' },
+    machine: { type: 'string', description: 'The short host name' },
     runId: { type: 'string' },
     since: { type: 'string' },
     sinceReason: { type: 'string' },
@@ -351,7 +359,7 @@ const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 's
 
 // Agents read each other's prompt cache only when type and tools match, so all run as dream-worker.
 let watching = false
-const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset'], properties: { ...USAGE.properties, utcOffset: { type: 'string' } } }
+const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset', 'machine', 'running'], properties: { ...USAGE.properties, utcOffset: { type: 'string' }, machine: { type: 'string' }, running: { type: 'string', description: 'The line the marker command printed, or an empty string' } } }
 
 const dreamAgent = (prompt, opts = {}) => {
   const run = agent(prompt, { agentType: 'dream-worker', ...opts })
@@ -361,7 +369,13 @@ const dreamAgent = (prompt, opts = {}) => {
   return run.finally(() => ran(a, -1))
 }
 
-const READ_USAGE = `Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now. Then load the tool mcp__ccd_session_mgmt__get_usage with ToolSearch and call it with no arguments. Return available true and its plan windows exactly as reported: label, percentUsed and resetsAt. Return available false with no windows when the tool cannot be found or its plan status is not "ok".`
+// hostname is missing on some Linux installs, uname is not.
+const MACHINE_SH = 'uname -n | cut -d. -f1'
+// The file holds only the windows that have use in them, so a 5-hour window not yet open reads as the card shows it: empty, five hours long from now.
+const READ_LIMITS = `jq -c --arg m "$(${MACHINE_SH})" 'select(.machine == $m and now - .writtenEpoch < ${LIMITS_MINUTES * 60}) | [.windows[] | select(.resetsEpoch > now) | {label, percentUsed, resetsAt}] | select(any(.label | test("all models"))) | if any(.label | test("hour")) then . else [{label: "5-hour limit", percentUsed: 0, resetsAt: (now + 18000 | floor | todate)}] + . end' ${LIMITS_FILE} 2>/dev/null`
+const READ_USAGE = `Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now. Then load the tool mcp__ccd_session_mgmt__get_usage with ToolSearch and call it with no arguments. Return available true and its plan windows exactly as reported: label, percentUsed and resetsAt. When ToolSearch finds no such tool, as in a terminal session, read the limits the status line keeps instead, with this command: ${READ_LIMITS}
+When it prints a line, return available true and the windows of that line exactly as printed. Return available false with no windows when it prints nothing, or when the tool was found and its plan status is not "ok".`
+const USAGE_CARD = `the usage card with mcp__ccd_session_mgmt__get_usage, or in a session without that tool, such as a terminal session, the limits in ${LIMITS_FILE}`
 
 const LIST_FILES = 'Return each with its absolute path, its project directory name, its size in bytes and its modification time as an ISO time in UTC.'
 // Some project folders are symlinks to others, so a glob, ls or find -L lists their transcripts twice, and each read is paid for.
@@ -439,27 +453,46 @@ const parseOffset = s => {
   const m = /^([+-])(\d{2}):?(\d{2})$/.exec(s || '')
   return m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) * 60000 : 0
 }
-// The scout reads every transcript of the window, so a final run that no work could start in stops on a reading of the card before it.
+// Three stops before the scout, which reads every transcript of the window: another run is going, an unattended run cannot read the limits, or this is a final run that no work could start in.
+const READ_MARKER = `jq -c 'select(now - .aliveEpoch < ${MARKER_MINUTES * 60})' ${MARKER_FILE} 2>/dev/null`
+phase('Scout')
+const pre = await dreamAgent(`${READ_USAGE} Then run date +%z and return it as utcOffset, and ${MACHINE_SH} and return it as machine. Then run ${READ_MARKER} and return the line it prints as running, or an empty string when it prints nothing.`, { label: 'usage before the scout', phase: 'Scout', model: 'haiku', effort: 'low', schema: PRE_USAGE })
+const preShift = ms => new Date(ms + parseOffset(pre && pre.utcOffset)).toISOString()
+let going = null
+try { going = pre && pre.running ? (typeof pre.running === 'string' ? JSON.parse(pre.running) : pre.running) : null } catch (e) { going = null }
+if (going && going.machine) {
+  const when = iso => Number.isFinite(Date.parse(iso)) ? preShift(Date.parse(iso)).slice(0, 16).replace('T', ' ') : 'an unknown time'
+  return { error: `Nothing ran. The dream run ${going.runId || 'not yet numbered'} on ${going.machine} is still going: it started at ${when(going.started)} and gave its last sign of life at ${when(going.alive)}, in this machine's local time. One run goes at a time, so this one stopped before its scout. A run that gives no sign of life for ${MARKER_MINUTES} minutes no longer counts.` }
+}
+const preCard = pre && pre.available && Array.isArray(pre.windows) ? pre.windows.find(w => /all models/i.test(w.label)) : null
+if (UNATTENDED && !preCard) {
+  return { error: `Nothing ran. This run is unattended and the plan's limits cannot be read here: no usage card, and no ${LIMITS_FILE} that the status line script ~/.claude/hooks/plan-limits.sh wrote for this machine in the last ${LIMITS_MINUTES} minutes with the weekly limit in it. The run would spend without a guard, so it stopped before its scout.` }
+}
 if (!askedMode || askedMode === 'final') {
-  phase('Scout')
-  const pre = await dreamAgent(`${READ_USAGE} Then run date +%z and return it as utcOffset.`, { label: 'usage before the scout', phase: 'Scout', model: 'haiku', effort: 'low', schema: PRE_USAGE })
-  const card = pre && pre.available && Array.isArray(pre.windows) ? pre.windows.find(w => /all models/i.test(w.label)) : null
   const at = pre ? Date.parse(pre.now) : NaN
-  const resetMs = card ? Date.parse(card.resetsAt) : NaN
-  const shift = ms => new Date(ms + parseOffset(pre && pre.utcOffset)).toISOString()
+  const resetMs = preCard ? Date.parse(preCard.resetsAt) : NaN
   const lastStartMs = resetMs - (STALE_MINUTES + TASK_MINUTES + TAIL_MINUTES) * 60000
-  const final = askedMode === 'final' || (Number.isFinite(at) && Number.isFinite(resetMs) && shift(at).slice(0, 10) === shift(resetMs).slice(0, 10))
+  const final = askedMode === 'final' || (Number.isFinite(at) && Number.isFinite(resetMs) && preShift(at).slice(0, 10) === preShift(resetMs).slice(0, 10))
   if (final && at > lastStartMs) {
-    const time = ms => shift(ms).slice(11, 16)
+    const time = ms => preShift(ms).slice(11, 16)
     const shown = pre.windows.map(w => `${w.label} ${w.percentUsed}%`).join(', ')
-    return { error: `Nothing ran. This would be a final run, since the weekly limit resets today at ${time(resetMs)}, and a run started after ${time(lastStartMs)} can start no work before that reset. It is ${time(at)}, so the run stopped before its scout. A dream run started after the ${time(resetMs)} reset spends the new week. Usage: ${shown}.` }
+    // The reading still counts as the reset day's last one, so the next eve run can measure what the user spent since this week's.
+    const stopLine = { weekEnds: preCard.resetsAt, readAt: pre.now, mode: 'final', machine: pre.machine || '', stopped: true, windows: pre.windows.map(w => ({ label: w.label, percentUsed: w.percentUsed })), dreamSpent: 0 }
+    const kept = await dreamAgent(`Append one line to ${WEEKS_FILE}. Expand ~, create the directory if it is missing, and write the line with a quoted heredoc so the shell changes nothing in it:
+cat >> ${WEEKS_FILE} <<'EOF'
+${JSON.stringify(stopLine)}
+EOF
+Then check with tail -n 1 that the file ends with exactly that line. Return ok true when it does.`, { label: 'record reading', phase: 'Scout', model: 'haiku', effort: 'low', schema: OK })
+    return { error: `Nothing ran. This would be a final run, since the weekly limit resets today at ${time(resetMs)}, and a run started after ${time(lastStartMs)} can start no work before that reset. It is ${time(at)}, so the run stopped before its scout. A dream run started after the ${time(resetMs)} reset spends the new week. Usage: ${shown}.${kept && kept.ok ? ` The reading is kept in ${WEEKS_FILE} as the last one of this reset day.` : ''}` }
   }
 }
+const clearMarker = (machine, from) => dreamAgent(`A dream run has ended early, so remove its marker when the file still holds it. Run: jq -e 'select(.machine == "${machine}" and .started >= "${from}")' ${MARKER_FILE} >/dev/null 2>&1 && rm -f ${MARKER_FILE}; echo done
+Return ok true.`, { label: 'clear marker', phase: 'Report', model: 'haiku', effort: 'low', schema: OK }).catch(() => null)
 
 phase('Scout')
 const scout = await dreamAgent(`Set up a dream run, a review of this user's Claude Code use since the last run.
-1. Run date -u +%Y-%m-%dT%H:%M:%SZ for now, date +%F for today and date +%z for utcOffset.
-2. List the files in ${OUT} named YYYY-MM-DD.md or YYYY-MM-DD-N.md (expand ~, the directory may not exist yet). Return their paths, newest first, as previousReports. Return as runId today's date when no report of today exists, else today's date with the next free -N, such as ${'<today>'}-2.
+1. Run date -u +%Y-%m-%dT%H:%M:%SZ for now, date +%F for today, date +%z for utcOffset and ${MACHINE_SH} for machine.
+2. List the files in ${OUT} named YYYY-MM-DD.md or YYYY-MM-DD-N.md (expand ~, the directory may not exist yet). Return their paths, newest first, as previousReports. Return as runId today's date when no report of today exists, else today's date with the next free -N, such as ${'<today>'}-2. Then, before any later step, write the marker that tells other dream runs this one is going: the one line {"machine":"<machine>","runId":"<runId>","started":"<now>","alive":"<now>","aliveEpoch":<the output of date -u +%s>}, with your values, to ${MARKER_FILE}, replacing what it holds.
 3. since is ${opts.since ? `"${opts.since}", given by the user` : `the readTo field of the last line of ${HISTORY_FILE} when it has one, else that line's time field, else its date at 00:00 UTC, else now minus 7 days`}, as an ISO time in UTC.${runNote ? ` The user started the run with this note, which may name a different window: "${runNote}".` : ''} Say in sinceReason how you chose it. lookbackFrom is since minus ${LOOKBACK_DAYS} days, as an ISO time.
 4. Run "$CLAUDE_CODE_EXECPATH" --version, the Claude Code build this session runs on, or claude --version when that variable is unset, and return the version number.
 5. ${requested.includes('transcripts') ? `List the main session transcripts used after since: of the files ${FIND_MAIN} -newermt <since> prints, those whose lastActivity is after since. ${FIND_ONCE} ${LIST_FILES} ${LAST_ACTIVITY} Also return as oldestTranscript the modification time, as an ISO time in UTC, of the oldest file ${FIND_MAIN} prints.` : 'Transcripts are out of scope for this run. Return an empty sessions list.'}
@@ -474,7 +507,17 @@ const scout = await dreamAgent(`Set up a dream run, a review of this user's Clau
 14. ${requested.includes('upstreams') ? `Read ${UPSTREAMS_FILE} if it exists. Each non-empty line not starting with # names an upstream, a ~ path to its checkout or owner/repo on GitHub, optionally followed by /path to a folder inside it, then after whitespace the projects derived from it as ~ paths to their checkouts, separated by commas, then optionally a note after whitespace. Return each as upstream, derived and note, the note empty when there is none, and leave out a derived path that is not a git checkout. Return an empty list when the file is missing.` : 'Return an empty upstreams list.'}
 ${GROUND}`, { label: 'scout', schema: SCOUT })
 
-if (!scout) return { error: 'The scout agent failed, nothing ran.' }
+if (!scout) {
+  if (pre && pre.machine && pre.now) await clearMarker(String(pre.machine).replace(/[^A-Za-z0-9._-]/g, ''), String(pre.now).replace(/[^0-9TZ:.-]/g, ''))
+  return { error: 'The scout agent failed, nothing ran.' }
+}
+// Two machines with a plan each can share this folder: the runs of both are on record, and a run estimates from its own machine's. A row from before the machine was recorded counts as this machine's.
+const MACHINE = String(scout.machine || '').replace(/[^A-Za-z0-9._-]/g, '')
+const mine = r => !r.machine || !MACHINE || r.machine === MACHINE
+const STARTED = String(scout.now).replace(/[^0-9TZ:.-]/g, '')
+// Every usage reading and every wait rewrites the marker with the time, the run's sign of life.
+const PULSE = `printf '{"machine":"%s","runId":"%s","started":"%s","alive":"%s","aliveEpoch":%s}\\n' '${MACHINE}' '${String(scout.runId).replace(/[^A-Za-z0-9._-]/g, '')}' '${STARTED}' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(date -u +%s)" > ${MARKER_FILE}`
+const ALIVE = `Then run this, which tells other dream runs that this one is still going: ${PULSE}`
 const usedAt = s => Date.parse(s.lastActivity || s.mtime) || 0
 // A symlinked project folder or a forked session's copy shows one transcript under several paths, and its file name is its session or agent id.
 const fileName = s => s.path.split('/').pop()
@@ -502,7 +545,8 @@ const pending = lastEntry && Array.isArray(lastEntry.pending) ? lastEntry.pendin
 const READS_TRANSCRIPTS = requested.includes('transcripts')
 const readBefore = lastEntry ? lastEntry.readTo || lastEntry.time || `${lastEntry.date}T00:00:00Z` : scout.since
 
-const sameModel = history.filter(r => r.model === scout.model)
+const ownHistory = history.filter(mine)
+const sameModel = ownHistory.filter(r => r.model === scout.model)
 const sameEffort = sameModel.filter(r => r.effort === scout.effort)
 const pastRuns = (sameEffort.length ? sameEffort : sameModel).slice(-HISTORY_RUNS)
 
@@ -525,11 +569,13 @@ const MARGIN = typeof opts.margin === 'number' ? opts.margin : MODE === 'final' 
 const SAFETY = MODE === 'final' ? 1.5 : 1
 const MAX_PROPOSALS = WEEKEND ? 50 : 30
 const workAtMs = MODE === 'eve' && resetDay ? Date.parse(`${resetDay}T${WORK_AT.padStart(5, '0')}:00Z`) - offsetMs : NaN
+// Where the weekly limit resets before the user starts work that day, no final run follows the eve run, so the eve run stops before the reset as a final run does.
+const RESET_FIRST = MODE === 'eve' && Number.isFinite(workAtMs) && weeklyResetMs <= workAtMs
 
 function weeklyPerWindow() {
   let five = 0
   let week = 0
-  for (const r of history.slice(-HISTORY_RUNS)) {
+  for (const r of ownHistory.slice(-HISTORY_RUNS)) {
     for (const kind in r.ledger) {
       for (const label in r.ledger[kind]) {
         if (/hour/i.test(label)) five += r.ledger[kind][label].delta
@@ -548,7 +594,7 @@ function ownResetDayUses() {
     const card = r && Array.isArray(r.windows) ? r.windows.find(w => /all models/i.test(w.label)) : null
     const ends = r ? Date.parse(r.weekEnds) : NaN
     const at = r ? Date.parse(r.readAt) : NaN
-    if (!card || !Number.isFinite(ends) || !Number.isFinite(at) || (r.mode !== 'eve' && r.mode !== 'final')) continue
+    if (!card || !mine(r) || !Number.isFinite(ends) || !Number.isFinite(at) || (r.mode !== 'eve' && r.mode !== 'final')) continue
     const key = Math.round(ends / 3600000)
     weeks[key] = (weeks[key] || []).concat({ mode: r.mode, at, used: card.percentUsed, spent: Number(r.dreamSpent) || 0 })
   }
@@ -579,7 +625,7 @@ const only = requested.filter(s => SOURCES.includes(s) && due(s))
 const notDue = requested.filter(s => SOURCES.includes(s) && !due(s))
 
 const modeNote = {
-  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back for tomorrow (${RESERVE_FOR}), waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched`,
+  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back ${RESET_FIRST ? 'until that reset' : 'for tomorrow'} (${RESERVE_FOR}), waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched${RESET_FIRST ? `. That reset comes before ${WORK_AT}, so no final run follows, and it also stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset` : ''}`,
   final: `a final run, since the weekly limit resets ${Number.isFinite(weeklyResetMs) ? `today at ${localTime(weeklyResetMs)}` : 'soon'}: it spends the week down to ${MARGIN} points free, waits for the 5-hour limit to reset when it fills sooner, and stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset`,
   night: 'a night run: it guards the weekly limits and stops just short of the 5-hour limit, since an agent that reaches it fails',
   day: 'a day run: it keeps the 5-hour limit under the margin too',
@@ -604,10 +650,16 @@ const sameWindow = (a, b) => a.label === b.label && Math.abs(Date.parse(a.resets
 const FIVE_HOUR_MARGIN = DAY ? MARGIN : 1
 // Eve and final runs stop starting work at a set time, so work the 5-hour limit blocks waits for its reset when it can still finish by then; a night or day run has no such time and would wait into the user's own work.
 const WAITS_FOR_FIVE = (MODE === 'final' && Number.isFinite(weeklyResetMs)) || (MODE === 'eve' && Number.isFinite(workAtMs))
+// No earlier run of this machine measured what work costs on its plan with this model, so the defaults may be several times too low.
+const UNMEASURED_RUN = !pastRuns.length
+const measured = kind => Boolean(ledger[kind] && Object.values(ledger[kind]).some(e => e.units))
+// In such a run the first work of each kind runs with nothing beside it, so the next reading measures it before more of it starts.
+const alone1 = t => UNMEASURED_RUN && Boolean(usage) && !measured(t.kind)
 // Waiting readings that came back before their reset; after three the run drops blocked work as before instead of starting reading after reading.
 let earlyWakes = 0
 let fiveHourResets = 0
 let weeklyResetSeen = false
+let guardLost = false
 let blockedBy = null
 let fiveBlockedReset = NaN
 
@@ -631,6 +683,11 @@ function estimate(kind, label) {
     }
   }
   if (units) return Math.max(delta, 1) / units
+  // Until a kind is measured in such a run, it counts as the dearest kind measured so far.
+  if (UNMEASURED_RUN) {
+    const seen = Object.values(ledger).map(byLabel => byLabel[label]).filter(e => e && e.units).map(e => Math.max(e.delta, 1) / e.units)
+    if (seen.length) return Math.max(DEFAULT_COST[kind], ...seen)
+  }
   // Writing and testing a proposal's script is about the work of checking it, which earlier runs did measure.
   return kind === 'scripts' ? estimate('verify', label) : DEFAULT_COST[kind]
 }
@@ -674,13 +731,16 @@ const tierState = {}
 for (const k of [1, 2, 3, 4]) tierState[k] = { gathers: 0, started: 0, merged: false }
 
 const SKIP = reason => ({ skipped: true, reason })
+// The status line gives the limits to a decimal, and a difference of two such figures can carry a float's tail.
+const round1 = n => Math.round(n * 10) / 10
 const taskMs = kind => Math.max(TASK_MINUTES * 60000, longestMs[kind] || 0)
 
 function timeStop(kind, readAt = lastNowMs) {
   if (weeklyResetSeen) return 'the weekly limit reset during the run'
   const now = readAt + STALE_MINUTES * 60000
   const finish = now + taskMs(kind) + TAIL_MINUTES * 60000
-  if (MODE === 'final' && Number.isFinite(weeklyResetMs) && finish > weeklyResetMs) return 'the weekly reset is too close'
+  if (guardLost) return 'the usage limits can no longer be read and nobody watches the run'
+  if ((MODE === 'final' || RESET_FIRST) && Number.isFinite(weeklyResetMs) && finish > weeklyResetMs) return 'the weekly reset is too close'
   if (MODE === 'eve' && Number.isFinite(workAtMs) && usage) {
     const five = usage.windows.find(w => /hour/i.test(w.label))
     const resetsAt = five ? Date.parse(five.resetsAt) : NaN
@@ -742,7 +802,7 @@ function pump() {
   queue.sort((a, b) => a.rank - b.rank || a.seq - b.seq)
   while (queue.length) {
     const t = queue[0]
-    if (inFlight.length && inFlight.reduce((s, x) => s + x.slots, 0) + t.slots > POOL) break
+    if (inFlight.length && (alone1(t) || inFlight.some(alone1) || inFlight.reduce((s, x) => s + x.slots, 0) + t.slots > POOL)) break
     const stop = timeStop(t.kind)
     if (stop) {
       queue.shift()
@@ -870,15 +930,15 @@ async function outside(kind, run) {
 }
 
 // A workflow script has no timer, so an agent that waits does so in its shell, nine minutes per Bash call.
-const sleepUntil = at => `end=$(( $(date -u +%s) + 540 )); until [ "$(date -u +%s)" -ge ${at} ] || [ "$(date -u +%s)" -ge "$end" ]; do sleep 20; done; [ "$(date -u +%s)" -ge ${at} ] && echo ready || echo waiting`
+const sleepUntil = at => `${PULSE}; end=$(( $(date -u +%s) + 540 )); until [ "$(date -u +%s)" -ge ${at} ] || [ "$(date -u +%s)" -ge "$end" ]; do sleep 20; done; [ "$(date -u +%s)" -ge ${at} ] && echo ready || echo waiting`
 // A reading that waits for a 5-hour reset waits until a minute past it, when the card shows the new window.
 const waitThenRead = until => {
   const at = Math.ceil(until / 1000) + 60
   return `Wait until ${new Date(at * 1000).toISOString()}, a minute after the 5-hour limit resets. Run this with the Bash tool and a timeout of 600000, and again each time it prints waiting, until it prints ready:
 ${sleepUntil(at)}
-Then: ${READ_USAGE}`
+Then: ${READ_USAGE} ${ALIVE}`
 }
-const READ_CLOCK = 'Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now.'
+const READ_CLOCK = `Run date -u +%Y-%m-%dT%H:%M:%SZ and return it as now. ${ALIVE}`
 // A timer waits one Bash call at most, so one whose check finished in time does not wait on long after it.
 const waitThenClock = until => {
   const at = Math.ceil(until / 1000)
@@ -893,10 +953,14 @@ async function takeReading(until) {
   for (const k in doneUnits) delete doneUnits[k]
   readingUnits = units
   completionsSinceRead = 0
-  const after = await dreamAgent(until ? waitThenRead(until) : READ_USAGE, { label: `usage ${++reads}${until ? ` after the ${localTime(until)} reset` : ''}`, phase: 'Usage', model: 'haiku', effort: 'low', schema: USAGE })
+  const read = () => dreamAgent(until ? waitThenRead(until) : `${READ_USAGE} ${ALIVE}`, { label: `usage ${++reads}${until ? ` after the ${localTime(until)} reset` : ''}`, phase: 'Usage', model: 'haiku', effort: 'low', schema: USAGE })
+  let after = await read()
+  // One reading can fail for a reason of its own, so a run nobody watches reads once more before it gives the limits up.
+  if (!readable(after) && UNATTENDED) after = await read()
   readingUnits = {}
   if (!readable(after)) {
-    if (usage) log('Lost the usage card, continuing without the usage guard')
+    if (usage) log(UNATTENDED ? 'Lost the usage limits in a run nobody watches, so it starts no more work and reports' : 'Lost the usage card, continuing without the usage guard')
+    if (UNATTENDED) guardLost = true
     usage = null
     return
   }
@@ -1670,6 +1734,7 @@ if (failed.length) log(`No result from: ${failed.join(', ')}`)
 const reviewed = reviews.filter(r => r.review && !r.review.skipped)
 const briefDone = briefResult && !briefResult.skipped
 if (!results.length && !reviewed.length && !briefDone && (tasks.length || prList.length)) {
+  await clearMarker(MACHINE, STARTED)
   return { error: `Nothing fitted. This is ${modeNote}. Usage: ${usage ? showUsage(usage) : 'unknown'}.` }
 }
 if (unchecked.length) log(`${unchecked.length} proposals left unchecked: ${[...new Set(unchecked.map(p => p.why))].join('; ')}`)
@@ -1717,9 +1782,9 @@ if (nextPending.length) coverage.push(`carried over to the next run: ${nextPendi
 function weeklyRecap() {
   const readings = scout.weekLines
     .map(line => { try { return JSON.parse(line) } catch (e) { return null } })
-    .filter(r => r && r.weekEnds && Array.isArray(r.windows))
+    .filter(r => r && r.weekEnds && Array.isArray(r.windows) && mine(r))
   const nowWeekly = usage && usage.windows.find(w => /all models/i.test(w.label))
-  if (nowWeekly) readings.push({ weekEnds: nowWeekly.resetsAt, readAt: new Date(lastNowMs).toISOString(), windows: usage.windows, dreamSpent: weeklyCard && sameWindow(weeklyCard, nowWeekly) ? nowWeekly.percentUsed - weeklyCard.percentUsed : 0 })
+  if (nowWeekly) readings.push({ weekEnds: nowWeekly.resetsAt, readAt: new Date(lastNowMs).toISOString(), windows: usage.windows, dreamSpent: weeklyCard && sameWindow(weeklyCard, nowWeekly) ? round1(nowWeekly.percentUsed - weeklyCard.percentUsed) : 0 })
   const weeks = {}
   for (const r of readings) {
     const ends = Date.parse(r.weekEnds)
@@ -1896,11 +1961,11 @@ const weeklyNow = usage && usage.windows.find(w => /all models/i.test(w.label))
 const ranHours = (lastNowMs - nowMs) / 3600000
 const perHour = weeklyCard && weeklyNow && sameWindow(weeklyCard, weeklyNow) && ranHours >= 0.25 ? (weeklyNow.percentUsed - weeklyCard.percentUsed) / ranHours : NaN
 const pace = Number.isFinite(perHour) ? {
-  weeklyPointsSpent: weeklyNow.percentUsed - weeklyCard.percentUsed,
+  weeklyPointsSpent: round1(weeklyNow.percentUsed - weeklyCard.percentUsed),
   hours: Math.round(ranHours * 10) / 10,
   perHour: Math.round(perHour * 10) / 10,
   pool: POOL,
-  toSpendAtStart: weeklyTarget - weeklyCard.percentUsed,
+  toSpendAtStart: round1(weeklyTarget - weeklyCard.percentUsed),
   cutoff: Number.isFinite(cutoffMs) ? localTime(cutoffMs) : null,
   hoursFromStartToCutoff: Number.isFinite(cutoffMs) ? Math.round((cutoffMs - nowMs) / 360000) / 10 : null,
   fitsAtThatPace: Number.isFinite(cutoffMs) ? (perHour * (cutoffMs - nowMs)) / 3600000 >= weeklyTarget - weeklyCard.percentUsed : null,
@@ -1982,6 +2047,7 @@ const entry = {
   time: scout.now,
   readTo: READS_TRANSCRIPTS ? scout.now : readBefore,
   runId: scout.runId,
+  machine: MACHINE,
   mode: MODE,
   sources: ranSources,
   model: scout.model,
@@ -2007,9 +2073,10 @@ const weekLine = endWeekly ? {
   weekEnds: endWeekly.resetsAt,
   readAt: new Date(lastNowMs).toISOString(),
   runId: scout.runId,
+  machine: MACHINE,
   mode: MODE,
   windows: usage.windows.map(w => ({ label: w.label, percentUsed: w.percentUsed })),
-  dreamSpent: weeklyCard && sameWindow(weeklyCard, endWeekly) ? endWeekly.percentUsed - weeklyCard.percentUsed : null,
+  dreamSpent: weeklyCard && sameWindow(weeklyCard, endWeekly) ? round1(endWeekly.percentUsed - weeklyCard.percentUsed) : null,
 } : null
 const scriptFiles = {}
 for (const s of steps) if (s.key && s.file) scriptFiles[s.key] = s.file
@@ -2020,7 +2087,9 @@ EOF
 ${weekLine ? `cat >> ${WEEKS_FILE} <<'EOF'
 ${JSON.stringify(weekLine)}
 EOF
-` : ''}Then check with tail -n 1 that each file ends with exactly its line.${Object.keys(scriptFiles).length && savedBacklog && savedBacklog.ok ? ` Then record where each open proposal's script is: jq --argjson s '${JSON.stringify(scriptFiles)}' '.open |= map(if $s[.key] then .scriptFile = $s[.key] else . end)' ${backlogTarget} > ${backlogTarget}.tmp, check that with jq empty and move it over ${backlogTarget}.` : ''} Return ok true when all of it worked.`, { label: 'record run', phase: 'Report', model: 'haiku', effort: 'low', schema: OK })
+` : ''}Then check with tail -n 1 that each file ends with exactly its line. Then remove this run's marker when the file still holds it, with this one command:
+jq -e 'select(.machine == "${MACHINE}" and .started == "${STARTED}")' ${MARKER_FILE} >/dev/null 2>&1 && rm -f ${MARKER_FILE}; echo done
+${Object.keys(scriptFiles).length && savedBacklog && savedBacklog.ok ? ` Then record where each open proposal's script is: jq --argjson s '${JSON.stringify(scriptFiles)}' '.open |= map(if $s[.key] then .scriptFile = $s[.key] else . end)' ${backlogTarget} > ${backlogTarget}.tmp, check that with jq empty and move it over ${backlogTarget}. ` : ''}Return ok true when all of it worked.`, { label: 'record run', phase: 'Report', model: 'haiku', effort: 'low', schema: OK })
 const recorded = Boolean(saved && saved.ok)
 if (!recorded) log(`Could not record this run in ${HISTORY_FILE}`)
 
@@ -2028,7 +2097,7 @@ const WEEK_MS = 7 * 86400000
 const WEEKS = MODE === 'final' && Number.isFinite(weeklyResetMs) ? weekly(new Date(weeklyResetMs - 2 * WEEK_MS).toISOString(), new Date(weeklyResetMs - WEEK_MS).toISOString()) : ''
 const skipReasons = {}
 for (const s of skippedWork) skipReasons[s.reason] = (skipReasons[s.reason] || 0) + 1
-const weeklyLeft = endWeekly ? weeklyTarget - endWeekly.percentUsed : 0
+const weeklyLeft = endWeekly ? round1(weeklyTarget - endWeekly.percentUsed) : 0
 // A new run started at this run's end, or once the 5-hour limit reopens, starts work only after its scout, and only before the cutoff.
 const againFrom = Number.isFinite(fiveBlockedReset) ? Math.max(lastNowMs, fiveBlockedReset) : lastNowMs
 const lastStart = cutoffMs - SCOUT_MINUTES * 60000
@@ -2041,9 +2110,9 @@ const stoppedBy = skippedWork.length
   ? Object.entries(skipReasons).map(([r, n]) => `${n} pieces of work skipped as ${r}`).join('; ') + againAfter
   : 'it ran out of work, with everything due done'
 const NO_REPORT = 'The report agent returned nothing: say so and list the open proposals below.'
-const STOP = `Then read the usage card with mcp__ccd_session_mgmt__get_usage and add to the end of the report file a section headed Where the run stopped: a table of the 5-hour limit and the weekly limit for all models at the start of the run, at its end and now, with this ${MODE} run's weekly target of ${weeklyTarget}%, and one line on why the run stopped where it did: ${stoppedBy}. When the weekly limit now sits below that target, add in plain words how many weekly points lapse at the reset and at what local time, why the run left them, such as that it had no work left or that the 5-hour limit stopped it, and whether a run started once the 5-hour window reopens can still spend them before the reset.`
+const STOP = `Then read ${USAGE_CARD}, and add to the end of the report file a section headed Where the run stopped: a table of the 5-hour limit and the weekly limit for all models at the start of the run, at its end and now, with this ${MODE} run's weekly target of ${weeklyTarget}%, and one line on why the run stopped where it did: ${stoppedBy}. When the weekly limit now sits below that target, add in plain words how many weekly points lapse at the reset and at what local time, why the run left them, such as that it had no work left or that the 5-hour limit stopped it, and whether a run started once the 5-hour window reopens can still spend them before the reset.`
 // The run's reply carries only the usage it spent: the report, its figures and the steps wait for dream review.
-const POINTS = `${MODE === 'final' ? 'Then' : 'Then read the usage card with mcp__ccd_session_mgmt__get_usage and'} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
+const POINTS = `${MODE === 'final' ? 'Then' : `Then read ${USAGE_CARD}, and`} show in the chat only how many percentage points of the plan limits the run used: a table with a row per limit and the columns at the start of the run, from verification.start of this result, now, and points used, now minus the start, or "reset during the run" for a limit whose resetsAt moved since the start. Then say in one line that ${steps.length ? `${steps.length} proposals and the report wait` : 'the report waits'} for dream review, and end the reply with the step to start a new session in ~/Projects/dotclaude and type "dream review" there, never in this session: the review shows the report and reads the backlog from their files, while this session would send its whole context again with each request. Nothing else of the run goes in the chat: not the report, its other figures, why the run stopped or the evals, which the review shows or runs.`
 
 return {
   forTheSession: `${report ? `The report file is ${report.path}.` : NO_REPORT} ${MODE === 'final' ? `${SPENT} ${WEEKS} ${STOP}` : ENERGY} ${POINTS}`,

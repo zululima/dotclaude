@@ -3,7 +3,7 @@
 import fs from 'node:fs'
 
 const H = 3600000, M = 60000
-const HISTORY = '{"date":"2026-10-14","model":"claude-opus-5-5","effort":"xhigh","margin":5,"proposals":30,"checked":30,"unchecked":0,"skippedSources":0,"start":[],"end":[],"ledger":{"gather":{"5-hour limit":{"units":18,"delta":23},"Weekly · all models":{"units":18,"delta":4}},"merge":{"5-hour limit":{"units":1,"delta":1},"Weekly · all models":{"units":1,"delta":0}},"verify":{"5-hour limit":{"units":30,"delta":36},"Weekly · all models":{"units":30,"delta":6}},"report":{"5-hour limit":{"units":1,"delta":5},"Weekly · all models":{"units":1,"delta":1}}}}'
+export const HISTORY = '{"date":"2026-10-14","model":"claude-opus-5-5","effort":"xhigh","margin":5,"proposals":30,"checked":30,"unchecked":0,"skippedSources":0,"start":[],"end":[],"ledger":{"gather":{"5-hour limit":{"units":18,"delta":23},"Weekly · all models":{"units":18,"delta":4}},"merge":{"5-hour limit":{"units":1,"delta":1},"Weekly · all models":{"units":1,"delta":0}},"verify":{"5-hour limit":{"units":30,"delta":36},"Weekly · all models":{"units":30,"delta":6}},"report":{"5-hour limit":{"units":1,"delta":5},"Weekly · all models":{"units":1,"delta":1}}}}'
 
 export async function loadWorkflow(file) {
   const src = fs.readFileSync(file, 'utf8').replace(/^export const meta/m, 'const meta')
@@ -35,7 +35,8 @@ export async function simulate(wf, sc) {
   }
 
   function usageCard() {
-    if (sc.unreadable) return { available: false, windows: [], now: new Date(st.now).toISOString() }
+    // The limits can be out of reach for the whole run, or from a time on.
+    if (sc.unreadable || (sc.unreadableFrom && st.now >= Date.parse(sc.unreadableFrom))) return { available: false, windows: [], now: new Date(st.now).toISOString() }
     const active = st.now < st.fiveReset
     const weekDone = st.now >= st.weekReset
     return {
@@ -55,17 +56,20 @@ export async function simulate(wf, sc) {
     st.prompts[label] = prompt
     if (label === 'review setup') return { today: sc.now.slice(0, 10), report: '~/.claude/dream/2026-10-17.md', backlog: sc.backlog || { valid: true, open: [], closed: [], unchecked: [] }, shown: sc.shown || '', weeklyResetsAt: new Date(st.weekReset).toISOString() }
     if (label === 'scout') return {
-      now: sc.now, today: sc.now.slice(0, 10), utcOffset: sc.utcOffset || '+0300', runId: sc.now.slice(0, 10), since: sc.since, lookbackFrom: new Date(Date.parse(sc.since) - 7 * 24 * H).toISOString(),
+      now: sc.now, today: sc.now.slice(0, 10), utcOffset: sc.utcOffset || '+0300', machine: sc.machine || 'mac', runId: sc.now.slice(0, 10), since: sc.since, lookbackFrom: new Date(Date.parse(sc.since) - 7 * 24 * H).toISOString(),
       oldestTranscript: '2026-09-21T08:00:00Z', installedVersion: '2.1.299', previousReports: [],
       sessions: linked(Array.from({ length: sc.sessions }, (_, i) => ({ path: `/t/s${i}.jsonl`, project: `p${i % 5}`, bytes: 1e6 + i, mtime: new Date(Date.parse(sc.now) - i * H).toISOString(), lastActivity: new Date(Date.parse(sc.now) - i * H).toISOString() }))),
-      skillRepos: [], model: 'claude-opus-5-5', effort: 'xhigh', usage: usageCard(), historyLines: [history].concat(sc.extraHistory || []), weekLines: sc.weekLines || [],
+      skillRepos: [], model: 'claude-opus-5-5', effort: 'xhigh', usage: usageCard(), historyLines: (sc.history || [history]).concat(sc.extraHistory || []), weekLines: sc.weekLines || [],
       backlog: sc.backlog || { valid: true, open: [], closed: [], unchecked: [] },
       ruleSections: ['Git', 'Remote', 'Commands', 'Commits', 'PRs', 'Prose', 'Feedback', 'Comments', 'Running', 'Permissions', 'Public', 'Memory'],
       repos: [1, 2, 3, 4, 5].map(i => ({ path: `~/Projects/r${i}`, projectDirs: [`-r${i}`] })),
       upstreams: sc.upstreams || [],
       prs: [1, 2, 3, 4].map(i => ({ url: `https://github.com/o/r/pull/${i}`, repo: 'o/r', number: i, title: `pr ${i}`, isDraft: true, updatedAt: `2026-10-1${i}T00:00:00Z` })),
     }
-    if (label === 'usage before the scout') return { ...usageCard(), utcOffset: sc.utcOffset || '+0300' }
+    // sc.marker is the line another run's marker holds while that run gives signs of life.
+    if (label === 'usage before the scout') return { ...usageCard(), utcOffset: sc.utcOffset || '+0300', machine: sc.machine || 'mac', running: sc.marker || '' }
+    if (label === 'record reading') { st.weekLine = prompt.split('\n').find(x => x.startsWith('{')); return { ok: true } }
+    if (label === 'clear marker') return { ok: true }
     if (label.startsWith('usage')) return usageCard()
     if (/^(timer|clock)/.test(label)) return { now: new Date(st.now).toISOString() }
     if (label === 'backlog check') return { items: sc.checks || [] }
@@ -88,12 +92,12 @@ export async function simulate(wf, sc) {
       return { steps: items.map(i => ({ id: i.id, key: i.key, status: 'runs', command: `bash ~/.claude/dream/x/${i.id}.sh`, file: `~/.claude/dream/x/${i.id}.sh`, note: '' })) }
     }
     if (label === 'report') return { path: '/tmp/r.md', summary: 's' }
-    if (label === 'record run') { st.historyLine = prompt.split('\n').find(x => x.startsWith('{')); return { ok: true } }
+    if (label === 'record run') { [st.historyLine, st.weekLine] = prompt.split('\n').filter(x => x.startsWith('{')); return { ok: true } }
     if (/^(backlog patch|backlog items|write backlog)/.test(label)) return { ok: true }
     return { findings: [{ kind: 'hook', title: `${label} a`, problem: 'p', proposal: 'q', target: '~/x', evidence: [], impact: 'low' }, { kind: 'hook', title: `${label} b`, problem: 'p', proposal: 'q', target: '~/x', evidence: [], impact: 'low' }], coverage: 'c' }
   }
 
-  const COST = { scout: [3, 0.5], usage: [0.05, 1], timer: [0.05, 1], clock: [0.05, 1], 'backlog check': [1, 4], 'list older': [0.3, 2], merge: [1, 6], evidence: [0.6, 8], fit: [0.6, 10], review: [2.6, 20], check: [1, 8], report: [2, 10] }
+  const COST = { scout: [3, 0.5], 'record reading': [0.05, 1], 'clear marker': [0.05, 1], usage: [0.05, 1], timer: [0.05, 1], clock: [0.05, 1], 'backlog check': [1, 4], 'list older': [0.3, 2], merge: [1, 6], evidence: [0.6, 8], fit: [0.6, 10], review: [2.6, 20], check: [1, 8], report: [2, 10] }
   const agent = (prompt, o = {}) => new Promise(resolve => {
     const go = () => {
       running++

@@ -184,6 +184,7 @@ mirrored=(
   hooks/energy-session-pid.sh
   hooks/usage-waiting.sh
   hooks/sync-conflicts.sh
+  hooks/plan-limits.sh
   presence/install.sh
   presence/lock-listener.swift
   presence/lock-listener-kde.sh

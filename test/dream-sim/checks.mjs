@@ -1,6 +1,6 @@
 // Runs dream.js against the simulation in run.mjs and checks how each mode spends and stops.
 // Usage: node test/dream-sim/checks.mjs [path to dream.js]
-import { loadWorkflow, simulate } from './run.mjs'
+import { HISTORY, loadWorkflow, simulate } from './run.mjs'
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -75,6 +75,18 @@ const finnish = st => st.prompts['finnish terms'] || ''
 // A usage history row whose run carried one transcript over, and the row a simulated run records.
 const carried = (time, more = {}) => JSON.stringify({ date: time.slice(0, 10), time, model: 'claude-opus-5-5', effort: 'xhigh', ledger: {}, sources: ['transcripts'], pending: [{ path: '/t/carried.jsonl', project: 'p', bytes: 1e6, mtime: time, from: '2026-10-12T00:00:00Z' }], ...more })
 const recorded = st => ({ pending: [], ...JSON.parse(st.historyLine || '{}') })
+// A second machine with a plan of its own, whose week resets on Fridays at 07:00 local, before the work day: nobody watches its runs, and its sessions read the limits from the status line's file.
+const fridayReset = Date.parse('2026-11-13T05:00:00Z')
+const fridayWork = Date.parse('2026-11-13T06:00:00Z')
+const thu = { five: 0, fiveReset: '2026-11-12T10:00:00Z', week: 5, weekReset: '2026-11-13T05:00:00Z', now: '2026-11-12T14:30:00Z', since: '2026-11-05T14:30:00Z', utcOffset: '+0200', machine: 'desk', sessions: 400, args: { unattended: true } }
+const friday = { ...thu, five: 3, fiveReset: '2026-11-13T07:00:00Z', week: 63, now: '2026-11-13T04:50:00Z', sessions: 10 }
+// A record line as one machine wrote it.
+const on = (machine, line) => JSON.stringify({ ...JSON.parse(line), machine })
+const weekLine = st => JSON.parse(st.weekLine || '{}')
+const readings = st => Object.entries(st.prompts).filter(([k]) => /^usage \d/.test(k))
+const marker = JSON.stringify({ machine: 'desk', runId: '2026-10-14', started: '2026-10-14T13:30:00Z', alive: '2026-10-14T17:48:00Z', aliveEpoch: 1 })
+// Work the pool starts, as against readings, listings and the scout.
+const work = s => /^(transcripts|prompt feedback|config|github|battery)( |$)/.test(s.label)
 
 const scenarios = [
   ['eve, real numbers', { ...fri, week: 54, sessions: 48 }, [
@@ -329,11 +341,90 @@ const scenarios = [
       return listing.length > 5 && listing.every(([, p]) => /find ~\/\.claude\/projects\/ -mindepth 2 -maxdepth 2 -type [fd]/.test(p) && /without -L/.test(p))
     }],
   ]],
+  ['eve on a machine whose week resets at 07:00, before the work day', thu, [
+    ['mode is eve', (st, r) => /^eve/.test(r.mode)],
+    ['says that no final run follows, so it also stops 75 minutes before the reset', (st, r) => /That reset comes before 08:00, so no final run follows, and it also stops starting work 75 minutes before the reset/.test(r.mode)],
+    ['keeps the reserve of two 5-hour windows until that reset', (st, r) => /keeps 33\.8 weekly points back until that reset/.test(r.mode) && st.maxWeek <= 95 - 33.8 + 1],
+    ['uses nothing after the 07:00 reset', st => st.afterWeekReset === 0 && st.lastUse < fridayReset],
+    ['no window the run touched is open at 08:00 Friday', st => !st.windows.some(([a, b]) => a <= fridayWork && fridayWork < b && st.lastUse >= a)],
+    ['a session without the usage card reads the limits the status line wrote for this machine in the last 5 minutes', st => {
+      const p = st.prompts['usage before the scout'] || ''
+      return /When ToolSearch finds no such tool, as in a terminal session, read the limits the status line keeps instead/.test(p) && p.includes('select(.machine == $m and now - .writtenEpoch < 300)') && p.includes('~/.claude/plan-limits.json') && p.includes('uname -n | cut -d. -f1')
+    }],
+    ['and the session is pointed at that file for the points the run used', (st, r) => /or in a session without that tool, such as a terminal session, the limits in ~\/\.claude\/plan-limits\.json/.test(r.forTheSession)],
+    ['its rows carry the machine', st => recorded(st).machine === 'desk' && weekLine(st).machine === 'desk' && weekLine(st).mode === 'eve'],
+    noHits,
+  ]],
+  ['eve on that machine, started at 21:50', { ...thu, now: '2026-11-12T19:50:00Z', sessions: 40 }, [
+    ['skips work that would finish after the 07:00 reset as too close to it', (st, r) => /as the weekly reset is too close/.test(stopped(r))],
+    ['starts none in the last 75 minutes before it', st => !st.started.some(s => !/^(usage|timer|clock|scripts|report|record|backlog|write)/.test(s.label) && s.at > fridayReset - 75 * 60000)],
+    ['and uses nothing after it', st => st.afterWeekReset === 0 && st.lastUse < fridayReset],
+    noHits,
+  ]],
+  ['the 06:50 start on that machine on the reset day', friday, [
+    ['stops before its scout, as a final run too late to start work', (st, r) => !st.labels.scout && /stopped before its scout/.test(r.error || '') && /resets today at 07:00, and a run started after 05:35 can start no work/.test(r.error)],
+    ['keeps its reading as a final line of the week, with nothing spent', st => { const l = weekLine(st); return l.mode === 'final' && l.dreamSpent === 0 && l.stopped === true && l.machine === 'desk' && l.weekEnds === '2026-11-13T05:00:00.000Z' && /^2026-11-13T04:5/.test(l.readAt) && l.windows.some(w => w.label === 'Weekly · all models' && w.percentUsed === 63) }],
+    ['and says so', (st, r) => /The reading is kept in ~\/\.claude\/dream\/weekly-usage\.jsonl as the last one of this reset day/.test(r.error)],
+  ]],
+  ['eve on that machine a week later', { ...thu, week: 20, now: '2026-11-19T14:30:00Z', since: '2026-11-13T03:00:00Z', fiveReset: '2026-11-19T10:00:00Z', weekReset: '2026-11-20T05:00:00Z', sessions: 20, weekLines: weekRows.map(l => on('mac', l)).concat([
+    on('desk', weekRow('eve', '2026-11-13T05:00:00Z', '2026-11-13T03:40:00Z', 60, 30)),
+    on('desk', weekRow('final', '2026-11-13T05:00:00Z', '2026-11-13T04:51:00Z', 63, 0)),
+  ]) }, [
+    ['keeps back the 3 points used between its last run and 06:50, not the 12 the other machine measured', (st, r) => /keeps 3\.0 weekly points back until that reset/.test(r.mode) && /"reserve":3,/.test(st.historyLine || '')],
+    noHits,
+  ]],
+  ['unattended, the limits out of reach', { ...thu, unreadable: true }, [
+    ['stops before its scout and says why', (st, r) => !st.labels.scout && /This run is unattended and the plan's limits cannot be read here/.test(r.error || '') && /plan-limits\.sh/.test(r.error) && /stopped before its scout/.test(r.error)],
+  ]],
+  ['unattended, the limits lost three hours in', { ...thu, unreadableFrom: '2026-11-12T17:30:00Z' }, [
+    ['reads once more, then starts no more work and reports', (st, r) => {
+      const lost = st.started.filter(s => /^usage \d/.test(s.label)).pop()
+      return st.logs.some(l => /Lost the usage limits in a run nobody watches/.test(l)) && /as the usage limits can no longer be read and nobody watches the run/.test(stopped(r)) && !st.started.some(s => work(s) && s.at > lost.at) && Boolean(r.report)
+    }],
+    noHits,
+  ]],
+  ['watched, the limits lost three hours in', { ...thu, args: {}, unreadableFrom: '2026-11-12T17:30:00Z', sessions: 60 }, [
+    ['goes on without the guard, as before', (st, r) => st.logs.some(l => /continuing without the usage guard/.test(l)) && !/nobody watches/.test(stopped(r))],
+  ]],
+  ['another run going on the other machine', { ...wed, week: 30, sessions: 4, marker }, [
+    ['stops before its scout, naming the machine, the run and both times', (st, r) => !st.labels.scout && /The dream run 2026-10-14 on desk is still going: it started at 2026-10-14 16:30 and gave its last sign of life at 2026-10-14 20:48/.test(r.error || '')],
+    ['counts only a marker with a sign of life in the last 30 minutes', st => (st.prompts['usage before the scout'] || '').includes("jq -c 'select(now - .aliveEpoch < 1800)' ~/.claude/dream/running.json")],
+  ]],
+  ['a review while another run is going', { ...wed, week: 30, sessions: 4, marker, args: 'review' }, [
+    ['is not held back', (st, r) => !r.error && r.due === 0 && Object.keys(st.labels).join() === 'review'],
+  ]],
+  ['the marker of a run', oct31, [
+    ['the scout writes it once it has the run id', st => /before any later step, write the marker that tells other dream runs this one is going/.test(st.prompts.scout || '') && st.prompts.scout.includes('to ~/.claude/dream/running.json')],
+    ['every usage reading rewrites it with the time', st => readings(st).length > 3 && readings(st).every(([, p]) => p.includes(`printf '{"machine":"%s","runId":"%s","started":"%s","alive":"%s","aliveEpoch":%s}\\n' 'mac' '2026-10-31' '2026-10-31T11:12:00Z' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(date -u +%s)" > ~/.claude/dream/running.json`))],
+    ['and so does each nine minutes of a wait', st => readings(st).some(([k, p]) => k.endsWith(' after the 14:00 reset') && /> ~\/\.claude\/dream\/running\.json; end=\$\(\( \$\(date -u \+%s\) \+ 540 \)\)/.test(p))],
+    ['the run record removes it, when it is still this run\'s', st => (st.prompts['record run'] || '').includes(`jq -e 'select(.machine == "mac" and .started == "2026-10-31T11:12:00Z")' ~/.claude/dream/running.json >/dev/null 2>&1 && rm -f ~/.claude/dream/running.json`)],
+  ]],
+  ['a run that nothing fits in', { ...wed, week: 96, sessions: 4 }, [
+    ['removes its marker before it stops', (st, r) => /^Nothing fitted/.test(r.error || '') && st.labels.clear === 1 && (st.prompts['clear marker'] || '').includes('select(.machine == "mac" and .started >= "2026-10-14T18:00:00Z")')],
+  ]],
+  ['first run on a machine, the runs on record another machine\'s', { ...wed, week: 30, sessions: 20, machine: 'desk', history: [on('mac', HISTORY)], extraHistory: [on('mac', ranBattery('2026-10-14T08:00:00Z'))] }, [
+    ['estimates from none of them', st => st.logs.some(l => /Estimating from 0 earlier runs/.test(l))],
+    ['starts one piece of work and only when it is done the next, which the reading then measures', st => {
+      const [first, second, third] = st.started.filter(work)
+      return second.at >= first.at + 15 * 60000 && third.at > second.at && st.started.some(s => /^usage \d/.test(s.label) && s.at === second.at)
+    }],
+    ['then runs seven at a time', st => block(st, 'Agents').mostAtOnce.Recent >= 7],
+    ['what the other machine read 10 hours ago still counts as read', (st, r) => !st.labels.battery && r.sources.notDue.includes('battery')],
+    noHits,
+  ]],
+  ['a later run on that machine', { ...wed, week: 30, sessions: 20, machine: 'desk', history: [on('mac', HISTORY), on('desk', HISTORY)] }, [
+    ['estimates from its own run alone', st => st.logs.some(l => /Estimating from 1 earlier runs/.test(l))],
+    ['and starts seven pieces of work at once', st => { const starts = st.started.filter(work); return starts.filter(s => s.at === starts[0].at).length === 7 }],
+  ]],
+  ['weekly readings of two machines', { ...wed, week: 30, sessions: 4, weekLines: [on('desk', weekRow('final', '2026-10-09T05:00:00Z', '2026-10-09T04:50:00Z', 80, 0)), on('mac', weekRow('final', '2026-10-10T13:59:59Z', '2026-10-10T12:00:00Z', 70, 5))] }, [
+    ['the recap counts this machine\'s weeks alone', (st, r) => r.weekly.lastWeek.endsAt === '2026-10-10T14:00:00.000Z' && r.weekly.month.weeks === 1 && r.weekly.loggedSince === '2026-10-10T14:00:00.000Z'],
+  ]],
 ]
 
 let failed = 0
 for (const [name, sc, checks] of scenarios) {
-  const { st, result } = await simulate(wf, sc)
+  const { st, logs, result } = await simulate(wf, sc)
+  st.logs = logs
   if (result.crash) { console.log(`CRASH ${name}\n${result.crash}`); failed++; continue }
   const lines = checks.map(([desc, ok]) => { const pass = Boolean(ok(st, result)); if (!pass) failed++; return `  ${pass ? 'PASS' : 'FAIL'}: ${desc}` })
   console.log(`== ${name}: weekly ${sc.week} to ${st.maxWeek.toFixed(1)}, agents failed at a limit ${st.hits}`)

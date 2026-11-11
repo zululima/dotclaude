@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Let an unattended dream run guard itself in a terminal session
+
+2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
 ## Put a question in the next-step box, the pick on its first button
 
-2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-11, commit [58675a5](https://github.com/zululima/dotclaude/commit/58675a5e9623ec49f974b4d5fc94fc7554ce35c1), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: have you run the removal and install steps?)
 > [an answer about package removal steps left out]
