@@ -57,6 +57,8 @@ command -v jq >/dev/null 2>&1 || exit 0
 # 5-minute and the 1-hour cache. Writes cost 1.25 and 2 times input.
 common='
   def prices: {
+    "claude-fable-5-2":  [8, 40, 0.2, 10, 16],
+    "claude-mythos-5-2": [8, 40, 0.2, 10, 16],
     "claude-fable-5-1":  [10, 50, 0.25, 12.5, 20],
     "claude-mythos-5-1": [10, 50, 0.25, 12.5, 20],
     "claude-fable-5":    [10, 50, 1, 12.5, 20],

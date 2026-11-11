@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Price Fable 5.2 and Mythos 5.2 in the usage totals
+
+2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> can you make it so that based on benchmarks and nerfbenches etc youll
+> always spawn a different session like always as i start these with
+> fable always and ask me should the effort and model be x and y and
+> what the evals say. i.e. not take the most performant but the least
+> we could actually get away with or at least do this behavior when
+> your caclulations think its time to use poorer models and or efforts
+> so as to not stop at 5h or weekly limit
+
 ## Say why a started session's model and effort fit its task
 
-2026-11-10, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [437892f](https://github.com/zululima/dotclaude/commit/437892ffa9e9290b28385b885987c8dd5d34fa3a), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > does my claude switch to automatically opus 5.5 for knowledge work
