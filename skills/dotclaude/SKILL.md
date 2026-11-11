@@ -61,11 +61,23 @@ run and its commit in the same turn.
   the untracked commit-msg hook of the checkout and of each mirror, holds commit messages to the
   same list, less the literals that `sync-deny-skip.txt` in that repository's git directory lists,
   such as an employer's name in a repository the employer owns.
+- A file sync that shares `~/.claude` between two computers brings a mirrored file over from the
+  one that committed it before the pull here, a run copies it into the checkout, and git then
+  refuses the pull over that copy. `sync.sh` gets past that by itself: when every file in the
+  pull's way is a mirrored file whose checkout copy holds the same bytes as its `~/.claude` copy,
+  it puts those copies back to HEAD, fast-forwards and reconciles. A file whose `~/.claude` copy is
+  the pulled version ends clean, and one that holds more, such as another session's uncommitted
+  hunk, gets that back as a local change: a copy that removes no line the pull wrote and adds back
+  none it removed holds the pulled change, and is never called changed on both sides. A copy that
+  lacks the pulled change still stops the run, as does a pull refused for any other reason, such as
+  a change to a file that is not mirrored or a commit made here that the remote lacks. No
+  `~/.claude` copy is overwritten on the way.
 - `hooks/dotclaude-sync.sh` runs a plain `sync.sh` in the background at the start of every prompt of
   every session, so the pull and the reconcile need no run of their own. It commits and pushes
   nothing: local changes wait in the checkout for the session that made them. What stops a run, such
-  as a pull that a change in the checkout would overwrite, reaches each session once as context at
-  its next prompt, and the reply names it. Runs take `.git/sync.lock`, and one waits for another.
+  as a pull that would overwrite a change to a file that is not mirrored, reaches each session once
+  as context at its next prompt, and the reply names it. Runs take `.git/sync.lock`, and one waits
+  for another.
 - `CLAUDE.md`, `README.md`, the files under `docs/` and the pull-requests skill wrap prose at 100
   columns, a list item's later lines indented under its text, and a plain `sync.sh` run stops on a
   longer line. After an edit of one of them, run `~/Projects/dotclaude/reflow.sh` bare in place of a

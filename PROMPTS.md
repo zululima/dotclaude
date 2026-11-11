@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Let an unattended dream run guard itself in a terminal session
+## Let sync.sh pull past a file the other computer committed first
 
 2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+## Let an unattended dream run guard itself in a terminal session
+
+2026-11-11, commit [3757954](https://github.com/zululima/dotclaude/commit/375795438a5daef7ff7a8db52e2c8461ffc0df7b), model claude-fable-5-2, effort high.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

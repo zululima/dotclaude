@@ -30,6 +30,7 @@ function modTests(dir) {
 
 const suites = [
   { name: 'Hook tests', link: 'test/hooks/checks.mjs', what: 'every hook, fed the input Claude Code sends it', ...checks('test/hooks/checks.mjs') },
+  { name: 'Sync tests', link: 'test/sync/checks.mjs', what: 'what `sync.sh` pulls and copies between two computers, against a throwaway remote', ...checks('test/sync/checks.mjs') },
   { name: 'Dream simulation', link: 'test/dream-sim/checks.mjs', what: 'how `/dream` spends usage and when it stops', ...checks('test/dream-sim/checks.mjs') },
   { name: 'Usage mod tests', link: 'mods/session-usage/hooks/register.test.ts', what: 'the line under the prompt box', ...modTests('mods/session-usage') },
 ]

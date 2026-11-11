@@ -21,11 +21,22 @@
 #
 # Reconciling: a file the pull changed is installed locally, a file changed
 # only in the checkout, its local copy still as committed, is installed
-# locally too, any other local change is copied into the checkout, and a file
-# changed both locally and by the pull stops the run. So does a pull git
-# refuses, such as one a change in the checkout would be overwritten by; a
-# fetch that fails, as when offline, does not. Literals listed one per line in
-# sync-allow.txt are exempt from the scan.
+# locally too, and any other local change is copied into the checkout. A file
+# changed both locally and by the pull is copied into the checkout as well
+# when its local copy holds the pulled change already, as it does once a file
+# sync between two computers brought it over from the one that committed it:
+# against the pulled version it removes no line the pull wrote and adds back
+# no line the pull removed. Any other such file stops the run. So does a pull
+# git refuses, such as one that would overwrite a change here to a file that
+# is not mirrored; a fetch that fails, as when offline, does not. Literals
+# listed one per line in sync-allow.txt are exempt from the scan.
+#
+# Refused pull: a pull refused only over mirrored files whose copy here holds
+# the same bytes as the local one runs after all. Those copies go back to
+# HEAD, which loses nothing while the local copy stands, the pull
+# fast-forwards, and the reconciling above copies back what the local copy
+# holds beyond the pulled commits. That is the state a file sync leaves when
+# the other computer committed and pushed the file first.
 #
 # Lock: hooks/dotclaude-sync.sh runs this on every prompt of every session, so
 # a run takes .git/sync.lock, holding its process id, and waits for another
@@ -230,6 +241,75 @@ same_as_commit() {
   [ "$(git rev-parse --verify --quiet "$1:$2")" = "$(git hash-object "$3")" ]
 }
 
+git_diff() {
+  git -c core.quotePath=false diff --no-index --no-color --no-ext-diff -a "$@" || [ "$?" -eq 1 ]
+}
+
+is_mirrored() {
+  local path
+  for path in "${mirrored[@]}"; do
+    [ "$path" != "$1" ] || return 0
+  done
+  return 1
+}
+
+# Prints the changed files that keep a fast-forward to the upstream from
+# running. Fails when there is none, or when one of them is not a mirrored file
+# whose copy here and local copy hold the same bytes.
+pull_blockers() {
+  local path found=1
+  git merge-base --is-ancestor HEAD '@{upstream}' 2>/dev/null || return 1
+  while IFS= read -r path; do
+    [ -n "$(git status --porcelain -- ":(literal)$path")" ] || continue
+    is_mirrored "$path" && git cat-file -e "HEAD:$path" 2>/dev/null &&
+      [ -f "$checkout/$path" ] && same_file "$checkout/$path" "$source_dir/$path" || return 1
+    printf '%s\n' "$path"
+    found=0
+  done < <(git -c core.quotePath=false diff --name-only --no-renames HEAD '@{upstream}')
+  return "$found"
+}
+
+# True when file $3 holds the change path $2 took from commit $1 to HEAD:
+# against HEAD's version it removes no line that change wrote, and where that
+# change only removed lines it adds none of them back.
+holds_pulled() {
+  local dir held=1
+  dir="$(mktemp -d)"
+  git cat-file blob "$1:$2" > "$dir/before" 2>/dev/null || : > "$dir/before"
+  if git cat-file blob "HEAD:$2" > "$dir/pulled" 2>/dev/null &&
+    git_diff -U0 -- "$dir/before" "$dir/pulled" > "$dir/wrote" &&
+    git_diff -U0 -- "$dir/pulled" "$3" > "$dir/kept" &&
+    LC_ALL=C awk '
+      function range(field, r,   f) {
+        split(substr(field, 2), f, ",")
+        r["at"] = f[1] + 0
+        r["n"] = (2 in f) ? f[2] + 0 : 1
+      }
+      /^@@ / {
+        range($2, old)
+        range($3, new)
+        hunk = 1
+        gaps = 0
+        removal = (!kept && new["n"] == 0)
+        if (removal) gap[new["at"]] = 1
+        if (!kept) for (i = 0; i < new["n"]; i++) wrote[new["at"] + i] = 1
+        if (kept) {
+          for (i = 0; i < old["n"]; i++) if ((old["at"] + i) in wrote) exit 1
+          for (i = (old["n"] > 0 ? -1 : 0); i < old["n"] || i == 0; i++)
+            if ((old["at"] + i) in gap) beside[++gaps] = old["at"] + i
+        }
+        next
+      }
+      !hunk { next }
+      removal && /^-/ { gone[new["at"], substr($0, 2)] = 1 }
+      kept && /^\+/ { for (i = 1; i <= gaps; i++) if ((beside[i], substr($0, 2)) in gone) exit 1 }
+      ' "$dir/wrote" kept=1 "$dir/kept"; then
+    held=0
+  fi
+  rm -rf "$dir"
+  return "$held"
+}
+
 keep_key_order() {
   command -v jq >/dev/null 2>&1 || return 0
   same_file "$1" "$2" && return 0
@@ -331,7 +411,17 @@ before="$(git rev-parse HEAD)"
 failed=0
 if git fetch --quiet 2>/dev/null; then
   git restore -- PROMPTS.md 2>/dev/null || true
-  if ! merge_error="$(git merge --ff-only --quiet '@{upstream}' 2>&1)"; then
+  refused=0
+  merge_error="$(git merge --ff-only --quiet '@{upstream}' 2>&1)" || refused=1
+  if [ "$refused" -eq 1 ] && blockers="$(pull_blockers)"; then
+    while IFS= read -r path; do
+      git restore --source=HEAD --staged --worktree -- ":(literal)$path"
+      echo "sync: $path put back to HEAD for the pull, the local copy holds the same bytes"
+    done <<< "$blockers"
+    refused=0
+    merge_error="$(git merge --ff-only --quiet '@{upstream}' 2>&1)" || refused=1
+  fi
+  if [ "$refused" -eq 1 ]; then
     printf 'sync: pull refused, reconciling against the local HEAD only\n%s\n' "$merge_error" >&2
     failed=1
   fi
@@ -359,8 +449,12 @@ for path in "${mirrored[@]}"; do
   elif same_as_commit "$before" "$path" "$local_file"; then
     install_file "$repo_file" "$local_file"
   elif ! same_file "$local_file" "$repo_file"; then
-    echo "sync: $path changed both locally and in the pulled commits, merge by hand" >&2
-    failed=1
+    if holds_pulled "$before" "$path" "$local_file"; then
+      install_file "$local_file" "$repo_file"
+    else
+      echo "sync: $path changed both locally and in the pulled commits, merge by hand" >&2
+      failed=1
+    fi
   fi
 done
 
@@ -375,10 +469,6 @@ fi
 
 stage_git() {
   GIT_INDEX_FILE="$stage_dir/index" git "$@"
-}
-
-git_diff() {
-  git -c core.quotePath=false diff --no-index --no-color --no-ext-diff -a "$@" || [ "$?" -eq 1 ]
 }
 
 names() {

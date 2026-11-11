@@ -248,6 +248,9 @@
   throwaway home folder, and checks what it lets through. Not installed.
 - [`test/rules`](../test/rules/adherence.mjs): counts how often Claude kept the rules in your own
   sessions of the last week. It prints counts only, never what was said.
+- [`test/sync`](../test/sync/checks.mjs): runs `sync.sh` between a throwaway remote, copy and
+  `~/.claude`, in the states a second computer leaves them in, and checks what it pulls and copies.
+  Not installed.
 - [`test/evals.mjs`](../test/evals.mjs): runs all of these and fills in [Evals](evals.md).
 
 For the full details, open the file: every hook explains itself at the top, and so do `sync.sh` and
