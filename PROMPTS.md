@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Give each label in a reply one item only
+## Put a question in the next-step box, the pick on its first button
 
 2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: have you run the removal and install steps?)
+> [an answer about package removal steps left out]
+
+**6.** (answer to: what should happen to the package cache?)
+> [an answer about a package cache left out] also why didnt you use
+> the question where i could just press ctrl enter for recommended? and
+> type something else for b or c or soemthign else
+
+## Give each label in a reply one item only
+
+2026-11-11, commit [e56d65d](https://github.com/zululima/dotclaude/commit/e56d65d6ba76a6a095155ecab86459a56cb2371f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a system upgrade left out]

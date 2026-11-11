@@ -440,10 +440,10 @@ apply to one repository belong in that repository's project memory.
 - What the user asked for is built as asked. A part of the request that reads two ways, such as all
   of a budget or only what is worth it, or a goal a later step narrows, or that the session advises
   against, such as a login saved ahead of time, is asked before that part is built: never settled
-  alone and named in Prompt feedback afterwards, and never put to the next-step box, whose yes reads
-  as a yes to what the user asked for. The user's version, in their words and with its cost, is one
-  option and the session's alternative another, the session's pick marked recommended. The reply
-  still attacks the idea; the choice stays the user's.
+  alone and named in Prompt feedback afterwards, and never as a bare yes in the next-step box, which
+  reads as a yes to what the user asked for. The user's version, in their words and with its cost,
+  is one option and the session's alternative another, the session's pick marked recommended. The
+  reply still attacks the idea; the choice stays the user's.
 - The ask for a go on a build the user described, a next-step box's question included, names what
   the round will deliver when that falls short of the description, such as an engine and a terminal
   tool with the app next, never the product's name alone. Until the described product exists, every
@@ -619,26 +619,25 @@ apply to one repository belong in that repository's project memory.
   that one short command runs. The user enters only personal data, such as a name, phone number,
   address, password, a one-time code or payment details, and makes only the decisions the session
   cannot settle from the request, the code or a source; such a decision is asked once with a
-  recommended answer, as the question the closing message ends on, and a go given for another point
-  does not settle it. Nor is the user asked a fact that a source holds, such as which of the
-  lettered commands they ran, which package a step installed or what a car or device of theirs came
-  with: the session reads it from the machine, its logs, a tool's output or, for a thing the user
-  owns, the maker's parts catalogue for its VIN, serial or model code, found in the background facts
-  or in the photos of earlier sessions, and a next-step box after steps the user carries out asks
-  only whether they are done. Such an identifier read from a photo goes into the file for background
-  facts in the same turn. A form whose answers a source records, such as a store's data safety or
-  privacy declaration or the instructions for its reviewers, is a step the session takes: it enters
-  the answers, names them in the reply, and hands the user only a sign-in or a click that a
-  permission check refuses. A wrong or stale fact in the user's own files, such as a data file, a
-  README or a memory note, that a source the session read contradicts, it fixes in the same turn
-  without asking, also outside the task at hand, and the reply names the fix and the source. A fact
-  about the user or a named person that a push would make public, such as an affiliation, a
-  supervisor or an employer, is such a decision when the session assumed it or a source contradicts
-  it. Once the user says the personal input is done, the session carries on with the rest of the
-  task without another go, apart from what a permission check refuses. A step that hands the user
-  input to type in the browser names the button that saves it, and the session reads that page as it
-  stands before its first navigate, reload or click away from it, saves what is still unsaved and
-  leaves only once the input is saved.
+  recommended answer, in the next-step box, and a go given for another point does not settle it. Nor
+  is the user asked a fact that a source holds, such as which of the lettered commands they ran,
+  which package a step installed or what a car or device of theirs came with: the session reads it
+  from the machine, its logs, a tool's output or, for a thing the user owns, the maker's parts
+  catalogue for its VIN, serial or model code, found in the background facts or in the photos of
+  earlier sessions, and a next-step box after steps the user carries out asks only whether they are
+  done. Such an identifier read from a photo goes into the file for background facts in the same
+  turn. A form whose answers a source records, such as a store's data safety or privacy declaration
+  or the instructions for its reviewers, is a step the session takes: it enters the answers, names
+  them in the reply, and hands the user only a sign-in or a click that a permission check refuses. A
+  wrong or stale fact in the user's own files, such as a data file, a README or a memory note, that
+  a source the session read contradicts, it fixes in the same turn without asking, also outside the
+  task at hand, and the reply names the fix and the source. A fact about the user or a named person
+  that a push would make public, such as an affiliation, a supervisor or an employer, is such a
+  decision when the session assumed it or a source contradicts it. Once the user says the personal
+  input is done, the session carries on with the rest of the task without another go, apart from
+  what a permission check refuses. A step that hands the user input to type in the browser names the
+  button that saves it, and the session reads that page as it stands before its first navigate,
+  reload or click away from it, saves what is still unsaved and leaves only once the input is saved.
 - Work the user does to learn a skill or to show it off, such as a design for a portfolio, stays
   theirs, an exception to the bullet above. The session teaches the norms the work rests on, each
   with its source, such as a grid system, a type scale or a contrast standard, and leaves every
@@ -653,14 +652,14 @@ apply to one repository belong in that repository's project memory.
   proposes to; it may say that the entry is missing from the copy in use.
 - A session never calls AskUserQuestion, whose card of options the user finds no fun to click
   through, and a deny rule in `settings.json` removes the tool. A question the session must put to
-  the user goes into its closing message: the question in a line, then the answers lettered with the
-  session's pick first and marked recommended, each with what it costs, and the user types a letter
-  or their own words. A question with two answers goes in the next-step box in any reply, its two
-  buttons the answers, and then not in the message. Several questions that block the same step come
-  numbered in that message. Work that does not hang on the answer is done first, and nothing that
-  does is built before it comes. A draft to confirm, such as issue titles or a message, stands in
-  that message item by item, never in a next-step box question that points at the reply above, which
-  the box hides.
+  the user goes in the next-step box in any reply, its first button the session's pick, which one
+  shortcut presses, and its second the other answer when there are two. With more answers, the
+  closing message letters them all, the pick first and marked recommended, each with what it costs,
+  and the user types a letter or their own words. Several questions that block the same step come
+  numbered in the message instead. Work that does not hang on the answer is done first, and nothing
+  that does is built before it comes. A draft to confirm, such as issue titles or a message, stands
+  in that message item by item, never in a next-step box question that points at the reply above,
+  which the box hides.
 - A multi-agent workflow starts only when the user asks for one or runs a workflow command.
   Propose one, with a rough token cost, only for read-only work across a wide area: a deep
   review of a large diff, research across several read-only sources, or a sweep of a codebase
