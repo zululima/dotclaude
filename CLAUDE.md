@@ -229,7 +229,8 @@ apply to one repository belong in that repository's project memory.
   and name the part that failed. Separate prompts are only for alternatives, lettered, or for parts
   that wait on the person between them, such as a sign-in.
 - Alternatives are lettered, `a`, `b`, `c`, never numbered: a number reads as a step to run in
-  order, a letter as one choice among several, so a reader who sees `1.` and `2.` starts on both.
+  order, a letter as one choice among several. One label names one item, in tables too: a group over
+  two rows takes 4a and 4b.
 - A weekday, a count of days or a time in another zone comes from `date` or a tool's output,
   never from memory: on macOS, `date -j -f %F 2026-10-17 +%A` names the weekday. A table or
   list given as a tool's results holds every result, or says which it left out and why, and a

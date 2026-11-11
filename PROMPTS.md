@@ -5,9 +5,27 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Give each label in a reply one item only
+
+2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about a system upgrade left out]
+
+**2.**
+> [an ask for an upgrade rule kept in a private file left out]
+
+**3.**
+> [a question about an app update left out]
+
+**4.** (answer to: which groups shall I give removal commands for?)
+> [package picks left out] also you used 4 two times
+>
+> [a question about where an app package comes from left out]
+
 ## Step a task down to a cheaper model when the limits run short
 
-2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-11, commit [6174e7f](https://github.com/zululima/dotclaude/commit/6174e7f91ae3b5beed44cdbd471fa570cc926227), model claude-fable-5-2, effort xhigh.
 
 **1.** Quoted under [625b5bc](https://github.com/zululima/dotclaude/commit/625b5bc1b138917533c1d5a05aa701d958c3f941).
 
