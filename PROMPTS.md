@@ -5,9 +5,15 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Price Fable 5.2 and Mythos 5.2 in the usage totals
+## Step a task down to a cheaper model when the limits run short
 
 2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.** Quoted under [625b5bc](https://github.com/zululima/dotclaude/commit/625b5bc1b138917533c1d5a05aa701d958c3f941).
+
+## Price Fable 5.2 and Mythos 5.2 in the usage totals
+
+2026-11-11, commit [625b5bc](https://github.com/zululima/dotclaude/commit/625b5bc1b138917533c1d5a05aa701d958c3f941), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > can you make it so that based on benchmarks and nerfbenches etc youll

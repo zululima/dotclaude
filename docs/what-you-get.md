@@ -196,8 +196,12 @@
   with the benchmark scores behind each pick, so a subagent or a side session that only looks things
   up runs on a small model and one that writes code on the strongest. A session asked to write code
   on another model hands the work to a copy of itself on the right model and effort, since it cannot
-  switch its own. `/dream` keeps the table current from each new model's launch page and from the
-  unofficial trackers that watch for a model quietly getting worse.
+  switch its own. When your plan's 5-hour or weekly limit is on pace to fill before it resets,
+  Claude asks whether the task should run on a cheaper model or a lower effort, shows the benchmark
+  score and the cost per task of both, and on your yes starts it in a session on the cheaper one.
+  `pace.sh` beside the skill works out that pace from how your own weeks have gone. `/dream` keeps
+  both tables current from each new model's launch page and from the unofficial trackers that watch
+  for a model quietly getting worse.
 - [`skills/dotclaude`](../skills/dotclaude/SKILL.md): how Claude keeps this copy and my own
   `~/.claude` the same, and what it must never publish here. Claude reads it only before it changes
   the setup, which keeps the rules every session reads shorter.
