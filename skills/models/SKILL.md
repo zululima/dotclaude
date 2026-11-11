@@ -31,7 +31,9 @@ description: Which Claude model and effort level each kind of work runs on, with
   The reply links that session and says the work goes on there, and this session does none of it.
   Any other task runs on the session's model as it is, and the first line of the reply that starts
   it names its row's model and effort. A session whose opening prompt says the user picked its
-  model and effort for the pace keeps them, as Stepping down says.
+  model and effort for the pace keeps them, as Stepping down says. That settles its own model and
+  effort only: it still loads this skill before it starts or proposes a session, and its reply
+  names that session's model and effort as the bullet above says.
 
 | Task | Model | Effort | Benchmarks behind it |
 |---|---|---|---|

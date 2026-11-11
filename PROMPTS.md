@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Let sync.sh pull past a file the other computer committed first
+## Have every brief tell its session to move to top level first
 
 2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**2.**
+> you again asked for a new session that was sub session for a while
+> but didnt even ask about the model nor the effort
+
+## Let sync.sh pull past a file the other computer committed first
+
+2026-11-11, commit [3bdd6b4](https://github.com/zululima/dotclaude/commit/3bdd6b479bb1d7e801c3d710402b597ac6a109a3), model claude-fable-5-2, effort high.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
