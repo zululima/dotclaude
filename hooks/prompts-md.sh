@@ -2,7 +2,8 @@
 
 # Writes PROMPTS.md at the root of the current git checkout from the prompts
 # section of every commit message, newest first, each entry with its commit and
-# pull request, so the file is generated and never kept by hand.
+# pull request and each prompt with the Reply: line under it, so the file is
+# generated and never kept by hand.
 #
 #   prompts-md.sh                   rebuild PROMPTS.md from the history
 #   prompts-md.sh --message <file>  also list, first, the commit about to be
@@ -199,9 +200,11 @@ function flush(    i, h, n, line, state, model, k, head, quote, abbr, key, numbe
     }
     if (state == "done") break
     if (line == "Abbreviations:") { state = "abbr"; abbr = ""; continue }
+    if (state == "reply") { if (line == "") state = "between"; else reply[n] = reply[n] " " line; continue }
     if (state == "paren" && line != "" && line !~ /^>/) { quote[n] = quote[n] escape(line) "\n"; continue }
-    if (line ~ /^[0-9]+\./ && state != "head") { n++; head[n] = line; quote[n] = ""; state = "head"; continue }
+    if (line ~ /^[0-9]+\./ && state != "head") { n++; head[n] = line; quote[n] = ""; reply[n] = ""; state = "head"; continue }
     if (line ~ /^>/) { quote[n] = quote[n] escape(line) "\n"; state = "quote"; continue }
+    if (line ~ /^Reply: / && n > 0 && (state == "quote" || state == "head")) { reply[n] = substr(line, 8); state = "reply"; continue }
     if (line == "") { state = "between"; continue }
     if (state == "between" && n > 0 && line ~ /^\(/) { quote[n] = quote[n] "\n" escape(line) "\n"; state = "paren"; continue }
     if (state == "head") { head[n] = head[n] " " line; continue }
@@ -230,11 +233,14 @@ function flush(    i, h, n, line, state, model, k, head, quote, abbr, key, numbe
     sub(/^[0-9]+\. */, "", rest)
     if (rest != "") rest = " " escape(rest)
     key = head[k] "\n" quote[k]
-    if (key in quoted_under)
+    if (key in quoted_under) {
       text = text "\n**" number ".**" rest " Quoted under " quoted_under[key] ".\n"
-    else {
+      if (reply[k] != "" && reply[k] != reply_under[key]) text = text "\nReply: " escape(reply[k]) "\n"
+    } else {
       text = text "\n**" number ".**" rest "\n" quote[k]
+      if (reply[k] != "") text = text "\nReply: " escape(reply[k]) "\n"
       quoted_under[key] = full == "pending" ? "the commit that last changed this file" : link(short, "commit/" full)
+      reply_under[key] = reply[k]
     }
   }
   entry[entries] = text
@@ -257,9 +263,10 @@ END {
   print "# Prompts"
   print ""
   print "The prompts behind the commits of this repository, as given to Claude Code, newest first, each"
-  print "with its commit and pull request. Square brackets mark what was left out or redacted, and a"
-  print "commit without a prompts section is left out. This file is generated from the commit messages,"
-  print "so a change by hand is lost at the next commit."
+  print "with its commit and pull request, and under a prompt a summary of the reply where the commit"
+  print "gives one. Square brackets mark what was left out or redacted, and a commit without a prompts"
+  print "section is left out. This file is generated from the commit messages, so a change by hand is"
+  print "lost at the next commit."
   for (i = entries; i >= 1; i--) printf "\n%s", entry[i]
   for (a in abbreviations) { any = 1; break }
   if (any) {

@@ -46,18 +46,22 @@ reaches a running one through the hook that the `dotclaude` skill describes.
   commit made under the same prompt that prompt again. They keep their session numbers, each on
   its own line followed by the prompt as `>` quoted lines, verbatim, typos and lowercase
   included, wrapped onto further `>` lines at 72 columns. Mark answers to questions with a short
-  parenthetical on the number's line, such as `2. (answer to: shall I build it?)`. When those
-  prompts use abbreviations, an `Abbreviations:` section follows with one line per abbreviation
-  and its expansion. When they use none, there is no such section.
+  parenthetical on the number's line, such as `2. (answer to: shall I build it?)`. Right under
+  the quote a `Reply:` line, wrapped at 72 columns, sums up what Claude Code answered: the recap
+  of that turn's next-step box, or for a turn without one, such as a short answer or a terminal
+  session, the first paragraph of its last message. The prompt the session is still answering as
+  it commits gets none, since the commit's own body is its answer. When those prompts use
+  abbreviations, an `Abbreviations:` section follows with one line per abbreviation and its
+  expansion. When they use none, there is no such section.
 - Text the user pasted into a prompt (a pasted block: a log, code, a file, an address, a message
   from someone else) is never quoted, in a commit message or in a PR body. Replace it where it
   stood with a bracketed description of what it was, such as `[pasted: an email address]` or
   `[pasted: 40 lines of test output]`.
-- A quoted prompt, in a commit message, a PR body or a file of prompts such as one a Slack post
-  links, that gives the user's view of a named person, case or organisation, or a plan they may not
-  want shared, is asked about in the closing message before the push or the `gh pr` call that lets
-  anyone but the user read it, such as the members of an organisation in its private repository. The
-  recommended answer puts a bracketed note in its place, such as
+- A quoted prompt or its `Reply:` line, in a commit message, a PR body or a file of prompts such as
+  one a Slack post links, that gives the user's view of a named person, case or organisation, or a
+  plan they may not want shared, is asked about in the closing message before the push or the
+  `gh pr` call that lets anyone but the user read it, such as the members of an organisation in its
+  private repository. The recommended answer puts a bracketed note in its place, such as
   `[an aside about colleagues left out]`, and publishing waits for the answer, since a later commit
   leaves the text in the history already pushed.
 - Print the prompts and their heading, never retype them. The `UserPromptSubmit` hook
@@ -70,11 +74,14 @@ reaches a running one through the hook that the `dotclaude` skill describes.
   fork, from the log of the session it was forked from, and only when that log is missing counts
   them without printing them. It leaves out reminders, peer session messages and subagent
   hand-backs, and prints an address as `[pasted: an address]`, a pasted block as `[pasted: <n>
-  lines]`, a home path with `~` and a password or token value as `[redacted]`. With `--commit` it
-  also names on stderr the `Abbreviations:` lines that earlier commits gave for words the prompts
-  use, in the repository `-C <repo>` names, by default the working directory's, and in
+  lines]`, a home path with `~` and a password or token value as `[redacted]`. It prints each
+  `Reply:` line from the transcript too, the reply cut at 300 characters, with the same masks and
+  an address as `[an address]`, and none under the last prompt of the session that runs it. With
+  `--commit` it also names on stderr the `Abbreviations:` lines that earlier commits gave for words
+  the prompts use, in the repository `-C <repo>` names, by default the working directory's, and in
   `~/Projects/dotclaude`. Then do only what the printout cannot: leave out and redact as the bullets
-  around this one say, replace a spawned task's opening prompt, which another session wrote, with
+  around this one say, in a `Reply:` line as in the prompt it answers, and drop the line with a
+  prompt left out whole, replace a spawned task's opening prompt, which another session wrote, with
   `[a task another Claude session wrote, left out]`, say what each pasted address or block was, and
   add the answer marks and the abbreviations, each named line among them whose word stays in the
   message and means the same there. When print leaves the heading out, it exits 1 and says why: run

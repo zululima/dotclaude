@@ -19,6 +19,11 @@
 # PROMPT_LOG_SESSION when set, as **n.** and > lines under a Model: line for a
 # PR body, or with --commit as n. and > lines wrapped at 72 columns under the
 # two heading lines of a commit's prompts section. --from n starts at prompt n.
+# Under each prompt comes a Reply: line, wrapped at 72 columns for a commit,
+# with the recap of the last wrap_up call in its turn or, without one, the
+# first paragraph of the turn's last message cut at 300 characters, masked as
+# the prompts are but with an address as [an address]. The last prompt of the
+# session that runs print gets none, since its turn is still running.
 # With --commit it then names on stderr the Abbreviations: lines that earlier
 # commit messages gave for words of the printed prompts, each from the newest
 # commit that gave it in the repository -C names, by default the working
@@ -207,17 +212,19 @@ abbreviations() {
   elif [ -n "$heading" ]; then
     printf '%s\n\n' "$heading"
   fi
-  while IFS= read -r -d '' item; do
-    n="${item%%$'\t'*}"
-    prompt="$(printf '%s\n' "${item#*$'\t'}" | mask "")"
+  while IFS= read -r -d '' n && IFS= read -r -d '' prompt && IFS= read -r -d '' reply; do
+    prompt="$(printf '%s\n' "$prompt" | mask "")"
+    [ -z "$reply" ] || reply="Reply: $(printf '%s\n' "$reply" | mask "" | sed -e 's/\[pasted: an address\]/[an address]/g')"
     if [ "$form" = commit ]; then
       printf '%s.\n' "$n"
       lines="$(printf '%s\n' "$prompt" | fold -s -w 70 | sed -e 's/ *$//' -e 's/^/> /' -e 's/^> $/>/')"
       printf '%s\n' "$lines"
       quoted+="$lines"$'\n'
+      [ -z "$reply" ] || printf '%s\n' "$reply" | fold -s -w 72 | sed -e 's/ *$//'
     else
       printf '**%s.**\n' "$n"
       printf '%s\n' "$prompt" | sed -e 's/^/> /' -e 's/^> $/>/'
+      [ -z "$reply" ] || printf '\n%s\n' "$reply"
     fi
     printf '\n'
   done
@@ -225,6 +232,7 @@ abbreviations() {
   [ -z "$named" ] || printf 'prompt-log: %s\n%s\n' "earlier commits gave these Abbreviations: lines for words of the prompts; add each whose word stays in the message and means the same here:" "$named" >&2
   [ -z "$problem" ] || { echo "prompt-log: $problem" >&2; exit 1; }
 } < <(jq -j -s --arg from "$from" --arg form "$form" --arg model "$model" --arg effort "$effort" \
+  --arg live "$([ "$session" = "${CLAUDE_CODE_SESSION_ID:-}" ] && echo 1)" \
   --slurpfile rec <(if [ -n "$transcript" ]; then jq -c "$clean"'
     select(.isSidechain != true)
     | . as $r
@@ -254,6 +262,10 @@ abbreviations() {
   def id: if . == null or . == "" then null else sub("\\[1m\\]\\z"; "") end;
   def lastmessage: if length == 0 then null else last as $l
     | if $l.id == null then $l.text else [.[] | select(.id == $l.id) | .text] | join("\n\n") end end;
+  def firstparagraph: [splits("\n\\s*\n") | sub("\\A\\s+"; "") | select(. != "" and (test("\\A(#|```|\\||<)") | not))][0];
+  def summary: gsub("\\[(?<t>[^\\]]*)\\]\\([^)\\s]*\\)"; .t) | gsub("\\*\\*"; "") | gsub("\\s+"; " ")
+    | sub("\\A "; "") | sub(" \\z"; "")
+    | if length > 300 then (.[0:297] | sub(" [^ ]*\\z"; "")) + "..." else . end;
   def ranges:
     reduce .[] as $x ([]; if length > 0 and .[-1].v == $x.v then .[-1].to = $x.n else . + [{v: $x.v, from: $x.n, to: $x.n}] end)
     | if length == 1 then .[0].v else to_entries | map(.key as $k | .value
@@ -294,11 +306,11 @@ abbreviations() {
      elif $form == "commit" then "(model \($heads | map({n, v: .model}) | ranges), effort \($heads | map({n, v: .effort}) | ranges)):"
      else "Model: \($heads | map({n, v: .model}) | ranges), effort: \($heads | map({n, v: .effort}) | ranges)" end) as $heading
   | [$rec[] | select(.recap or .text) | .t |= epoch] as $said
+  | [$printed[] | $log[.i].t as $a | $log[.i + 1].t as $b
+      | [$said[] | select(.t >= $a and ($b == null or .t < $b))] as $turn
+      | {n, prompt: $log[.i].p, recap: ([$turn[] | select(.recap)] | last | .recap // null),
+         reply: ([$turn[] | select(.text)] | lastmessage), start: $a, end: $b}] as $turns
   | $note, "\u0000", $problem, "\u0000", $heading, "\u0000",
-    if $form == "turns" then
-      ($printed[] | $log[.i].t as $a | $log[.i + 1].t as $b
-        | [$said[] | select(.t >= $a and ($b == null or .t < $b))] as $turn
-        | {n, prompt: $log[.i].p, recap: ([$turn[] | select(.recap)] | last | .recap // null),
-           reply: ([$turn[] | select(.text)] | lastmessage), start: $a, end: $b}
-        | tojson + "\n")
-    else ($printed[] | "\(.n)\t\($log[.i].p)\u0000") end' "$log")
+    if $form == "turns" then ($turns[] | tojson + "\n")
+    else ($turns[] | "\(.n)\u0000\(.prompt)\u0000\(
+      if $live == "1" and .end == null then "" else .recap // (.reply // "" | firstparagraph) // "" | summary end)\u0000") end' "$log")

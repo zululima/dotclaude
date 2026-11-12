@@ -6,9 +6,20 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Name a session whose wrap-up asks something in the usage hourglass
+## Print a summary of each reply under its prompt
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (typed in the session that handed this task over) Quoted under [a4d3da8](https://github.com/zululima/dotclaude/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550).
+
+Reply: prompt-log.sh can now pair each prompt with its turn's recap and last message (pushed as a4d3da8), and a branch writer that never touches the checkout is tested in a scratch repo. print and the share skill are not built yet; they wait on four answers, asked one at a time.
+
+**2.** (answer to: which text goes under each prompt as its reply summary?)
+> a, the recap
+
+## Name a session whose wrap-up asks something in the usage hourglass
+
+2026-11-12, commit [03c5001](https://github.com/zululima/dotclaude/commit/03c50012cc2c34375dd98c647ce975494f1f0bc3), model claude-opus-5-5, effort xhigh.
 
 **1.** (typed in the session that started this one)
 > sessions should have some waiting icon if they are waiting for
