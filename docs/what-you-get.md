@@ -74,7 +74,8 @@
 ## Keeps a record
 
 - [`prompt-log.sh`](../hooks/prompt-log.sh): saves every prompt you type, on your computer only, so
-  commits and pull requests can quote the prompts behind them.
+  commits and pull requests can quote the prompts behind them, each with a short summary of Claude's
+  reply.
 - [`prompts-md.sh`](../hooks/prompts-md.sh): builds a `PROMPTS.md` file that lists those prompts per
   commit, like the one in this repo. A branch for a pull request leaves the file as the main branch
   has it, so two open pull requests never conflict over it.
@@ -195,6 +196,19 @@
   you review it.
 - [`skills/slack-draft`](../skills/slack-draft/SKILL.md): Claude drafts a Slack message and puts it
   on your clipboard with links and bold kept. You paste it and press send. Mac only.
+- [`skills/chrome`](../skills/chrome/SKILL.md): how Claude works in your own Chrome: starting the
+  extension hidden, reading the page before each click, uploading files, turning a page into a file
+  and leaving sign-ins to you.
+- [`skills/pages`](../skills/pages/SKILL.md): where a page Claude makes for you goes, and the check
+  that a page meant for a glance fits one laptop screen.
+- [`skills/emoji-and-stickers`](../skills/emoji-and-stickers/SKILL.md): when you add stickers or
+  pick emoji by hand, Claude gives the few letters that find each emoji in the app's search.
+- [`skills/scheduling`](../skills/scheduling/SKILL.md): Claude finds a meeting time from free and
+  busy times alone, within hours you set, never reading other people's events.
+- [`skills/vpn-check`](../skills/vpn-check/SKILL.md): when a request fails in a way a VPN could
+  cause, Claude checks whether yours is on before blaming it, and asks before any way around it.
+- [`skills/portfolio-work`](../skills/portfolio-work/SKILL.md): for work you do to learn or show a
+  skill, Claude teaches the norms behind it and leaves every choice to you.
 - [`skills/read-aloud`](../skills/read-aloud/SKILL.md): when Claude turns a PDF or another document
   into speech, every heading stays a heading and gets a pause around it.
 - [`skills/models`](../skills/models/SKILL.md): which model and effort each kind of work runs on,

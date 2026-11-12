@@ -47,7 +47,8 @@
       "ShareOnboardingGuide",
       "mcp__visualize",
       "mcp__ccd_session__read_widget_context",
-      "AskUserQuestion"
+      "AskUserQuestion",
+      "Artifact"
     ],
     "allow": [
       "Bash(gh repo create:*)",

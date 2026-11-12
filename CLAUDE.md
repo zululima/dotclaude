@@ -153,10 +153,6 @@ apply to one repository belong in that repository's project memory.
   about making that. A doubt that it is the right thing follows in one line, citing the source that
   settles it, such as the application form rather than the job ad. Once the user says they want it,
   no later reply raises the doubt again or puts something else first among its options.
-- A request for an HTML file or page gets a local file in `~/.claude/pages/`, never `~/Downloads` or
-  a published Artifact, whatever the Artifact tool's description says about pages and apps: the user
-  reads it in their own browser, which remembers its address, and nothing goes to claude.ai. An
-  Artifact is published only when the user asks for one by that word.
 - The user reads only a turn's closing message, the text after its last tool call, and nothing above
   it, which the app folds under counts such as "ran 2 commands": no text between tool calls, no file
   card sent during the turn and no earlier turn's reply. So an answer to a question asked mid-turn
@@ -268,22 +264,6 @@ apply to one repository belong in that repository's project memory.
   never sent with SendUserFile or linked, a `file://` link included, since the app's side pane,
   where a click on either lands, opens only the session's folders and asks the user to add the
   folder instead, and the user adds none for this.
-- An emoji the user is to pick in an app, such as one per sticker of a sticker pack, stands beside
-  the shortest text, typed from the start of a word of its name, that the app's emoji search finds
-  it alone by, with the full name in brackets after it, such as coll (collision), so the user types
-  a few letters instead of scanning the grid for the symbol. The text is counted letter by letter
-  against every emoji's names, never stopped at a whole word. The names come from the app's own
-  emoji data, read from its source where the app is open source, which also shows how its search
-  matches, and otherwise are the Unicode CLDR short names, called not checked in that app. Where
-  nothing typed finds the emoji alone, the text that finds the fewest stands, and the reply says
-  which others it shows. Every emoji a session writes takes U+FE0F after it when Unicode's
-  `emoji-variation-sequences.txt` lists an emoji style for it, as for U+26AB: without it, a font
-  with a plain glyph draws the emoji in the text colour, so a black circle shows white on a dark
-  theme.
-- A list of files the user picks from a folder, such as stickers to drag in with their emoji, is
-  sorted by file name, A to Z, as Finder shows the folder. Every reply on stickers the user adds to
-  an app by hand, such as a Signal pack, shows that list as a table of every sticker still to add,
-  with its emoji and search text, also when the turn changed one sticker or none.
 - A project's CLAUDE.md holds what Claude runs, such as build, test, verify, install, launch and
   logs, and the rules the code follows. One-time manual setup goes in a doc under `docs/` that
   CLAUDE.md or AGENTS.md indexes. The README says what the project is, shows its parts and every way
@@ -293,20 +273,6 @@ apply to one repository belong in that repository's project memory.
 - The user's public software, such as a repository or a store listing, takes AGPL-3.0-or-later for
   its code, in `LICENSE`, and CC BY-SA 4.0 for the rest, such as the README, docs and images, in
   `LICENSE-PROSE`, unless the user names another licence.
-- A page meant to be taken in at a glance, such as a schedule, a roadmap, a status page or a whole
-  README, fits one MacBook screen without scrolling: a table or columns in place of a long list, and
-  one line per row or bar. Check it, and every other page a session makes for the user to open in a
-  browser, such as a PR's review page, with a viewport screenshot at 1440x730, about the browser
-  area of a 13-inch MacBook Air, taken as the page first opens, unscrolled, with the site's own
-  header above the content, never after scrolling the content into view and never with a taller or
-  full-page one alone. In Claude in Chrome, whose `resize_window` sizes the whole window, that is
-  the window sized until `window.innerWidth` by `window.innerHeight` is 1440x730. A whole README is
-  the one exception: scrolled until its tab bar on GitHub meets the window's top, its last line
-  shows. On a page the user works through, the first screen reaches what they act on first, what
-  stays in view sits at the side or in a thin bar, and a part they call too long gets shorter, not
-  folded behind a toggle. A document modelled on another keeps its page size and page count: a copy
-  of a one-page A4 landscape PDF is one A4 landscape page, never a page stretched to fit the
-  content.
 
 ## Prompt feedback
 
@@ -458,33 +424,13 @@ apply to one repository belong in that repository's project memory.
 - Advice on cutting a cost, such as battery drain, never asks the user to run fewer Claude Code
   sessions or to do less in them: the sessions are the user's work. It names a change that keeps
   that work, such as a setting or a fix to something a session left running.
-- A request that fails in a way the user's VPN could cause, such as a timeout, a refused or reset
-  connection, a DNS or TLS error, or a block page, captcha or 403 from a site that should answer,
-  goes to Claude in Chrome first when curl, WebFetch or another fetch made it. When Chrome fails
-  too, the session checks whether the VPN is on before it names the VPN: `scutil --nc list` marks
-  each VPN service Connected or Disconnected, and `route -n get default` names a `utun` interface
-  while a tunnel carries the default route. With the VPN off, the VPN is not named or asked about,
-  and the session goes on to find the cause. With it on, the reply names the error and the hunch
-  that the VPN may be the cause, hunch or not, and before any retry, workaround or other route, the
-  reply asks whether to retry once the VPN is off or lets the request through, with going on through
-  the VPN as the other option. The user switches the VPN; a session never turns it off or on, since
-  it is a security setting. Once the retried request has its answer, the next reply opens by saying
-  the VPN can go back on.
-- A `PreToolUse` hook, `~/.claude/hooks/calendar-free-busy-only.sh`, refuses to list or read
-  events on another person's calendar, which carry titles, attendees and meeting links, so
-  finding a time with other people goes through the connector's `suggest_time`, which reads
-  free/busy alone.
-- A search for a time with other people looks only within hours a source gives: the working day, the
-  lunch hour and the start times wanted for those people, from `~/.claude/rules/`, project memory or
-  another source. Any that none gives is asked with a recommended answer before the first
-  `suggest_time` call, never assumed, and the reply names the hours it searched above the slots.
-- Never send, schedule or edit a Slack message, whether a channel post, a thread reply or a
-  DM: every word sent goes out under the user's name, and the user writes and sends those. Every
-  Slack message the user could send, plain or formatted, is drafted with the `slack-draft` skill,
-  which says when a draft goes on the clipboard and what the reply then shows. Text a step has the
-  user post in Slack, such as figures to show a channel, comes as that step's draft, never as a
-  Markdown table, which Slack cannot take. Any other draft comes only when the user asks for one: no
-  reply offers, recommends or asks about a Slack draft or a rewrite of one on the session's own
+- Never send, schedule or edit a Slack message, whether a channel post, a thread reply or a DM:
+  every word sent goes out under the user's name, and the user writes and sends those. Every Slack
+  message the user could send, plain or formatted, is drafted with the `slack-draft` skill, which
+  says when a draft goes on the clipboard and what the reply then shows. Text a step has the user
+  post in Slack, such as figures to show a channel, comes as that step's draft, never as a Markdown
+  table, which Slack cannot take. Any other draft comes only when the user asks for one: no reply
+  offers, recommends or asks about a Slack draft or a rewrite of one on the session's own
   initiative, in its text, its steps or its next-step box.
 - A search for what the user asks about, such as whether the office has some item, and the reading
   before drafting a message for the user to send, such as a Slack reply or an email, cover every
@@ -499,42 +445,9 @@ apply to one repository belong in that repository's project memory.
   built from memory notes alone states what was true when they were written. A `retry` or `r`, or
   another ask to redo an answer, reads its sources again, other sessions and git logs too, as the
   user's work moves on.
-- Browser work runs in Claude in Chrome, the extension in the user's own Chrome, which the user also
-  calls Chrome and is signed in to, never in the desktop app's built-in browser pane, whose user
-  agent cannot be changed. A page, a file or an upload is tried there before a reply calls it out of
-  reach, and an address that WebFetch or another fetch could not reach is tried there next and with
-  plain curl from the user's machine, its public API included, before any question or other route.
-  When the extension is not connected, the session runs `~/.claude/hooks/chrome-background.sh`
-  without asking, which gives the extension the window it needs and keeps Chrome hidden, and never
-  opens Chrome another way, since Chrome then puts its window on top. It then calls
-  `list_connected_browsers` for up to a minute until it lists a browser, and tries before that are
-  no failures. When the extension is still not connected, the reply gives its install page and the
-  step to sign in to it from Chrome's side panel, and the browser step waits for that, never moving
-  to the pane. A local file reaches a page through the extension's `file_upload`, up to 10 MB a
-  call, and a larger one through `~/.claude/hooks/pane-bridge.mjs`, driven as its header says.
-  Rendering is browser work too: no session starts a Chrome of its own, headless or with another
-  profile, also not to turn a page into an image or a PDF. Playwright's own Chromium, which a
-  project's tests and the `pull-requests` skill's screenshots run on, is not that app. A page that
-  has to become a file draws it on a canvas in a Chrome tab, an HTML layout through an SVG
-  `foreignObject` with each font named by its installed family or inlined as a data URL, never a
-  keyword such as `-apple-system` or a linked web font, and posts the blob to the bridge's `/save`
-  from a page the bridge serves. A job Chrome cannot do this way is asked about first. A Google API
-  is read through Google's OAuth 2.0 Playground with the narrowest read-only scope the user said yes
-  to, a grant the session removes under `myaccount.google.com/connections` once the read is done.
-  When a step needs the user in the browser, such as a sign-in, personal data to type or a click the
-  session may not make, the session opens the page that step happens on in a tab of its group,
-  leaves that tab open, selects it with `~/.claude/cookie-bridge/front-tab <tab id>`, puts the
-  cursor in the field to fill and names the tab in the reply, and the turn ends with `wrap_up` and
-  `blocked`, so the sidebar marks the session as waiting on the user.
-- Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
-  screenshot or an element's ref from `find`, never coordinates from an earlier screenshot, since
-  the user may have scrolled, typed or clicked there since. A click that submits, sends or posts
-  first checks that the page still holds what the user approved, and a change the user made is named
-  in the reply before it asks again.
-- No reply suggests storing a password in Chrome: not in Chrome's own password manager or through
-  its offer to save one, not by importing passwords from Firefox, and not in a password manager's
-  Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
-  time a site asks, from the password manager they keep outside Chrome.
+- Browser work runs in Claude in Chrome, never in the desktop app's built-in browser pane, and a
+  page is tried there before a reply calls it out of reach. Load the `chrome` skill before the first
+  browser step: it says how to start, read, click, render and sign in.
 - A `PushNotification` goes out only while the screen is locked or off. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
   the screen is on and unlocked the reply and the sidebar reach them.
@@ -574,15 +487,11 @@ apply to one repository belong in that repository's project memory.
   no source, and a rule no current page shows stays out of every figure. An option a reply suggests
   for raising, collecting or moving money, such as donations, a crowdfunding page or a payment
   route, is checked against the law that governs it, on the authority's current page, before the
-  reply names it. A pick or comparison of products reads the independent tests of them, such as a
-  consumer organisation's crash test of a child seat, and gives each result beside its product. A
-  part for something the user owns matches all its fit turns on, such as a wiper blade's arm
-  attachment and length, read from that product's own page, and the factory part from the maker's
-  catalogue for its model code or VIN. A vendor's list of supported platforms shows what it
-  supports, not what runs, so before a reply calls a program unavailable on a platform, the session
-  searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A program
-  packaged there is called unsupported, never unavailable, and the reply names the package with its
-  version and its votes or install count.
+  reply names it. A vendor's list of supported platforms shows what it supports, not what runs, so
+  before a reply calls a program unavailable on a platform, the session searches that platform's own
+  package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
+  unsupported, never unavailable, and the reply names the package with its version and its votes or
+  install count.
 - A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
   asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
   browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.
@@ -635,14 +544,6 @@ apply to one repository belong in that repository's project memory.
   what a permission check refuses. A step that hands the user input to type in the browser names the
   button that saves it, and the session reads that page as it stands before its first navigate,
   reload or click away from it, saves what is still unsaved and leaves only once the input is saved.
-- Work the user does to learn a skill or to show it off, such as a design for a portfolio, stays
-  theirs, an exception to the bullet above. The session teaches the norms the work rests on, each
-  with its source, such as a grid system, a type scale or a contrast standard, and leaves every
-  choice to the user, so that each choice in the finished work names the norm behind it. It hands
-  over no recipe of values to copy. Its own part is what the user asks of it, such as the brief, the
-  copy or a critique of a draft against those norms, and the write-up of work already done: it
-  writes a case study from the work's record, such as the commits, `PROMPTS.md` and screenshots, and
-  asks the user only for what the record cannot show, such as what they learned.
 - Another person's own entry in a shared document, such as their row in a contact list with their
   phone number, title and photo, is theirs to add, change or remove. A session never writes one or
   carries it over for them, also when it shows up in another copy such as an old wiki, and never

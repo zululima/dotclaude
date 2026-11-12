@@ -1,13 +1,25 @@
 # Prompts
 
 The prompts behind the commits of this repository, as given to Claude Code, newest first, each
-with its commit and pull request. Square brackets mark what was left out or redacted, and a
-commit without a prompts section is left out. This file is generated from the commit messages,
-so a change by hand is lost at the next commit.
+with its commit and pull request, and under a prompt a summary of the reply where the commit
+gives one. Square brackets mark what was left out or redacted, and a commit without a prompts
+section is left out. This file is generated from the commit messages, so a change by hand is
+lost at the next commit.
+
+## Cut what every session loads before its first prompt
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the fixed part, and 15 large rewrites cost $22.20 in the window. Nothing in ~/.claude or settings has changed; the proposal waits on your pick.
+
+**2.** (answer to: which cuts shall I apply?)
+> a, c, e and f
 
 ## Archive a session that handed its task over
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [fe17fac](https://github.com/zululima/dotclaude/commit/fe17facab346b7c82a40a1286634d8badc33e8c7), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

@@ -1,6 +1,6 @@
 ---
 name: slack-draft
-description: Draft a Slack message for the user to paste and send themselves, with link text, bold, lists and code kept. Load it whenever a Slack reply, post or DM is drafted, and whenever the user wants a draft formatted for Slack or with links in it.
+description: Draft a Slack message for the user to paste and send themselves. Load whenever a Slack reply, post or DM is drafted, formatted or needs links.
 ---
 
 # Slack drafts

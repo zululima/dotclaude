@@ -1,7 +1,7 @@
 export const meta = {
   name: 'dream',
   description: 'Review Claude Code use since the last run in idle time, carry open proposals forward, and propose changes to the global setup',
-  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run, see the latest report unless a review showed it already and go through the open backlog; with {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt: "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps back instead of its default, the most the user spent outside dream runs on one of the last four reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts, config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills, projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>", margin: <points to leave free, default 5>, pool: <default 7>, unattended: true for a run nobody watches, which stops before its scout when the limits of the plan cannot be read and starts no more work once they can no longer be}. Skill repositories are listed in ~/.claude/dream/skill-repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what forTheSession in its result says; a reply says the result of the run, never that field name.',
+  whenToUse: 'In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare, it picks its mode from the weekly reset; its options are in the comment under the meta block of ~/.claude/workflows/dream.js.',
   phases: [
     { title: 'Scout', detail: 'time window, mode, due sources, transcripts, pull requests, backlog, usage and its history' },
     { title: 'Recent', detail: 'tier 1: the window\'s transcripts newest first, config, GitHub reviews and battery use, merged and checked first' },
@@ -12,6 +12,24 @@ export const meta = {
     { title: 'Report', detail: 'order and test the scripts, write the report and the backlog, record what the run cost' },
   ],
 }
+
+// Options, run bare or with them:
+// In idle time with tokens to spare: at the end of a day, overnight or over a weekend. Run bare,
+// it picks its mode from the weekly reset. Run it with review, or {review: true}, to skip the run,
+// see the latest report unless a review showed it already and go through the open backlog; with
+// {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the
+// first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt:
+// "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps
+// back instead of its default, the most the user spent outside dream runs on one of the last four
+// reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts,
+// config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills,
+// projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>",
+// margin: <points to leave free, default 5>, pool: <default 7>, unattended: true for a run nobody
+// watches, which stops before its scout when the limits of the plan cannot be read and starts no
+// more work once they can no longer be}. Skill repositories are listed in ~/.claude/dream/skill-
+// repos.txt as "owner/repo[/path] note", upstreams in ~/.claude/dream/upstreams.txt as "upstream
+// derived[,derived...] note", each a ~ path or owner/repo[/path]. When it finishes, do what
+// forTheSession in its result says; a reply says the result of the run, never that field name.
 
 const opts = typeof args === 'object' && args !== null ? args : {}
 const UNATTENDED = opts.unattended === true || /^\s*unattended\s*$/i.test(typeof args === 'string' ? args : '')

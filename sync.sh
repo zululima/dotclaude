@@ -220,6 +220,12 @@ mirrored=(
   skills/pull-requests/review-page/template.html
   skills/slack-draft/SKILL.md
   skills/slack-draft/copy-rich.sh
+  skills/chrome/SKILL.md
+  skills/emoji-and-stickers/SKILL.md
+  skills/pages/SKILL.md
+  skills/portfolio-work/SKILL.md
+  skills/scheduling/SKILL.md
+  skills/vpn-check/SKILL.md
   skills/read-aloud/SKILL.md
   skills/models/SKILL.md
   skills/models/pace.sh

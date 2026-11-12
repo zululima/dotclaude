@@ -1,6 +1,6 @@
 ---
 name: pull-requests
-description: Procedures for a pull request. Load it before opening a PR or editing its body, before writing test steps for a change under review in a PR body or in chat, before reviewing or merging a PR, before capturing or uploading screenshots or recordings for one, and before opening a GitHub issue. It covers the body layout, the prompts block, the template answers, How to verify, manual steps, the review page and its reply, the merge, the pictures and the Chrome preview of a new issue.
+description: Procedures for a pull request: body, How to verify, review page, merge, pictures and issues. Load before opening, editing, reviewing or merging a PR, writing its test steps, capturing pictures for one, or opening a GitHub issue.
 ---
 
 # Pull requests

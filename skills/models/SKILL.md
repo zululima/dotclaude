@@ -1,6 +1,6 @@
 ---
 name: models
-description: Which Claude model and effort level each kind of work runs on, with the benchmarks behind each pick, and the cheaper ones a task steps down to when the plan's limits would not last. Load it at a prompt that starts software work, such as building, changing, debugging or reviewing code, or any other task of more than a few tool calls, before any other step, and before choosing the model or effort of any work a session starts, such as a subagent, a workflow agent, another session, a scheduled task or a prompt for another machine.
+description: Which Claude model and effort each kind of work runs on, and the cheaper steps down when the limits run short. Load at a prompt that starts software work or any task of more than a few tool calls, before any other step, and before choosing the model or effort of any work a session starts.
 ---
 
 # Models and effort

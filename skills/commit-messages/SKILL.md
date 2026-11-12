@@ -1,6 +1,6 @@
 ---
 name: commit-messages
-description: Rules for a commit message, its 72-column wrap included. Load it before writing a commit message in any repository. It covers the order of the parts and the trailers, the prompts section and the script that prints it, pasted text, what is left out or redacted, and PROMPTS.md.
+description: Rules for a commit message: its parts, trailers, prompts section, 72-column wrap and PROMPTS.md. Load before writing a commit message in any repository.
 ---
 
 # Commit messages
