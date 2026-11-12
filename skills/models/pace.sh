@@ -13,9 +13,10 @@
 #   verdict: unknown  no limit could be read
 #
 # The 5-hour limit is projected in a straight line over its window, once the
-# window is 30 minutes old or 20% used. A weekly limit is projected over the
-# shape of the user's own weeks: the share of a week's usage that the last four
-# whole weeks had spent by this point of the week, from the log that
+# window is 15 minutes old or 10% used: sessions that start together can spend
+# a fifth of a window in its first half hour. A weekly limit is projected over
+# the shape of the user's own weeks: the share of a week's usage that the last
+# four whole weeks had spent by this point of the week, from the log that
 # hooks/usage-log.sh keeps, each response weighted by its tokens and its
 # model's family. A straight line would count an idle weekend at the start of
 # a week as time gone and promise room that the working days then use up. The
@@ -89,7 +90,7 @@ jq -n -r --argjson plan "$plan" --argjson margin 5 '
           | {label: $label, used: $used, end: $end, gone: $gone}
           | if $used >= 100 - $margin then .how = "full"
             elif $length == 18000 then
-              (if $gone < 1800 and $used < 20 then .how = "early" else .how = "line" | .f = $gone / $length end)
+              (if $gone < 900 and $used < 10 then .how = "early" else .how = "line" | .f = $gone / $length end)
             elif $shape != null and $shape >= 0.05 and (($end - $reset) | fabs) < 3600 then .how = "shape" | .f = $shape
             elif $gone / $length >= 0.05 then .how = "line" | .f = $gone / $length
             else .how = "early" end

@@ -29,29 +29,35 @@ description: Which Claude model and effort level each kind of work runs on, with
   session's own model and effort.
 - The reply that asks, like the one that links a session this one started, names that session's
   model and effort and says why they are the best for it: what in its task puts it on its row, and
-  what the score or guidance behind the row means for that task, such as that a feature touching
-  the backend and the frontend is software work, where Fable 5.2 scores highest at xhigh. The
+  what the score or guidance behind the row means for that task, such as that a crash whose cause
+  is not yet found is hard software, where Fable 5.2 at high scores above Opus 5.5 at xhigh. The
   reason is written for that session's task, never the row's last cell copied as it stands.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
-  on software work it does worse than xhigh.
+  on software work it does worse than xhigh. No row uses Fable 5.2 at xhigh either: the 5-hour
+  limit cannot carry it, as What a session costs shows.
 - A session cannot switch its own model or effort, so at the prompt that starts a task it reads
-  them with `get_session` and `self` and compares them with the task's row. Software work in a
-  session off the software row's model or effort goes to a new session started as above, with
-  `context` "fork" so it holds this conversation, and with a task that asks it to carry out the
-  user's last prompt there, so the prompt stays the user's own in its log and its commits.
-  The reply links that session and says the work goes on there, and this session does none of it.
-  Any other task runs on the session's model as it is, and the first line of the reply that starts
-  it names its row's model and effort. A session whose opening prompt says the user picked its
-  model and effort for the pace keeps them, as Stepping down says. That settles its own model and
-  effort only: it still loads this skill before it starts or proposes a session, and its reply
-  names that session's model and effort as the bullet above says.
+  them with `get_session` and `self` and compares its model with the task's row. Software that is
+  hard or open, in a session on a cheaper model than Fable 5.2, goes to a new session on its row
+  unless the pace is `tight`: started as above, with `context` "fork" so it holds this conversation,
+  and with a task that asks it to carry out the user's last prompt there, so the prompt stays the
+  user's own in its log and its commits. The reply links that session and says the work goes on
+  there, and this session does none of it. A task in a session on a model that costs more than
+  its row's, such as a draft or a change with its files named in a session on Fable 5.2, is asked
+  about as a step down is, whatever the pace: the question names the row's model and effort, and
+  on yes the task goes to a session on them as Stepping down says. Any other task runs on the
+  session's model and effort as they are, and the first line of the reply that starts it names its
+  row's model and effort. A session whose opening prompt says the user picked its model and effort
+  for the pace keeps them, as Stepping down says. That settles its own model and effort only: it
+  still loads this skill before it starts or proposes a session, and its reply names that
+  session's model and effort as the bullet above says.
 
 | Task | Model | Effort | Benchmarks behind it |
 |---|---|---|---|
-| Software: building, changing, debugging or reviewing code, scripts, hooks, skills and workflows | Fable 5.2 (`fable`) | xhigh | FrontierCode 2.0: 49.1 at xhigh, 45.3 at high, Opus 5.5 45.5 at its best. FrontierSWE v2: 69.9, Opus 5.5 62.3 |
+| Software that is hard or open: a cause not yet found, a design decision or a change across layers | Fable 5.2 (`fable`) | high | FrontierCode 2.0: 45.3 at high, Opus 5.5 43.4 at xhigh and 45.5 at its best. FrontierSWE v2: 69.9, Opus 5.5 62.3. Fable 5.2 at xhigh scores 49.1 for 2.1 times the cost per task |
+| Other software: building, changing, debugging or reviewing code, scripts, hooks, skills and workflows | Opus 5.5 (`opus`) | xhigh | FrontierCode 2.0: 43.4 at xhigh, 1.9 under Fable 5.2 at high for 77% of its cost per task, and 34.5 at high. Anthropic names Opus 5.5 the daily driver for most coding and knowledge tasks |
 | Research across many web sources and collecting data from them | Fable 5.2 (`fable`) | medium | WANDR: medium matches Opus 5.5's top score for about 40% of its cost per task |
 | Reading charts, figures and screenshots | Fable 5.2 (`fable`) | medium | Chartography: 66.4 at medium, Opus 5.5 64.4 at max, for under a tenth of the cost |
-| Everything else: writing, drafts, documents, planning and questions | Opus 5.5 (`opus`) | xhigh | Anthropic names Opus 5.5 the daily driver for most coding and knowledge tasks. Humanity's Last Exam with tools: 66.4 at xhigh, 63.9 at high, and 67.7 at max for three times the cost per task |
+| Everything else: writing, drafts, documents, planning and questions | Opus 5.5 (`opus`) | xhigh | Humanity's Last Exam with tools: 66.4 at xhigh, 63.9 at high, and 67.7 at max for three times the cost per task |
 | A bounded step that needs judgement, such as summarising one file | Sonnet 5.5 (`sonnet`) | medium | Anthropic: move down to Sonnet or Haiku when a task is simpler |
 | A mechanical step: a lookup, a listing, reading one value, a format check | Haiku 5.5 (`haiku`) | low | The same guidance |
 
@@ -60,6 +66,28 @@ description: Which Claude model and effort level each kind of work runs on, with
   workflow's `anthropic` source reads each model launch page and those trackers, and proposes the
   row as it would read, with the scores behind it.
 
+## What a session costs
+
+- The rows are the strongest picks the plan's 5-hour limit carries through a working day, counted
+  on 12 November 2026 from the transcripts under `~/.claude/projects` at API list prices. That
+  limit holds about $108 of Fable 5.2. A window filled in 3 hours 30 minutes with 13 sessions and
+  473 responses, every one on Fable 5.2, 312 at xhigh and 161 at high after a step down. Cache
+  writes were 48% of its cost, output 34% and cache reads 18%.
+- The model sets what a response costs, and the effort sets little of it: two thirds of the cost
+  is the context each response carries, which is priced by the model. Per response since 9
+  November 2026, Fable 5.2 cost $0.235 at xhigh over 1,204 responses and $0.198 at high over 621,
+  and Opus 5.5 cost $0.090 at xhigh over 6,531. A lower effort ends a task in fewer responses,
+  which is the saving a benchmark's cost per task shows, but each response costs nearly the same,
+  so the limit fills almost as fast. A step down therefore changes the model, and no session is
+  started only to lower the effort on the model it already runs on.
+- A new session writes its context again before its task starts: about 65,000 tokens beyond the
+  shared prompt, $1.04 on Fable 5.2 and $0.52 on Opus 5.5. Such writes, at a session's start and
+  after its cache went cold, were 21% of the window that filled. So a task moves to another
+  session only for another model, and never when a few tool calls settle it.
+- The rows take the user's sessions to start on Opus 5.5 at xhigh, the model most rows name. The
+  user sets that in the app's model menu, and a session that starts on another model says so in
+  the first line of its first reply, with what a response costs on each.
+
 ## Stepping down
 
 - At the prompt that starts a task, the session also reads the plan's limits with `get_usage` and
@@ -67,36 +95,43 @@ description: Which Claude model and effort level each kind of work runs on, with
   limit and each weekly limit is on pace for, and a verdict. On `fits` or `unknown` the task runs
   as above. A task that a few tool calls settle runs here whatever the verdict, since a new session
   costs more than it would save.
-- On `tight` the task steps down. Its rung is the first in its line of the table below, read from
-  the left, whose share is at most the share `pace.sh` printed, and never one below the task's
-  floor. When the limit that binds is the weekly Fable one, only a rung on another model counts. A
-  task whose floor costs more than the printed share takes the floor, and the reply says the limit
-  is still on pace to fill.
-- The floor is the least a task gets away with. Software that is hard or open, such as a cause not
-  yet found, a design decision or a change across layers, stops at Fable 5.2 high, level with Opus
-  5.5's best score. Software whose prompt names the files and the done state stops at Fable 5.2
-  medium, or at Opus 5.5 high when the Fable limit binds. An edit the prompt describes exactly, a
-  mechanical change or a question about code already in context stops at the Sonnet row of the
-  table above, and a lookup at its Haiku row. Any other task stops at the last rung of its line.
-- Before any of the task is done, the session asks whether it should run on that rung. The
-  next-step box holds the question, with the model and the effort in full, and two buttons: yes,
-  and no, stay on this session's own. The closing message gives what `pace.sh` printed for the
-  limit that binds, the rung's score and cost per task beside those of this session's own model
-  and effort, both from the table, and what the tracker line below says of the rung's model.
+- On `tight` no work starts on Fable 5.2, apart from research and chart reading, whose benchmarks
+  put every Opus 5.5 rung at a higher cost per task or far below. Software that is hard or open
+  runs on Opus 5.5 at xhigh, 1.9 points under its row, and stays in a session that is on Opus 5.5
+  already. The task of a session on Fable 5.2 goes to Opus 5.5 at xhigh, at 38% of the cost per
+  response. When the share `pace.sh` printed is under that 38%, the reply says the limit is still
+  on pace to fill.
+- A session on Opus 5.5 or a cheaper model keeps its own task whatever the verdict, and on `tight`
+  its reply says so with what `pace.sh` printed for the limit that binds.
+- Work a session starts while the pace is `tight`, such as a subagent, a workflow agent or a new
+  session, takes the second rung of its line: Opus 5.5 at xhigh for software that is hard or open,
+  Opus 5.5 at high for other software and for everything else, and Fable 5.2 at low for research
+  and chart reading, or Opus 5.5 at medium when the limit that binds is the weekly Fable one. The
+  Sonnet and Haiku rows stay as they are. It takes that rung without a question of its own, and
+  an offer to start a session names it.
+- Before any of its own task is done, a session on Fable 5.2 whose task is neither research nor
+  chart reading asks whether the task should run on Opus 5.5 at xhigh. The next-step box holds
+  the question, with the model and the effort in full, and two buttons: yes, and no, stay on this
+  session's own. The closing message gives what `pace.sh` printed for the limit that binds, the
+  rung's score and cost per task beside those of this session's own model and effort, both from
+  the table, the cost per response of both, and what the tracker line below says of the rung's
+  model.
 - On yes the task goes to a new session on that rung, started with the `model` and `effort` of
   `start_session`, which a step down needs no approval for, and with `context` "fresh". Its prompt
   quotes the user's prompt whole and says the user picked this model and effort for the pace, so
   that session keeps them and asks nothing. A task that leans on this conversation, or on a file
   attached to it, goes to a fork instead, which gets its rung as the second bullet of this skill
-  says. On no the task runs as on `fits`. Work a stepped-down session starts takes the rung of its
-  own line without another question.
+  says. On no the task runs as on `fits`.
 - A stepped-down session that has the context it needs and still gets the task wrong twice says so
   and names the next rung up, which the user picks in the app's model menu.
 
-Each rung gives its score, its cost per task in dollars at API prices, and that cost as a share of
-Fable 5.2 at xhigh, the model and effort the user's sessions start on.
+The table gives the score of each model and effort, its cost per task in dollars at API prices,
+and that cost as a share of Fable 5.2 at xhigh. A benchmark runs its task in a small context, so
+its share between two models holds in the user's sessions, where Opus 5.5 at xhigh costs 38% of
+Fable 5.2 at xhigh per response, and its share between two efforts of one model does not: Fable
+5.2 at high costs 84% of xhigh per response, not 47%.
 
-| Task | Rungs, strongest first | Benchmark |
+| Task | Score and cost per task, strongest first | Benchmark |
 |---|---|---|
 | Software | Fable 5.2 xhigh 49.1, $14.19, 100%. Fable 5.2 high 45.3, $6.72, 47%. Opus 5.5 xhigh 43.4, $5.18, 37%. Fable 5.2 medium 37.6, $2.48, 17%. Opus 5.5 high 34.5, $2.42, 17%. Opus 5.5 medium 30.1, $1.70, 12% | FrontierCode 2.0 |
 | Research | Fable 5.2 xhigh 80.6, $39.84, 100%. Fable 5.2 high 79.3, $29.20, 73%. Fable 5.2 medium 73.6, $15.71, 39%. Fable 5.2 low 71.4, $12.66, 32%. Opus 5.5 xhigh 71.3, $29.25, 73%. Opus 5.5 high 67.3, $17.31, 43%. Opus 5.5 medium 62.8, $11.40, 29% | WANDR |

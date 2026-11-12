@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## models: pick rows the 5-hour limit carries, step down by model
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> 5 h limit was reached. this is not acceptable. fix your model and
+> effort recommendation.
+
 ## docs(pull-requests): one verb for a run of clicks, typed values as code
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+2026-11-12, commit [874135b](https://github.com/zululima/dotclaude/commit/874135bfa940851ad172527e9a2fa40455b8eb63), model claude-fable-5-2, effort high.
 
 **4.**
 > [an ask about a downstream project left out] also dont say click
