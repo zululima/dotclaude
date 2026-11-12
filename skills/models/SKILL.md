@@ -20,6 +20,9 @@ description: Which Claude model and effort level each kind of work runs on, with
   first, told or not. The session that started one also detaches it in the next message. It then
   reports nothing back, so the reply links it, and a step that needs its result waits for the user
   to say it is done.
+- The window layout of the desktop app is the user's. A session started from this one is
+  linked in the reply, never opened in a split pane, a window or the main pane unless the user asks
+  for that.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
 - An offer to start a session is a question in the next-step box, never a `start_session` card,
   neither an "own_initiative" proposal nor an "offer": the question names the task with the

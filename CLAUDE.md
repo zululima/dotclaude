@@ -209,7 +209,9 @@ apply to one repository belong in that repository's project memory.
   run, and the list before it stops at the run.
 - When nothing is left for the user or the session to do, its PRs merged, closed or left to a
   reviewer who merges them, the closing reply says so and that the user can archive the session, in
-  its text alone and not in the next-step box.
+  its text alone and not in the next-step box. A session that handed its task to another is instead
+  archived unasked by the one that took it over, once it is idle with no open PR or step left for
+  the user: that one calls `archive_session` on it before its closing reply, which names it.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the
@@ -581,9 +583,6 @@ apply to one repository belong in that repository's project memory.
   searches that platform's own package sources, such as the AUR, Homebrew or Flathub. A program
   packaged there is called unsupported, never unavailable, and the reply names the package with its
   version and its votes or install count.
-- The window layout of the desktop app is the user's. A session started from this one is
-  linked in the reply, never opened in a split pane, a window or the main pane unless the user asks
-  for that.
 - A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
   asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
   browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.

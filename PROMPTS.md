@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Add prompt-log.sh turns, which pairs each prompt with its reply
+## Archive a session that handed its task over
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+**2.** (answer to: shall I start the review in its own session?)
+> [an answer about a downstream project left out]
+
+**3.**
+> also always if a session that has handed over another session can be
+> archived, auto archive that session yourself
+
+## Add prompt-log.sh turns, which pairs each prompt with its reply
+
+2026-11-12, commit [a4d3da8](https://github.com/zululima/dotclaude/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550), model claude-opus-5-5, effort xhigh.
 
 **1.** (typed in the session that handed this task over)
 > lets create a better system for commits so that they include a
