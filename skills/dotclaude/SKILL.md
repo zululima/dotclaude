@@ -212,6 +212,11 @@ run and its commit in the same turn.
   `CLAUDE_CLIENT_PRESENCE_FILE` names there, and a `PreToolUse` hook,
   `~/.claude/hooks/push-only-when-locked.sh`, refuses a push while it is. They back the
   `PushNotification` rule in Running things of `~/.claude/CLAUDE.md`.
+- A `PreToolUse` hook, `~/.claude/hooks/no-git-checkout.sh`, refuses `git checkout`. It backs the
+  rule in `~/.claude/CLAUDE.md` on `git switch` and `git restore`.
+- The `PreToolUse` hook `~/.claude/hooks/no-github-posts.sh` refuses a GitHub post that no prompt
+  asked for and gave every word of, apart from an approval with no comment. It backs the rule in
+  `~/.claude/CLAUDE.md` that never posts on GitHub.
 - The `Stop` hook `~/.claude/hooks/prompt-feedback-box.sh` sends a turn back once when a typed
   prompt opened it and its last message has no Prompt feedback section, and marks a prompt that
   repeats a button's words. It backs the Prompt feedback rules of `~/.claude/CLAUDE.md`.

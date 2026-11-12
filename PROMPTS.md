@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Send no message to a session whose cache has gone cold
+## Write IS or PR before a number in a session title
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> #176 doesnt say issue or pr maybe say IS in future and now
+
+## Send no message to a session whose cache has gone cold
+
+2026-11-12, commit [7147e00](https://github.com/zululima/dotclaude/commit/7147e00ca3a09e358579f5d22ff2a6c2fa06c21f), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
@@ -6556,6 +6563,7 @@ Stop, add it to dotclaude?)
 - idc: I don't care
 - ip: intellectual property
 - ip: internet protocol address
+- IS: issue
 - ISOFIX: the ISO standard for fixing a child seat to anchor points in the car's frame
 - js: JavaScript
 - kwh: kilowatt-hours

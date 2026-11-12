@@ -32,8 +32,7 @@ apply to one repository belong in that repository's project memory.
 - Use `git switch` to change branches, `git switch -c` to create one and `git restore` to put back
   files, from a commit with `--source <commit> --staged --worktree`, in commands run and in
   commands given to the user. `git checkout` does both jobs and picks one by what its argument
-  names, so a typo or a stray path can overwrite work where a switch would refuse. Nothing needs
-  it, and a `PreToolUse` hook, `~/.claude/hooks/no-git-checkout.sh`, refuses it.
+  names, so a typo or a stray path can overwrite work where a switch would refuse. Nothing needs it.
 - After every branch switch in a repository with submodules, run `git submodule update --init`.
   The switch moves each submodule's pin in the index but leaves its work tree where it was, so a
   stack that bind-mounts the submodule keeps running the old code, and a cache built by the
@@ -78,12 +77,11 @@ apply to one repository belong in that repository's project memory.
 - Never post a comment, a review thread reply, a review or an issue comment on GitHub, and never
   draft one for the user to post: every word posted goes out under the user's name, and the user
   writes those. One goes out only when a prompt asks for it and gives every word of it, or when it
-  is an approval with no comment, and the `PreToolUse` hook `~/.claude/hooks/no-github-posts.sh`
-  refuses the rest. A question about an issue, a comment or a thread is answered in the reply as an
-  explanation, and no reply or next-step box offers a draft of an answer. A review finding is
-  answered by the commit that fixes it, and the reply to the user lists, per thread, what changed
-  and in which commit, so the user can answer and resolve the threads themselves. Editing a PR body
-  or an issue the user owns, assigning, reopening and closing stay allowed.
+  is an approval with no comment. A question about an issue, a comment or a thread is answered in
+  the reply as an explanation, and no reply or next-step box offers a draft of an answer. A review
+  finding is answered by the commit that fixes it, and the reply to the user lists, per thread, what
+  changed and in which commit, so the user can answer and resolve the threads themselves. Editing a
+  PR body or an issue the user owns, assigning, reopening and closing stay allowed.
 - Remote layout decides the flow. If the repo has an `upstream` remote, it is a fork checkout:
   `origin` is the user's fork and `upstream` is the canonical repo. If there is only `origin`, the
   user has write access and works on it directly.
@@ -604,14 +602,16 @@ apply to one repository belong in that repository's project memory.
 - In the desktop app, every turn that answers a prompt from the user renames its own session
   with `set_session_title` and `self`, to a title for what the whole session has done so far, not
   for the latest prompt alone. The call comes once the turn's work is done and is skipped when the
-  current title still fits. A title stays within 16 characters, not counting the emoji the `usage`
-  mod puts before it, and fewer when capitals or digits fill it: a pull request badge, the count
-  beside it, an unread dot or the indent of a session started from another takes room at the end of
-  a sidebar row, and the narrowest such row fades out text past about 16. The `usage` mod refuses a
-  rename to a longer title, and to one that Cmd+K would list another session for as well: every word
-  of it part of another session's title or earlier title, archived ones included, or every word of
-  another session's title part of it. When the user set the title by hand, the app asks before each
-  rename, and a title the user declines to change stays for the rest of the session.
+  current title still fits. An issue or pull request in a title is IS or PR and its number, as in IS
+  176 or PR 220, never a bare #176, which says neither. A title stays within 16 characters, not
+  counting the emoji the `usage` mod puts before it, and fewer when capitals or digits fill it: a
+  pull request badge, the count beside it, an unread dot or the indent of a session started from
+  another takes room at the end of a sidebar row, and the narrowest such row fades out text past
+  about 16. The `usage` mod refuses a rename to a longer title, and to one that Cmd+K would list
+  another session for as well: every word of it part of another session's title or earlier title,
+  archived ones included, or every word of another session's title part of it. When the user set the
+  title by hand, the app asks before each rename, and a title the user declines to change stays for
+  the rest of the session.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt for Claude Code there, never a command, saved
   as `<word>.md` in the folder synced there that `~/.claude/rules/` names, if any, so the user types
