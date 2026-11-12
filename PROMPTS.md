@@ -6,9 +6,19 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Have the share read-through make guessed pronouns neutral
+## Keep another session's hunks out of sync.sh --commit
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [a task another Claude session wrote, left out]
+
+(answer, in the session that started this one, to: shall I start the
+sync.sh --commit race fix in its own session on Opus 5.5 at xhigh?)
+> Yes, start it
+
+## Have the share read-through make guessed pronouns neutral
+
+2026-11-12, commit [79c1fec](https://github.com/zululima/dotclaude/commit/79c1fec8946f2416f87f1f4edd8da7924f951b1e), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > a, read before push

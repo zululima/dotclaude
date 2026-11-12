@@ -100,15 +100,21 @@ run and its commit in the same turn.
   repository has one owner, though several sessions work in the checkout at once, and every
   `sync.sh` run copies their edits into it too. So name only the files this session's own edits
   touched, never what a `git status` taken around them shows. `~/.claude/hooks/own-hunks.sh` records
-  each edit a session makes to a published file, and `--commit` takes only this session's edits of a
-  named file and leaves another session's in the work tree, so a file both changed needs no wait. It
-  stops only when an edit changes lines another session wrote and has not committed, and that edit
-  then waits for that commit. A named file with no recorded edit, such as one changed by a script
-  the user ran, goes in whole: read `git -C ~/Projects/dotclaude diff -- <path>` first, and leave
-  out a file with a hunk this session did not write and tell that session with SendMessage. A scan
-  hit in a file the run does not name only keeps that file out of the mirror copy. A mirrored JSON
-  file changed locally goes back into the checkout's key order first, so `claude plugin` and the
-  `/plugin` dialog may change `settings.json`.
+  each edit a session makes to a published file, less the edits other sessions recorded while the
+  call ran, such as a peer's edit during a test run, and `--commit` takes only this session's edits
+  of a named file and leaves another session's in the work tree, so a file both changed needs no
+  wait. It stops when an edit changes lines another session wrote and has not committed, and when
+  the version it would commit holds an edit another session recorded and has not committed, and
+  either waits for that commit. A named file with no recorded edit, such as one changed by a script
+  the user ran, goes in whole, unless it changed since a call of another session began, in the last
+  15 minutes and not yet ended, which waits for that call: read `git -C ~/Projects/dotclaude diff --
+  <path>` first, and leave out a file with a hunk this session did not write and tell that session
+  with SendMessage. When the edit a stop shows is this session's own after all, deleting that
+  session's line for it in `.git/own-hunks/<session>` lets it through, and a call a hook refused
+  leaves a file in `.git/own-hunks/pending` that can go the same way. A scan hit in a file the run
+  does not name only keeps that file out of the mirror copy. A mirrored JSON file changed locally
+  goes back into the checkout's key order first, so `claude plugin` and the `/plugin` dialog may
+  change `settings.json`.
 - `sync.sh` also copies every published file into each directory listed in `sync-mirrors.txt`, an
   optional file beside it that git ignores, removes there what the checkout has deleted, and prints
   each directory it copied into. With `--commit` it then commits and pushes in each of them with the

@@ -94,10 +94,15 @@
 # every file for ., goes in whole. An edit that changes lines HEAD lacks stops
 # the run with its diff, since it waits for the commit of the session that
 # wrote them; deleting the session's lines for that path from its records lets
-# the file go in whole instead. The checks then read the staged version of each
-# named file and pass over the others, a scan hit in the work tree only keeps
-# that file out of the mirror copy, each mirror commits the version committed
-# here, and the session's records of the named files go once they are in.
+# the file go in whole instead. So that no commit takes another session's
+# hunks, the run also stops on a version to commit that holds an edit another
+# session recorded and HEAD lacks, and on a file that goes in whole and changed
+# since a call of another session that watches it began, if that call began in
+# the last 15 minutes and still runs. The checks then read the staged version
+# of each named file and pass over the others, a scan hit in the work tree only
+# keeps that file out of the mirror copy, each mirror commits the version
+# committed here, and the session's records of the named files go once they
+# are in.
 
 set -euo pipefail
 
@@ -625,6 +630,14 @@ replay() {
   cat "$stage_dir/own"
 }
 
+# Succeeds when file $1 holds the change from blob $2 to blob $3: taking that
+# change back out of it leaves it different.
+holds() {
+  git cat-file blob "$2" > "$stage_dir/from" 2>/dev/null && git cat-file blob "$3" > "$stage_dir/to" 2>/dev/null &&
+    merge_edit "$1" "$stage_dir/to" "$stage_dir/from" "$1" > "$stage_dir/undone" 2>/dev/null &&
+    ! cmp -s "$1" "$stage_dir/undone"
+}
+
 records=""
 case "${CLAUDE_CODE_SESSION_ID:-}" in
   "" | *[^A-Za-z0-9_-]*) ;;
@@ -634,6 +647,7 @@ if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
   stage_dir="$(mktemp -d)"
   stage_git read-tree HEAD
   stage_git add -A -- "${public_paths[@]}"
+  replayed=$'\n'
   case " ${public_paths[*]} " in
     *" . "*) ;;
     *)
@@ -644,6 +658,7 @@ if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
         mode="$(stage_git ls-files -s -- "$path" | cut -d ' ' -f 1)"
         blob="$(git hash-object -w --no-filters "$stage_dir/staged")"
         stage_git update-index --cacheinfo "$mode,$blob,$path"
+        replayed="$replayed$path"$'\n'
       done < <([ ! -f "$records" ] || cut -d ' ' -f 3- "$records" | sort -u)
       ;;
   esac
@@ -653,6 +668,35 @@ if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
       exit 1
     fi
     public_paths=()
+  fi
+fi
+
+if [ -n "$message_file" ] && [ "${#public_paths[@]}" -gt 0 ]; then
+  others=0
+  while IFS= read -r -d '' path; do
+    git cat-file blob "HEAD:$path" > "$stage_dir/at-head" 2>/dev/null &&
+      stage_git cat-file blob ":$path" > "$stage_dir/to-commit" 2>/dev/null || continue
+    for other in "$checkout/.git/own-hunks"/*; do
+      [ -f "$other" ] && [ "$other" != "$records" ] && lines="$(grep -F " $path" "$other" 2>/dev/null)" || continue
+      while read -r from to edited; do
+        [ "$edited" = "$path" ] && holds "$stage_dir/to-commit" "$from" "$to" &&
+          ! holds "$stage_dir/at-head" "$from" "$to" || continue
+        echo "sync: $path would take this edit, which session ${other##*/} recorded and has not committed:" >&2
+        git_diff -U2 -- "$stage_dir/from" "$stage_dir/to" | sed 1,4d >&2
+        others=1
+      done <<< "$lines"
+    done
+    case "$replayed" in *$'\n'"$path"$'\n'*) continue ;; esac
+    while IFS= read -r call; do
+      watch="$(awk -F '\t' -v p="$path" 'NR > 2 && $2 == p { print $1 "\t" $3; exit }' "$call" 2>/dev/null)" &&
+        [ -n "$watch" ] && [ "${watch%%$'\t'*}" != "$(git hash-object --no-filters "${watch#*$'\t'}" 2>/dev/null)" ] || continue
+      echo "sync: $path goes in whole and changed since a tool call began that has not ended, unless a hook refused it: ${call#"$checkout/"}" >&2
+      others=1
+    done < <(find "$checkout/.git/own-hunks/pending" -type f ! -name '*.seen' ! -name "${CLAUDE_CODE_SESSION_ID:-none}.*" -mmin -15 2>/dev/null)
+  done < <(stage_git diff --cached --name-only -z HEAD)
+  if [ "$others" -ne 0 ]; then
+    echo "sync: nothing committed; run again once that session has committed the edit or the call has ended, or once the edit's line, when the edit is this session's own, or the refused call's file is gone" >&2
+    exit 1
   fi
 fi
 

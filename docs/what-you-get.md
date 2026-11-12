@@ -265,8 +265,10 @@
   100 characters, and commits no `CLAUDE.md` over the byte count in `claude-md-budget.txt` until I
   cut something or raise the count. `--install` copies everything onto a new computer.
 - [`own-hunks.sh`](../hooks/own-hunks.sh): notes which changes each Claude window makes to the files
-  published here, so `sync.sh --commit` publishes only the changes of the window that runs it, and
-  waits for another window only when its own change edits lines that window has not published yet.
+  published here, leaving out what other windows changed meanwhile, so `sync.sh --commit` publishes
+  only the changes of the window that runs it. It waits for another window when its own change edits
+  lines that window has not published yet, or when what it would publish holds a change that window
+  noted and has not published.
 - [`reflow.sh`](../reflow.sh): rewraps the paragraphs an edit changed in `CLAUDE.md`, the pull
   request skill, the README or these docs at 100 characters, in this copy and in `~/.claude`.
 - [`test/dream-sim`](../test/dream-sim/): checks how `/dream` spends your usage. Not installed.

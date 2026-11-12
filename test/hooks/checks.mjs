@@ -1353,6 +1353,8 @@ esac`)
     }
     const paths = session => recorded(session).map(r => r[2]).join()
     const blob = id => sh(`git -C ${q(checkout)} cat-file blob ${id}`)
+    // No call left pending, no line waiting for one, and the lock let go.
+    const settled = () => fs.readdirSync(path.join(records, 'pending')).length === 0 && !fs.existsSync(path.join(records, 'lock'))
     return [
       ['does nothing without a checkout', () => {
         fs.rmSync(checkout, { recursive: true, force: true })
@@ -1389,6 +1391,41 @@ esac`)
         const notes = path.join(config, 'notes.md')
         const ok = around(call('Edit', { file_path: notes }, 'toolu_o6'), () => write(notes, 'x\n'))
         return ok && recorded().length === 3 && fs.readdirSync(path.join(records, 'pending')).length === 0
+      }],
+      // Two sessions at once: a test run of one is pending while the other edits a file the run watches.
+      ['leaves out of a long call\'s line an edit another session recorded while it ran', () => {
+        const tests = call('Bash', { command: 'node test/hooks/checks.mjs' }, 'toolu_o7', 'oh3')
+        const edit = call('Edit', { file_path: readme }, 'toolu_o8', 'oh4')
+        const steps = [run(tests('PreToolUse')), run(edit('PreToolUse'))]
+        write(readme, '# Readme\n\nFixed.\n\nEdited.\n')
+        steps.push(run(edit('PostToolUse')), run(tests('PostToolUse')))
+        return steps.every(quiet) && paths('oh4') === 'README.md' && recorded('oh3').length === 0 && settled()
+      }],
+      ['keeps the part of such a line that its own call wrote', () => {
+        const script = call('Bash', { command: 'bash fix.sh && node test/hooks/checks.mjs' }, 'toolu_o9', 'oh5')
+        const edit = call('Edit', { file_path: readme }, 'toolu_o10', 'oh6')
+        const start = fs.readFileSync(readme, 'utf8'), scripted = `${start}\nScripted.\n`, edited = `${scripted}\nEdited again.\n`
+        const steps = [run(script('PreToolUse'))]
+        write(readme, scripted)
+        steps.push(run(edit('PreToolUse')))
+        write(readme, edited)
+        steps.push(run(edit('PostToolUse')), run(script('PostToolUse')))
+        const own = recorded('oh5'), other = recorded('oh6')
+        return steps.every(quiet) && own.length === 1 && blob(own[0][0]) === start && blob(own[0][1]) === scripted
+          && other.length === 1 && blob(other[0][0]) === scripted && blob(other[0][1]) === edited && settled()
+      }],
+      ['records an Edit for both when the long call ends while the Edit is pending, for sync.sh --commit to refuse', () => {
+        const tests = call('Bash', { command: 'node test/hooks/checks.mjs' }, 'toolu_o11', 'oh7')
+        const edit = call('Edit', { file_path: readme }, 'toolu_o12', 'oh8')
+        const steps = [run(tests('PreToolUse')), run(edit('PreToolUse'))]
+        write(readme, `${fs.readFileSync(readme, 'utf8')}\nRaced.\n`)
+        steps.push(run(tests('PostToolUse')), run(edit('PostToolUse')))
+        return steps.every(quiet) && paths('oh7') === 'README.md' && paths('oh8') === 'README.md' && settled()
+      }],
+      ['records nothing for an Edit that failed while another session changed the file', () => {
+        const ok = around(call('Edit', { file_path: readme }, 'toolu_o13', 'oh9'),
+          () => write(readme, `${fs.readFileSync(readme, 'utf8')}\nChanged elsewhere.\n`), 'PostToolUseFailure')
+        return ok && recorded('oh9').length === 0 && settled()
       }],
     ]
   }],

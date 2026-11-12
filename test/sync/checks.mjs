@@ -195,6 +195,62 @@ const suites = [
         !fs.existsSync(records) && !fs.existsSync(s.lock)
     }],
   ]],
+
+  ['sync.sh --commit beside another session\'s edits of the same file', () => {
+    const own = change(base, { 6: ['- Rule 6 as a session rewrote it.'] })
+    const theirs = change(base, { 10: ['- Rule 10 as another session rewrote it.'] })
+    const both = change(own, { 10: ['- Rule 10 as another session rewrote it.'] })
+    const blob = (s, lines) => git(s, `hash-object -w ${q(write(path.join(home, 'blob'), text(lines)))}`)
+    const record = (s, session, from, to) => {
+      const file = path.join(s.checkout, '.git/own-hunks', session)
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+      fs.appendFileSync(file, `${blob(s, from)} ${blob(s, to)} ${FILE}\n`)
+    }
+    // A tool call of session s2 that still runs and saw the file as it was at its start.
+    const running = (s, seen) => write(path.join(s.checkout, '.git/own-hunks/pending/s2.toolu_x'),
+      `${Math.floor(Date.now() / 1000)}\n${git(s, 'rev-parse HEAD')}\n${blob(s, seen)}\t${FILE}\t${s.local}\n`)
+    const holding = lines => { const s = scene(); arrives(s, lines); sync(s); return s }
+    const commit = s => sync(s, ['--commit', write(path.join(home, 'message'), 'Rewrite rule 6\n'), FILE], { CLAUDE_CODE_SESSION_ID: 's1' })
+    const remote = s => git(s, `show HEAD:${FILE}`, s.remote)
+    const refused = (s, r, named = 'session s2') => r.code === 1 && r.err.includes(named) && /nothing committed/.test(r.err) &&
+      remote(s) === text(base).trim() && read(s.copy) === read(s.local) && !fs.existsSync(s.lock)
+    return [
+      ['commits its own edit and leaves the edit the other session recorded in the work tree', () => {
+        const s = holding(both)
+        record(s, 's1', base, own); record(s, 's2', base, theirs)
+        const r = commit(s)
+        return r.code === 0 && remote(s) === text(own).trim() && read(s.copy) === text(both)
+      }],
+      ['stops when a line of its own took the other session\'s edit, as one made while a long call of its own ran', () => {
+        const s = holding(both)
+        record(s, 's1', base, own); record(s, 's1', own, both); record(s, 's2', own, both)
+        return refused(s, commit(s)) && fs.existsSync(path.join(s.checkout, '.git/own-hunks/s1'))
+      }],
+      ['stops on a file that goes in whole while the other session\'s edit of it waits uncommitted', () => {
+        const s = holding(both)
+        record(s, 's2', base, theirs)
+        return refused(s, commit(s))
+      }],
+      ['takes a file whole once HEAD holds the edit the other session recorded', () => {
+        const s = scene()
+        pushes(s, theirs); sync(s); arrives(s, both); sync(s)
+        record(s, 's2', base, theirs)
+        const r = commit(s)
+        return r.code === 0 && remote(s) === text(both).trim()
+      }],
+      ['stops on a file that goes in whole and changed since a running call of the other session began', () => {
+        const s = holding(own)
+        running(s, base)
+        return refused(s, commit(s), '.git/own-hunks/pending/s2.toolu_x')
+      }],
+      ['takes a file whole while that call has seen it as it is', () => {
+        const s = holding(own)
+        running(s, own)
+        const r = commit(s)
+        return r.code === 0 && remote(s) === text(own).trim()
+      }],
+    ]
+  }],
 ]
 
 let failed = 0
