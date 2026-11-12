@@ -5,9 +5,23 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Add prompt-log.sh turns, which pairs each prompt with its reply
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (typed in the session that handed this task over)
+> lets create a better system for commits so that they include a
+> summary of the reply to the prompts in the prompts block. lets also
+> do it so that there lives a branch of project x like [a downstream
+> project] like claude_sessions etc that stores full markdown
+> conversations where [two colleagues] can share their full
+> conversations by saying share etc some skill and the claude code
+> produces the link tot he sessions branch of that repo so it can be
+> chcked easily
+
 ## Ask one question a reply; sessions keep starting on Fable 5.2
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [1b1bc93](https://github.com/zululima/dotclaude/commit/1b1bc935f5c069d7fdc92600f78d3fbc121024c3), model claude-fable-5-2, effort xhigh.
 
 **2.**
 > you just gave a vs b before the question box of cmd enter. only one

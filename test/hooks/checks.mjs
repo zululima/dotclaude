@@ -780,6 +780,27 @@ const suites = [
           && named.err === 'prompt-log: earlier commits gave these Abbreviations: lines for words of the prompts; add each whose word stays in the message and means the same here:\nHTML: HyperText Markup Language\n'
           && here.err === named.err
       }],
+      ['gives each prompt the recap and the last message of its turn', () => {
+        jsonl(path.join(config, 'prompt-log/p7.jsonl'), [
+          { timestamp: '2020-01-01T00:00:00Z', prompt: 'build it' },
+          { timestamp: '2020-01-01T00:01:00Z', prompt: 'and test it' },
+        ])
+        const said = (t, id, content) => ({ type: 'assistant', timestamp: `2020-01-01T00:${t}Z`, message: { id, model: 'm', content } })
+        jsonl(path.join(config, 'projects/x/p7.jsonl'), [
+          { type: 'user', timestamp: '2020-01-01T00:00:00.100Z', message: { content: 'build it' } },
+          said('00:10', 'm1', [{ type: 'text', text: 'Building.' }]),
+          said('00:20', 'm2', [{ type: 'tool_use', name: 'mcp__ccd_turn__wrap_up', input: { recap: 'It is built.' } }]),
+          said('00:21', 'm3', [{ type: 'text', text: 'Built it.' }]),
+          said('00:21.500', 'm3', [{ type: 'text', text: 'Nothing else.' }]),
+          { type: 'user', timestamp: '2020-01-01T00:01:00.100Z', message: { content: 'and test it' } },
+          said('01:10', 'm4', [{ type: 'text', text: 'Tests pass.' }]),
+        ])
+        const r = run('', { args: ['turns'], env: { PROMPT_LOG_SESSION: 'p7' } })
+        const [one, two, more] = r.out.trim().split('\n').map(line => JSON.parse(line))
+        return r.code === 0 && !more && one.n === 1 && one.prompt === 'build it' && one.recap === 'It is built.'
+          && one.reply === 'Built it.\n\nNothing else.' && one.end === two.start
+          && two.n === 2 && two.recap === null && two.reply === 'Tests pass.' && two.end === null
+      }],
     ]
   }],
 

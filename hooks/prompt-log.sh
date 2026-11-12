@@ -12,6 +12,8 @@
 #                       [--effort level]       print the session's prompts
 #   prompt-log.sh mask [--quoted]              mask stdin as print does, with
 #                                              --quoted only the lines from >
+#   prompt-log.sh turns [--from n]             print each prompt with its turn
+#                                              as a line of JSON
 #
 # print numbers every prompt of the session in CLAUDE_CODE_SESSION_ID, or in
 # PROMPT_LOG_SESSION when set, as **n.** and > lines under a Model: line for a
@@ -46,6 +48,14 @@
 # log, up to the last record copied from it, and numbers on from there. Where no
 # log holds them, prompts the transcript holds from before the log began count
 # towards the numbers.
+#
+# turns numbers the prompts as print does and gives each as {n, prompt, recap,
+# reply, start, end}: the prompt as print has it before the masks, the recap of
+# the last wrap_up call of the desktop app in its turn, the turn's last
+# message as its reply, and the turn's bounds in epoch seconds, end null for
+# the last. A turn runs from its prompt to the next one, so the turns a
+# notification or a peer session's message starts count towards the prompt
+# before them.
 
 set -u
 
@@ -77,7 +87,7 @@ if [ "${1:-}" = mask ]; then
   exit
 fi
 
-if [ "${1:-}" != print ]; then
+if [ "${1:-}" != print ] && [ "${1:-}" != turns ]; then
   umask 077
   input="$(cat)"
   session="$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null)"
@@ -88,9 +98,10 @@ if [ "${1:-}" != print ]; then
       >>"$log_dir/$session.jsonl" 2>/dev/null
   exit 0
 fi
-shift
 
 form=pr
+[ "$1" = turns ] && form=turns
+shift
 from=1
 model=
 effort=
@@ -185,6 +196,10 @@ abbreviations() {
 {
   IFS= read -r -d '' note && IFS= read -r -d '' problem && IFS= read -r -d '' heading || exit 1
   [ -z "$note" ] || echo "prompt-log: $note" >&2
+  if [ "$form" = turns ]; then
+    cat
+    exit 0
+  fi
   if [ -n "$heading" ] && [ "$form" = commit ]; then
     printf 'Prompts behind this commit, as given to Claude Code\n'
     printf '%s\n' "$heading" | fold -s -w 72 | sed -e 's/ *$//'
@@ -212,8 +227,16 @@ abbreviations() {
 } < <(jq -j -s --arg from "$from" --arg form "$form" --arg model "$model" --arg effort "$effort" \
   --slurpfile rec <(if [ -n "$transcript" ]; then jq -c "$clean"'
     select(.isSidechain != true)
+    | . as $r
     | if .type == "assistant" and .message.model != "<synthetic>" then
-        {t: .timestamp, model: .message.model, effort}
+        {t: .timestamp, model: .message.model, effort},
+        (.message.content | arrays | .[]
+          | if .type == "text" and (.text | type) == "string" and (.text | test("\\S")) then
+              {t: $r.timestamp, id: $r.message.id, text}
+            elif .type == "tool_use" and (.name | type) == "string" and (.name | endswith("__wrap_up"))
+              and (.input.recap | type) == "string" then
+              {t: $r.timestamp, recap: .input.recap}
+            else empty end)
       elif .type == "user" and .isMeta != true and .isCompactSummary != true and .toolUseResult == null then
         (.message.content
           | if type == "string" then . elif type == "array" then map(select(.type == "text") | .text) | join("") else "" end
@@ -229,6 +252,8 @@ abbreviations() {
   def nearest: fill | reverse | fill | reverse;
   def levels: ["low", "medium", "high", "xhigh", "max"];
   def id: if . == null or . == "" then null else sub("\\[1m\\]\\z"; "") end;
+  def lastmessage: if length == 0 then null else last as $l
+    | if $l.id == null then $l.text else [.[] | select(.id == $l.id) | .text] | join("\n\n") end end;
   def ranges:
     reduce .[] as $x ([]; if length > 0 and .[-1].v == $x.v then .[-1].to = $x.n else . + [{v: $x.v, from: $x.n, to: $x.n}] end)
     | if length == 1 then .[0].v else to_entries | map(.key as $k | .value
@@ -268,5 +293,12 @@ abbreviations() {
   | (if $problem != "" then ""
      elif $form == "commit" then "(model \($heads | map({n, v: .model}) | ranges), effort \($heads | map({n, v: .effort}) | ranges)):"
      else "Model: \($heads | map({n, v: .model}) | ranges), effort: \($heads | map({n, v: .effort}) | ranges)" end) as $heading
+  | [$rec[] | select(.recap or .text) | .t |= epoch] as $said
   | $note, "\u0000", $problem, "\u0000", $heading, "\u0000",
-    ($printed[] | "\(.n)\t\($log[.i].p)\u0000")' "$log")
+    if $form == "turns" then
+      ($printed[] | $log[.i].t as $a | $log[.i + 1].t as $b
+        | [$said[] | select(.t >= $a and ($b == null or .t < $b))] as $turn
+        | {n, prompt: $log[.i].p, recap: ([$turn[] | select(.recap)] | last | .recap // null),
+           reply: ([$turn[] | select(.text)] | lastmessage), start: $a, end: $b}
+        | tojson + "\n")
+    else ($printed[] | "\(.n)\t\($log[.i].p)\u0000") end' "$log")
