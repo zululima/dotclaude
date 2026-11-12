@@ -64,7 +64,8 @@
       "Bash(~/Projects/qobuz-ear-pause/install.sh:*)",
       "Bash(~/.claude/skills/toggl/mic-log.sh:*)",
       "Bash(scripts/release.sh apk-android:*)",
-      "Bash(scripts/release.sh upload-android:*)"
+      "Bash(scripts/release.sh upload-android:*)",
+      "mcp__ccd_session_mgmt__archive_session"
     ],
     "ask": [
       "Bash(brew install:*)",

@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Print a summary of each reply under its prompt
+## Allow archiving sessions without the auto mode check
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: have you run the script that allows archiving sessions?)
+> Yes, ran it
+
+## Print a summary of each reply under its prompt
+
+2026-11-12, commit [d2969cb](https://github.com/zululima/dotclaude/commit/d2969cb998e8ce16055280bde110578ce17bb1e4), model claude-opus-5-5, effort xhigh.
 
 **1.** (typed in the session that handed this task over) Quoted under [a4d3da8](https://github.com/zululima/dotclaude/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550).
 
