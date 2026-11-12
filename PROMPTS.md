@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Say who archives a session that handed over
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+
+**2.** (answer to: shall I move this fix to a session on Opus 5.5?)
+> [an answer about a downstream project left out]
+
+**3.**
+> why didnt you archive this yourself?
+
 ## Read a session's first timestamp without a pipe that can break
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [68465c6](https://github.com/zululima/dotclaude/commit/68465c630c5511d1a272568c745630918c220659), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: what should a shared conversation keep and leave out?) Quoted under [854b322](https://github.com/zululima/dotclaude/commit/854b322c33bfc5a009313233839dcd56989871ef).
 

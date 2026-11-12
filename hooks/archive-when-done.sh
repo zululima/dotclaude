@@ -46,7 +46,8 @@ jq -Rn -e --arg box mcp__ccd_turn__wrap_up --argjson last "$last" '
 
 echo "The next-step box asked nothing and no background work is in flight. When nothing is \
 left for the user or the session to do, its PRs merged or closed, the closing reply says so and \
-that the user can archive the session, in its text alone. Add that line now as the turn's last \
-message, without calling wrap_up again. When something is still left, such as an open PR or a \
-step the user takes, name it in that message instead." >&2
+that the user can archive the session, in its text alone. A session that handed its task to \
+another says instead that the session that took it over archives it, and names that session. Add \
+that line now as the turn's last message, without calling wrap_up again. When something is still \
+left, such as an open PR or a step the user takes, name it in that message instead." >&2
 exit 2

@@ -207,7 +207,9 @@ apply to one repository belong in that repository's project memory.
   reviewer who merges them, the closing reply says so and that the user can archive the session, in
   its text alone and not in the next-step box. A session that handed its task to another is instead
   archived unasked by the one that took it over, once it is idle with no open PR or step left for
-  the user: that one calls `archive_session` on it before its closing reply, which names it.
+  the user: that one calls `archive_session` on it before its closing reply, which names it. The
+  reply of the session that handed over says that this will happen and names that session, and never
+  tells the user to archive it; archiving itself would end it before that reply reaches the user.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the
