@@ -9,9 +9,7 @@ apply to one repository belong in that repository's project memory.
 
 - Never override the git author, in a scratch or test repository too. Use the identity already
   configured in the repo or globally (check with `git config user.email`), and never guess an
-  address. A `PreToolUse` hook, `~/.claude/hooks/no-identity-override.sh`, refuses `-c user.name=`
-  and `-c user.email=`, the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` name and email variables and `git
-  commit --author`, and asks the user before `git config` sets or unsets a name or address.
+  address.
 
 ## Remote state
 
@@ -558,6 +556,8 @@ apply to one repository belong in that repository's project memory.
   schedule or trigger, such as a scheduled task, local or cloud, a launchd agent or a cron entry,
   names it, when and where it runs and what it does, and each reply until a one-time one runs names
   it and its time.
+- No session waits in the background on a step the user takes by hand, such as plugging a stick into
+  the Mac: the reply gives the step, and the session goes on once the user says it is done.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
   suit a kind of user, the session reads that setup's own install scripts, README and settings, and
   the guides they point to, such as an onboarding guide in another repository. Before a reply

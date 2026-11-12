@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Never wait in the background on the user's hand steps
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**34.**
+> wait what? what are you waiting for now? dont do that
+
 ## Catch Finnish claims of an unreachable source in the Stop hook
 
-2026-11-11, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-11, commit [9250327](https://github.com/zululima/dotclaude/commit/925032780008784a7a8e5cc4de94dde64f0dd18f), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > [a question about where to park left out]
