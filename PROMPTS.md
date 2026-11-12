@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Never wait in the background on the user's hand steps
+## Send no message to a session whose cache has gone cold
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+**2.**
+> ? this was cold cache for a while. usage doesnt say cash emoji so did
+> the notice cold boot it or what happened? if a message cold booted it
+> automatically that doesnt sound good and shouldnt happen automatically
+
+## Never wait in the background on the user's hand steps
+
+2026-11-12, commit [4a391e2](https://github.com/zululima/dotclaude/commit/4a391e2b4f7072482e7c0c375052c7a8608f3193), model claude-opus-5-5, effort xhigh.
 
 **34.**
 > wait what? what are you waiting for now? dont do that

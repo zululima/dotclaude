@@ -319,9 +319,7 @@ apply to one repository belong in that repository's project memory.
   another session wrote. The closing reply goes in the text right after the next-step box call,
   never before it, where the app can cut it to a summary. It is written there in full: the answer,
   any draft the question asks about, the steps still to do and this section, never a pointer to
-  anything above it, text or file, and never the box's question again. The `Stop` hook
-  `~/.claude/hooks/prompt-feedback-box.sh` sends a turn back once when a typed prompt opened it and
-  its last message has no Prompt feedback section, and marks a prompt that repeats a button's words.
+  anything above it, text or file, and never the box's question again.
 - Before the section names something as missing from the prompt, check everything the prompt and the
   session's earlier prompts gave, their screenshots to their edges included. A line of text cut off
   by a screenshot's edge, or a scroll bar that ends short of its track, shows that the content goes
@@ -364,6 +362,12 @@ apply to one repository belong in that repository's project memory.
   until its containers are down: ask it with SendMessage to say when they are, and run what
   needs no stack meanwhile. A notice sent before a start is not an ask, and a send result saying the
   message is not yet read is no answer.
+- A message to another session, with SendMessage or `send_message`, runs a turn there, and in one
+  idle past its prompt cache's lifetime of 5 minutes or an hour that turn first writes its whole
+  context to the cache again. So no session messages such a cold session, whose title the `usage`
+  mod starts with an ice cube, unless the user asked for that message: an ask another rule calls for
+  waits too, and the reply names the session and what the message would say, as for a send that
+  failed. Its transcript, read with `list_events`, shows what it found without waking it.
 - A command that must run in another directory uses the tool's own directory flag, such as `git -C`
   or `npm --prefix`, and otherwise a subshell, `(cd playwright && npx playwright test)`, which
   returns on its own. Every part after the `cd` depends on it: joined with `&&`, or in a subshell
@@ -549,13 +553,11 @@ apply to one repository belong in that repository's project memory.
   or a subagent, gets `show_pane` with `tasks` in the message that starts it, and in each later
   message calling a tool and before each reply while it goes on, which says the run is in the tasks
   pane. The turn that learns its last run ended, a task notification's too, calls `close_pane` with
-  `tasks` once before the reply. The `Stop` hook `usage-waiting.sh` sends back once a turn that ends
-  with none in flight while the pane stays shown. Work set for later is a task under Scheduled in
-  the app's sidebar, which survives an archive, never `CronCreate` or `ScheduleWakeup`, which die
-  with the session. A reply whose turn adds, changes or removes anything that runs unattended on a
-  schedule or trigger, such as a scheduled task, local or cloud, a launchd agent or a cron entry,
-  names it, when and where it runs and what it does, and each reply until a one-time one runs names
-  it and its time.
+  `tasks` once before the reply. Work set for later is a task under Scheduled in the app's sidebar,
+  which survives an archive, never `CronCreate` or `ScheduleWakeup`, which die with the session. A
+  reply whose turn adds, changes or removes anything that runs unattended on a schedule or trigger,
+  such as a scheduled task, local or cloud, a launchd agent or a cron entry, names it, when and
+  where it runs and what it does, and each reply until a one-time one runs names it and its time.
 - No session waits in the background on a step the user takes by hand, such as plugging a stick into
   the Mac: the reply gives the step, and the session goes on once the user says it is done.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
@@ -774,9 +776,8 @@ apply to one repository belong in that repository's project memory.
   it, never append a paragraph calling an earlier one stale, and re-read the note from disk
   first, since a peer session may have written the same fact.
 - When the user reverses what a note records, edit the note first and act after.
-- An index line is `- [Title](file.md): hook`, with a colon where the built-in memory template
-  shows an em dash. The `PostToolUse` hook `~/.claude/hooks/memory-plain-characters.sh` hands
-  back every em dash in a memory file changed in the last two minutes.
+- An index line is `- [Title](file.md): hook`, with a colon where the built-in memory template shows
+  an em dash.
 - The `PostToolUse` hook `~/.claude/hooks/share-memories.sh` shares project memory with
   colleagues on its own. In a repository whose `origin` is under an owner the untracked
   `~/.claude/shared-memories.conf` lists, it copies every note of that project's memory into

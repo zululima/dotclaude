@@ -212,6 +212,14 @@ run and its commit in the same turn.
   `CLAUDE_CLIENT_PRESENCE_FILE` names there, and a `PreToolUse` hook,
   `~/.claude/hooks/push-only-when-locked.sh`, refuses a push while it is. They back the
   `PushNotification` rule in Running things of `~/.claude/CLAUDE.md`.
+- The `Stop` hook `~/.claude/hooks/prompt-feedback-box.sh` sends a turn back once when a typed
+  prompt opened it and its last message has no Prompt feedback section, and marks a prompt that
+  repeats a button's words. It backs the Prompt feedback rules of `~/.claude/CLAUDE.md`.
+- The `Stop` hook `usage-waiting.sh` sends back once a turn that ends with none in flight while the
+  pane stays shown. It backs the rule in Running things of `~/.claude/CLAUDE.md` on the tasks pane.
+- The `PostToolUse` hook `~/.claude/hooks/memory-plain-characters.sh` hands back every em dash in a
+  memory file changed in the last two minutes. It backs the rule in Memory hygiene of
+  `~/.claude/CLAUDE.md` on index lines.
 
 ## Identity and contents
 
