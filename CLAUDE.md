@@ -32,7 +32,7 @@ apply to one repository belong in that repository's project memory.
 - Use `git switch` to change branches, `git switch -c` to create one and `git restore` to put back
   files, from a commit with `--source <commit> --staged --worktree`, in commands run and in
   commands given to the user. `git checkout` does both jobs and picks one by what its argument
-  names, so a typo or a stray path can overwrite work where a switch would refuse. Nothing needs it.
+  names, so a typo or a stray path can overwrite work where a switch would refuse.
 - After every branch switch in a repository with submodules, run `git submodule update --init`.
   The switch moves each submodule's pin in the index but leaves its work tree where it was, so a
   stack that bind-mounts the submodule keeps running the old code, and a cache built by the
@@ -92,6 +92,7 @@ apply to one repository belong in that repository's project memory.
   that default branch. The exception is a repository under the user's own account whose only
   collaborator is the user, as `gh api repos/<owner>/<repo>/collaborators` lists them: commit on its
   default branch and push there, with no branch and no PR.
+- No session asks which branch to use, `propose_branch` included.
 - A change for a branch that another live session works on goes to that session, never to a task
   chip and never through a switch of the checkout the two share: send it with SendMessage to the
   name ListAgents prints. A send counts only when it returns without an error. When it fails, the

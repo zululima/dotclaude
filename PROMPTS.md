@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Never ask which branch a change goes on
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+**2.**
+> what yes ofc separate branch dont ask taht again?
+
 ## Offer a new session in the next-step box, never as a card
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [9ab15b2](https://github.com/zululima/dotclaude/commit/9ab15b2eac90742d46d79114cac43f37931df72f), model claude-fable-5-2, effort xhigh.
 
 **4.**
 > start also dont give that new session thingy it should be the cmd
