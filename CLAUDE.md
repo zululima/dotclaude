@@ -650,17 +650,17 @@ apply to one repository belong in that repository's project memory.
   proposes to; it may say that the entry is missing from the copy in use.
 - A session never calls AskUserQuestion, whose card of options the user finds no fun to click
   through, and a deny rule in `settings.json` removes the tool. A question the session must put to
-  the user goes in the next-step box in any reply, its first button the session's pick, which one
-  shortcut presses, and its second the other answer when there are two. With more answers, the
-  closing message letters them all, the pick first and marked recommended, each with what it costs,
-  and the user types a letter or their own words. Several questions that block the same step come
-  numbered in the message instead. A question the closing message itself carries, because the box
-  already asks another or its answers need letters, ends that message under a heading of its own,
-  after everything but a review page's address and Prompt feedback: a question sentence, then its
-  lettered answers, never inside a section on something else, such as a finding, where it hides.
-  Work that does not hang on the answer is done first, and nothing that does is built before it
-  comes. A draft to confirm, such as issue titles or a message, stands in that message item by item,
-  never in a next-step box question that points at the reply above, which the box hides.
+  the user goes in the next-step box in any reply, however many answers it has: its first button is
+  the session's pick, which Cmd+Enter presses, and its second the other answer, or of several the
+  likeliest. With more than two, the closing message also letters them all, the pick first and
+  marked recommended, each with what it costs, and the user types a letter or their own words.
+  Several questions that block the same step come numbered in the message instead. Those letters,
+  with a question sentence before them when the box already asks another question, end that message
+  under a heading of their own, after everything but a review page's address and Prompt feedback,
+  never inside a section on something else, such as a finding, where it hides. Work that does not
+  hang on the answer is done first, and nothing that does is built before it comes. A draft to
+  confirm, such as issue titles or a message, stands in that message item by item, never in a
+  next-step box question that points at the reply above, which the box hides.
 - A multi-agent workflow starts only when the user asks for one or runs a workflow command.
   Propose one, with a rough token cost, only for read-only work across a wide area: a deep
   review of a large diff, research across several read-only sources, or a sweep of a codebase

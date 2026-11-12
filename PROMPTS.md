@@ -5,9 +5,24 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## Pin only links to the checkout's own repository after a push
+## Ask every question in the next-step box
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+
+**2.** (answer to: shall the work run in a new session at lower effort?)
+> [an answer about a downstream project left out]
+
+**3.** Quoted under [c558028](https://github.com/zululima/dotclaude/commit/c5580280d88009eaee4bebd8703b6ba173c54888).
+
+**4.**
+> you should ask the question thingy where i can either choose a with
+> cmd enter or choose some other option
+
+## Pin only links to the checkout's own repository after a push
+
+2026-11-12, commit [f478772](https://github.com/zululima/dotclaude/commit/f4787725f6d30ff7f631602d68386913d5914169), model claude-fable-5-2, effort xhigh.
 
 **4.** (answer to: add to the skill that a push pins only your own links?)
 > Kyllä, lisää
