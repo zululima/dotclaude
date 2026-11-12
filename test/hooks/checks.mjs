@@ -1290,6 +1290,16 @@ esac`)
     const halted = wraps('halted', { recap: 'Done.', blocked: true })
     const recapped = wraps('recapped', { recap: 'Done.' })
     const answered = wraps('answered', { recap: 'Done.', ask: 'Shall I push?' }, [{ ...human('yes'), uuid: 'answered-u2', timestamp: at }, reply('answered', 4, 'end_turn')])
+    // A started session's record names the session that started it.
+    const startedBy = (id, starter, stop = 'tool_use', fork = {}) => session(id, { spawnedFrom: { sessionId: `local_${starter}`, sideSession: true, ...fork } }, stop)
+    const waitsOnStarted = id => spawnSync('bash', [USAGE_SH, '--next', 'self'], { env: ENV, encoding: 'utf8' }).stdout
+      .split('\n').map(row => row.split('\t')).some(row => row[2] === 'waits' && row[3]?.endsWith(`/local_${id}.json`))
+    startedBy('helper', session('lead', {}))
+    startedBy('forked', session('forker', {}), 'tool_use', { userFork: true })
+    startedBy('aide', session('boss', {}, 'tool_use'))
+    startedBy('low', startedBy('mid', session('top', {}), 'end_turn'))
+    startedBy('orphan', session('gone', { isArchived: true }))
+    startedBy('finished', session('idle', {}), 'end_turn')
     // The file usage-waiting.sh writes when a turn ends with background work in flight.
     const waits = (id, text, ageMs = 0) => {
       const at = (Date.now() - ageMs) / 1000
@@ -1310,6 +1320,13 @@ esac`)
       ['names one whose wrap-up call stops for an answer', () => goesCold(halted)],
       ['leaves out one whose wrap-up call asks nothing', () => !goesCold(recapped)],
       ['leaves out one whose question a later prompt answered', () => !goesCold(answered)],
+      ['marks one waiting while a session it started works', () => waitsOnStarted('lead')],
+      ['leaves that one out of the next to go cold', () => !goesCold('lead')],
+      ['leaves alone one whose fork the user made works', () => !waitsOnStarted('forker') && goesCold('forker')],
+      ['leaves alone one whose own turn runs', () => !waitsOnStarted('boss')],
+      ['marks each session up a chain of started ones', () => waitsOnStarted('mid') && waitsOnStarted('top')],
+      ['leaves alone an archived starter', () => !waitsOnStarted('gone')],
+      ['leaves alone one whose started session is done', () => !waitsOnStarted('idle') && goesCold('idle')],
       ['leaves out one whose summary of its last turn says completed', () => !goesCold(summed)],
       ['names one whose completed summary is of an earlier turn', () => goesCold(stale)],
       ['names one whose summary says it needs input', () => goesCold(blocked)],

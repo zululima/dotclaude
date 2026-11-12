@@ -658,6 +658,64 @@ test('marks a title with a gear while its file under usage-waiting is fresh', as
   expect(files.get(own)?.text).toBe('')
 })
 
+test('marks a title with a gear while a session it started works', async ($, on) => {
+  const records = new Map([
+    [record('own'), { title: 'This work', titleSource: 'auto' }],
+    [record('store'), { title: 'Store status', titleSource: 'tool' }],
+  ])
+  const renamed: string[] = []
+  const shown: (string | undefined)[] = []
+  let waiting = [record('own'), record('store')]
+  const clock = mock.clock(on, { now: NOW })
+  on('session.id', () => ({ value: 'abc' }))
+  on('process.run', ($, e) => {
+    if (e.argv[1] === '--next')
+      return ran(
+        `${titleRow(0, 'This work', 'own', 'own', 'auto')}\n` +
+          `${titleRow(NOW + 3_600_000, 'Store status', 'title', 'store')}\n` +
+          waiting.map(path => `0\t\twaits\t${path}\n`).join(''),
+      )
+    if (e.argv[1] === '--status') return warmFor(30)
+    return ran('')
+  })
+  on('ui.status', ($, e) => {
+    shown.push(e.text)
+    return { value: undefined }
+  })
+  on('fs.read', ($, e) => {
+    const found = records.get(e.path)
+    return found ? { value: JSON.stringify(found) } : { deny: 'missing' }
+  })
+  on('mcp.call', ($, e) => {
+    const { session_id: id, title } = e.args as { session_id: string; title: string }
+    renamed.push(`${id}: ${title}`)
+    const path = `/me/sessions/org/account/${id}.json`
+    records.set(path, { ...records.get(path)!, title, titleSource: 'tool' })
+    return { value: { content: [], isError: false } }
+  })
+  on('session.start', () => ({ cwd: '/' }))
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', () => ({ text: '' }))
+
+  await $.session.start(START)
+  await clock.advance(1)
+  expect(renamed).toEqual([`local_own: ${GEAR} This work`, `local_store: ${GEAR} Store status`])
+
+  // Its own turn is work, not waiting, and the wait goes on once it ends.
+  await $.turn.start({ text: 'go', turnId: 't1' })
+  await clock.advance(1)
+  expect(renamed.slice(2)).toEqual([`local_own: ${FIRE} This work`])
+  await $.turn.complete({ ...TURN, turnId: 't1' })
+  await clock.advance(1)
+  expect(renamed.slice(3)).toEqual([`local_own: ${GEAR} This work`])
+
+  // The rows are gone once the started sessions are done.
+  waiting = []
+  await clock.advance(60_000)
+  expect(renamed.slice(4)).toEqual([`local_own: ${FIRE} This work`, `local_store: ${FIRE} Store status`])
+  expect(shown.every(text => !text?.includes(HOURGLASS))).toBe(true)
+})
+
 test('tries a rename the app declines again ten minutes later', async ($, on) => {
   let calls = 0
   const clock = mock.clock(on, { now: NOW })

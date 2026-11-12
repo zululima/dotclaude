@@ -22,7 +22,8 @@
 #                           the other sessions of the last hour that ran on
 #                           this machine, whose cache is
 #                           still warm, whose last turn has ended, that wait on
-#                           no background work, whose last turn the user did
+#                           no background work and on no session they started
+#                           that still works, whose last turn the user did
 #                           not stop and either asked the user something or
 #                           is not one the sidebar marks completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
@@ -35,7 +36,10 @@
 #                           the mod to put a fire, an ice cube or a gear before
 #                           it: the second its cache goes cold (0 for this one),
 #                           the title, own or title, its record, where the title
-#                           came from and its session id
+#                           came from and its session id; then for the gear a
+#                           row per open session whose own turn has ended while
+#                           a session it started works: 0, no title, waits and
+#                           its record
 #   usage.sh --titles <session id>
 #                           those rows for the open desktop sessions quiet for
 #                           over an hour, whose cache is cold for certain
@@ -362,29 +366,31 @@ if [ "${1:-}" = --next ]; then
   memos="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-next"
   mkdir -p "$memos"
   find "$memos" "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/usage-waiting" -type f -mtime +1 -delete 2>/dev/null
-  known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f -exec jq -r '
+  starter='def starter: if .spawnedFrom.sideSession == true and .spawnedFrom.userFork != true
+    then .spawnedFrom.sessionId // "-" else "-" end;'
+  known=$(find "$sessions" -name 'local_*.json' -mmin -65 -type f -exec jq -r "$starter"'
     def completed: .error == null and .interruptedAwaitingPerson == null
       and if .turnWrapUp != null then .turnWrapUp.needsUser == null and .postTurnSummary.status_category != "failed"
         else .postTurnSummaryFor == .lastAssistantUuid and (.postTurnSummary.status_category | IN("completed", "review_ready")) end;
-    "\(.cliSessionId)\t\(.isArchived == true)\t\(completed)\t\(.titleSource // "none")\t\(input_filename)\t\(.title // "")"' {} + 2>/dev/null)
-  find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null |
+    "\(.cliSessionId)\t\(.isArchived == true)\t\(completed)\t\(.titleSource // "none")\t\(input_filename)\t\(starter)\t\(.title // "")"' {} + 2>/dev/null)
+  # The local id of the session that started a session, from its record.
+  starter_of() {
+    local line
+    line=$(printf '%s\n' "$known" | grep -F "/$1.json	")
+    if [ -n "$line" ]; then
+      line=$(printf '%s\n' "$line" | cut -f6)
+    else
+      line=$(find "$sessions" -name "$1.json" -type f -exec jq -r "$starter"' starter' {} + 2>/dev/null)
+    fi
+    [ "$line" = - ] || printf '%s\n' "$line"
+  }
+  busy=' ' working='' waits=' '
+  {
     while IFS= read -r f; do
       id=$(basename "$f" .jsonl)
-      archived='' completed='' source='' record='' title=''
-      IFS=$'\t' read -r _ archived completed source record title < <(printf '%s\n' "$known" | grep -F "$id	")
+      archived='' completed='' source='' record='' parent='' title=''
+      IFS=$'\t' read -r _ archived completed source record parent title < <(printf '%s\n' "$known" | awk -F'\t' -v id="$id" '$1 == id')
       [ "$archived" = true ] && continue
-      if [ "$id" = "${2:-}" ]; then
-        [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\t%s\n' "$title" "$record" "$source" "$id"
-        continue
-      fi
-      named=$title
-      [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
-      untitled=''
-      if [ -z "$title" ]; then
-        untitled=untitled
-        title=$(grep '"type":"last-prompt"' "$f" | tail -1 | jq -r '.lastPrompt // empty | gsub("\\s+"; " ")' 2>/dev/null)
-      fi
-      title=${title:-${id:0:8}}
       # Only responses, the entries they answer and the prompts count, a part
       # of a long transcript. A prompt warms the cache as it goes out, before
       # its first response is written, for the hour a main thread writes. Both
@@ -408,18 +414,59 @@ if [ "${1:-}" = --next ]; then
         printf '%s %s %s %s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" "${ended:-false}" "${asks:-false}" "${cwd:-/}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi
       [ "$asks" = true ] && completed=false
+      held=false
+      waiting "${f%.jsonl}" && held=true
+      if [ -n "$record" ]; then
+        local_id=${record##*/}
+        local_id=${local_id%.json}
+        if [ "$held" = true ]; then
+          working="$working $local_id"
+        elif [ "$ended" != true ] && [ "$stopped" != true ]; then
+          working="$working $local_id"
+          busy="$busy$local_id "
+        fi
+      fi
+      if [ "$id" = "${2:-}" ]; then
+        [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\t%s\n' "$title" "$record" "$source" "$id"
+        continue
+      fi
+      named=$title
+      [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
+      untitled=''
+      if [ -z "$title" ]; then
+        untitled=untitled
+        title=$(grep '"type":"last-prompt"' "$f" | tail -1 | jq -r '.lastPrompt // empty | gsub("\\s+"; " ")' 2>/dev/null)
+      fi
+      title=${title:-${id:0:8}}
       # Syncthing brings the other machine's transcripts too. Its sessions ran
       # in a folder this machine lacks, and only that machine can prompt them.
       [ -d "${cwd:-/}" ] || continue
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source" "$id"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\t%s\n' "$ends" "$title" "$record" "$untitled"
-      waiting "${f%.jsonl}" && continue
+      [ "$held" = true ] && continue
       [ "$completed" = true ] && continue
       [ "$stopped" = true ] && continue
       [ "$ended" = true ] || continue
       [ "${cold:-0}" -gt "$now" ] && printf '%s\t%s\tcold\t%s\t%s\n' "$cold" "$title" "$record" "$untitled"
-    done | sort -n
+    done < <(find "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mmin -65 -type f 2>/dev/null)
+    # A session also waits while a session it started works, or waits on one it
+    # started in turn. The app's record of a started session names its starter,
+    # also once it is detached, and marks a fork the user made as one. Each
+    # such starter gets a row, unless its own turn runs.
+    for s in $working; do
+      p=$(starter_of "$s")
+      while [ -n "$p" ]; do
+        case "$busy$waits" in *" $p "*) break ;; esac
+        r=$(find "$sessions" -name "$p.json" -type f -exec jq -r 'select(.isArchived != true) | input_filename' {} + 2>/dev/null)
+        [ -n "$r" ] || break
+        waits="$waits$p "
+        printf '0\t\twaits\t%s\n' "$r"
+        p=$(starter_of "$p")
+      done
+    done
+  } | awk -F'\t' '{ row[NR] = $0; kind[NR] = $3; record[NR] = $4 } $3 == "waits" { held[$4] = 1 }
+    END { for (i = 1; i <= NR; i++) if (kind[i] != "cold" || !(record[i] in held)) print row[i] }' | sort -n
   exit 0
 fi
 

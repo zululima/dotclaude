@@ -45,6 +45,8 @@ const minutes = (left: number) => (left >= 60_000 ? String(Math.floor(left / 60_
 let usage: Usage | undefined
 let compactsAt: number | undefined
 let others: Other[] = []
+// The records of the sessions waiting while a session they started works.
+let startedWork = new Set<string>()
 let othersReadAt = -Infinity
 let beacon: string | undefined
 let archives: string[] | undefined
@@ -209,8 +211,10 @@ const readOthers = async ($: EngineInterface) => {
   await index($)
   const read = await rows($, ['--next', await $.session.id()])
   const isTitle = ([, , kind = '']: string[]) => kind === 'title' || kind === 'own'
+  const isWaits = ([, , kind = '']: string[]) => kind === 'waits'
+  startedWork = new Set(read.filter(isWaits).map(([, , , record = '']) => record))
   others = read
-    .filter(row => !isTitle(row))
+    .filter(row => !isTitle(row) && !isWaits(row))
     .map(([endsAt = '', title = '', kind = '', record = '', untitled = '']) => ({
       endsAt: Number(endsAt) * 1000,
       title: bare(title),
@@ -270,6 +274,7 @@ const rename = async ($: EngineInterface, t: Titled, mark: string, now: number) 
 
 const markOf = (t: Titled, now: number, waiting: Set<string>) => {
   if (t.isOwn ? isWaiting : waiting.has(t.sessionId)) return GEAR
+  if (startedWork.has(t.record) && !(t.isOwn && isBusy)) return GEAR
   const isWarm = t.isOwn ? isBusy || (usage?.coldAt ?? 0) > now : t.coldAt > now
 
   return isWarm ? FIRE : ICE
@@ -278,7 +283,8 @@ const markOf = (t: Titled, now: number, waiting: Set<string>) => {
 // Each desktop session's title starts with a fire while its cache is warm and
 // an ice cube once it is cold. This session's own is warm while a turn runs.
 // A gear stands for both while a session's turn has ended with background work
-// in flight. One pass at a time, so two never rename the same session.
+// in flight or while a session it started works. One pass at a time, so two
+// never rename the same session.
 const retitle = ($: EngineInterface) =>
   (titling = titling.then(async () => {
     const now = await $.clock.now()
