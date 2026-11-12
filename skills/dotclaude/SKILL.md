@@ -131,7 +131,9 @@ run and its commit in the same turn.
   listed with `gh search prs --author @me --state open`. Each PR whose body carries a block the
   `pull-requests` skill puts there, the configuration link or the prompts block, gets the link
   pinned to the commit just pushed and the rest of the body brought into line with the rules as they
-  now stand, as far as the skill lets an edit of the body change it. A PR with neither block was
+  now stand, as far as the skill lets an edit of the body change it. The link pinned is the one to
+  the repository of the checkout's `origin` remote, matched by owner and name: a link to another
+  owner's copy of the repository stays as it is, hash included. A PR with neither block was
   written by hand and stays as it is. Nothing is rebuilt from another session's context: what the
   new rules need beyond the body, such as prompts, a verify run or new screenshots, is named in the
   reply under its PR, next to what the edit changed. `sync.sh --commit` ends by listing the open PRs

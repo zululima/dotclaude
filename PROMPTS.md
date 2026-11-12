@@ -5,9 +5,16 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Pin only links to the checkout's own repository after a push
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**4.** (answer to: add to the skill that a push pins only your own links?)
+> Kyllä, lisää
+
 ## Never ask which branch a change goes on
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+2026-11-12, commit [64e21ee](https://github.com/zululima/dotclaude/commit/64e21eeb3048342c43e5c7739b6119011df86bb9), model claude-fable-5-2, effort high.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
