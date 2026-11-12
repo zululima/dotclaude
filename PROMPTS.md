@@ -5,9 +5,22 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## models: a session card's title names its model and effort
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**2.**
+> why would you suggest to do 229 although i have many thigns in your
+> order before that? also shouldnt the question also include the
+> suggested effort and model?
+
+**3.**
+> also are the slack messages read like the asap things [a person at
+> a client] mentioned
+
 ## Write IS or PR before a number in a session title
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [48c10e1](https://github.com/zululima/dotclaude/commit/48c10e184090f656f5d41bb5e8f1fa250111105f), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > #176 doesnt say issue or pr maybe say IS in future and now
@@ -6523,6 +6536,7 @@ Stop, add it to dotclaude?)
 - ai: artificial intelligence
 - APK: Android application package
 - arch: Arch Linux
+- asap: as soon as possible
 - bg: background
 - btw: by the way
 - ccbysa4.0: Creative Commons Attribution-ShareAlike 4.0 International
