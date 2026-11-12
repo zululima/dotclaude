@@ -818,6 +818,10 @@ const suites = [
           && pr.endsWith('\n**1.**\n> build it\n\nReply: It is built.\n\n**2.**\n> and test it\n\nReply: Tests pass, see the log for all of it.\n\n')
           && live.endsWith('\n1.\n> build it\nReply: It is built.\n\n2.\n> and test it\n\n')
       }],
+      ['masks the lines outside a quote but keeps their links', () => {
+        const r = run(`> see https://example.com/a and ${address('bob')}\nsee https://example.com/a and ${address('bob')} in ${otherHome}/p, TOKEN=abc\n`, { args: ['mask', '--unquoted-links'] })
+        return r.out === `> see https://example.com/a and ${address('bob')}\nsee https://example.com/a and [an address] in ~/p, TOKEN=[redacted]\n`
+      }],
       ['cuts a long reply at 300 characters and wraps it at 72 columns for a commit', () => {
         jsonl(path.join(config, 'prompt-log/p8.jsonl'), [{ timestamp: '2020-01-01T00:00:00Z', prompt: 'explain' }])
         jsonl(path.join(config, 'projects/x/p8.jsonl'), [

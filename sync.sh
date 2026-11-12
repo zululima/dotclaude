@@ -221,6 +221,10 @@ mirrored=(
   skills/pull-requests/review-page/template.html
   skills/slack-draft/SKILL.md
   skills/slack-draft/copy-rich.sh
+  skills/share/SKILL.md
+  skills/share/export-session.sh
+  skills/share/share-session.sh
+  skills/share/write-to-branch.sh
   skills/chrome/SKILL.md
   skills/emoji-and-stickers/SKILL.md
   skills/pages/SKILL.md

@@ -199,6 +199,9 @@
   you review it.
 - [`skills/slack-draft`](../skills/slack-draft/SKILL.md): Claude drafts a Slack message and puts it
   on your clipboard with links and bold kept. You paste it and press send. Mac only.
+- [`skills/share`](../skills/share/SKILL.md): say share, and Claude writes the conversation as
+  Markdown, shows you what in it talks about people or plans, and after your go puts it on a
+  `claude-sessions` branch of the private GitHub repository you work in, with its link.
 - [`skills/chrome`](../skills/chrome/SKILL.md): how Claude works in your own Chrome: starting the
   extension hidden, reading the page before each click, uploading files, turning a page into a file
   and leaving sign-ins to you.

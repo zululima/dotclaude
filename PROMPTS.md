@@ -6,9 +6,26 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Refuse a session card in favour of a next-step box question
+## Add the share skill, which puts a session on a sessions branch
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: which branch name and reach should shared sessions use?)
+> a, claude-sessions
+
+Reply: The share script now picks where a session goes on claude-sessions, replaces an earlier share of the same session and adds a README to the branch, tested in a scratch repository. Nothing touches [a downstream project] yet; the export itself and the skill wait on two answers.
+
+**4.** (answer to: where should the share skill live so [two colleagues] get it?)
+> b
+
+Reply: Both share scripts now sit in ~/.claude/skills/share, and sharing stops in a repository that is not private, such as dotclaude. The Markdown export, the skill text and the dotclaude commit wait on the last answer; nothing is pushed to [a downstream project].
+
+**5.** (answer to: what should a shared conversation keep and leave out?)
+> a, read before push
+
+## Refuse a session card in favour of a next-step box question
+
+2026-11-12, commit [1746b57](https://github.com/zululima/dotclaude/commit/1746b57098006530427980df2f11ce22f7cfee5e), model claude-opus-5-5, effort xhigh.
 
 **2.** [with a screenshot of a proposed session card]
 > again with the new session. never do that. should always be a cmd

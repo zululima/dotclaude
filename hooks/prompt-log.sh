@@ -12,6 +12,8 @@
 #                       [--effort level]       print the session's prompts
 #   prompt-log.sh mask [--quoted]              mask stdin as print does, with
 #                                              --quoted only the lines from >
+#   prompt-log.sh mask --unquoted-links        mask the lines not from > but
+#                                              keep their links
 #   prompt-log.sh turns [--from n]             print each prompt with its turn
 #                                              as a line of JSON
 #
@@ -87,6 +89,11 @@ if [ "${1:-}" = mask ]; then
   case "${2:-}" in
     "") mask "" ;;
     --quoted) mask "/^>/" ;;
+    --unquoted-links)
+      args=()
+      for m in "${masks[@]:1}"; do args+=(-e "/^>/!${m//'[pasted: an address]'/[an address]}"); done
+      sed -E "${args[@]}"
+      ;;
     *) echo "prompt-log: unknown argument $2" >&2; exit 2 ;;
   esac
   exit
