@@ -21,7 +21,9 @@ hook, which checks code this commit does not touch. They need git, gh signed in,
    view of a named person, a client or another organisation, or a plan they may not want shared,
    and anything the masks missed, such as a password, key or private address not written as
    `NAME=value`, a task another session wrote included. The recommended answer replaces each with
-   a bracketed note, such as `[an aside about a colleague left out]`, by an edit of that file.
+   a bracketed note, such as `[an aside about a colleague left out]`, by an edit of that file. A
+   he, she, his or her for a person whose pronouns no source states is no choice: the edit makes
+   it they or their before the dry run, and the closing message names each one it changed.
 3. Run `~/.claude/skills/share/share-session.sh --dry-run <file>` in the repository and name in the
    closing message the repository, the branch and the address the file will get. A repository that
    gh does not show as private stops the share here. It goes there only when the user names that

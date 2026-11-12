@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Give a session the gear while a session it started works
+## Have the share read-through make guessed pronouns neutral
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> a, read before push
+
+## Give a session the gear while a session it started works
+
+2026-11-12, commit [76ed25c](https://github.com/zululima/dotclaude/commit/76ed25cfc0891bbf4d79dededbeee9b564876717), model claude-opus-5-5, effort xhigh.
 
 **2.** [with a screenshot of a proposed session card] Quoted under [1746b57](https://github.com/zululima/dotclaude/commit/1746b57098006530427980df2f11ce22f7cfee5e).
 
