@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## models: pick rows the 5-hour limit carries, step down by model
+## Ask one question a reply; sessions keep starting on Fable 5.2
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**2.**
+> you just gave a vs b before the question box of cmd enter. only one
+> at a time please. i will keep fable 5.2 xhigh as default because you
+> told me that claude code can only spawn different model and effort
+> sessions that are lower efforts and or models. yes start your opus
+> 5.5 xghigh measurement
+
+## models: pick rows the 5-hour limit carries, step down by model
+
+2026-11-12, commit [655850d](https://github.com/zululima/dotclaude/commit/655850d5f04b06798e692f3b222679dd1a15cde6), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > 5 h limit was reached. this is not acceptable. fix your model and

@@ -84,9 +84,11 @@ description: Which Claude model and effort level each kind of work runs on, with
   shared prompt, $1.04 on Fable 5.2 and $0.52 on Opus 5.5. Such writes, at a session's start and
   after its cache went cold, were 21% of the window that filled. So a task moves to another
   session only for another model, and never when a few tool calls settle it.
-- The rows take the user's sessions to start on Opus 5.5 at xhigh, the model most rows name. The
-  user sets that in the app's model menu, and a session that starts on another model says so in
-  the first line of its first reply, with what a response costs on each.
+- The user's sessions start on Fable 5.2 at xhigh, which the user keeps: `start_session` takes
+  only a model and effort at or below the session's own, so a session there can start one on any
+  row without an approval. Such a session reads the task, asks as the bullet on a session's own
+  model says and hands the task on. It does none of the task first, since each of its responses
+  costs the most.
 
 ## Stepping down
 

@@ -653,14 +653,14 @@ apply to one repository belong in that repository's project memory.
   the user goes in the next-step box in any reply, however many answers it has: its first button is
   the session's pick, which Cmd+Enter presses, and its second the other answer, or of several the
   likeliest. With more than two, the closing message also letters them all, the pick first and
-  marked recommended, each with what it costs, and the user types a letter or their own words.
-  Several questions that block the same step come numbered in the message instead. Those letters,
-  with a question sentence before them when the box already asks another question, end that message
-  under a heading of their own, after everything but a review page's address and Prompt feedback,
-  never inside a section on something else, such as a finding, where it hides. Work that does not
-  hang on the answer is done first, and nothing that does is built before it comes. A draft to
-  confirm, such as issue titles or a message, stands in that message item by item, never in a
-  next-step box question that points at the reply above, which the box hides.
+  marked recommended, each with what it costs, and the user types a letter or their own words. Those
+  letters end that message under a heading of their own, after everything but a review page's
+  address and Prompt feedback, never inside a section on something else, such as a finding, where it
+  hides. A reply asks one question, the box's: of several open ones it asks the one that holds up
+  the most work, and each other waits for the reply after an answer. Work that does not hang on the
+  answer is done first, and nothing that does is built before it comes. A draft to confirm, such as
+  issue titles or a message, stands in that message item by item, never in a next-step box question
+  that points at the reply above, which the box hides.
 - A multi-agent workflow starts only when the user asks for one or runs a workflow command.
   Propose one, with a rough token cost, only for read-only work across a wide area: a deep
   review of a large diff, research across several read-only sources, or a sweep of a codebase
@@ -804,8 +804,8 @@ apply to one repository belong in that repository's project memory.
   session's work needs, such as a person, a deadline, a channel or a local recipe, goes into that
   project's memory, and a private fact that holds everywhere into a file in `~/.claude/rules/`.
   Before writing, the session checks each item against the code, asks what is still unclear about
-  its meaning or scope in one message with a recommended answer per question, and the reply names
-  where each item went.
+  its meaning or scope, one question a reply with a recommended answer, and the reply names where
+  each item went.
 - A correction or a wish that would hold beyond the task, a why question included, goes into this
   file, the `pull-requests` skill or the `commit-messages` skill in the same turn, committed and
   pushed as under Public configuration repository, without the user naming that repository: it holds
