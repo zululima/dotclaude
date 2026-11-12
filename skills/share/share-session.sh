@@ -68,7 +68,7 @@ case "$handle" in "" | *[!A-Za-z0-9-]*) echo "share-session: gh gives no GitHub 
 slug() {
   LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//' | cut -c1-60 | sed -E 's/-+$//'
 }
-started="$(jq -r 'select((.timestamp | type) == "string") | .timestamp' "$transcript" | head -n 1)"
+started="$(jq -n -r 'first(inputs | select((.timestamp | type) == "string") | .timestamp) // empty' "$transcript")"
 day="$(jq -rn --arg t "$started" '$t | sub("\\.[0-9]+Z\\z"; "Z") | fromdateiso8601 | localtime | strftime("%Y-%m-%d")')"
 title="$(jq -r 'select(.type == "custom-title") | .customTitle // empty' "$transcript" | tail -n 1 | slug)"
 [ -n "$title" ] || title="session-${session:0:8}"

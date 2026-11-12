@@ -6,9 +6,15 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Add the share skill, which puts a session on a sessions branch
+## Read a session's first timestamp without a pipe that can break
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: what should a shared conversation keep and leave out?) Quoted under [854b322](https://github.com/zululima/dotclaude/commit/854b322c33bfc5a009313233839dcd56989871ef).
+
+## Add the share skill, which puts a session on a sessions branch
+
+2026-11-12, commit [854b322](https://github.com/zululima/dotclaude/commit/854b322c33bfc5a009313233839dcd56989871ef), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which branch name and reach should shared sessions use?)
 > a, claude-sessions
