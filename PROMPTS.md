@@ -5,9 +5,17 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## Offer a new session in the next-step box, never as a card
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**4.**
+> start also dont give that new session thingy it should be the cmd
+> enter thingy in the future instead
+
 ## docs(rules): end the reply with a question the box cannot hold
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+2026-11-12, commit [cb71a74](https://github.com/zululima/dotclaude/commit/cb71a74d9cd138be9e586e66a18cb2c5fb481d7b), model claude-fable-5-2, effort high.
 
 **3.**
 > a or b was kinda hidden there i want it to be a question like that.
@@ -6555,6 +6563,7 @@ Stop, add it to dotclaude?)
 - cd: change directory, the shell command
 - char: character
 - cicd: CI/CD, continuous integration and delivery
+- cmd: the Command key
 - co2: carbon dioxide
 - cs: computer science
 - cuz: because

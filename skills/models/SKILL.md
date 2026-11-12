@@ -21,13 +21,17 @@ description: Which Claude model and effort level each kind of work runs on, with
   reports nothing back, so the reply links it, and a step that needs its result waits for the user
   to say it is done.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
-- The reply that links a session this one started, or shows the card that proposes one, names that
-  session's model and effort and says why they are the best for it: what in its task puts it on its
-  row, and what the score or guidance behind the row means for that task, such as that a feature
-  touching the backend and the frontend is software work, where Fable 5.2 scores highest at xhigh.
-  The reason is written for that session's task, never the row's last cell copied as it stands.
-  A card's title also ends with the model and effort, as in `IS 12 login form, Fable 5.2 xhigh`:
-  the user reads the card on its own, and starting it is their yes to both.
+- An offer to start a session is a question in the next-step box, never a `start_session` card,
+  neither an "own_initiative" proposal nor an "offer": the question names the task with the
+  session's model and effort in full, its first button, which one shortcut presses, is the yes,
+  and on that yes the session starts it with `start_session` and "user_asked". When the pace is
+  `tight`, that one question names the rung Stepping down gives, and its second button keeps this
+  session's own model and effort.
+- The reply that asks, like the one that links a session this one started, names that session's
+  model and effort and says why they are the best for it: what in its task puts it on its row, and
+  what the score or guidance behind the row means for that task, such as that a feature touching
+  the backend and the frontend is software work, where Fable 5.2 scores highest at xhigh. The
+  reason is written for that session's task, never the row's last cell copied as it stands.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
   on software work it does worse than xhigh.
 - A session cannot switch its own model or effort, so at the prompt that starts a task it reads

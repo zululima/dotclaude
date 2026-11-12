@@ -256,8 +256,8 @@ GitHub.
   those steps fall short, the added steps above give the reader what they need without comment, and
   the reproductions stay the one thing in the reply written for the author.
 - A reply that suggests the next PR review, such as once the PR before it is merged, suggests it in
-  a session of its own, never as more work in this session: a `start_session` card with the whole
-  brief, which the user starts with a click.
+  a session of its own, never as more work in this session: a next-step box question, as the models
+  skill says, and on the user's yes a `start_session` call with the whole brief.
 
 ## Merging
 
