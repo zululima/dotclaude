@@ -6,9 +6,18 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Allow archiving sessions without the auto mode check
+## Refuse a session card in favour of a next-step box question
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** [with a screenshot of a proposed session card]
+> again with the new session. never do that. should always be a cmd
+> enterable and should ask about model effort and reason. also gear for
+> both
+
+## Allow archiving sessions without the auto mode check
+
+2026-11-12, commit [7d787a6](https://github.com/zululima/dotclaude/commit/7d787a6e0f3a9d1d916c0b812aa16d892fcbbe2b), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: have you run the script that allows archiving sessions?)
 > Yes, ran it

@@ -106,6 +106,9 @@
   ask or do, makes it say that you can archive the session.
 - [`detach-started-session.sh`](../hooks/detach-started-session.sh): when Claude starts another
   session, reminds it to move that session to the top of the sidebar instead of under its own.
+- [`no-session-cards.sh`](../hooks/no-session-cards.sh): stops Claude from proposing another
+  session as a card you have to click. It asks under its reply instead, with the model and effort
+  the session would run on, so one shortcut says yes.
 - [`memory-plain-characters.sh`](../hooks/memory-plain-characters.sh): points out long dashes in
   Claude's memory notes, so Claude swaps them for plain punctuation.
 - [`claude-md-memory-index.sh`](../hooks/claude-md-memory-index.sh): when Claude changes a rule in

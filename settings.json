@@ -224,6 +224,16 @@
         ]
       },
       {
+        "matcher": "^mcp__ccd_session__start_session$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/no-session-cards.sh\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {

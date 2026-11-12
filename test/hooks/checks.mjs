@@ -49,6 +49,16 @@ const uses = (name, input) => ({ type: 'assistant', message: { content: [{ type:
 const toolResult = content => ({ type: 'user', message: { content: [{ type: 'tool_result', content }] } })
 
 const suites = [
+  ['no-session-cards.sh', run => {
+    const start = tool_input => run({ hook_event_name: 'PreToolUse', tool_name: 'mcp__ccd_session__start_session', tool_input })
+    return [
+      ['refuses a proposal card', () => refused(start({ initiation: 'own_initiative', title: 'Fix it', prompt: 'Fix it.' }))],
+      ['refuses an offer card', () => refused(start({ initiation: 'offer', title: 'Fix it' }))],
+      ['lets a session the user asked for start', () => quiet(start({ initiation: 'user_asked', title: 'Fix it', prompt: 'Fix it.' }))],
+      ['lets a proposal the user started go through', () => quiet(start({ proposal_id: 'task_1' }))],
+    ]
+  }],
+
   ['calendar-free-busy-only.sh', run => [
     ['lets the user\'s own calendar through', () => quiet(run({ tool_input: { calendarId: 'primary' } }))],
     ['lets a shared group calendar through', () => quiet(run({ tool_input: { calendarId: address('team', 'group.calendar.google.com') } }))],
