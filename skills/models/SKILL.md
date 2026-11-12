@@ -15,6 +15,11 @@ description: Which Claude model and effort level each kind of work runs on, with
   only to reply `ready` and run no tools, so its first turn costs next to nothing. It then gets
   `detach_session`, `set_session_model` and `set_session_effort`, which the app may ask the user to
   approve, and only then its task with `send_message`.
+- No session nests under another. Every brief, a card's too, opens by telling its session to call
+  `detach_session` with `self` before any other step, and a session another one started does so
+  first, told or not. The session that started one also detaches it in the next message. It then
+  reports nothing back, so the reply links it, and a step that needs its result waits for the user
+  to say it is done.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
 - The reply that links a session this one started, or shows the card that proposes one, names that
   session's model and effort and says why they are the best for it: what in its task puts it on its

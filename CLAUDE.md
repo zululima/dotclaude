@@ -581,13 +581,8 @@ apply to one repository belong in that repository's project memory.
   packaged there is called unsupported, never unavailable, and the reply names the package with its
   version and its votes or install count.
 - The window layout of the desktop app is the user's. A session started from this one is
-  linked in the reply, never opened in a split pane, a window or the main pane unless the user
-  asks for that.
-- No session nests under another. Every brief, a card's too, opens by telling its session to call
-  `detach_session` with `self` before any other step, and a session another one started does so
-  first, told or not. The session that started one also detaches it in the next message. It then
-  reports nothing back, so the reply links it, and a step that needs its result waits for the user
-  to say it is done.
+  linked in the reply, never opened in a split pane, a window or the main pane unless the user asks
+  for that.
 - A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
   asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
   browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.
@@ -658,10 +653,13 @@ apply to one repository belong in that repository's project memory.
   shortcut presses, and its second the other answer when there are two. With more answers, the
   closing message letters them all, the pick first and marked recommended, each with what it costs,
   and the user types a letter or their own words. Several questions that block the same step come
-  numbered in the message instead. Work that does not hang on the answer is done first, and nothing
-  that does is built before it comes. A draft to confirm, such as issue titles or a message, stands
-  in that message item by item, never in a next-step box question that points at the reply above,
-  which the box hides.
+  numbered in the message instead. A question the closing message itself carries, because the box
+  already asks another or its answers need letters, ends that message under a heading of its own,
+  after everything but a review page's address and Prompt feedback: a question sentence, then its
+  lettered answers, never inside a section on something else, such as a finding, where it hides.
+  Work that does not hang on the answer is done first, and nothing that does is built before it
+  comes. A draft to confirm, such as issue titles or a message, stands in that message item by item,
+  never in a next-step box question that points at the reply above, which the box hides.
 - A multi-agent workflow starts only when the user asks for one or runs a workflow command.
   Propose one, with a rough token cost, only for read-only work across a wide area: a deep
   review of a large diff, research across several read-only sources, or a sweep of a codebase

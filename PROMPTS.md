@@ -5,9 +5,20 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## docs(rules): end the reply with a question the box cannot hold
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**3.**
+> a or b was kinda hidden there i want it to be a question like that.
+> [answers about a downstream project left out]
+
+**4.** (answer to: when the box already holds a question, where shall a second open question go?)
+> End of the reply
+
 ## models: a session card's title names its model and effort
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [0d70bf7](https://github.com/zululima/dotclaude/commit/0d70bf7d76b25bdf05ee391156deb9736965f840), model claude-fable-5-2, effort xhigh.
 
 **2.**
 > why would you suggest to do 229 although i have many thigns in your

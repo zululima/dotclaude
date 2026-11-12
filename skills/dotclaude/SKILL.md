@@ -204,7 +204,7 @@ run and its commit in the same turn.
   rule in `~/.claude/CLAUDE.md` that never overrides the git author.
 - A `PostToolUse` hook, `~/.claude/hooks/detach-started-session.sh`, hands the `detach_session`
   step back to the model after each `start_session` and `hand_off_to_session` call. It backs the
-  rule in `~/.claude/CLAUDE.md` that no session nests under another.
+  rule in the `models` skill that no session nests under another.
 - A `PostToolUse` hook, `~/.claude/hooks/git-submodule-update-after-switch.sh`, runs the update
   after every Bash command that switches and adds `git submodule status`, or the error that
   stopped the update, to the context. A switch given to the user still carries the update.
