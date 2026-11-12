@@ -793,13 +793,29 @@ const suites = [
           said('00:21', 'm3', [{ type: 'text', text: 'Built it.' }]),
           said('00:21.500', 'm3', [{ type: 'text', text: 'Nothing else.' }]),
           { type: 'user', timestamp: '2020-01-01T00:01:00.100Z', message: { content: 'and test it' } },
-          said('01:10', 'm4', [{ type: 'text', text: 'Tests pass.' }]),
+          said('01:10', 'm4', [{ type: 'text', text: '## Done\n\nTests pass, see [the log](https://example.com/log)\nfor **all** of it.\n\nMore.' }]),
         ])
         const r = run('', { args: ['turns'], env: { PROMPT_LOG_SESSION: 'p7' } })
         const [one, two, more] = r.out.trim().split('\n').map(line => JSON.parse(line))
         return r.code === 0 && !more && one.n === 1 && one.prompt === 'build it' && one.recap === 'It is built.'
           && one.reply === 'Built it.\n\nNothing else.' && one.end === two.start
-          && two.n === 2 && two.recap === null && two.reply === 'Tests pass.' && two.end === null
+          && two.n === 2 && two.recap === null && two.reply.startsWith('## Done') && two.end === null
+      }],
+      ['puts the recap, or else the first paragraph of the last message, under each prompt', () => {
+        const printed = (env, ...args) => run('', { args: ['print', '--model', 'm', '--effort', 'high', ...args], env: { PROMPT_LOG_SESSION: 'p7', ...env } }).out
+        const commit = printed({}, '--commit'), pr = printed({}), live = printed({ CLAUDE_CODE_SESSION_ID: 'p7' }, '--commit')
+        return commit.endsWith('\n1.\n> build it\nReply: It is built.\n\n2.\n> and test it\nReply: Tests pass, see the log for all of it.\n\n')
+          && pr.endsWith('\n**1.**\n> build it\n\nReply: It is built.\n\n**2.**\n> and test it\n\nReply: Tests pass, see the log for all of it.\n\n')
+          && live.endsWith('\n1.\n> build it\nReply: It is built.\n\n2.\n> and test it\n\n')
+      }],
+      ['cuts a long reply at 300 characters and wraps it at 72 columns for a commit', () => {
+        jsonl(path.join(config, 'prompt-log/p8.jsonl'), [{ timestamp: '2020-01-01T00:00:00Z', prompt: 'explain' }])
+        jsonl(path.join(config, 'projects/x/p8.jsonl'), [
+          { type: 'assistant', timestamp: '2020-01-01T00:00:10Z', message: { id: 'm1', model: 'm', content: [{ type: 'text', text: `${'word '.repeat(80)}in ${otherHome}/x.` }] } },
+        ])
+        const out = run('', { args: ['print', '--commit', '--model', 'm', '--effort', 'high'], env: { PROMPT_LOG_SESSION: 'p8' } }).out
+        const reply = out.slice(out.indexOf('Reply: '))
+        return reply.split('\n').every(l => l.length <= 72) && reply.trim().endsWith('word...') && reply.replace(/\n/g, ' ').trim().length <= 300 + 7
       }],
     ]
   }],
@@ -826,6 +842,17 @@ const suites = [
         sh(`cd ${q(work)} && echo d > d && git add d && git commit -q -F ${q(path.join(home, 'pm-4.txt'))}`)
         const text = (run('', { cwd: work }), fs.readFileSync(file, 'utf8'))
         return text.includes('> ask me first\n\n(p1: keep the old\nparser?)\n> Keep it (Recommended)\n\n(p2: rename it?)\n> no\n')
+      }],
+      ['puts the reply under its prompt, and under a prompt quoted again only when it changed', () => {
+        write(path.join(home, 'pm-7.txt'), body('Add the summary', 'sum it up') + 'Reply: It is summed up, from\n2. the start.\n\n2.\n> and push\n')
+        write(path.join(home, 'pm-8.txt'), body('Fix the summary', 'sum it up') + 'Reply: It is summed up, from\n2. the start.\n')
+        write(path.join(home, 'pm-9.txt'), body('Fix it again', 'sum it up') + 'Reply: Fixed twice.\n')
+        sh(`cd ${q(work)} && for n in 7 8 9; do echo $n > r$n && git add r$n && git commit -q -F ${q(home)}/pm-$n.txt; done`)
+        const text = (run('', { cwd: work }), fs.readFileSync(file, 'utf8'))
+        const entry = subject => text.slice(text.indexOf(`## ${subject}`)).split('\n## ')[0]
+        return entry('Add the summary').includes('> sum it up\n\nReply: It is summed up, from 2. the start.\n\n**2.**\n> and push\n')
+          && /\*\*1\.\*\* Quoted under \[?[0-9a-f]{7}.*\.\n$/.test(entry('Fix the summary'))
+          && entry('Fix it again').includes('.\n\nReply: Fixed twice.\n')
       }],
       ['keeps the case variant of an abbreviation that comes first in byte order', () => {
         write(path.join(home, 'pm-5.txt'), body('Add the model', 'add an llm') + '\nAbbreviations:\n- llm: large language model\n- md: markdown\n')
@@ -1238,6 +1265,17 @@ esac`)
     const terminal = session('terminal')
     const working = session('working', {}, 'tool_use')
     const prompted = session('prompted', {}, 'end_turn', [{ ...human('next'), uuid: 'prompted-u2', timestamp: at }])
+    // The record keeps a wrap-up's question only when the wrap-up also stops for the answer.
+    const reply = (id, n, stop, content = []) => ({ type: 'assistant', uuid: `${id}-a${n}`, parentUuid: `${id}-u`, timestamp: at, message: { id: `msg_${id}_${n}`, model: 'claude-opus-5-5', stop_reason: stop, usage: { input_tokens: 10, output_tokens: 5 }, content } })
+    const wrapUp = (id, input) => [
+      reply(id, 2, 'tool_use', [{ type: 'tool_use', id: `${id}-w`, name: 'mcp__ccd_turn__wrap_up', input }]),
+      { ...toolResult('ok'), timestamp: at }, reply(id, 3, 'end_turn'),
+    ]
+    const wraps = (id, input, after = []) => session(id, { turnWrapUp: { description: 'Done.' } }, 'tool_use', [...wrapUp(id, input), ...after])
+    const questioned = wraps('questioned', { recap: 'Done.', ask: 'Shall I push?' })
+    const halted = wraps('halted', { recap: 'Done.', blocked: true })
+    const recapped = wraps('recapped', { recap: 'Done.' })
+    const answered = wraps('answered', { recap: 'Done.', ask: 'Shall I push?' }, [{ ...human('yes'), uuid: 'answered-u2', timestamp: at }, reply('answered', 4, 'end_turn')])
     // The file usage-waiting.sh writes when a turn ends with background work in flight.
     const waits = (id, text, ageMs = 0) => {
       const at = (Date.now() - ageMs) / 1000
@@ -1254,6 +1292,10 @@ esac`)
       ['leaves out a session whose last wrap-up asks nothing', () => !goesCold(wrapped)],
       ['still marks that session\'s title', () => rows('title').includes(`Session ${wrapped}`)],
       ['names one whose wrap-up asks the user something', () => goesCold(asking)],
+      ['names one whose wrap-up call asks something its record left out', () => goesCold(questioned)],
+      ['names one whose wrap-up call stops for an answer', () => goesCold(halted)],
+      ['leaves out one whose wrap-up call asks nothing', () => !goesCold(recapped)],
+      ['leaves out one whose question a later prompt answered', () => !goesCold(answered)],
       ['leaves out one whose summary of its last turn says completed', () => !goesCold(summed)],
       ['names one whose completed summary is of an earlier turn', () => goesCold(stale)],
       ['names one whose summary says it needs input', () => goesCold(blocked)],

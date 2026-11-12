@@ -6,9 +6,18 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Cut what every session loads before its first prompt
+## Name a session whose wrap-up asks something in the usage hourglass
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (typed in the session that started this one)
+> sessions should have some waiting icon if they are waiting for
+> somethign like another session. also my mod dont show anymore the
+> next going cold session fix
+
+## Cut what every session loads before its first prompt
+
+2026-11-12, commit [107f7b7](https://github.com/zululima/dotclaude/commit/107f7b76d97fabfdcc01fec5feead1b2dd34ef1a), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

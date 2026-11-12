@@ -23,8 +23,8 @@
 #                           this machine, whose cache is
 #                           still warm, whose last turn has ended, that wait on
 #                           no background work, whose last turn the user did
-#                           not stop and that the sidebar does not mark
-#                           completed, and those
+#                           not stop and either asked the user something or
+#                           is not one the sidebar marks completed, and those
 #                           whose Chrome tabs hold a sign-in that ends unused,
 #                           soonest first: the second it goes cold or ends, the
 #                           title, cold or sign-in, its record and untitled
@@ -80,7 +80,7 @@ common='
     | if $n == "computer" then $input.action | IN("screenshot", "zoom", "wait") | not
       elif $n == "browser_batch" then any($input.actions[]?; acting(.name; .input))
       else $n | IN("navigate", "form_input", "javascript_tool", "file_upload", "upload_image") end;
-  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}, stopped: false, ended: false};
+  def scan($main): reduce (inputs | fromjson? | select(.timestamp != null)) as $e ({seen: {}, r: [], prompts: [], acts: {}, acted: {}, went: {}, stopped: false, ended: false, asks: false};
       (if $e.uuid != null then .seen[$e.uuid] = ($e.timestamp | secs) else . end)
       | (if $e.cwd != null then .cwd = $e.cwd else . end)
       | (if $e.type == "assistant" then reduce ($e.message.content[]? | select(.type? == "tool_use"
@@ -97,6 +97,14 @@ common='
       | (if $e.type == "assistant" and $e.message.model != "<synthetic>"
          then .ended = ($e.message.stop_reason // "tool_use" | IN("tool_use", "pause_turn") | not)
          elif $e.type == "user" and $e.isMeta != true and $e.isCompactSummary != true then .ended = false
+         else . end)
+      # A turn asks something of the user when its wrap-up has a question or
+      # stops for an answer, until a prompt starts the next turn.
+      | (if $e.type == "assistant" then ([$e.message.content[]? | select(.type? == "tool_use"
+            and .name == "mcp__ccd_turn__wrap_up") | .input] | last) as $w
+          | if $w == null then . else .asks = (($w.ask // "") != "" or $w.blocked == true) end
+         elif $e.type == "user" and $e.isMeta != true and $e.isCompactSummary != true
+           and ($e.message.content | type != "array" or .[0].type? != "tool_result") then .asks = false
          else . end)
       | if $e.type == "assistant" and $e.message.usage != null
           and $e.message.model != "<synthetic>" and $e.message.id != null
@@ -342,9 +350,11 @@ fi
 # The desktop app's record of a session says whether it is archived, where its
 # title came from and whether the sidebar marks it completed: its last turn
 # ended asking nothing of the user, by the wrap-up the app clears on the next
-# prompt or else by the summary of that last turn. A session without one, such
-# as a terminal's, counts as open. A record changes whenever its session does,
-# so only those of the last hour are read.
+# prompt or else by the summary of that last turn. The record keeps a wrap-up's
+# question only when the wrap-up also stops for the answer, so the wrap-up call
+# in the transcript tells the rest. A session without a record, such as a
+# terminal's, counts as open. A record changes whenever its session does, so
+# only those of the last hour are read.
 if [ "${1:-}" = --next ]; then
   now=$(date +%s)
   chrome=false
@@ -381,22 +391,23 @@ if [ "${1:-}" = --next ]; then
       # seconds and whether the last turn ended or the user stopped it follow
       # from the file alone, so every session reads a transcript again only
       # once it has changed.
-      cold=0 ends=0 stopped='' ended='' cwd=''
+      cold=0 ends=0 stopped='' ended='' asks='' cwd=''
       stamp=$(file_stamp "$f")
       memo="$memos/$id"
       size='' mtime=''
-      read -r size mtime cold ends stopped ended cwd 2>/dev/null < "$memo"
-      if [ "$size $mtime" != "$stamp" ] || [ -z "$cwd" ]; then
-        cold=0 ends=0 stopped=false ended=false cwd=/
-        read -r cold ends stopped ended cwd < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
+      read -r size mtime cold ends stopped ended asks cwd 2>/dev/null < "$memo"
+      if [ "$size $mtime" != "$stamp" ] || [ -z "$cwd" ] || { [ "$asks" != true ] && [ "$asks" != false ]; }; then
+        cold=0 ends=0 stopped=false ended=false asks=false cwd=/
+        read -r cold ends stopped ended asks cwd < <(grep -E '"type":"(assistant|user|attachment)"' "$f" | jq -nrR "$common$signins"'
           scan("") | (.prompts | max // 0) as $prompt | signed_in_until as $ends | .stopped as $stopped | .ended as $ended
-          | (.cwd // "/") as $cwd
+          | .asks as $asks | (.cwd // "/") as $cwd
           | grouped
           | (if length > 0 then ttl as $ttl | [(map(.sent) | max), $prompt] | max + $ttl | floor
              elif $prompt > 0 then $prompt + 3600 | floor else 0 end) as $cold
-          | "\($cold) \($ends) \($stopped) \($ended) \($cwd)"' 2>/dev/null)
-        printf '%s %s %s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" "${ended:-false}" "${cwd:-/}" > "$memo.$$" && mv "$memo.$$" "$memo"
+          | "\($cold) \($ends) \($stopped) \($ended) \($asks) \($cwd)"' 2>/dev/null)
+        printf '%s %s %s %s %s %s %s\n' "$stamp" "${cold:-0}" "${ends:-0}" "${stopped:-false}" "${ended:-false}" "${asks:-false}" "${cwd:-/}" > "$memo.$$" && mv "$memo.$$" "$memo"
       fi
+      [ "$asks" = true ] && completed=false
       # Syncthing brings the other machine's transcripts too. Its sessions ran
       # in a folder this machine lacks, and only that machine can prompt them.
       [ -d "${cwd:-/}" ] || continue
