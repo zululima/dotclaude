@@ -5,9 +5,21 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
-## fix(review-page): size screenshots to the window, drop the rail
+## docs(pull-requests): one verb for a run of clicks, typed values as code
 
 2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**4.**
+> [an ask about a downstream project left out] also dont say click
+> ma, click ti, just say click ma, ti, etc.
+>
+> also placeholders like a should be noted like "a" or bolded or
+> whatever is the more clear one for the reviewer that its data to
+> input and not just a part of text
+
+## fix(review-page): size screenshots to the window, drop the rail
+
+2026-11-12, commit [90dd02b](https://github.com/zululima/dotclaude/commit/90dd02b841f49db86ac9cbfd7b0aadb2abd14b39), model claude-fable-5-2, effort high.
 
 **3.**
 > review page should maximize the screenshot as much as possible and

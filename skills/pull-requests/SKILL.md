@@ -139,28 +139,33 @@ GitHub.
   Items a step names from a list on screen, such as the rows a search leaves, come in the order the
   screen lists them. Every control is named by the label the reader sees, in bold, in the locale the
   app renders (the catalog's `msgstr`, or the `msgid` when that is empty), never by what it does for
-  the flow: click **Add item**, search for C and click its card, not "pick an item"; the row's
+  the flow: click **Add item**, search for `C` and click its card, not "pick an item"; the row's
   **Delete**, not "remove it". A verb alone never stands for a control. When a label is on more than
   one control, say which: the row's, the dialog's, the bottom bar's. One action per sentence,
   followed by what the reader should now see, and two actions that each trigger the same thing get a
-  sentence each, never "both ask too". Test data the reader creates gets the shortest name that
-  works, a, b, c or 1, 2, 3, never a prefix such as the PR's number, unless a screenshot or
+  sentence each, never "both ask too". The same action on several controls of one kind in a row,
+  such as the days of a week picker, is one action with one verb: click **Mon**, **Tue** and
+  **Wed**, never a sentence or a verb for each. Test data the reader creates gets the shortest name
+  that works, a, b, c or 1, 2, 3, never a prefix such as the PR's number, unless a screenshot or
   recording of that step shows other data: then the step has the reader type and pick exactly what
   the picture shows, so the screen matches the picture. A step that searches by name says what to
   type and uses the shortest string the seed data does not contain, checked with a search in the
   grid first. A value the reader types that is hard to keep in mind, such as a number sequence, an
   ID or a long name, goes in a `text` block of its own under the sentence that types it, so the
-  review page copies it with one key, while a short word such as a, herv or company1 stays inline.
-  Every action the reader takes is written down, also the ones that feel obvious: copy the address
-  before pasting it, open the new tab before pasting into it, log in again after logging out. A step
-  never relies on something the reader has not been told to do. A step that opens a page gives its
-  full local address, such as `http://localhost:3000/items`, in a `text` block of its own under the
-  step, never the page's name alone and never inline, so the reader copies it in one click instead
-  of hunting through the navigation. Steps run in the order their data needs, deletions last. A step
-  that uses a seeded record says it comes from the seed and what to type to find it. Where the
-  screen shows a stand-in, such as placeholder data, a mock or an unwired part, or a part that
-  ignores the step's input, the step says so. A limitation found while building goes into its step,
-  not only into the reply.
+  review page copies it with one key, while a short word such as `a`, `herv` or `company1` stays
+  inline. Every value the reader types stands in inline code wherever a step names it, in its
+  translation on the review page too, so it reads as data to enter and never as a word of the
+  sentence: type `a` in **Name**. Bold stays for the labels on screen alone. Every action the reader
+  takes is written down, also the ones that feel obvious: copy the address before pasting it, open
+  the new tab before pasting into it, log in again after logging out. A step never relies on
+  something the reader has not been told to do. A step that opens a page gives its full local
+  address, such as `http://localhost:3000/items`, in a `text` block of its own under the step, never
+  the page's name alone and never inline, so the reader copies it in one click instead of hunting
+  through the navigation. Steps run in the order their data needs, deletions last. A step that uses
+  a seeded record says it comes from the seed and what to type to find it. Where the screen shows a
+  stand-in, such as placeholder data, a mock or an unwired part, or a part that ignores the step's
+  input, the step says so. A limitation found while building goes into its step, not only into the
+  reply.
 - The user works through the steps on the review page that Reviewing a PR describes, for every PR
   and not only in a review. The session that opens a PR, or pushes a commit that changes its steps
   or what they show, builds the page in the same turn, after the pictures are in the body, with the
