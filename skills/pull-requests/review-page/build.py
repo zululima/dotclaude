@@ -166,7 +166,7 @@ def render_image(tag):
         )
     return (
         '<figure class="shot"><button type="button" class="zoom" aria-label="%s">'
-        '<img src="%s" alt="%s" loading="lazy"></button></figure>'
+        '<img src="%s" alt="%s"></button></figure>'
         % (html.escape(UI["enlarge"] % (alt or UI["screenshot"])), data, html.escape(alt))
     )
 
@@ -489,6 +489,9 @@ def render_review(review):
     )
 
 
+SHOT = re.compile(r'<figure class="shot">.*?</figure>', re.S)
+
+
 def render_sections(sections):
     out = []
     count = 0
@@ -503,11 +506,15 @@ def render_sections(sections):
             else:
                 count += 1
                 label, kind = UI["step"] % count, ""
+            # The pictures leave the text, so the page can size them on their own.
+            shots = "".join(SHOT.findall(step["body"]))
+            if shots:
+                kind += " has-shots"
             steps.append(
                 '<li class="step%s" id="%s" data-id="%s" tabindex="-1">'
                 '<button type="button" class="check" role="checkbox" aria-checked="false" aria-label="%s"></button>'
-                '<div class="step-main"><div class="step-label">%s</div><div class="step-title">%s</div>'
-                '<div class="step-body">%s</div></div></li>'
+                '<div class="step-main"><div class="step-head"><div class="step-label">%s</div>'
+                '<div class="step-title">%s</div></div>%s<div class="step-body">%s</div></div></li>'
                 % (
                     kind,
                     step["id"],
@@ -515,7 +522,8 @@ def render_sections(sections):
                     html.escape(UI["done_label"] % re.sub("<[^>]+>", "", step["title"])),
                     label,
                     step["title"],
-                    step["body"],
+                    '<div class="step-shots">%s</div>' % shots if shots else "",
+                    SHOT.sub("", step["body"]),
                 )
             )
         out.append(

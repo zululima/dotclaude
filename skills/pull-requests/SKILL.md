@@ -213,11 +213,13 @@ GitHub.
   section's heading and note along. `x` ticks it and moves on to the next one, or clears a tick and
   stays, `c` copies its first command or address and `o` opens its screenshot. The current step
   lists these keys under its title and its first block says that `c` copies it, so the page has no
-  key list of its own. On a wide window the steps sit centred, with the PR and the progress in a
-  rail on the left that stays in view while the steps scroll; a narrow one keeps only a thin
-  progress bar at the top. An address in a `text` block is a link on the page. The ticks live in the
-  browser's storage for that file, so a later review of the same PR rebuilds the page at the same
-  path and they stay; the session cannot read them, so the reader says how far they got.
+  key list of its own. The steps take the whole width of the window, under the PR's name, which
+  scrolls away, and a thin progress bar, which stays. A step's screenshots are as large as the
+  window allows: the page tries the step's text beside them and under them in columns, keeps the
+  layout that shows them largest, and leaves no room empty that a larger screenshot or the text
+  could fill. An address in a `text` block is a link on the page. The ticks live in the browser's
+  storage for that file, so a later review of the same PR rebuilds the page at the same path and
+  they stay; the session cannot read them, so the reader says how far they got.
 - The reply gives the results of the verify command and the end to end run, then the findings and
   the fixes made, and no step list of its own. It ends with the page's `file://` address, with the
   full path from the root, in a `text` block of its own, which the user copies into Firefox's

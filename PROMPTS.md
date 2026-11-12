@@ -5,9 +5,18 @@ with its commit and pull request. Square brackets mark what was left out or reda
 commit without a prompts section is left out. This file is generated from the commit messages,
 so a change by hand is lost at the next commit.
 
+## fix(review-page): size screenshots to the window, drop the rail
+
+2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**3.**
+> review page should maximize the screenshot as much as possible and
+> put text wherever it has more space because now theres alot of empty
+> space there and image is small
+
 ## Ask every question in the next-step box
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [ed2fc12](https://github.com/zululima/dotclaude/commit/ed2fc12f188bc62f464b429c09eadb78bded23a7), model claude-fable-5-2, effort xhigh.
 
 **1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
 
