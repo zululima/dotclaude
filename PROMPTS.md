@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Check the cookie bridge before handing a Chrome sign-in over
+## Allow sync.sh at its new path in ~/Projects/setup
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: ready for the Trust this workspace dialog?)
+> Yes, go ahead
+
+Reply: This session now opens in ~/Projects/setup, and the ~/Projects/dotclaude link is gone. The sync.sh allow rule still names the old path: your script has not run yet, so its commit waits.
+
+**3.** (answer to: shall I add a lock to share-memories.sh?)
+> run and yes do it here
+
+## Check the cookie bridge before handing a Chrome sign-in over
+
+2026-11-13, commit [f489134](https://github.com/zululima/setup/commit/f4891349bf316ca6c81f5d31f3370cceeba2ccb9), model claude-opus-5-5, effort xhigh.
 
 **1.** [a task another Claude session wrote, left out] Quoted under [812f476](https://github.com/zululima/setup/commit/812f476244a367b44587dfe76d47635f613df9b5).
 

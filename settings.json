@@ -59,7 +59,7 @@
       "Bash(~/.claude/hooks/prompt-log.sh print:*)",
       "Bash(gh pr ready:*)",
       "Bash(gh pr merge:*)",
-      "Bash(~/Projects/dotclaude/sync.sh:*)",
+      "Bash(~/Projects/setup/sync.sh:*)",
       "Bash(~/.claude/energy/install.sh:*)",
       "Bash(~/Projects/qobuz-ear-pause/install.sh:*)",
       "Bash(~/.claude/skills/toggl/mic-log.sh:*)",
