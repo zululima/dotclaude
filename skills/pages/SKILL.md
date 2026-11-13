@@ -17,8 +17,9 @@ description: Pages the user opens in a browser, such as an HTML page, a schedule
   header above the content, never after scrolling the content into view and never with a taller or
   full-page one alone. In Claude in Chrome, whose `resize_window` sizes the whole window, that is
   the window sized until `window.innerWidth` by `window.innerHeight` is 1440x730. A whole README is
-  the one exception: scrolled until its tab bar on GitHub meets the window's top, its last line
-  shows. On a page the user works through, the first screen reaches what they act on first, what
+  the one exception: its last line shows with its tab bar on GitHub 140 pixels below the window's
+  top, where a scroll down to it stops with the end of the file list still in view, so the top of
+  the tab bar and the bottom of the last line are at most 590 pixels apart. On a page the user works through, the first screen reaches what they act on first, what
   stays in view sits at the side or in a thin bar, and a part they call too long gets shorter, not
   folded behind a toggle. Text a page shows the user to read, such as the examples beside a review
   row, is never cut at a character count: it shows whole, and a list too long for that picks fewer

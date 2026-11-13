@@ -6,9 +6,15 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Link the copy a PR's own organisation can open
+## Check a README with its tab bar where a scroll stops
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (with a screenshot of the README on GitHub) Quoted under [a129192](https://github.com/zululima/setup/commit/a129192bd01d1ca4de3dae0e81db4cdc24111c40).
+
+## Link the copy a PR's own organisation can open
+
+2026-11-13, commit [a129192](https://github.com/zululima/setup/commit/a129192bd01d1ca4de3dae0e81db4cdc24111c40), model claude-opus-5-5, effort xhigh.
 
 **2.** (with a screenshot of the README on GitHub)
 > hmm in future pin those against the [a mirror's name] one instead?
