@@ -6,9 +6,20 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Check a README with its tab bar where a scroll stops
+## Fit the README where a scroll down to it stops
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (with a screenshot of the README on GitHub) Quoted under [a129192](https://github.com/zululima/setup/commit/a129192bd01d1ca4de3dae0e81db4cdc24111c40).
+
+Reply: PRs in [an employer's] repositories now link [a mirror's name] copy, and the three open [a project's] PRs point at it. The README check now matches where you stop scrolling, so the README, at 677 px from its tab bar against 590 allowed, still needs shortening.
+
+**3.** (answer to: shall I drop the README's "setup" heading and join "New    here?" onto the Docs line?)
+> a, drop the heading
+
+## Check a README with its tab bar where a scroll stops
+
+2026-11-13, commit [b3b59a7](https://github.com/zululima/setup/commit/b3b59a792b69a01a2a586fbbc5b131d112f3619a), model claude-opus-5-5, effort xhigh.
 
 **2.** (with a screenshot of the README on GitHub) Quoted under [a129192](https://github.com/zululima/setup/commit/a129192bd01d1ca4de3dae0e81db4cdc24111c40).
 
@@ -7107,6 +7118,7 @@ Stop, add it to dotclaude?)
 - pls: please
 - PR: pull request
 - prs: pull requests
+- px: pixels
 - QR: Quick Response (a two-dimensional barcode)
 - qr: quick response code
 - r: retry

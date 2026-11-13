@@ -1,5 +1,3 @@
-# setup
-
 My setup and how I work with it, made public so you can borrow from it. Most of it stops a mistake
 Claude Code makes again and again before it happens, and every commit quotes the prompts behind it
 in [`PROMPTS.md`](PROMPTS.md).
@@ -15,9 +13,7 @@ flowchart TD
 
 **Docs:** [how it works](docs/how-it-works.md), [what you get](docs/what-you-get.md), [how I
 work](docs/how-i-work.md), [my Mac](docs/mac.md), [evals](docs/evals.md),
-[install](docs/install.md).
-
-New here? Paste this into Claude Code:
+[install](docs/install.md). New here? Paste this into Claude Code:
 
 ```text
 clone github.com/zululima/setup into ~/Projects and help me pick what to install
