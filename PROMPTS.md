@@ -6,9 +6,30 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Delete leftover Chrome tab groups and retry them while idle
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
+
+**1.**
+> theres a lot of old already archived tabs there. clean them up
+> periodically
+
+Reply: Nothing is cleaned up yet. The 5-hour limit is at 79% used and on pace to fill, so the cleanup of archived sessions' saved tab groups in Chrome waits on which model runs it.
+
+**2.** (answer to: shall I run the cleanup on Opus 5.5 at xhigh?)
+> Yes, Opus 5.5
+
+**3.**
+> [a task another Claude session wrote, left out]
+
+Reply: The cleanup of archived sessions' Chrome tab groups is fixed and will repeat on its own, but nothing is deleted yet: the screen is locked, and the live run in Chrome waits for you. Nothing is committed or pushed.
+
+**4.** (answer to: shall I run the cleanup in Chrome now?)
+> Yes, go ahead
+
 ## Wait for the internet before gm updates anything
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-13, commit [aea3eee](https://github.com/zululima/dotclaude/commit/aea3eee51f8391b90458265bdd2323e6263157b7), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > gm should probably wait for internet on terminal cuz sometimes

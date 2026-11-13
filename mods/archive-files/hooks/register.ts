@@ -39,10 +39,36 @@ const changed = async ($: EngineInterface) => {
   return any
 }
 
+// Chrome tab groups an archive left wait for the user to be idle. The script
+// stamps groups-checked at each try, so all sessions together try once a minute.
+const groupsDue = async ($: EngineInterface) => {
+  const home = await $.env.get('HOME')
+  const dir = `${home}/Library/Application Support/claude-archive-files`
+  const at = (name: string) =>
+    $.fs.stat(`${dir}/${name}`).then(
+      s => s.mtimeMs,
+      () => undefined,
+    )
+  if (home === undefined || (await at('.')) === undefined) return false
+  const [pending, swept, checked] = await Promise.all([at('groups-pending'), at('groups-swept'), at('groups-checked')])
+  if (pending === undefined && swept !== undefined) return false
+
+  return (checked ?? 0) < (await $.clock.now()) - 60_000
+}
+
+let busy = false
+
 // Every session runs this; the script takes a lock and moves each archive once.
 const sweep = async ($: EngineInterface) => {
-  if (!(await changed($))) return
-  await $.process.run([`${$.plugin.root}/archive-files.sh`], { timeoutMs: 180_000 }).catch(() => undefined)
+  if (busy) return
+  busy = true
+  try {
+    const args = (await changed($)) ? [] : (await groupsDue($)) ? ['--groups'] : undefined
+    if (args === undefined) return
+    await $.process.run([`${$.plugin.root}/archive-files.sh`, ...args], { timeoutMs: 180_000 }).catch(() => undefined)
+  } finally {
+    busy = false
+  }
 }
 
 export const register: Register = on => {

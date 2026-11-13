@@ -33,11 +33,18 @@
 # Then it deletes the tab groups Chrome saved closed, which a window closing or
 # Chrome quitting leaves pinned to the bookmarks bar after every tab is gone: a
 # group whose name, less the emoji in front, is the extension's default Claude
-# or the title of a session no longer open. Chrome has no API for saved groups,
-# so it drives each group's menu on the bookmarks bar through accessibility,
-# only while Chrome shows a window whose bar is in view, as on a New Tab page.
+# or a title, current or earlier, of a session no longer open and of none still
+# open. Chrome has no API for saved groups, so it drives each group's menu on
+# the bookmarks bar through accessibility, while the screen is unlocked and
+# Chrome is not in front. A hidden Chrome is shown for the run and hidden
+# again, and a window without a New Tab page in view gets one for the run, made
+# before Chrome shows so the anchor tab of chrome-background.sh stays unseen.
+# Groups are left while an archived session had a Chrome tab group and no run
+# has found the bar clear since; the mod then runs --groups, which tries again
+# once the user has been idle for two minutes, at most every ten minutes.
 #
 #   archive-files.sh                          move for every session archived since the last run
+#   archive-files.sh --groups                 delete the groups left, if any, once the user is idle
 #   archive-files.sh --dry-run <local_id>...  print what would move, close or delete for those sessions
 
 set -u
@@ -51,7 +58,7 @@ state="$HOME/Library/Application Support/claude-archive-files"
 seen="$state/archived-sessions"
 log="$HOME/Library/Logs/claude-archive-files.log"
 [ -d "${log%/*}" ] || log="${XDG_STATE_HOME:-$HOME/.local/state}/claude-archive-files.log"
-dry=
+dry= quiet=
 
 # macOS records /tmp as /private/tmp, so the temp folders count resolved.
 roots=$({
@@ -311,24 +318,35 @@ EOF
   keep_front stop
 }
 
+# Prints a line for each group it deletes or keeps, "clean" once the bar holds
+# no group left to delete, and "skip: why" when it could not look.
 delete_groups() {
   local line
   pgrep -x 'Google Chrome' >/dev/null || return 0
-  jq -n --argjson roots "$roots" "$here"'[inputs | {title: (.title // ""), open: (.isArchived != true or foreign)}]' \
+  jq -n --argjson roots "$roots" "$here"'[inputs | {open: (.isArchived != true or foreign),
+    titles: ([.title] + (.previousTitles // []) | map(strings))}]' \
     "$sessions"/*/*/local_*.json >"$work/titles" 2>/dev/null || return 0
   osascript -l JavaScript - "${dry:+list}" "$work/titles" <<'EOF' 2>&1 | while IFS= read -r line; do
-ObjC.import('Foundation');
+ObjC.import('AppKit');
 ObjC.import('CoreGraphics');
 function run(argv) {
   const listOnly = argv[0] === 'list';
   const sessions = JSON.parse($.NSString.stringWithContentsOfFileEncodingError(argv[1], $.NSUTF8StringEncoding, null).js);
   const core = s => s.replace(/^[^\p{L}\p{N}]+/u, '').trim();
-  const open = new Set(sessions.filter(s => s.open).map(s => core(s.title)));
-  const ours = new Set(sessions.map(s => core(s.title)).concat('Claude'));
+  const titles = list => list.flatMap(s => s.titles.map(core));
+  const open = new Set(titles(sessions.filter(s => s.open)));
+  const ours = new Set(titles(sessions).concat('Claude'));
+  let locked = null;
+  try { locked = ObjC.castRefToObject($.CGSessionCopyCurrentDictionary()).objectForKey('CGSSessionScreenIsLocked'); } catch (e) {}
+  if (locked && !locked.isNil() && locked.js) return 'skip: the screen is locked';
+  const apps = $.NSRunningApplication.runningApplicationsWithBundleIdentifier('com.google.Chrome');
   const procs = Application('System Events').processes.whose({ name: 'Google Chrome' })();
-  if (procs.length === 0) return '';
+  if (apps.count === 0 || procs.length === 0) return '';
+  const app = apps.objectAtIndex(0);
   const p = procs[0];
   const pid = p.unixId();
+  // The run loop has to run, or what NSRunningApplication reports goes stale.
+  const pump = () => $.NSRunLoop.currentRunLoop.runUntilDate($.NSDate.dateWithTimeIntervalSinceNow(0.05));
   const nm = k => { try { return k.name() || k.title() || k.description() || ''; } catch (e) { return ''; } };
   const role = k => { try { return k.role(); } catch (e) { return ''; } };
   const sub = w => { try { return w.subrole(); } catch (e) { return ''; } };
@@ -343,67 +361,146 @@ function run(argv) {
     $.CGEventPostToPid(pid, $.CGEventCreateKeyboardEvent(null, code, true)); delay(0.05);
     $.CGEventPostToPid(pid, $.CGEventCreateKeyboardEvent(null, code, false)); delay(0.15);
   };
+  // Walking the window's tree takes seconds, so the bar found is kept while it is there.
+  let found = null;
   const bar = () => {
+    if (found && nm(found[1]) === 'Saved Tab Groups') return found;
+    found = null;
     for (const w of p.windows()) {
       if (sub(w) !== 'AXStandardWindow') continue;
       try { if (w.attributes['AXMinimized'].value()) continue; } catch (e) {}
       const b = find(w, k => nm(k) === 'Saved Tab Groups', 0);
-      if (b) return [w, b];
+      if (b) return (found = [w, b]);
     }
     return [null, null];
   };
   const buttons = () => { const b = bar()[1]; return b ? b.uiElements() : []; };
   const popup = () => p.windows().find(w => sub(w) !== 'AXStandardWindow');
   const groupOf = n => { const m = n.match(/^(.*) group - Closed$/); return m ? core(m[1]) : null; };
+  const label = n => n.replace(/ group - Closed$/, '').replace(/^[^\p{L}\p{N}#]+/u, '').trim();
   const doomed = n => { const g = groupOf(n); return g !== null && ours.has(g) && !open.has(g); };
   const count = g => buttons().filter(k => groupOf(nm(k)) === g).length;
-  const out = [];
-  if (!bar()[1]) return 'Chrome tab groups: skipped, no window shows the bookmarks bar';
-  if (listOnly) return buttons().map(nm).filter(doomed).map(n => 'would delete the Chrome tab group ' + groupOf(n)).join('\n');
-  // A hidden Chrome opens no menus.
-  if (!p.visible()) return buttons().some(k => doomed(nm(k))) ? 'Chrome tab groups: skipped, Chrome is hidden' : '';
-  for (let round = 0; round < 50; round++) {
-    const w = bar()[0];
-    const btn = buttons().find(k => doomed(nm(k)));
-    if (!btn) break;
-    const name = groupOf(nm(btn));
-    const before = count(name);
-    let menu = null;
-    for (let t = 0; t < 3 && !menu; t++) {
-      btn.actions['AXShowMenu'].perform();
-      for (let i = 0; i < 8 && !menu; i++) { delay(0.25); menu = popup(); }
-    }
-    if (!menu) { out.push('Chrome tab groups: stopped, no menu opened for ' + name); break; }
-    const items = [];
-    (function walk(el, d) {
-      if (d > 8) return;
-      let ks; try { ks = el.uiElements(); } catch (e) { return; }
-      ks.forEach(k => { if (role(k) === 'AXMenuItem') items.push(k); walk(k, d + 1); });
-    })(menu, 0);
-    if (items.slice(0, 4).map(nm).join('|') !== 'Open group|Open group in new window|Unpin group from bookmarks bar|Delete group') {
-      key(53);
-      out.push('Chrome tab groups: stopped, the menu of ' + name + ' has other items');
-      break;
-    }
-    // AXPress on a Chrome menu item does nothing, so the keyboard picks it.
-    for (let i = 0; i < 4; i++) key(125);
-    let picked = false;
-    try { picked = items[3].selected() === true; } catch (e) {}
-    if (!picked) { key(53); out.push('Chrome tab groups: stopped, Delete group was not highlighted for ' + name); break; }
-    key(36);
-    for (let i = 0; i < 12 && count(name) === before; i++) {
-      delay(0.25);
-      const sheet = w.uiElements().find(k => role(k) === 'AXSheet' && nm(k) === 'Delete Tab Group?');
-      const yes = sheet && find(sheet, k => role(k) === 'AXButton' && nm(k) === 'Delete Group', 0);
-      if (yes) { yes.actions['AXPress'].perform(); delay(0.75); }
-    }
-    if (count(name) === before) { out.push('Chrome tab groups: stopped, ' + name + ' is still there'); break; }
-    out.push('deleted the Chrome tab group ' + name);
+  if (listOnly) {
+    if (!bar()[1]) return 'skip: no window shows the bookmarks bar';
+    return buttons().map(nm).filter(doomed).map(n => 'would delete the Chrome tab group ' + label(n)).join('\n');
   }
-  return out.join('\n');
+
+  pump();
+  if (app.active) return 'skip: Chrome is in front';
+  const front = $.NSWorkspace.sharedWorkspace.frontmostApplication;
+  const hidden = app.hidden;
+  const chrome = Application('Google Chrome');
+  const win = chrome.windows().find(w => { try { return w.mode() === 'normal' && !w.minimized(); } catch (e) { return false; } });
+  if (!win) return 'skip: Chrome has no window to show the bookmarks bar in';
+  let made = null, was = 0;
+  if (!/^chrome:\/\/newtab/.test(win.activeTab.url())) {
+    was = win.activeTabIndex();
+    win.tabs.push(chrome.Tab({ url: 'chrome://newtab/' }));
+    win.activeTabIndex = win.tabs.length;
+    made = win.activeTab.id();
+  }
+  if (hidden) app.unhide;
+  const restore = () => {
+    if (hidden) {
+      app.hide;
+      for (let i = 0; i < 40; i++) { pump(); if (app.hidden) break; }
+    }
+    if (made !== null) {
+      try { win.tabs.byId(made).close(); } catch (e) {}
+      try { win.activeTabIndex = was; } catch (e) {}
+    }
+    pump();
+    if (!hidden && app.active && !front.isNil()) front.activateWithOptions(0);
+  };
+
+  const sweep = () => {
+    for (let i = 0; i < 12 && !bar()[1]; i++) delay(0.25);
+    if (!bar()[1]) return ['skip: no window shows the bookmarks bar'];
+    const out = [];
+    // A group passed over this run: kept for good, or left to the next run.
+    const passed = new Set();
+    let unsure = false;
+    for (let round = 0; round < 50; round++) {
+      const w = bar()[0];
+      const btn = buttons().find(k => doomed(nm(k)) && !passed.has(groupOf(nm(k))));
+      if (!btn) break;
+      const name = groupOf(nm(btn));
+      const shown = label(nm(btn));
+      const before = count(name);
+      let menu = null;
+      for (let t = 0; t < 3 && !menu; t++) {
+        btn.actions['AXShowMenu'].perform();
+        for (let i = 0; i < 8 && !menu; i++) { delay(0.25); menu = popup(); }
+      }
+      if (!menu) { out.push('Chrome tab groups: stopped, no menu opened for ' + shown); return out; }
+      // A menu just opened can list its items before it names them.
+      let items = [], names = [];
+      for (let i = 0; i < 8; i++) {
+        items = [];
+        (function walk(el, d) {
+          if (d > 8) return;
+          let ks; try { ks = el.uiElements(); } catch (e) { return; }
+          ks.forEach(k => { if (role(k) === 'AXMenuItem') items.push(k); walk(k, d + 1); });
+        })(menu, 0);
+        names = items.map(nm);
+        if (names.length > 0 && names.every(Boolean)) break;
+        delay(0.25);
+      }
+      if (!names.some(Boolean)) {
+        key(53);
+        passed.add(name);
+        unsure = true;
+        out.push('left the Chrome tab group ' + shown + ' for the next run, its menu named no items');
+        continue;
+      }
+      const del = names.indexOf('Delete group');
+      if (names[0] !== 'Open group' || del < 0) {
+        key(53);
+        passed.add(name);
+        out.push('kept the Chrome tab group ' + shown + ', whose menu has ' + names.filter(Boolean).join(', '));
+        continue;
+      }
+      // AXPress on a Chrome menu item does nothing, so the keyboard picks it.
+      let picked = false;
+      for (let i = 0; i < items.length + 1 && !picked; i++) {
+        key(125);
+        try { picked = items[del].selected() === true; } catch (e) {}
+      }
+      if (!picked) {
+        key(53);
+        passed.add(name);
+        unsure = true;
+        out.push('left the Chrome tab group ' + shown + ' for the next run, Delete group was not highlighted');
+        continue;
+      }
+      key(36);
+      for (let i = 0; i < 12 && count(name) === before; i++) {
+        delay(0.25);
+        const sheet = w.uiElements().find(k => role(k) === 'AXSheet' && nm(k) === 'Delete Tab Group?');
+        const yes = sheet && find(sheet, k => role(k) === 'AXButton' && nm(k) === 'Delete Group', 0);
+        if (yes) { yes.actions['AXPress'].perform(); delay(0.75); }
+      }
+      if (count(name) === before) {
+        passed.add(name);
+        unsure = true;
+        out.push('left the Chrome tab group ' + shown + ' for the next run, it was still there after Delete group');
+        continue;
+      }
+      out.push('deleted the Chrome tab group ' + shown);
+    }
+    if (!unsure && !buttons().some(k => doomed(nm(k)) && !passed.has(groupOf(nm(k))))) out.push('clean');
+    return out;
+  };
+
+  try { return sweep().join('\n'); } finally { restore(); }
 }
 EOF
-    [ -n "$line" ] && say "$line"
+    case $line in
+      '') ;;
+      clean) [ -n "$dry" ] || { rm -f "$state/groups-pending"; touch "$state/groups-swept"; } ;;
+      skip:*) [ -n "$quiet" ] || say "Chrome tab groups: skipped, ${line#skip: }" ;;
+      *) say "$line" ;;
+    esac
   done
 }
 
@@ -415,6 +512,9 @@ handle() {
   if [ "$(jq -r --argjson roots "$roots" "$here"' foreign' "$record")" = true ]; then
     say "  skipped, started in $(jq -r '.cwd // "an unknown folder"' "$record"), outside this machine's home, temp and removable-drive folders"
     return
+  fi
+  if [ -z "$dry" ] && [ -n "$(jq -r '.chromeTabGroupId // empty' "$record")" ]; then
+    touch "$state/groups-pending"
   fi
   if [ -z "$t" ]; then
     say "  no transcript on this machine"
@@ -448,6 +548,22 @@ fi
 
 lock="$state/lock"
 mkdir -p "$state"
+groups_left() { [ -e "$state/groups-pending" ] || [ ! -e "$state/groups-swept" ]; }
+
+if [ "${1:-}" = --groups ]; then
+  touch "$state/groups-checked"
+  [ "$(uname -s)" = Darwin ] && groups_left || exit 0
+  [ -z "$(find "$state/groups-tried" -mmin -10 2>/dev/null)" ] || exit 0
+  idle=$(/usr/sbin/ioreg -c IOHIDSystem | awk '/HIDIdleTime/ { print int($NF / 1000000000); exit }')
+  [ "${idle:-0}" -ge 120 ] || exit 0
+  mkdir "$lock" 2>/dev/null || exit 0
+  trap 'rm -rf "$work"; rmdir "$lock"' EXIT
+  touch "$state/groups-tried"
+  quiet=1
+  delete_groups
+  exit 0
+fi
+
 locked=
 for _ in $(seq 60); do
   mkdir "$lock" 2>/dev/null && locked=1 && break
@@ -481,5 +597,5 @@ done
 sort -u "$work/now" >"$seen"
 if [ -n "${archived:-}" ]; then
   close_tabs "$work/now"
-  delete_groups
+  groups_left && delete_groups
 fi
