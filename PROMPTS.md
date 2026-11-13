@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## pull-requests: link the PR page beside the review page
+## Ask before a tool call puts a dialog on the screen
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.**
+> [a remark about a translation task left out] also ask before you put
+> a full on thing like that on my screen like "are you ready"
+
+## pull-requests: link the PR page beside the review page
+
+2026-11-13, commit [3d15703](https://github.com/zululima/dotclaude/commit/3d15703b8e55ce4b168d3e011ef646cb39ef617e), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > in the future give me the link to the pr page too. [an ask about a

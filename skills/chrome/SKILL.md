@@ -41,3 +41,8 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   its offer to save one, not by importing passwords from Firefox, and not in a password manager's
   Chrome extension that fills logins there. A sign-in in Chrome is the user's to type or paste each
   time a site asks, from the password manager they keep outside Chrome.
+- Chrome tabs stay open, so the user never waits on a close: archiving a session closes every
+  Chrome tab no open session names, the user's own too, through the app and the `archive-files` mod,
+  which also deletes the closed tab groups Chrome saved. Chrome opens its next window at the size of
+  the last one, so before its first `resize_window` the session reads `window.outerWidth` and
+  `window.outerHeight`, and before the reply sets the window back to that size.

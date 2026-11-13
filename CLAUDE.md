@@ -460,12 +460,7 @@ apply to one repository belong in that repository's project memory.
   dialog over the user's work.
 - Once the iOS simulator panel or a simulator has done its job in a turn, the session closes it
   before the reply: the panel with the simulator tool's `detach`, and simulators and emulators with
-  their shutdown commands. A panel where a step waits on the user stays open. Chrome tabs stay open,
-  so the user never waits on a close: archiving a session closes every Chrome tab no open session
-  names, the user's own too, through the app and the `archive-files` mod, which also deletes the
-  closed tab groups Chrome saved. Chrome opens its next window at the size of the last one, so
-  before its first `resize_window` the session reads `window.outerWidth` and `window.outerHeight`,
-  and before the reply sets the window back to that size.
+  their shutdown commands. A panel where a step waits on the user stays open.
 - A run a session starts in the background, with Bash's `run_in_background`, a `Monitor`, a workflow
   or a subagent, gets `show_pane` with `tasks` in the message that starts it, and in each later
   message calling a tool and before each reply while it goes on, which says the run is in the tasks
@@ -495,17 +490,20 @@ apply to one repository belong in that repository's project memory.
   package sources, such as the AUR, Homebrew or Flathub. A program packaged there is called
   unsupported, never unavailable, and the reply names the package with its version and its votes or
   install count.
-- A command that opens a window of its own on the user's screen, outside the desktop app's panes, is
-  asked about first: `open`, `qlmanage -p`, an app launch, the Simulator app. Starting Chrome for
-  browser work, and a tab or window that Claude in Chrome's own tools open, are not such a window.
-  The question names the window and the session waits for a yes; a prompt that itself asks for that
-  window is the yes. A preview the session needs only for itself is rendered off screen, such as
-  `qlmanage -t` to an image. Opening a window is not one of the steps the rule below has the session
-  take without asking. A crash of an app the session launched, a simulator app included, or of a
-  process inside a simulator it booted, such as PosterBoard during a test run's boot, opens a macOS
-  crash report dialog over the user's work, so once one has crashed in a session, each further
-  launch of that app or boot of that simulator is asked about the same way until a launch shows the
-  crash fixed.
+- A command or tool call that puts a window or a dialog of its own on the user's screen, outside the
+  desktop app's panes, is asked about first: `open`, `qlmanage -p`, an app launch, the Simulator
+  app, and the desktop app's own dialogs, such as the folder trust question that `change_directory`
+  and `request_directory` bring up. Starting Chrome for browser work, and a tab or window that
+  Claude in Chrome's own tools open, are not such a window. The question names the window or dialog,
+  as in "ready for the folder trust question?", and the session waits for the user's yes in its own
+  chat, since a key the user types in another session can answer a dialog that comes up unannounced;
+  a prompt that itself asks for that window is the yes, and a request another session relays is not.
+  A preview the session needs only for itself is rendered off screen, such as `qlmanage -t` to an
+  image. Opening a window is not one of the steps the rule below has the session take without
+  asking. A crash of an app the session launched, a simulator app included, or of a process inside a
+  simulator it booted, such as PosterBoard during a test run's boot, opens a macOS crash report
+  dialog over the user's work, so once one has crashed in a session, each further launch of that app
+  or boot of that simulator is asked about the same way until a launch shows the crash fixed.
 - In the desktop app, every turn that answers a prompt from the user renames its own session
   with `set_session_title` and `self`, to a title for what the whole session has done so far, not
   for the latest prompt alone. The call comes once the turn's work is done and is skipped when the
