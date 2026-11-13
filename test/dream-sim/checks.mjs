@@ -344,7 +344,7 @@ const scenarios = [
   ['eve on a machine whose week resets at 07:00, before the work day', thu, [
     ['mode is eve', (st, r) => /^eve/.test(r.mode)],
     ['says that no final run follows, so it also stops 75 minutes before the reset', (st, r) => /That reset comes before 08:00, so no final run follows, and it also stops starting work 75 minutes before the reset/.test(r.mode)],
-    ['keeps the reserve of two 5-hour windows until that reset', (st, r) => /keeps 33\.8 weekly points back until that reset/.test(r.mode) && st.maxWeek <= 95 - 33.8 + 1],
+    ['keeps nothing back while no reset day is measured, since the user does no work before that reset', (st, r) => /it keeps no weekly points back \(no reset day is measured yet, and the user does no work of their own before a reset that comes before 08:00\)/.test(r.mode) && st.maxWeek <= 95 + 1],
     ['uses nothing after the 07:00 reset', st => st.afterWeekReset === 0 && st.lastUse < fridayReset],
     ['no window the run touched is open at 08:00 Friday', st => !st.windows.some(([a, b]) => a <= fridayWork && fridayWork < b && st.lastUse >= a)],
     ['a session without the usage card reads the limits the status line wrote for this machine in the last 5 minutes', st => {
@@ -399,8 +399,20 @@ const scenarios = [
     ['and so does each nine minutes of a wait', st => readings(st).some(([k, p]) => k.endsWith(' after the 14:00 reset') && /> ~\/\.claude\/dream\/running\.json; end=\$\(\( \$\(date -u \+%s\) \+ 540 \)\)/.test(p))],
     ['the run record removes it, when it is still this run\'s', st => (st.prompts['record run'] || '').includes(`jq -e 'select(.machine == "mac" and .started == "2026-10-31T11:12:00Z")' ~/.claude/dream/running.json >/dev/null 2>&1 && rm -f ~/.claude/dream/running.json`)],
   ]],
-  ['a run that nothing fits in', { ...wed, week: 96, sessions: 4 }, [
+  ['a run that nothing fits in', { ...wed, week: 94, sessions: 4 }, [
     ['removes its marker before it stops', (st, r) => /^Nothing fitted/.test(r.error || '') && st.labels.clear === 1 && (st.prompts['clear marker'] || '').includes('select(.machine == "mac" and .started >= "2026-10-14T18:00:00Z")')],
+  ]],
+  ['a run with no weekly room above its margin', { ...wed, week: 96, sessions: 4 }, [
+    ['stops before its scout and says why', (st, r) => !st.labels.scout && /^Nothing ran\. The weekly limit is at 96%, and this night run leaves 5 points of it free, so no work could start before the weekly reset at 2026-10-17 16:59\. The run stopped before its scout\./.test(r.error || '')],
+  ]],
+  ['an eve run with no weekly room above its reserve', { ...nov6, week: 62, weekLines: weekRows.filter(l => !l.includes('"final"')) }, [
+    ['stops before its scout and names the reserve', (st, r) => !st.labels.scout && /this eve run leaves 5 points of it free and keeps 33\.8 back \(2 5-hour windows, since no reset day is measured yet\)/.test(r.error || '') && /stopped before its scout/.test(r.error)],
+  ]],
+  ['the eve run of 12 Nov on the machine whose week resets at 07:00, the week at 67%', { ...thu, args: {}, week: 67, five: 14, fiveReset: '2026-11-12T17:10:00Z', now: '2026-11-12T13:53:00Z', since: '2026-10-31T11:14:25Z', sessions: 325 }, [
+    ['starts work instead of finding that nothing fits', (st, r) => !r.error && st.started.some(work)],
+    ['keeps the week under its margin', st => st.maxWeek <= 95 + 1],
+    ['uses nothing after the 07:00 reset', st => st.afterWeekReset === 0 && st.lastUse < fridayReset],
+    noHits,
   ]],
   ['first run on a machine, the runs on record another machine\'s', { ...wed, week: 30, sessions: 20, machine: 'desk', history: [on('mac', HISTORY)], extraHistory: [on('mac', ranBattery('2026-10-14T08:00:00Z'))] }, [
     ['estimates from none of them', st => st.logs.some(l => /Estimating from 0 earlier runs/.test(l))],

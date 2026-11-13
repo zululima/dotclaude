@@ -20,8 +20,9 @@ export const meta = {
 // {review: true, gm: true}, as the gm skill runs it, the report and the evals come only at the
 // first gm after the weekly reset. Optional args: {mode: "eve", "final", "night" or "day", workAt:
 // "HH:MM" the user starts on the reset day (default 08:00), keep: <5-hour windows an eve run keeps
-// back instead of its default, the most the user spent outside dream runs on one of the last four
-// reset days, or 2 windows when none is measured>, since: "<ISO time>", only: [transcripts,
+// back instead of its default: none when the reset comes before workAt, else the most the user
+// spent outside dream runs on one of the last four reset days, or 2 windows when none is
+// measured>, since: "<ISO time>", only: [transcripts,
 // config, github, battery, rules, waste, harness, doctor, anthropic, hn, finnish, skills,
 // projects, library, upstreams, prs, brief, subagents], all: true for every source, out: "<dir>",
 // margin: <points to leave free, default 5>, pool: <default 7>, unattended: true for a run nobody
@@ -377,7 +378,7 @@ const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 's
 
 // Agents read each other's prompt cache only when type and tools match, so all run as dream-worker.
 let watching = false
-const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset', 'machine', 'running'], properties: { ...USAGE.properties, utcOffset: { type: 'string' }, machine: { type: 'string' }, running: { type: 'string', description: 'The line the marker command printed, or an empty string' } } }
+const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset', 'machine', 'running', 'historyLines', 'weekLines'], properties: { ...USAGE.properties, utcOffset: { type: 'string' }, machine: { type: 'string' }, running: { type: 'string', description: 'The line the marker command printed, or an empty string' }, historyLines: { type: 'array', items: { type: 'string' } }, weekLines: { type: 'array', items: { type: 'string' } } } }
 
 const dreamAgent = (prompt, opts = {}) => {
   const run = agent(prompt, { agentType: 'dream-worker', ...opts })
@@ -471,10 +472,57 @@ const parseOffset = s => {
   const m = /^([+-])(\d{2}):?(\d{2})$/.exec(s || '')
   return m ? (m[1] === '-' ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3])) * 60000 : 0
 }
-// Three stops before the scout, which reads every transcript of the window: another run is going, an unattended run cannot read the limits, or this is a final run that no work could start in.
+const marginFor = mode => typeof opts.margin === 'number' ? opts.margin : mode === 'final' ? 1 : 5
+function weeklyPerWindow(runs) {
+  let five = 0
+  let week = 0
+  for (const r of runs.slice(-HISTORY_RUNS)) {
+    for (const kind in r.ledger) {
+      for (const label in r.ledger[kind]) {
+        if (/hour/i.test(label)) five += r.ledger[kind][label].delta
+        else if (/all models/i.test(label)) week += r.ledger[kind][label].delta
+      }
+    }
+  }
+  return five >= 20 ? (100 * week) / five : DEFAULT_WEEKLY_PER_WINDOW
+}
+// What the user's own work used on a reset day: the weekly percent at the final run's last reading, less the eve run's, less what the final runs spent themselves.
+function ownResetDayUses(weekLines, isMine) {
+  const weeks = {}
+  for (const line of weekLines || []) {
+    let r = null
+    try { r = JSON.parse(line) } catch (e) { continue }
+    const card = r && Array.isArray(r.windows) ? r.windows.find(w => /all models/i.test(w.label)) : null
+    const ends = r ? Date.parse(r.weekEnds) : NaN
+    const at = r ? Date.parse(r.readAt) : NaN
+    if (!card || !isMine(r) || !Number.isFinite(ends) || !Number.isFinite(at) || (r.mode !== 'eve' && r.mode !== 'final')) continue
+    const key = Math.round(ends / 3600000)
+    weeks[key] = (weeks[key] || []).concat({ mode: r.mode, at, used: card.percentUsed, spent: Number(r.dreamSpent) || 0 })
+  }
+  const uses = []
+  for (const key of Object.keys(weeks).sort((a, b) => b - a)) {
+    const rows = weeks[key].sort((a, b) => a.at - b.at)
+    const eve = rows.filter(x => x.mode === 'eve').pop()
+    const finals = eve ? rows.filter(x => x.mode === 'final' && x.at > eve.at) : []
+    if (finals.length) uses.push(Math.max(0, finals[finals.length - 1].used - eve.used - finals.reduce((sum, x) => sum + x.spent, 0)))
+    if (uses.length === 4) break
+  }
+  return uses
+}
+// What an eve run keeps back of the weekly limit for the user's own work. Until a reset day is measured, a run whose reset comes before the user starts work keeps nothing back: the user does no serious work of their own before it.
+function eveReserve(resetFirst, runs, weekLines, isMine) {
+  if (KEEP_GIVEN) return { points: KEEP_WINDOWS * weeklyPerWindow(runs), why: `${KEEP_WINDOWS} 5-hour windows, as asked` }
+  const uses = ownResetDayUses(weekLines, isMine)
+  if (uses.length) return { points: Math.max(...uses), why: `the user's own work, the most it used on one of the last ${uses.length} reset days measured` }
+  if (resetFirst) return { points: 0, why: `no reset day is measured yet, and the user does no work of their own before a reset that comes before ${WORK_AT}` }
+  return { points: KEEP_WINDOWS * weeklyPerWindow(runs), why: `${KEEP_WINDOWS} 5-hour windows, since no reset day is measured yet` }
+}
+// Four stops before the scout, which reads every transcript of the window: another run is going, an unattended run cannot read the limits, this is a final run that no work could start in, or the weekly limit has no room left above the margin and the eve reserve.
 const READ_MARKER = `jq -c 'select(now - .aliveEpoch < ${MARKER_MINUTES * 60})' ${MARKER_FILE} 2>/dev/null`
+// The whole history file runs to over 100 KB, more than a cheap agent can return verbatim, and the reserve needs only each run's machine and ledger.
+const READ_LEDGERS = `jq -c 'select(.ledger) | {machine, ledger}' ${HISTORY_FILE} 2>/dev/null`
 phase('Scout')
-const pre = await dreamAgent(`${READ_USAGE} Then run date +%z and return it as utcOffset, and ${MACHINE_SH} and return it as machine. Then run ${READ_MARKER} and return the line it prints as running, or an empty string when it prints nothing.`, { label: 'usage before the scout', phase: 'Scout', model: 'haiku', effort: 'low', schema: PRE_USAGE })
+const pre = await dreamAgent(`${READ_USAGE} Then run date +%z and return it as utcOffset, and ${MACHINE_SH} and return it as machine. Then run ${READ_MARKER} and return the line it prints as running, or an empty string when it prints nothing. Then run ${READ_LEDGERS} and return each line it prints as historyLines, and run cat ${WEEKS_FILE} 2>/dev/null and return each line it prints as weekLines, both verbatim, in order, and an empty list when the command prints nothing.`, { label: 'usage before the scout', phase: 'Scout', model: 'haiku', effort: 'low', schema: PRE_USAGE })
 const preShift = ms => new Date(ms + parseOffset(pre && pre.utcOffset)).toISOString()
 let going = null
 try { going = pre && pre.running ? (typeof pre.running === 'string' ? JSON.parse(pre.running) : pre.running) : null } catch (e) { going = null }
@@ -502,6 +550,21 @@ ${JSON.stringify(stopLine)}
 EOF
 Then check with tail -n 1 that the file ends with exactly that line. Return ok true when it does.`, { label: 'record reading', phase: 'Scout', model: 'haiku', effort: 'low', schema: OK })
     return { error: `Nothing ran. This would be a final run, since the weekly limit resets today at ${time(resetMs)}, and a run started after ${time(lastStartMs)} can start no work before that reset. It is ${time(at)}, so the run stopped before its scout. A dream run started after the ${time(resetMs)} reset spends the new week. Usage: ${shown}.${kept && kept.ok ? ` The reading is kept in ${WEEKS_FILE} as the last one of this reset day.` : ''}` }
+  }
+}
+if (preCard && Number.isFinite(Date.parse(pre.now)) && Number.isFinite(Date.parse(preCard.resetsAt))) {
+  const at = Date.parse(pre.now)
+  const resetMs = Date.parse(preCard.resetsAt)
+  const day = ms => preShift(ms).slice(0, 10)
+  const mode = askedMode || (day(resetMs) === day(at) ? 'final' : day(resetMs) === day(at + 86400000) ? 'eve' : 'night')
+  const machine = String(pre.machine || '').replace(/[^A-Za-z0-9._-]/g, '')
+  const isMine = r => !r.machine || !machine || r.machine === machine
+  const runs = (pre.historyLines || []).map(line => { try { return JSON.parse(line) } catch (e) { return null } }).filter(r => r && r.ledger && isMine(r))
+  const workAt = Date.parse(`${day(resetMs)}T${WORK_AT.padStart(5, '0')}:00Z`) - parseOffset(pre.utcOffset)
+  const held = mode === 'eve' ? eveReserve(resetMs <= workAt, runs, pre.weekLines, isMine) : { points: 0, why: '' }
+  if (100 - preCard.percentUsed - marginFor(mode) - held.points <= 0) {
+    const shown = pre.windows.map(w => `${w.label} ${w.percentUsed}%`).join(', ')
+    return { error: `Nothing ran. The weekly limit is at ${preCard.percentUsed}%, and this ${mode} run leaves ${marginFor(mode)} points of it free${held.points ? ` and keeps ${held.points.toFixed(1)} back (${held.why})` : ''}, so no work could start before the weekly reset at ${preShift(resetMs).slice(0, 16).replace('T', ' ')}. The run stopped before its scout. Usage: ${shown}.` }
   }
 }
 const clearMarker = (machine, from) => dreamAgent(`A dream run has ended early, so remove its marker when the file still holds it. Run: jq -e 'select(.machine == "${machine}" and .started >= "${from}")' ${MARKER_FILE} >/dev/null 2>&1 && rm -f ${MARKER_FILE}; echo done
@@ -582,7 +645,7 @@ const resetDay = Number.isFinite(weeklyResetMs) ? localDay(weeklyResetMs) : null
 const MODE = askedMode || (resetDay === localDay(nowMs) ? 'final' : resetDay === localDay(nowMs + 86400000) ? 'eve' : 'night')
 const WEEKEND = MODE === 'eve' || MODE === 'final'
 const DAY = MODE === 'day'
-const MARGIN = typeof opts.margin === 'number' ? opts.margin : MODE === 'final' ? 1 : 5
+const MARGIN = marginFor(MODE)
 // With a margin of one point an estimate that runs over would fill the limit, so a final run counts each piece of work half again.
 const SAFETY = MODE === 'final' ? 1.5 : 1
 const MAX_PROPOSALS = WEEKEND ? 50 : 30
@@ -590,46 +653,7 @@ const workAtMs = MODE === 'eve' && resetDay ? Date.parse(`${resetDay}T${WORK_AT.
 // Where the weekly limit resets before the user starts work that day, no final run follows the eve run, so the eve run stops before the reset as a final run does.
 const RESET_FIRST = MODE === 'eve' && Number.isFinite(workAtMs) && weeklyResetMs <= workAtMs
 
-function weeklyPerWindow() {
-  let five = 0
-  let week = 0
-  for (const r of ownHistory.slice(-HISTORY_RUNS)) {
-    for (const kind in r.ledger) {
-      for (const label in r.ledger[kind]) {
-        if (/hour/i.test(label)) five += r.ledger[kind][label].delta
-        else if (/all models/i.test(label)) week += r.ledger[kind][label].delta
-      }
-    }
-  }
-  return five >= 20 ? (100 * week) / five : DEFAULT_WEEKLY_PER_WINDOW
-}
-// What the user's own work used on a reset day: the weekly percent at the final run's last reading, less the eve run's, less what the final runs spent themselves.
-function ownResetDayUses() {
-  const weeks = {}
-  for (const line of scout.weekLines) {
-    let r = null
-    try { r = JSON.parse(line) } catch (e) { continue }
-    const card = r && Array.isArray(r.windows) ? r.windows.find(w => /all models/i.test(w.label)) : null
-    const ends = r ? Date.parse(r.weekEnds) : NaN
-    const at = r ? Date.parse(r.readAt) : NaN
-    if (!card || !mine(r) || !Number.isFinite(ends) || !Number.isFinite(at) || (r.mode !== 'eve' && r.mode !== 'final')) continue
-    const key = Math.round(ends / 3600000)
-    weeks[key] = (weeks[key] || []).concat({ mode: r.mode, at, used: card.percentUsed, spent: Number(r.dreamSpent) || 0 })
-  }
-  const uses = []
-  for (const key of Object.keys(weeks).sort((a, b) => b - a)) {
-    const rows = weeks[key].sort((a, b) => a.at - b.at)
-    const eve = rows.filter(x => x.mode === 'eve').pop()
-    const finals = eve ? rows.filter(x => x.mode === 'final' && x.at > eve.at) : []
-    if (finals.length) uses.push(Math.max(0, finals[finals.length - 1].used - eve.used - finals.reduce((sum, x) => sum + x.spent, 0)))
-    if (uses.length === 4) break
-  }
-  return uses
-}
-const OWN_USES = MODE === 'eve' && !KEEP_GIVEN ? ownResetDayUses() : []
-const RESERVE = MODE !== 'eve' ? 0 : OWN_USES.length ? Math.max(...OWN_USES) : KEEP_WINDOWS * weeklyPerWindow()
-const RESERVE_FOR = OWN_USES.length ? `the user's own work, the most it used on one of the last ${OWN_USES.length} reset days measured`
-  : `${KEEP_WINDOWS} 5-hour windows${KEEP_GIVEN ? ', as asked' : ', since no reset day is measured yet'}`
+const { points: RESERVE, why: RESERVE_FOR } = MODE === 'eve' ? eveReserve(RESET_FIRST, ownHistory, scout.weekLines, mine) : { points: 0, why: '' }
 
 const explicit = Array.isArray(opts.only) && opts.only.length
 const due = s => {
@@ -643,7 +667,7 @@ const only = requested.filter(s => SOURCES.includes(s) && due(s))
 const notDue = requested.filter(s => SOURCES.includes(s) && !due(s))
 
 const modeNote = {
-  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: it keeps ${RESERVE.toFixed(1)} weekly points back ${RESET_FIRST ? 'until that reset' : 'for tomorrow'} (${RESERVE_FOR}), waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched${RESET_FIRST ? `. That reset comes before ${WORK_AT}, so no final run follows, and it also stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset` : ''}`,
+  eve: `an eve run, since the weekly limit resets tomorrow at ${Number.isFinite(weeklyResetMs) ? localTime(weeklyResetMs) : 'an unknown time'}: ${RESERVE ? `it keeps ${RESERVE.toFixed(1)} weekly points back ${RESET_FIRST ? 'until that reset' : 'for tomorrow'} (${RESERVE_FOR})` : `it keeps no weekly points back (${RESERVE_FOR})`}, waits for the 5-hour limit to reset when it fills sooner, and stops starting work in time to leave the 5-hour window open at ${WORK_AT} untouched${RESET_FIRST ? `. That reset comes before ${WORK_AT}, so no final run follows, and it also stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset` : ''}`,
   final: `a final run, since the weekly limit resets ${Number.isFinite(weeklyResetMs) ? `today at ${localTime(weeklyResetMs)}` : 'soon'}: it spends the week down to ${MARGIN} points free, waits for the 5-hour limit to reset when it fills sooner, and stops starting work ${TASK_MINUTES + TAIL_MINUTES} minutes before the reset`,
   night: 'a night run: it guards the weekly limits and stops just short of the 5-hour limit, since an agent that reaches it fails',
   day: 'a day run: it keeps the 5-hour limit under the margin too',

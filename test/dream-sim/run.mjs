@@ -67,7 +67,11 @@ export async function simulate(wf, sc) {
       prs: [1, 2, 3, 4].map(i => ({ url: `https://github.com/o/r/pull/${i}`, repo: 'o/r', number: i, title: `pr ${i}`, isDraft: true, updatedAt: `2026-10-1${i}T00:00:00Z` })),
     }
     // sc.marker is the line another run's marker holds while that run gives signs of life.
-    if (label === 'usage before the scout') return { ...usageCard(), utcOffset: sc.utcOffset || '+0300', machine: sc.machine || 'mac', running: sc.marker || '' }
+    // Its history lines are what the jq in its prompt prints: each run's machine and ledger.
+    if (label === 'usage before the scout') return {
+      ...usageCard(), utcOffset: sc.utcOffset || '+0300', machine: sc.machine || 'mac', running: sc.marker || '', weekLines: sc.weekLines || [],
+      historyLines: (sc.history || [history]).concat(sc.extraHistory || []).map(l => JSON.parse(l)).filter(r => r.ledger).map(r => JSON.stringify({ machine: r.machine ?? null, ledger: r.ledger })),
+    }
     if (label === 'record reading') { st.weekLine = prompt.split('\n').find(x => x.startsWith('{')); return { ok: true } }
     if (label === 'clear marker') return { ok: true }
     if (label.startsWith('usage')) return usageCard()

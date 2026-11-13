@@ -6,6 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Stop a dream run before its scout when the week has no room
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+
+Reply: The dream run reviewed nothing. Weekly use was already 67% when it started, so the 40 points it holds back before tomorrow's reset left no room, and it found that out only after its setup steps had spent tokens. Nothing has been reviewed since 31 Oct, and dream.js is unchanged.
+
+**2.** (answer to: shall I stop dream before its setup steps when full?)
+> yes go ahead also im not going to be probably using my personal
+> claude for anything too serious before 7am so if in doubt you can
+> always start dreaming in the middle of night when im literally doing
+> nothing until 7am when i wake up usually on friday. i just start
+> dreaming on thursday 1630 ish because [a personal plan left out]
+
 ## docs(pull-requests): have a check step print ok itself
 
 2026-11-13, commit [a77b524](https://github.com/zululima/setup/commit/a77b524f7b517f211c1908092ca1ef00a6f2a694), model claude-fable-5-2, effort high.
