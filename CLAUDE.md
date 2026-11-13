@@ -449,8 +449,8 @@ apply to one repository belong in that repository's project memory.
   built from memory notes alone states what was true when they were written. A `retry` or `r`, or
   another ask to redo an answer, reads its sources again, other sessions and git logs too, as the
   user's work moves on.
-- Browser work runs in Claude in Chrome, never in the desktop app's built-in browser pane, and a
-  page is tried there before a reply calls it out of reach. Load the `chrome` skill before the first
+- Browser work runs in Claude in Chrome, where a page is tried before a reply calls it out of reach,
+  and a sign-in a source needs is asked for, never skipped. Load the `chrome` skill before the first
   browser step.
 - A `PushNotification` goes out only while the screen is locked or off. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while

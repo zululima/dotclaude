@@ -1160,6 +1160,17 @@ esac`)
         jsonl(t, [browser, human('add up the invoices'), says(s)])
         return refused(run(stop(s)))
       }],
+      ['sends back a source left unopened behind a sign-in', () => {
+        const s = "The downloads need a developer sign-in, so I haven't opened a glossary."
+        jsonl(t, [browser, human('find a glossary'), says(s)])
+        const r = run(stop(s))
+        return refused(r) && r.err.includes('sign in')
+      }],
+      ['sends back a Finnish claim of a page not opened', () => {
+        const s = 'En ole avannut sivua, koska se vaatii kirjautumisen.'
+        jsonl(t, [browser, human('hae hinta'), says(s)])
+        return refused(run(stop(s)))
+      }],
       ['sends back a claim made in Finnish', () => {
         const s = 'Liite jäi lukematta, koska palvelin antoi virheen.'
         jsonl(t, [browser, human('lue liite'), says(s)])

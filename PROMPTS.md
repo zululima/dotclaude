@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Link the Qobuz AirPods helper from the Mac doc
+## Ask the user to sign in instead of leaving a source unread
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.**
+> [a question about reference apps for a translation left out]
+
+Reply: Named reference apps and said Apple's glossaries need a developer sign-in, so they were not opened.
+
+**5.**
+> logged in on apple glossaries. in future ask me to log in
+
+## Link the Qobuz AirPods helper from the Mac doc
+
+2026-11-13, commit [392fc63](https://github.com/zululima/setup/commit/392fc63ebf5f6c0f40a763793cc7dd9ba50cf20f), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: where shall I publish the Qobuz AirPods helper?)
 > a, own repository
