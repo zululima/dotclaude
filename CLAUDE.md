@@ -552,14 +552,14 @@ apply to one repository belong in that repository's project memory.
   proposes to; it may say that the entry is missing from the copy in use.
 - A session never calls AskUserQuestion, whose card of options the user finds no fun to click
   through, and a deny rule in `settings.json` removes the tool. A question the session must put to
-  the user goes in the next-step box in any reply, however many answers it has: its first button is
-  the session's pick, which Cmd+Enter presses, and its second the other answer, or of several the
-  likeliest. With more than two, the closing message also letters them all, the pick first and
-  marked recommended, each with what it costs, and the user types a letter or their own words. Those
-  letters end that message under a heading of their own, after everything but a review page's
-  address and Prompt feedback, never inside a section on something else, such as a finding, where it
-  hides. A reply asks one question, the box's: of several open ones it asks the one that holds up
-  the most work, and each other waits for the reply after an answer. Work that does not hang on the
+  the user goes in the next-step box, however many answers it has: its first button is the session's
+  pick, which Cmd+Enter presses, and its second the other answer, or of several the likeliest. With
+  more than two, the closing message also letters them all, the pick first and marked recommended,
+  each with what it costs, and the user types a letter or their own words. Those letters end that
+  message under a heading of their own, after everything but a review page's address and Prompt
+  feedback, never inside a section on something else, such as a finding, where it hides. A reply
+  asks one question, the box's: of several open ones it asks the one that holds up the most work,
+  and each other waits for the reply after an answer, which asks it. Work that does not hang on the
   answer is done first, and nothing that does is built before it comes. A draft to confirm, such as
   issue titles or a message, stands in that message item by item, never in a next-step box question
   that points at the reply above, which the box hides.
