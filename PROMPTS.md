@@ -6,9 +6,15 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Make the first graph in how-it-works.md shorter
+## Keep the second graph in how-it-works.md clear of the zoom buttons
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (handed over from another session, which quoted it whole) Quoted under [60a5744](https://github.com/zululima/setup/commit/60a5744cc5ce6efb7d40857fff58dfc4a4abd832).
+
+## Make the first graph in how-it-works.md shorter
+
+2026-11-13, commit [a9c2782](https://github.com/zululima/setup/commit/a9c2782e656bf1b1148b1d80a37dbd9a5f60b987), model claude-opus-5-5, effort xhigh.
 
 **1.** (handed over from another session, which quoted it whole) Quoted under [60a5744](https://github.com/zululima/setup/commit/60a5744cc5ce6efb7d40857fff58dfc4a4abd832).
 

@@ -52,23 +52,19 @@ flowchart TD
 Many rules here started as a mistake Claude made:
 
 ```mermaid
-flowchart LR
-  slip(["Mistake"])
-  sayMirror["I say mirror"]
-  dreamRun["My /dream run"]
-  dreamReview["Dream review"]
+flowchart TD
+  sayMirror(["A mistake, then I say mirror"])
+  dreamRun(["My /dream run and its review"])
   rule["Rule in ~/.claude"]
-  syncSh["sync.sh scan"]
-  commitPush["Commit and push"]
+  syncSh["sync.sh scans, commits and pushes"]
   repo[("This repository")]
   desktop["My Linux desktop"]
   yourCopy["Your ~/.claude"]
 
-  slip --> sayMirror --> rule
-  dreamRun --> dreamReview --> rule
-  rule --> syncSh --> commitPush --> repo
+  sayMirror --> rule
+  dreamRun --> rule
+  rule --> syncSh --> repo -->|clone| yourCopy
   rule -.->|Syncthing| desktop
-  repo -->|clone| yourCopy
 ```
 
 - I say `mirror` and what should happen next time, or `/dream` reads a week of my sessions and I
