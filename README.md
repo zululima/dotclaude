@@ -23,5 +23,5 @@ New here? Paste this into Claude Code:
 clone github.com/zululima/setup into ~/Projects and help me pick what to install
 ```
 
-Prose, meaning `CLAUDE.md`, `PROMPTS.md`, `docs/`, every `SKILL.md` and this README, is [CC BY-SA
-4.0](LICENSE-CC-BY-SA-4.0). Everything else is [AGPL-3.0-or-later](LICENSE).
+[CC BY-SA 4.0](LICENSE-CC-BY-SA-4.0): `CLAUDE.md`, `PROMPTS.md`, `docs/`, `SKILL.md` files, this
+README. [AGPL-3.0-or-later](LICENSE): the rest.

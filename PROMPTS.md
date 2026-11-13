@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Show a page's text whole instead of cutting it at a length
+## Fit the README's licence line on one row
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (a task another Claude session wrote, which quoted this prompt of    the user's whole)
+> zululima setup readme is not oneliner on mac [pasted: the address of
+> the repository's page on GitHub]
+
+## Show a page's text whole instead of cutting it at a length
+
+2026-11-13, commit [7bad17a](https://github.com/zululima/setup/commit/7bad17a4da3d68e969259d937503e95ae48dc69c), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [an ask to download reference files left out]
