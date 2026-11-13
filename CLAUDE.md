@@ -455,8 +455,7 @@ apply to one repository belong in that repository's project memory.
   another ask to redo an answer, reads its sources again, other sessions and git logs too, as the
   user's work moves on.
 - Browser work runs in Claude in Chrome, where a page is tried before a reply calls it out of reach,
-  and a sign-in a source needs is asked for, never skipped. Load the `chrome` skill before the first
-  browser step.
+  and a sign-in a source needs is asked for, never skipped.
 - A `PushNotification` goes out only while the screen is locked or off. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
   the screen is on and unlocked the reply and the sidebar reach them.
@@ -477,7 +476,9 @@ apply to one repository belong in that repository's project memory.
   such as a scheduled task, local or cloud, a launchd agent or a cron entry, names it, when and
   where it runs and what it does, and each reply until a one-time one runs names it and its time.
 - No session waits in the background on a step the user takes by hand, such as plugging a stick into
-  the Mac: the reply gives the step, and the session goes on once the user says it is done.
+  the Mac: the reply gives the step, and the session goes on once the user says it is done. A step
+  in a pane of the app, such as a password for a command the session started in the Terminal panel,
+  comes with that pane shown on its tab by `show_pane` before the reply.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
   suit a kind of user, the session reads that setup's own install scripts, README and settings, and
   the guides they point to, such as an onboarding guide in another repository. Before a reply

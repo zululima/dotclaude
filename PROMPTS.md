@@ -6,9 +6,26 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Step a tight session's task down to Sonnet 5.5 at xhigh
+## Show the pane where a step waits on the user
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.**
+> [an ask about updating Claude on this machine, left out]
+
+Reply: [the version check it got, left out]
+
+**2.** (answer to: shall I start the desktop app update in the Terminal panel?)
+> Yes, start it
+
+Reply: paru is running in the Terminal panel's claude update tab. It's waiting at "Proceed to review?" to update the Claude desktop app from 5.1231.2-1 to 5.11492.2-1. Nothing is installed yet.
+
+**3.** (answer to: is the update installed and the app restarted?)
+> done but always open the terminal pane if needed
+
+## Step a tight session's task down to Sonnet 5.5 at xhigh
+
+2026-11-13, commit [819cfe0](https://github.com/zululima/setup/commit/819cfe01b46eb7b208b5cef80ecabee2ce47c79a), model claude-opus-5-5, effort xhigh.
 
 **2.** Quoted under [cefca0a](https://github.com/zululima/setup/commit/cefca0a32eb422008af79a06af2347c0cac1a6df).
 
