@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Wait for the internet before gm updates anything
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> gm should probably wait for internet on terminal cuz sometimes
+> [a wi-fi network] takes a while to connect
+
 ## Keep another session's hunks out of sync.sh --commit
 
-2026-11-12, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [f8af927](https://github.com/zululima/dotclaude/commit/f8af9271ab590592e690bba471b8879c049121e2), model claude-opus-5-5, effort xhigh.
 
 **1.** [a task another Claude session wrote, left out]
 

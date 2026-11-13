@@ -26,6 +26,10 @@ set -euo pipefail
 sudo -v
 while sleep 60; do kill -0 $$ 2>/dev/null && sudo -n -v 2>/dev/null || exit; done &!
 
+online() { curl -fs -o /dev/null --max-time 3 https://detectportal.firefox.com/success.txt }
+online || print "Waiting for the internet..."
+until online; do sleep 1; done
+
 if docker info >/dev/null 2>&1; then
   "$HOME/bin/stop-containers.sh" || { print "Update and restart cancelled."; exit 1 }
   docker container prune -f
@@ -58,6 +62,11 @@ that installs from a `.pkg` file or removes a system service, and without it `gm
 --reset-timestamp` before its first sudo command in each run, unless `HOMEBREW_SUDO_CHECKED=1` says
 that check already ran. That is Homebrew's internal flag rather than a documented setting, so a
 Homebrew update can bring the prompt back.
+
+Then it waits until the internet answers, since the Wi-Fi can take a while to connect after I open
+the lid, and the Docker Desktop update and Homebrew both need it. It asks every second for the small
+file Firefox uses to detect a captive portal, says `Waiting for the internet...` once and carries on
+by itself when the file comes back. It has no time limit, and Ctrl+C in Terminal stops it.
 
 If Docker is running, it then stops every container with `~/bin/stop-containers.sh`:
 
