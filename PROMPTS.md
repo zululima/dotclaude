@@ -6,9 +6,33 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Rename the repository from dotclaude to setup
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> i dont think my dotclaude should be called dotclaude. any suggestions?
+
+Reply: You have a shortlist of six names for dotclaude, each checked against GitHub's repository search, with house-rules as the pick. Nothing is renamed: the repository, its folder, the dotclaude skill and the hooks all still carry the old name.
+
+**2.**
+> how about setup? since i plan o documenting a lot more on how i work
+
+Reply: Setup is checked: on GitHub the name reads as machine bootstrap, and the word is an everyday noun in your own rules and prompts, so how-i-work is now the pick. Nothing is renamed yet.
+
+**3.**
+> problem with how-i-work is when i say it irl i have to say dash. if
+> it were setup readme wouldnt say claude code setup anymore but more
+> larger than that
+
+Reply: Setup is now the pick: it is one word to say aloud, and with the wider scope its machine-bootstrap reading fits. Nothing is renamed yet, and the new README wording is only a draft.
+
+**4.** (answer to: shall I rename dotclaude to setup in a new session?)
+> Yes, go ahead
+
 ## pull-requests: ask for the review when the PR opens
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+2026-11-13, commit [aa3fa8c](https://github.com/zululima/setup/commit/aa3fa8c6a7d63984317243f7fc4a63a327e46ad1), model claude-opus-5-5, effort high.
 
 **4.**
 > why didnt you ask put draft to ready and ask [a teammate's] review
@@ -6870,6 +6894,7 @@ Stop, add it to dotclaude?)
 - idc: I don't care
 - ip: intellectual property
 - ip: internet protocol address
+- irl: in real life
 - IS: issue
 - ISOFIX: the ISO standard for fixing a child seat to anchor points in the car's frame
 - js: JavaScript

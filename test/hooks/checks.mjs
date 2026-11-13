@@ -251,7 +251,7 @@ const suites = [
     const commit = event('PreToolUse', { tool_input: { command: 'git commit -F msg.txt' } })
     const skill = path.join(config, 'skills/pull-requests/SKILL.md')
     const prEdit = event('PreToolUse', { session_id: 'md2', tool_input: { command: 'gh pr edit 7 --body-file body.md' } })
-    const installs = path.join(home, 'Projects/dotclaude/.git/sync-installed.log')
+    const installs = path.join(home, 'Projects/setup/.git/sync-installed.log')
     const lines = (word, count) => Array.from({ length: count }, (_, i) => `- ${word} rule ${i + 1}, ${'x'.repeat(40)}\n`).join('')
     return [
       ['takes a copy at session start and says nothing', () => { write(rules, '- one\n'); return quiet(run(event('SessionStart'))) }],
@@ -272,7 +272,7 @@ const suites = [
       ['still blocks git -C <dir> commit after that edit', () => refused(run(event('PreToolUse', { tool_input: { command: 'git -C repo commit -F msg.txt' } })))],
       ['blocks sync.sh --commit once after an edit', () => {
         write(rules, '- one\n- two\n- three\n- four\n- five\n')
-        return refused(run(event('PreToolUse', { tool_input: { command: 'cd ~/Projects/dotclaude && ./sync.sh --commit msg.txt' } })))
+        return refused(run(event('PreToolUse', { tool_input: { command: 'cd ~/Projects/setup && ./sync.sh --commit msg.txt' } })))
       }],
       ['takes a subagent\'s first look as its copy', () => quiet(run({ ...commit, agent_id: 'a1' }))],
       ['takes a copy of the pull-requests skill at session start', () => { write(skill, '- body\n'); return quiet(run(event('SessionStart', { session_id: 'md2' }))) }],
@@ -311,7 +311,7 @@ const suites = [
         return quiet(run({ ...commit, session_id: 'md3' }))
       }],
       ['still blocks when a sync.sh run that keeps no log changed the file', () => {
-        const sync = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_4', tool_input: { command: '~/Projects/dotclaude/sync.sh' } })
+        const sync = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_4', tool_input: { command: '~/Projects/setup/sync.sh' } })
         run(sync); write(rules, '- pulled\n'); run({ ...sync, hook_event_name: 'PostToolUse' })
         const r = run({ ...commit, session_id: 'md3' })
         return refused(r) && r.err.includes('+- pulled')
@@ -323,7 +323,7 @@ const suites = [
         return quiet(run({ ...commit, session_id: 'md3' }))
       }],
       ['still blocks when a sync.sh run installed the file from the checkout', () => {
-        const sync = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_9', tool_input: { command: '~/Projects/dotclaude/sync.sh' } })
+        const sync = event('PreToolUse', { session_id: 'md3', tool_name: 'Bash', tool_use_id: 'toolu_9', tool_input: { command: '~/Projects/setup/sync.sh' } })
         run(sync); write(rules, '- from the checkout\n'); fs.appendFileSync(installs, `${Math.floor(Date.now() / 1000)} ${rules}\n`)
         run({ ...sync, hook_event_name: 'PostToolUse' })
         const r = run({ ...commit, session_id: 'md3' })
@@ -437,8 +437,8 @@ const suites = [
     ]
   }],
 
-  ['dotclaude-sync.sh', run => {
-    const checkout = path.join(home, 'Projects/dotclaude')
+  ['mirror-sync.sh', run => {
+    const checkout = path.join(home, 'Projects/setup')
     const sync = path.join(checkout, 'sync.sh'), lock = path.join(checkout, '.git/sync.lock'), ran = path.join(home, 'sync-ran')
     const stub = body => { write(sync, `#!/usr/bin/env bash\n${body}\n`); fs.chmodSync(sync, 0o755) }
     const report = (session_id = 'ds1') => run({ hook_event_name: 'UserPromptSubmit', session_id }, { args: ['--report'] })
@@ -593,25 +593,26 @@ const suites = [
   }],
 
   ['no-meta-prompts.sh', run => {
-    const work = path.join(home, 'meta-work'), checkout = path.join(home, 'Projects/dotclaude')
+    const work = path.join(home, 'meta-work'), checkout = path.join(home, 'Projects/setup')
     const message = (dir, name, prompt) => write(path.join(dir, name),
       `Fix the parser\n\nPrompts behind this commit, as given to Claude Code\n(model m, effort e):\n\n1.\n${prompt.split('\n').map(l => `> ${l}`).join('\n')}\n`)
     return [
-      ['blocks a commit once when a quoted prompt opens with dotclaude', () => {
+      ['blocks a commit once when a quoted prompt opens with mirror', () => {
         sh(`git init -q ${q(work)} && git init -q ${q(checkout)}`)
-        message(work, 'm1.txt', 'dotclaude, add a rule for this')
+        message(work, 'm1.txt', 'mirror, add a rule for this')
         return refused(run(bash('git commit -F m1.txt', work)))
       }],
       ['lets the same commit through the second time', () => quiet(run(bash('git commit -F m1.txt', work)))],
+      ['blocks a prompt that opens with the old name dotclaude', () => { message(work, 'm5.txt', 'dotclaude fix. next time ask'); return refused(run(bash('git commit -F m5.txt', work))) }],
       ['finds the words at a sentence start across a wrapped line', () => { message(work, 'm2.txt', 'fix the parser. global\nmemory: keep tabs'); return refused(run(bash('git commit -F m2.txt', work))) }],
-      ['lets a prompt through that names dotclaude mid-sentence', () => { message(work, 'm3.txt', 'fix the parser the dotclaude way'); return quiet(run(bash('git commit -F m3.txt', work))) }],
+      ['lets a prompt through that names mirror mid-sentence', () => { message(work, 'm3.txt', 'fix the parser the mirror way'); return quiet(run(bash('git commit -F m3.txt', work))) }],
       ['reads a PR body from --body-file', () => { message(work, 'b.md', 'memory: note this'); return refused(run(bash('gh pr create --draft --body-file b.md', work))) }],
-      ['lets the configuration checkout through', () => { message(checkout, 'm4.txt', 'dotclaude, add a rule'); return quiet(run(bash('git commit -F m4.txt', checkout))) }],
+      ['lets the configuration checkout through', () => { message(checkout, 'm4.txt', 'mirror, add a rule'); return quiet(run(bash('git commit -F m4.txt', checkout))) }],
     ]
   }],
 
   ['abbreviations-listed.sh', run => {
-    const work = path.join(home, 'abbr-work'), checkout = path.join(home, 'Projects/dotclaude')
+    const work = path.join(home, 'abbr-work'), checkout = path.join(home, 'Projects/setup')
     const message = (dir, name, prompt, abbreviations = '') => write(path.join(dir, name),
       `Fix the parser\n\nIt parses.\n\nPrompts behind this commit, as given to Claude Code\n(model m, effort e):\n\n1.\n> ${prompt}\n${abbreviations && `\nAbbreviations:\n${abbreviations}\n`}`)
     const earlier = (dir, name, abbreviations) => sh(`git init -q ${q(dir)} && git -C ${q(dir)} commit -q --allow-empty -F ${q(message(home, name, 'open it', abbreviations))}`)
@@ -1338,7 +1339,7 @@ esac`)
   }],
 
   ['own-hunks.sh', run => {
-    const checkout = path.join(home, 'Projects/dotclaude'), records = path.join(checkout, '.git/own-hunks')
+    const checkout = path.join(home, 'Projects/setup'), records = path.join(checkout, '.git/own-hunks')
     const rules = path.join(config, 'CLAUDE.md'), readme = path.join(checkout, 'README.md')
     const call = (tool_name, tool_input, tool_use_id, session_id = 'oh1') => hook_event_name =>
       ({ hook_event_name, session_id, tool_name, tool_input, tool_use_id })
@@ -1367,12 +1368,12 @@ esac`)
         return ok && paths() === 'CLAUDE.md' && blob(before) === '- one\n' && blob(after) === '- one\n- two\n'
       }],
       ['records what reflow.sh rewrapped, after a failed call too', () => {
-        const ok = around(call('Bash', { command: '~/Projects/dotclaude/reflow.sh' }, 'toolu_o2'),
+        const ok = around(call('Bash', { command: '~/Projects/setup/reflow.sh' }, 'toolu_o2'),
           () => { write(rules, '- one\n- two\n- three\n'); write(readme, '# Readme\n\nText.\n') }, 'PostToolUseFailure')
         return ok && paths() === 'CLAUDE.md,CLAUDE.md,README.md'
       }],
       ['records nothing for a command that runs sync.sh', () => {
-        const ok = around(call('Bash', { command: 'cd ~/Projects/dotclaude && ./sync.sh --commit msg.txt CLAUDE.md' }, 'toolu_o3'),
+        const ok = around(call('Bash', { command: 'cd ~/Projects/setup && ./sync.sh --commit msg.txt CLAUDE.md' }, 'toolu_o3'),
           () => write(rules, '- one\n- two\n- three\n- four\n'))
         return ok && recorded().length === 3
       }],

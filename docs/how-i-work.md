@@ -163,10 +163,10 @@ I can start with one click.
 
 Two habits do most of the work:
 
-- When Claude does something that should never happen again, I put `dotclaude` in the prompt, as in
-  "dotclaude fix. next time ...". Claude writes the rule into [`CLAUDE.md`](../CLAUDE.md) or a
-  skill, runs [`sync.sh`](../sync.sh), and commits and pushes it here with my prompt quoted. Many of
-  the rules here started that way.
+- When Claude does something that should never happen again, I put `mirror` in the prompt, as in
+  "mirror fix. next time ...". Claude writes the rule into [`CLAUDE.md`](../CLAUDE.md) or a skill,
+  runs [`sync.sh`](../sync.sh), and commits and pushes it here with my prompt quoted. Many of the
+  rules here started that way.
 - Every reply ends with a short Prompt feedback section: what my prompt left out, and a rewrite. I
   read it and write the next prompt better.
 
@@ -235,9 +235,9 @@ around the reset:
    percentage points of my usage it used and how many proposals wait, and leaves its report to the
    review.
 
-2. Saturday: start a new Code session in `~/Projects/dotclaude` and send this there. That session
-   reads the steps from their files, while the one that ran overnight would send its whole context
-   again with every request.
+2. Saturday: start a new Code session in `~/Projects/setup` and send this there. That session reads
+   the steps from their files, while the one that ran overnight would send its whole context again
+   with every request.
 
    ```text
    dream review

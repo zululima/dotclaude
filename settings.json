@@ -112,7 +112,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$HOME/.claude/hooks/dotclaude-sync.sh\"",
+            "command": "\"$HOME/.claude/hooks/mirror-sync.sh\"",
             "timeout": 180,
             "async": true
           }
@@ -122,7 +122,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$HOME/.claude/hooks/dotclaude-sync.sh\" --report",
+            "command": "\"$HOME/.claude/hooks/mirror-sync.sh\" --report",
             "timeout": 10
           }
         ]
@@ -567,7 +567,7 @@
     ]
   },
   "claudeMdExcludes": [
-    "**/dotclaude/CLAUDE.md"
+    "**/setup/CLAUDE.md"
   ],
   "enableWorkflows": true,
   "skipWorkflowUsageWarning": true,

@@ -1,6 +1,6 @@
 ---
-name: dotclaude
-description: How the public mirror of ~/.claude works: sync.sh, commits and mirrors. Load before changing CLAUDE.md, settings.json, a hook, skill, mod, workflow, command or agent under ~/.claude or anything in ~/Projects/dotclaude, and on a new machine.
+name: mirror
+description: How the public mirror of ~/.claude in ~/Projects/setup works: sync.sh, commits and mirrors. Load at a prompt that says mirror or dotclaude, before changing CLAUDE.md, settings.json, a hook, skill, mod, workflow, command or agent under ~/.claude or anything in ~/Projects/setup, and on a new machine.
 ---
 
 # Public configuration repository
@@ -11,9 +11,9 @@ run and its commit in the same turn.
 
 ## Writing a rule
 
-- A `dotclaude` ask is how the user asks for a rule change, alone or inside a prompt about other
-  work. The Prompt feedback section never calls it unclear or a second job, and a rewritten prompt
-  keeps it.
+- A `mirror` ask is how the user asks for a rule change, alone or inside a prompt about other work,
+  and so is one that names the setup repository or says dotclaude, its name until 2026-11-13. The
+  Prompt feedback section never calls it unclear or a second job, and a rewritten prompt keeps it.
 - A rule in a mirrored file states what holds now. The incident behind it, its date and the wording
   it replaced go into the commit message, never into the file, and a changed rule is rewritten in
   place rather than followed by a note on what it used to say.
@@ -38,10 +38,10 @@ run and its commit in the same turn.
 
 ## The checkout
 
-- The checkout at `~/Projects/dotclaude` holds the mirrored files, each named in the `mirrored` list
+- The checkout at `~/Projects/setup` holds the mirrored files, each named in the `mirrored` list
   of `sync.sh`, and its own `README.md`, `docs/`, licence texts and `sync.sh`.
 - The mirrored copy keeps the name `CLAUDE.md`. A session started inside the checkout would load it
-  as project memory on top of the global file, so `settings.json` lists `**/dotclaude/CLAUDE.md` in
+  as project memory on top of the global file, so `settings.json` lists `**/setup/CLAUDE.md` in
   `claudeMdExcludes`. Claude Code reads no other mirrored file from a repository root, so nothing
   else needs a different name.
 - When a new file under `~/.claude` would help other people (a hook, a skill, a command, an agent),
@@ -72,7 +72,7 @@ run and its commit in the same turn.
   lacks the pulled change still stops the run, as does a pull refused for any other reason, such as
   a change to a file that is not mirrored or a commit made here that the remote lacks. No
   `~/.claude` copy is overwritten on the way.
-- `hooks/dotclaude-sync.sh` runs a plain `sync.sh` in the background at the start of every prompt of
+- `hooks/mirror-sync.sh` runs a plain `sync.sh` in the background at the start of every prompt of
   every session, so the pull and the reconcile need no run of their own. It commits and pushes
   nothing: local changes wait in the checkout for the session that made them. What stops a run, such
   as a pull that would overwrite a change to a file that is not mirrored, reaches each session once
@@ -80,7 +80,7 @@ run and its commit in the same turn.
   for another.
 - `CLAUDE.md`, `README.md`, the files under `docs/` and the pull-requests skill wrap prose at 100
   columns, a list item's later lines indented under its text, and a plain `sync.sh` run stops on a
-  longer line. After an edit of one of them, run `~/Projects/dotclaude/reflow.sh` bare in place of a
+  longer line. After an edit of one of them, run `~/Projects/setup/reflow.sh` bare in place of a
   reflow written for the edit, as a command of its own rather than chained with `sync.sh`, so the
   hook that watches `CLAUDE.md` counts the change as the session's own edit. It fills greedily each
   paragraph that differs from the checkout's last commit, in `~/.claude` and in the checkout, from
@@ -107,7 +107,7 @@ run and its commit in the same turn.
   the version it would commit holds an edit another session recorded and has not committed, and
   either waits for that commit. A named file with no recorded edit, such as one changed by a script
   the user ran, goes in whole, unless it changed since a call of another session began, in the last
-  15 minutes and not yet ended, which waits for that call: read `git -C ~/Projects/dotclaude diff --
+  15 minutes and not yet ended, which waits for that call: read `git -C ~/Projects/setup diff --
   <path>` first, and leave out a file with a hunk this session did not write and tell that session
   with SendMessage. When the edit a stop shows is this session's own after all, deleting that
   session's line for it in `.git/own-hunks/<session>` lets it through, and a call a hook refused
@@ -119,8 +119,8 @@ run and its commit in the same turn.
   optional file beside it that git ignores, removes there what the checkout has deleted, and prints
   each directory it copied into. With `--commit` it then commits and pushes in each of them with the
   same message and a line naming the checkout commit, so one message is trimmed and redacted for
-  every copy. Which directories those are and what each is for lives in the dotclaude checkout's
-  project memory, never in this skill, in `CLAUDE.md` or in another tracked file, so the public
+  every copy. Which directories those are and what each is for lives in the project memory of
+  `~/Projects/setup`, never in this skill, in `CLAUDE.md` or in another tracked file, so the public
   repository shows the mechanism and nothing it points at.
 - A file under `~/.claude` that names a project, client or person can still reach the mirrors:
   `sync-private.txt`, beside `sync.sh` and ignored by git, lists such files one per line, and
@@ -153,7 +153,7 @@ run and its commit in the same turn.
   neighbouring rule it goes beside, since their copy may be older and its lines differ. It tells the
   teammate's Claude Code to put each one in place in their own copy under `~/.claude`, to keep their
   local changes, and then, if they keep a mirror of their own, to commit and push it as their
-  `dotclaude` skill says, and it says go, which their copy of these rules waits for. It names no
+  `mirror` skill says, and it says go, which their copy of these rules waits for. It names no
   project, client or person, so it can be passed on as it is.
 
 ## The usage mod

@@ -236,9 +236,9 @@
   have gone. `/dream` keeps
   both tables current from each new model's launch page and from the unofficial trackers that watch
   for a model quietly getting worse.
-- [`skills/dotclaude`](../skills/dotclaude/SKILL.md): how Claude keeps this copy and my own
-  `~/.claude` the same, and what it must never publish here. Claude reads it only before it changes
-  the setup, which keeps the rules every session reads shorter.
+- [`skills/mirror`](../skills/mirror/SKILL.md): how Claude keeps this copy and my own `~/.claude`
+  the same, and what it must never publish here. Claude reads it only before it changes the setup,
+  which keeps the rules every session reads shorter.
 - [`workflows/dream.js`](../workflows/dream.js): type `/dream` when you stop for the day. Many
   agents read your recent sessions, your setup and the Mac's own power log, which shows what drained
   the battery, and come back with suggested changes, each with a ready script, and scheduled tasks
@@ -259,8 +259,8 @@
 
 ## Only for this repo
 
-- [`dotclaude-sync.sh`](../hooks/dotclaude-sync.sh): runs `sync.sh` in the background at the start
-  of every prompt, so a change pushed from one computer reaches the other without my asking. It
+- [`mirror-sync.sh`](../hooks/mirror-sync.sh): runs `sync.sh` in the background at the start of
+  every prompt, so a change pushed from one computer reaches the other without my asking. It
   publishes nothing, and tells Claude once when something stops it.
 - [`sync.sh`](../sync.sh): keeps this copy and my own `~/.claude` the same, and checks that nothing
   private gets published. It also stops on a shell script with a syntax error, a file this list

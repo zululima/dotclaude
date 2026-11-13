@@ -6,7 +6,7 @@ description: Rules for a commit message: its parts, trailers, prompts section, 7
 # Commit messages
 
 These rules sit beside `~/.claude/CLAUDE.md`. An edit of this skill made from another session
-reaches a running one through the hook that the `dotclaude` skill describes.
+reaches a running one through the hook that the `mirror` skill describes.
 
 - Wrap every line of a commit message at 72 columns, the subject included. Neither GitHub nor
   `git log` reflows long lines, so they break the rendering.
@@ -79,7 +79,7 @@ reaches a running one through the hook that the `dotclaude` skill describes.
   an address as `[an address]`, and none under the last prompt of the session that runs it. With
   `--commit` it also names on stderr the `Abbreviations:` lines that earlier commits gave for words
   the prompts use, in the repository `-C <repo>` names, by default the working directory's, and in
-  `~/Projects/dotclaude`. Then do only what the printout cannot: leave out and redact as the bullets
+  `~/Projects/setup`. Then do only what the printout cannot: leave out and redact as the bullets
   around this one say, in a `Reply:` line as in the prompt it answers, and drop the line with a
   prompt left out whole, replace a spawned task's opening prompt, which another session wrote, with
   `[a task another Claude session wrote, left out]`, say what each pasted address or block was, and

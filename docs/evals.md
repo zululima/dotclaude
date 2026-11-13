@@ -5,7 +5,7 @@ rule counts come from my own sessions, and only the counts leave my computer. To
 your copy:
 
 ```bash
-node ~/Projects/dotclaude/test/evals.mjs
+node ~/Projects/setup/test/evals.mjs
 ```
 
 <!-- evals:start -->

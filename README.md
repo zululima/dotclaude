@@ -1,9 +1,9 @@
-# dotclaude
+# setup
 
-My Claude Code setup, the `~/.claude` folder, made public so you can borrow from it. Most of it
-stops a mistake Claude Code makes again and again before it happens. Projects that write their code
-with AI should publish how they used it too, so every commit here quotes the prompts behind it,
-collected in [`PROMPTS.md`](PROMPTS.md).
+My setup and how I work with it, made public so you can borrow from it. Today most of it is my
+Claude Code setup, the `~/.claude` folder. Most of that stops a mistake Claude Code makes again and
+again before it happens. Projects that write their code with AI should publish how they used it too,
+so every commit here quotes the prompts behind it, collected in [`PROMPTS.md`](PROMPTS.md).
 
 | [`CLAUDE.md`](CLAUDE.md) | [`hooks/`](hooks) | [`skills/`](skills) | [`workflows/`](workflows/dream.js) | [`mods/`](mods) |
 | --- | --- | --- | --- | --- |
@@ -15,7 +15,7 @@ collected in [`PROMPTS.md`](PROMPTS.md).
 New here? Paste this into Claude Code:
 
 ```text
-clone github.com/zululima/dotclaude into ~/Projects and help me pick what to install
+clone github.com/zululima/setup into ~/Projects and help me pick what to install
 ```
 
 Prose, meaning `CLAUDE.md`, `PROMPTS.md`, `docs/`, every `SKILL.md` and this README, is [CC BY-SA

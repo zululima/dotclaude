@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Claude Code UserPromptSubmit hook, wired twice. Run bare, as an async hook, it
-# runs sync.sh of the dotclaude checkout, so every prompt brings GitHub's commits
+# runs sync.sh in ~/Projects/setup, so every prompt brings GitHub's commits
 # into the configuration directory and local edits into the checkout, without a
 # prompt ever waiting on the network or on a credential prompt. It commits and
 # pushes nothing, and skips its turn while another run holds the lock. An async
@@ -12,7 +12,7 @@
 
 set -u
 
-checkout="$HOME/Projects/dotclaude"
+checkout="$HOME/Projects/setup"
 failure="$checkout/.git/claude-code-sync-failure"
 [ -x "$checkout/sync.sh" ] || exit 0
 
@@ -35,7 +35,7 @@ command -v jq >/dev/null 2>&1 || exit 0
 session="$(jq -r '.session_id // ""' 2>/dev/null)"
 case "$session" in "" | *[^A-Za-z0-9_-]*) exit 0 ;; esac
 
-dir="${TMPDIR:-/tmp}/claude-dotclaude-sync"
+dir="${TMPDIR:-/tmp}/claude-mirror-sync"
 mkdir -p "$dir" 2>/dev/null || exit 0
 find "$dir" -type f -mtime +7 -delete 2>/dev/null
 sum="$(cksum <"$failure")"
@@ -44,6 +44,6 @@ printf '%s\n' "$sum" >"$dir/$session" 2>/dev/null
 
 jq -n --arg failure "$(cat "$failure")" '{hookSpecificOutput: {
   hookEventName: "UserPromptSubmit",
-  additionalContext: "The dotclaude sync that runs at the start of each prompt stopped on this, so ~/.claude may lag behind GitHub. Name it in the reply in one line:\n\($failure)"
+  additionalContext: "The sync of ~/Projects/setup that runs at the start of each prompt stopped on this, so ~/.claude may lag behind GitHub. Name it in the reply in one line:\n\($failure)"
 }}'
 exit 0

@@ -619,7 +619,8 @@ apply to one repository belong in that repository's project memory.
 ## Public configuration repository
 
 - The parts of `~/.claude` that help other people learn this workflow are mirrored in a public git
-  repository checked out at `~/Projects/dotclaude`, and the `dotclaude` skill says how.
+  repository, the setup repository, checked out at `~/Projects/setup`, and the `mirror` skill says
+  how.
 - A change to this file or to a mirrored skill is made only on the user's go: a prompt that says go
   or push, a correction or wish meant to hold beyond the task as the last bullet of Memory hygiene
   describes, or a script from this session that the user says they ran. Then it commits and pushes

@@ -38,7 +38,7 @@
 # holds beyond the pulled commits. That is the state a file sync leaves when
 # the other computer committed and pushed the file first.
 #
-# Lock: hooks/dotclaude-sync.sh runs this on every prompt of every session, so
+# Lock: hooks/mirror-sync.sh runs this on every prompt of every session, so
 # a run takes .git/sync.lock, holding its process id, and waits for another
 # that holds it. A run between another's pull and its installs would copy the
 # old local file over the pulled one.
@@ -157,7 +157,7 @@ mirrored=(
   CLAUDE.md
   settings.json
   hooks/calendar-free-busy-only.sh
-  hooks/dotclaude-sync.sh
+  hooks/mirror-sync.sh
   hooks/git-fetch-prune.sh
   hooks/git-fetch-before-remote-base.sh
   hooks/git-prune-gone-branches.sh
@@ -219,7 +219,7 @@ mirrored=(
   mods/archive-files/hooks/register.test.ts
   mods/archive-files/archive-files.sh
   skills/commit-messages/SKILL.md
-  skills/dotclaude/SKILL.md
+  skills/mirror/SKILL.md
   skills/pull-requests/SKILL.md
   skills/pull-requests/pane-upload.sh
   skills/pull-requests/review-page/build.py
@@ -877,7 +877,7 @@ if [ -f claude-md-budget.txt ]; then
       "$claude_md_size" "$((claude_md_size - claude_md_budget))" >&2
     LC_ALL=C awk '/^## / { name = $0 } name != "" { size[name] += length($0) + 1 }
       END { for (s in size) printf "  %6d %s\n", size[s], s }' "${claude_md:-CLAUDE.md}" | sort -rn >&2
-    echo "sync: --commit refuses CLAUDE.md until it fits, the dotclaude skill says how to make room" >&2
+    echo "sync: --commit refuses CLAUDE.md until it fits, the mirror skill says how to make room" >&2
     case " ${public_paths[*]+${public_paths[*]}} " in
       *" . "* | *" CLAUDE.md "* | *" ./CLAUDE.md "*) failed=1 ;;
     esac

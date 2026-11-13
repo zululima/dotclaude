@@ -77,7 +77,7 @@ if [ -n "$arg" ]; then
 fi
 
 top="$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null)" || exit 0
-[ -n "$top" ] && [ "$top" != "$HOME/Projects/dotclaude" ] || exit 0
+[ -n "$top" ] && [ "$top" != "$HOME/Projects/setup" ] || exit 0
 grep -q '^The prompts behind the commits of this repository' "$top/PROMPTS.md" 2>/dev/null || exit 0
 [ -z "$(git -C "$top" status --porcelain -- PROMPTS.md 2>/dev/null)" ] || exit 0
 

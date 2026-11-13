@@ -2,12 +2,14 @@
 
 # Claude Code PreToolUse hook on Bash. Blocks a git commit, or a gh pr create,
 # edit or merge, once when a prompt its message or body quotes has a sentence
-# that opens with dotclaude, global ruling, global memory or memory:, the words
+# that opens with mirror, global ruling, global memory or memory:, the words
 # that mark an ask about the Claude Code setup, which stays out of a project's
-# history. It reads the command text and the files named by -F, --file and
-# --body-file. The configuration checkout and the directories its
-# sync-mirrors.txt lists are let through, since there such prompts are the ones
-# behind the change, and so is the same command with the same message run again.
+# history, or with dotclaude, the name of the setup repository until
+# 2026-11-13, which older prompts still open with. It reads the command text
+# and the files named by -F, --file and --body-file. The configuration checkout
+# and the directories its sync-mirrors.txt lists are let through, since there
+# such prompts are the ones behind the change, and so is the same command with
+# the same message run again.
 
 set -u
 
@@ -36,7 +38,7 @@ dir="$cwd"
 c_arg="$(printf '%s\n' "$cmd" | sed -nE 's/.*git -C ([^[:space:];&|]+) .*/\1/p' | head -n 1)"
 [ -z "$c_arg" ] || dir="$(expand "$c_arg" "$cwd")"
 
-config_repo="$HOME/Projects/dotclaude"
+config_repo="$HOME/Projects/setup"
 top="$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null)"
 if [ -n "$top" ]; then
   [ "$top" = "$config_repo" ] && exit 0
@@ -62,7 +64,7 @@ done < <(printf '%s\n' "$cmd" |
 hits="$(printf '%s\n' "$text" | awk '
   function flush() {
     if (n != "" && !(n in seen) &&
-        tolower(quote) ~ /(^|[.?!|] )(dotclaude|global (ruling|memory)|memory:)/) {
+        tolower(quote) ~ /(^|[.?!|] )(mirror|dotclaude|global (ruling|memory)|memory:)/) {
       seen[n]
       hits = hits (hits == "" ? "" : ", ") n
     }
@@ -88,10 +90,10 @@ mark="$state/$key-$(printf '%s' "$text" | cksum | cut -d ' ' -f 1)"
 case "$hits" in *,*) which="prompts $hits" ;; *) which="prompt $hits" ;; esac
 cat >&2 <<EOF
 Blocked once by ~/.claude/hooks/no-meta-prompts.sh, so no part of the command
-ran: a sentence in quoted $which opens with dotclaude, global ruling, global
-memory or memory:, the words that mark an ask about the Claude Code setup.
-~/.claude/CLAUDE.md leaves meta prompts out of a project's commits and PR
-bodies. Replace that part with a bracketed note such as [a request about the
+ran: a sentence in quoted $which opens with mirror, dotclaude, global ruling,
+global memory or memory:, the words that mark an ask about the Claude Code
+setup. ~/.claude/CLAUDE.md leaves meta prompts out of a project's commits and
+PR bodies. Replace that part with a bracketed note such as [a request about the
 Claude Code setup left out], and leave out a prompt that holds nothing else. A
 message or body file this command writes, as with a cat heredoc, was not
 written and holds what it held before, if it exists: make the change in the

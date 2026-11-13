@@ -112,7 +112,7 @@ missing="$(awk '
   file == 2 && prompts && /^>/ { sub(/^> ?/, ""); quoted = quoted " " tolower($0) }
   END { for (w in gloss) if (!(w in listed) && hasword(quoted, w)) print w "\t" gloss[w] }
 ' <(git -C "$dir" log --format='%x01%n%B' 2>/dev/null
-    git -C "$HOME/Projects/dotclaude" log --format='%x01%n%B' 2>/dev/null) \
+    git -C "$HOME/Projects/setup" log --format='%x01%n%B' 2>/dev/null) \
   <(printf '%s\n' "$text"))"
 [ -n "$missing" ] || exit 0
 

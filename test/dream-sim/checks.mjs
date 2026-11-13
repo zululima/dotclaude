@@ -212,7 +212,7 @@ const scenarios = [
     ['and to add the energy to the report file without showing it', (st, r) => /usage\.sh --run/.test(r.forTheSession) && /Show none of it in the chat/.test(r.forTheSession) && !/the dollars at API list prices/.test(r.forTheSession)],
     ['and no week of all sessions, which only a final run adds', (st, r) => !/usage\.sh --since/.test(r.forTheSession)],
     ['and leaves the evals to the review', (st, r) => !/evals\.mjs/.test(r.forTheSession)],
-    ['and leaves the steps to a dream review in a new session in the checkout', (st, r) => /\d+ proposals and the report wait for dream review/.test(r.forTheSession) && r.forTheSession.includes('start a new session in ~/Projects/dotclaude and type "dream review" there') && !/one step per message/.test(r.forTheSession)],
+    ['and leaves the steps to a dream review in a new session in the checkout', (st, r) => /\d+ proposals and the report wait for dream review/.test(r.forTheSession) && r.forTheSession.includes('start a new session in ~/Projects/setup and type "dream review" there') && !/one step per message/.test(r.forTheSession)],
   ]],
   ['backlog steps carried out as pull requests', prRun, [
     ['the check reads each pull request with gh pr view', st => /run gh pr view number --repo owner\/repo --json state,mergedAt/.test(st.prompts['backlog check'] || '') && st.prompts['backlog check'].includes('"waitsOn":"o/r#2"')],

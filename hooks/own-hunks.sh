@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Claude Code hook for PreToolUse, PostToolUse and PostToolUseFailure on Bash,
-# Edit, Write and MultiEdit. Several sessions edit the files the dotclaude
-# checkout publishes at once, so this records the changes each one makes, and
+# Edit, Write and MultiEdit. Several sessions edit the published files of
+# ~/Projects/setup at once, so this records the changes each one makes, and
 # sync.sh --commit commits only the calling session's. Before a call it writes
 # each published file the call may change into the checkout's object store:
 # the file an Edit or Write names, and for Bash each one the command names, the
@@ -34,7 +34,7 @@
 set -u
 
 config="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
-checkout="$HOME/Projects/dotclaude"
+checkout="$HOME/Projects/setup"
 store="$checkout/.git/own-hunks"
 installs="$checkout/.git/sync-installed.log"
 [ -d "$checkout/.git" ] && [ -f "$checkout/sync.sh" ] || exit 0

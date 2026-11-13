@@ -54,7 +54,7 @@ mkdir -p "$dir" 2>/dev/null || exit 0
 
 files=("$config/CLAUDE.md" "$config/skills/pull-requests/SKILL.md" "$config/skills/commit-messages/SKILL.md")
 suffixes=("" ".pull-requests" ".commit-messages")
-installs="$HOME/Projects/dotclaude/.git/sync-installed.log"
+installs="$HOME/Projects/setup/.git/sync-installed.log"
 
 # Succeeds when an earlier prompt or call showed only part of a diff.
 pending() {

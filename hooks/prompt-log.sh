@@ -29,7 +29,7 @@
 # With --commit it then names on stderr the Abbreviations: lines that earlier
 # commit messages gave for words of the printed prompts, each from the newest
 # commit that gave it in the repository -C names, by default the working
-# directory's, then in ~/Projects/dotclaude, matched as abbreviations-listed.sh
+# directory's, then in ~/Projects/setup, matched as abbreviations-listed.sh
 # matches them.
 # The log keeps each prompt as it arrived. print drops what the harness wraps
 # in tags: reminders, artifact context, peer session messages, subagent
@@ -201,7 +201,7 @@ abbreviations() {
         if (hasword(quoted, order[i]) && !(gloss[order[i]] in shown)) { shown[gloss[order[i]]]; print gloss[order[i]] }
     }
   ' <(git -C "$repo" log --format='%x01%n%B' 2>/dev/null
-      git -C "$HOME/Projects/dotclaude" log --format='%x01%n%B' 2>/dev/null) \
+      git -C "$HOME/Projects/setup" log --format='%x01%n%B' 2>/dev/null) \
     <(printf '%s' "$1")
 }
 
