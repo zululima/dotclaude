@@ -6,9 +6,18 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Fit the README's licence line on one row
+## Archive a spawner whose PR waits on its reviewer
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> you were a spawner again. i litterate later when you suggest me so
+> but now your suggestion was pr 245. archive yourself and in the
+> future automatically
+
+## Fit the README's licence line on one row
+
+2026-11-13, commit [3484507](https://github.com/zululima/setup/commit/348450767d2e39fdf89779c8914af7f80eb0dfa4), model claude-opus-5-5, effort xhigh.
 
 **1.** (a task another Claude session wrote, which quoted this prompt of    the user's whole)
 > zululima setup readme is not oneliner on mac [pasted: the address of
