@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## pull-requests: link the PR page beside the review page
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.**
+> in the future give me the link to the pr page too. [an ask about a
+> downstream project left out]
+
 ## pull-requests: check running sessions before suggesting a review
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+2026-11-13, commit [e84891c](https://github.com/zululima/dotclaude/commit/e84891cec4afa6aa410c55178802b721364d19b1), model claude-opus-5-5, effort high.
 
 **3.**
 > dont suggest that since pr 235 review has been going on for a long
