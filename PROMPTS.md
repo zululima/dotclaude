@@ -6,9 +6,25 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Check the cookie bridge before handing a Chrome sign-in over
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [a task another Claude session wrote, left out] Quoted under [812f476](https://github.com/zululima/setup/commit/812f476244a367b44587dfe76d47635f613df9b5).
+
+Reply: [a reply about a downstream project left out]
+
+**2.**
+> [an ask to read a site's discount page left out]
+
+Reply: The site's page needs a sign-in, so the sign-in tab is open in Chrome with the cursor in the email field.
+
+**3.**
+> ? doesnt your sync work or whats up
+
 ## Rename the repository from dotclaude to setup
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-13, commit [6496a8f](https://github.com/zululima/setup/commit/6496a8f7550f69ff56f58505dcc7028e9a911ea3), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > i dont think my dotclaude should be called dotclaude. any suggestions?

@@ -27,11 +27,16 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   from a page the bridge serves. A job Chrome cannot do this way is asked about first. A Google API
   is read through Google's OAuth 2.0 Playground with the narrowest read-only scope the user said yes
   to, a grant the session removes under `myaccount.google.com/connections` once the read is done.
-  When a step needs the user in the browser, such as a sign-in, personal data to type or a click the
-  session may not make, the session opens the page that step happens on in a tab of its group,
-  leaves that tab open, selects it with `~/.claude/cookie-bridge/front-tab <tab id>`, puts the
-  cursor in the field to fill and names the tab in the reply, and the turn ends with `wrap_up` and
-  `blocked`, so the sidebar marks the session as waiting on the user.
+  A sign-in page in a Chrome tab for a site the user is signed in to in Firefox means the cookie
+  bridge's copy fell short, so before that sign-in goes to the user the session checks that Firefox
+  runs and that the site's cookies reached the tab, reads the page's own code for signed-in state
+  kept outside cookies, such as a flag in local storage, which the bridge carries for Proton alone,
+  and names the cause in the reply. When a step needs the user in the browser, such as a sign-in,
+  personal data to type or a click the session may not make, the session opens the page that step
+  happens on in a tab of its group, leaves that tab open, selects it with
+  `~/.claude/cookie-bridge/front-tab <tab id>`, puts the cursor in the field to fill and names the
+  tab in the reply, and the turn ends with `wrap_up` and `blocked`, so the sidebar marks the session
+  as waiting on the user.
 - Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
   screenshot or an element's ref from `find`, never coordinates from an earlier screenshot, since
   the user may have scrolled, typed or clicked there since. A click that submits, sends or posts
