@@ -277,6 +277,10 @@ apply to one repository belong in that repository's project memory.
 - The user's public software, such as a repository or a store listing, takes AGPL-3.0-or-later for
   its code, in `LICENSE`, and CC BY-SA 4.0 for the rest, such as the README, docs and images, in
   `LICENSE-PROSE`, unless the user names another licence.
+- The user's own repositories on GitHub turn off Releases, Packages and Deployments in the About
+  dialog in Claude in Chrome, each one the repository has none of, and carry a few short topics, a
+  word each where one does, that fit one line of the sidebar. The description is as short as it
+  takes, one line if need be, for About and Languages to show without scrolling at 1440x730.
 
 ## Prompt feedback
 
@@ -713,14 +717,8 @@ apply to one repository belong in that repository's project memory.
   file, the `pull-requests` skill or the `commit-messages` skill in the same turn, committed and
   pushed as under Public configuration repository, without the user naming that repository: it holds
   for later prompts and sessions unless the user limits it. A limit the user states sets the scope:
-  this session only writes nothing, this project writes its project memory. The reply quotes the
-  rule as written, names any rule it changed, and is redone under it: a fix that a why question
-  shows is missing is made in the same turn, not only named. When the correction asks for what the
-  current text already does another way, say in a line how it already does it and rewrite the text
-  so it says so plainly. A correction that does not say what it reacts to, such as "bro what", is
-  first matched against what changed since the last reply outside this session too, such as a new PR
-  in `gh pr list` or a peer session in ListAgents. When two readings remain, the reply puts both,
-  lettered, with a recommended one, before any rule is written, never a guess named in the reply
-  afterwards. Nothing the correction did not ask for that reaches the user outside the reply and the
-  sidebar, such as a phone push or a mail as a fallback, goes into a rule only once the user picks
-  it from a question with a recommended answer; naming it in the reply afterwards is no ask.
+  this session only writes nothing, this project writes its project memory. A correction that does
+  not say what it reacts to, such as "bro what", is first matched against what changed since the
+  last reply outside this session too, such as a new PR in `gh pr list` or a peer session in
+  ListAgents. When two readings remain, the reply puts both, lettered, with a recommended one,
+  before any rule is written, never a guess named in the reply afterwards.

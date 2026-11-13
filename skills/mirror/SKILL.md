@@ -23,6 +23,13 @@ run and its commit in the same turn.
   fewest letters that work, not a whole word. What the session already knows about that reach, such
   as a search that matches any part of a name, goes into the rule and into the work redone under it.
   A question on the rule's scope offers that full reach as one option, never only narrower ones.
+- The reply quotes the rule as written, names any rule it changed, and is redone under it: a fix
+  that a why question shows is missing is made in the same turn, not only named. When the correction
+  asks for what the current text already does another way, say in a line how it already does it and
+  rewrite the text so it says so plainly. Nothing the correction did not ask for that reaches the
+  user outside the reply and the sidebar, such as a phone push or a mail as a fallback, goes into a
+  rule only once the user picks it from a question with a recommended answer; naming it in the reply
+  afterwards is no ask.
 - A session that adds or changes a rule in `~/.claude/CLAUDE.md` finds the memory notes that state
   the old behaviour, by what the rule governs rather than the words of the incident behind it, and
   rewrites or deletes them in the same turn. After each edit of that file the `PostToolUse` hook

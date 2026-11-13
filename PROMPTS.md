@@ -6,9 +6,27 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Show how the parts connect in a README graph
+## Keep a repository's About sidebar to one screen
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> [pasted: an address] always put off packages, releaseas and
+> deplyoments via chrome if the repo dont have any of them. also about
+> section can be as small as oneliner but this is fine because there
+> are not too many languages 2+ that would be under the screenful due
+> to long descrpition. also always add proper oneliner topics. youll
+> have to in the end actually shorten the description to make
+> everything fit in one screen
+
+Reply: Nothing on the repository or in the rules has changed yet. [The repository] has 0 releases, 0 deployments, no topics and a 119-character description; packages are not counted yet. The work waits on which model runs it.
+
+**2.** (answer to: which model runs it?)
+> Yes, Opus 5.5
+
+## Show how the parts connect in a README graph
+
+2026-11-13, commit [cc09d60](https://github.com/zululima/setup/commit/cc09d60617564f6eaf1793d3b3b61930ec1646ca), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > not a oneliner description. also no mermadi graph on how things are
