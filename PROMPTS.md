@@ -6,9 +6,19 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Leave out a mirrored file the remote deleted while the pull is refused
+## Run the pace read at every task, name the desktop's Opus start
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** [a question about sidebar rows and a video clip left out]
+
+**2.**
+> also nearing 5h window and you have never asked to start sessions
+> lower than opus 5.5 xhigh :D
+
+## Leave out a mirrored file the remote deleted while the pull is refused
+
+2026-11-13, commit [ca1070d](https://github.com/zululima/setup/commit/ca1070dd9e8c9aaefa17622e2c965a24df605280), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

@@ -87,19 +87,22 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   shared prompt, $1.04 on Fable 5.2 and $0.52 on Opus 5.5. Such writes, at a session's start and
   after its cache went cold, were 21% of the window that filled. So a task moves to another
   session only for another model, and never when a few tool calls settle it.
-- The user's sessions start on Fable 5.2 at xhigh, which the user keeps: `start_session` takes
-  only a model and effort at or below the session's own, so a session there can start one on any
-  row without an approval. Such a session reads the task, asks as the bullet on a session's own
+- The user's sessions on the Mac start on Fable 5.2 at xhigh, which the user keeps: `start_session`
+  takes only a model and effort at or below the session's own, so a session there can start one on
+  any row without an approval. Such a session reads the task, asks as the bullet on a session's own
   model says and hands the task on. It does none of the task first, since each of its responses
-  costs the most.
+  costs the most. On the Linux desktop, whose account is on the Pro plan, they start on Opus 5.5 at
+  xhigh, as every desktop session there since 12 November 2026 did, so Stepping down offers no
+  session there a cheaper model for its own task.
 
 ## Stepping down
 
-- At the prompt that starts a task, the session also reads the plan's limits with `get_usage` and
-  pipes the result as it came to `~/.claude/skills/models/pace.sh`, which prints what the 5-hour
-  limit and each weekly limit is on pace for, and a verdict. On `fits` or `unknown` the task runs
-  as above. A task that a few tool calls settle runs here whatever the verdict, since a new session
-  costs more than it would save.
+- At every prompt that starts a task, one that a few tool calls settle too, the session reads the
+  plan's limits with `get_usage` before any other step and pipes the result as it came to
+  `~/.claude/skills/models/pace.sh`, which prints what the 5-hour limit and each weekly limit is
+  on pace for, and a verdict. On `fits` or `unknown` the task runs as above. A task that a few tool
+  calls settle runs here whatever the verdict, since a new session costs more than it would save,
+  and on `tight` its reply still gives what `pace.sh` printed for the limit that binds.
 - On `tight` no work starts on Fable 5.2, apart from research and chart reading, whose benchmarks
   put every Opus 5.5 rung at a higher cost per task or far below. Software that is hard or open
   runs on Opus 5.5 at xhigh, 1.9 points under its row, and stays in a session that is on Opus 5.5
