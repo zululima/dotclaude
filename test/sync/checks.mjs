@@ -39,6 +39,7 @@ const pulled = change(first, { 8: [rule(8), '- A rule the other computer added.'
 // What a session adds on top without committing it: far from the pulled lines, and right beside them.
 const apart = change(pulled, { 6: ['- Rule 6 as a session rewrote it.'] })
 const beside = change(pulled, { 4: ['- Rule 4 as a session rewrote it.'], 9: ['- A rule the other computer added.', '- A rule a session added.'] })
+const MESSAGE = 'Rewrite rule 6\n\nPrompts behind this commit, as given to Claude Code\n(model a-model, effort high):\n\n1.\n> rewrite rule 6\n'
 
 // The seed holds the files of this work tree, with the sync.sh under test and a short rules file.
 const seed = path.join(home, 'seed')
@@ -187,12 +188,22 @@ const suites = [
       const records = path.join(s.checkout, '.git/own-hunks/s1')
       write(records, `${blob(base)} ${blob(own)} ${FILE}\n`)
       arrives(s, both); sync(s); pushes(s, pulled)
-      const message = write(path.join(home, 'message'), 'Rewrite rule 6\n')
+      const message = write(path.join(home, 'message'), MESSAGE)
       const r = sync(s, ['--commit', message, FILE], { CLAUDE_CODE_SESSION_ID: 's1' })
       return !refusedPull(r) && !changedBoth(r) && /pushed/.test(r.out) && pulledAll(s) &&
         git(s, `show HEAD:${FILE}`, s.remote) === text(apart).trim() && git(s, 'log -1 --format=%s') === 'Rewrite rule 6' &&
         read(s.copy) === text(both) && read(s.local) === text(both) && git(s, `diff --numstat HEAD -- ${FILE}`) === `1\t1\t${FILE}` &&
         !fs.existsSync(records) && !fs.existsSync(s.lock)
+    }],
+  ]],
+
+  ['sync.sh --commit with a message that has no prompts section', () => [
+    ['stops before the sync, commits nothing and names the command that prints the section', () => {
+      const s = scene()
+      arrives(s, change(base, { 6: ['- Rule 6 as a session rewrote it.'] }))
+      const r = sync(s, ['--commit', write(path.join(home, 'message'), 'Rewrite rule 6\n'), FILE])
+      return r.code === 2 && /the message has no prompts section/.test(r.err) && /prompt-log\.sh print --commit/.test(r.err) &&
+        git(s, `show HEAD:${FILE}`, s.remote) === text(base).trim() && read(s.copy) === text(base) && !fs.existsSync(s.lock)
     }],
   ]],
 
@@ -210,7 +221,7 @@ const suites = [
     const running = (s, seen) => write(path.join(s.checkout, '.git/own-hunks/pending/s2.toolu_x'),
       `${Math.floor(Date.now() / 1000)}\n${git(s, 'rev-parse HEAD')}\n${blob(s, seen)}\t${FILE}\t${s.local}\n`)
     const holding = lines => { const s = scene(); arrives(s, lines); sync(s); return s }
-    const commit = s => sync(s, ['--commit', write(path.join(home, 'message'), 'Rewrite rule 6\n'), FILE], { CLAUDE_CODE_SESSION_ID: 's1' })
+    const commit = s => sync(s, ['--commit', write(path.join(home, 'message'), MESSAGE), FILE], { CLAUDE_CODE_SESSION_ID: 's1' })
     const remote = s => git(s, `show HEAD:${FILE}`, s.remote)
     const refused = (s, r, named = 'session s2') => r.code === 1 && r.err.includes(named) && /nothing committed/.test(r.err) &&
       remote(s) === text(base).trim() && read(s.copy) === read(s.local) && !fs.existsSync(s.lock)
@@ -264,7 +275,7 @@ const suites = [
       s.cloneLock = path.join(s.mirror, '.git/claude-clone.lock')
       return s
     }
-    const message = () => write(path.join(home, 'message'), 'Rewrite rule 6\n')
+    const message = () => write(path.join(home, 'message'), MESSAGE)
     const own = change(base, { 6: ['- Rule 6 as a session rewrote it.'] })
     return [
       ['copies into the mirror and lets the clone lock go', () => {

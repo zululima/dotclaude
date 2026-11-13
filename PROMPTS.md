@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Tell each dream agent it is one step of the run
+## Refuse a sync.sh commit whose message has no prompts
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**4.** (answer to: shall I make sync.sh refuse a message with no prompts?)
+> Yes, go ahead
+
+## Tell each dream agent it is one step of the run
+
+2026-11-13, commit [b72c112](https://github.com/zululima/setup/commit/b72c1128afd0ae85f330d896a2dd18aaf7e47600), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I fix the reading that stopped Friday's run?)
 > Yes, go ahead

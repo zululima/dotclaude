@@ -103,7 +103,8 @@ run and its commit in the same turn.
   up to the next 1,000 into `claude-md-budget.txt` and commit that file with the rest, so the budget
   falls with every cut and rises only on the user's yes.
 - `sync.sh --commit <file> <path>...` commits the named paths and pushes them to the default branch,
-  then every mirror below. It refuses a run that names no path, or no path with a change. No PR: the
+  then every mirror below. It refuses a run that names no path, or no path with a change, and before
+  anything else a message without the prompts heading the `commit-messages` skill gives. No PR: the
   repository has one owner, though several sessions work in the checkout at once, and every
   `sync.sh` run copies their edits into it too. So name only the files this session's own edits
   touched, never what a `git status` taken around them shows. `~/.claude/hooks/own-hunks.sh` records

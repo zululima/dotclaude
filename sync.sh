@@ -17,7 +17,9 @@
 #                      list the open PRs of the gh user whose body links this
 #                      repository or a mirror's but not the commit just pushed
 #                      there. Named paths of which none but PROMPTS.md has a
-#                      change stop the run before the commit.
+#                      change stop the run before the commit, and a message
+#                      without the prompts heading the commit-messages skill
+#                      gives stops it before the sync.
 #
 # Reconciling: a file the pull changed is installed locally, a file changed
 # only in the checkout, its local copy still as committed, is installed
@@ -124,6 +126,10 @@ if [ "${1:-}" = "--commit" ]; then
     exit 2
   fi
   message_file="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
+  if ! grep -q -x -F 'Prompts behind this commit, as given to Claude Code' "$message_file"; then
+    echo "sync: the message has no prompts section; print it with ~/.claude/hooks/prompt-log.sh print --commit, as the commit-messages skill says" >&2
+    exit 2
+  fi
   shift 2
   if [ "$#" -eq 0 ]; then
     echo "sync: --commit needs the paths this session changed after the message file" >&2
