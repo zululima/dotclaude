@@ -20,19 +20,17 @@ What happens between typing a prompt and reading the reply:
 ```mermaid
 flowchart TD
   start(["Prompt and its hooks"])
-  ctx["CLAUDE.md and memory"]
-  skl["Skill"]
+  ctx["CLAUDE.md, memory and skills"]
   subgraph calls["Each tool call"]
     direction LR
     tool["Tool call"] --> before{"Hooks before"}
     before -->|allowed| runs["Command or edit"] --> after["Hooks after"]
     before -->|refused| tool
   end
-  turnEnd{"Hooks at the end"}
+  turnEnd["Hooks at the end"]
   answer(["Reply"])
 
   start --> ctx --> calls --> turnEnd
-  ctx -.->|when needed| skl -.-> calls
   turnEnd -->|sent back| calls
   turnEnd -->|all clear| answer
 ```
