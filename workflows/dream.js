@@ -380,8 +380,10 @@ const CLOCK = { type: 'object', required: ['now'], properties: { now: { type: 's
 let watching = false
 const PRE_USAGE = { ...USAGE, required: [...USAGE.required, 'utcOffset', 'machine', 'running', 'historyLines', 'weekLines'], properties: { ...USAGE.properties, utcOffset: { type: 'string' }, machine: { type: 'string' }, running: { type: 'string', description: 'The line the marker command printed, or an empty string' }, historyLines: { type: 'array', items: { type: 'string' } }, weekLines: { type: 'array', items: { type: 'string' } } } }
 
+// The harness puts the prompt of the session that started the run above every agent's task as the user's request, and an agent once took a spawner's prompt about prompt files for its own job.
+const STEP = 'This task is one step of the dream run that the request relayed above started, itself or through a prompt file it names. The session that started the run carries out the rest of that request, such as reading, reporting on and moving prompt files, so do only the task below and return its result.'
 const dreamAgent = (prompt, opts = {}) => {
-  const run = agent(prompt, { agentType: 'dream-worker', ...opts })
+  const run = agent(`${STEP}\n\n${prompt}`, { agentType: 'dream-worker', ...opts })
   if (!watching) return run
   const a = { label: opts.label || '', phase: opts.phase || 'Scout', work: opts.phase !== 'Usage' && opts.model !== 'haiku' }
   ran(a, 1)

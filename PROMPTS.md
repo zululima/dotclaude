@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Stop a dream run before its scout when the week has no room
+## Tell each dream agent it is one step of the run
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I fix the reading that stopped Friday's run?)
+> Yes, go ahead
+
+## Stop a dream run before its scout when the week has no room
+
+2026-11-13, commit [865a72c](https://github.com/zululima/setup/commit/865a72c80ba444a645e639537c3c7cc042ca963b), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 

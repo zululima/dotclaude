@@ -114,7 +114,7 @@ export async function simulate(wf, sc) {
       if (/^scripts \d/.test(label)) { const n = (prompt.match(/"id":"p\d+"/g) || []).length; cost = 1.5 * n; minutes = 3 * n }
       if (o.model === 'haiku') cost = Math.min(cost, 0.1)
       // A usage reading told to wait until a time returns once that time has come, and a timer after nine minutes at most.
-      const until = /^Wait until (\S+),/.exec(prompt)
+      const until = /^Wait until (\S+),/m.exec(prompt)
       const most = /nine minutes at most/.test(prompt) ? st.now + 9 * M : Infinity
       st.started.push({ label, at: st.now })
       timers.push({ at: Math.max(st.now + minutes * M, until ? Math.min(Date.parse(until[1]), most) : 0), fire: () => {

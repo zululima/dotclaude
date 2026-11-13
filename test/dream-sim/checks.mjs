@@ -353,6 +353,7 @@ const scenarios = [
     }],
     ['and the session is pointed at that file for the points the run used', (st, r) => /or in a session without that tool, such as a terminal session, the limits in ~\/\.claude\/plan-limits\.json/.test(r.forTheSession)],
     ['its rows carry the machine', st => recorded(st).machine === 'desk' && weekLine(st).machine === 'desk' && weekLine(st).mode === 'eve'],
+    ['every agent is told it is one step of the run and leaves the prompt files to the session that started it', st => Object.keys(st.prompts).length > 10 && Object.values(st.prompts).every(p => p.startsWith('This task is one step of the dream run that the request relayed above started') && /such as reading, reporting on and moving prompt files, so do only the task below/.test(p))],
     noHits,
   ]],
   ['eve on that machine, started at 21:50', { ...thu, now: '2026-11-12T19:50:00Z', sessions: 40 }, [
