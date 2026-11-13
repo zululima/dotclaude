@@ -6,9 +6,20 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## docs(pull-requests): have a check step print ok itself
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+
+**2.**
+> [corrections to the Finnish wording of a downstream project's review
+> page left out] vaihe 3 should say ok if everythings ok.
+>
+> vaihe 5 päättyi  unpacking to
+> docker.io/library/[project]-client:local
+
 ## Fit the README where a scroll down to it stops
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [56c07ec](https://github.com/zululima/setup/commit/56c07ec4aa6df3d2ad7aaff120730f3801e8cd68), model claude-opus-5-5, effort xhigh.
 
 **2.** (with a screenshot of the README on GitHub) Quoted under [a129192](https://github.com/zululima/setup/commit/a129192bd01d1ca4de3dae0e81db4cdc24111c40).
 

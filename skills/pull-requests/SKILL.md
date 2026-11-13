@@ -140,6 +140,13 @@ GitHub.
   terminal-notifier -title 'PR <n>' -message "verify and e2e $m" -activate com.apple.Terminal ||
   printf '\a'`. The `&&` and `||` let it fire on a failure too, the id is Terminal.app's unless the
   reader uses another terminal, and the bell stands in where `terminal-notifier` is missing.
+- A command step that checks something prints `ok` itself when all is as it should be, and otherwise
+  what is wrong, such as the names found or the status it got, and the step's text says that it ends
+  with `ok`. The reader compares no output by eye: no list of names against one in the step, no
+  status code, and no last line of a tool such as `docker build`, which differs between versions and
+  machines. A check that is a command's exit status ends with `&& echo ok`, a search for what should
+  be gone with `|| echo ok`, and a single value is turned by the command itself, as in `| sed
+  's/^404$/ok/'`. The long step's notification is that word for it.
 - Manual steps follow the screen. Before writing one, open the component or the running page and
   take the order of fields and clicks from it, so a dialog that shows type, then name, then
   company is filled in that order and never in the order the step's purpose brings them to mind.
