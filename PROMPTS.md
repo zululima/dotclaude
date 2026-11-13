@@ -8,7 +8,7 @@ lost at the next commit.
 
 ## docs(pull-requests): have a check step print ok itself
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort high.
+2026-11-13, commit [a77b524](https://github.com/zululima/setup/commit/a77b524f7b517f211c1908092ca1ef00a6f2a694), model claude-fable-5-2, effort high.
 
 **2.**
 > [corrections to the Finnish wording of a downstream project's review

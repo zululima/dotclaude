@@ -189,7 +189,9 @@
   pressure, heat or a nearly full disk in red, no network or no internet in blue, a busy iPhone
   hotspot in orange and the hotspot itself in green. A click on either opens a menu with the CPU,
   memory, disk, battery and network, the apps using the most, recent events and Open at Login. Mac
-  only. This builds it into `~/Applications` and starts it, and again after a change:
+  only. This builds [`overload.swift`](../overload/overload.swift) with
+  [`Info.plist`](../overload/Info.plist) into `~/Applications` and starts it, and again after a
+  change:
   ```zsh
   ~/.claude/overload/install.sh
   ```
