@@ -8,7 +8,7 @@ lost at the next commit.
 
 ## Lock a mirror's clone for sync.sh and share-memories.sh
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [ce7424d](https://github.com/zululima/setup/commit/ce7424dbb5fb410f694d0b060079022dd14ba188), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I add a lock to share-memories.sh?) Quoted under [c90be52](https://github.com/zululima/setup/commit/c90be52017fda0b3e3c273475a21c770b58ae300).
 
