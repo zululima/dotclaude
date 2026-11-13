@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Show how the parts connect in a README graph
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> not a oneliner description. also no mermadi graph on how things are
+> connected on top level
+
 ## Ask the user to sign in instead of leaving a source unread
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [babc5a7](https://github.com/zululima/setup/commit/babc5a727c34e220a4b454b98a3b53e297dfc5d8), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [a question about reference apps for a translation left out]

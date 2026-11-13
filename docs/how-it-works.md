@@ -73,6 +73,7 @@ flowchart TD
   it to my other computer.
 - [`sync.sh`](../sync.sh) copies it here and stops on a name, a home path or a secret. With
   `--commit` it commits the change with my prompt quoted and pushes it, and
-  [`PROMPTS.md`](../PROMPTS.md) collects those prompts. It also runs in the background at every
-  prompt, so a change pushed from one computer reaches the other.
+  [`PROMPTS.md`](../PROMPTS.md) collects those prompts: projects that write their code with AI
+  should publish how they used it too. It also runs in the background at every prompt, so a change
+  pushed from one computer reaches the other.
 - You clone this repository and take pieces or all of it, as [install](install.md) shows.
