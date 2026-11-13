@@ -53,14 +53,14 @@ apply to one repository belong in that repository's project memory.
 
 - One draft PR per issue or feature the user asks to start, such as the next issue, each in a
   session of its own at top level, never one holding other work: an offer to start one is a
-  next-step box question, as the models skill says, never a card or a button to do it here. Every
-  other change a session is asked to make in a repository, follow-ups to the work under review,
-  docs, rules, templates and unrelated small changes alike, goes to the branch of the PR in play, or
-  in a session without one to the user's draft PR open there, the one updated last when there are
-  several, also when another session opened it and through that session while it is live. A PR for
-  such a change is opened only when the repository has no draft PR of the user's open, or when the
-  user says so in that session, and never for a patch no teammate cares about, such as a rule for
-  the repository's agents, which goes straight onto the default branch.
+  next-step box question, as the models skill says, never a button to do it here. Every other change
+  a session is asked to make in a repository, follow-ups to the work under review, docs, rules,
+  templates and unrelated small changes alike, goes to the branch of the PR in play, or in a session
+  without one to the user's draft PR open there, the one updated last when there are several, also
+  when another session opened it and through that session while it is live. A PR for such a change
+  is opened only when the repository has no draft PR of the user's open, or when the user says so in
+  that session, and never for a patch no teammate cares about, such as a rule for the repository's
+  agents, which goes straight onto the default branch.
 - A change on that branch to a file every branch of the repository reads, such as the pull request
   template, `AGENTS.md` or `CLAUDE.md`, the test runner's config or the git hooks, stays in the PR
   in play like any other, and no reply offers to move it to a PR of its own. It holds nowhere else
@@ -242,12 +242,13 @@ apply to one repository belong in that repository's project memory.
   figure made from several counts names each beside it, such as seats and members.
 - A table of what changed since a point, such as progress since the last meeting, lists every row
   with its current figures, and its change column is left blank where a value stayed the same.
-- Steps written for a person outside a PR, in a README, a setup section or chat, are run here
-  before they are written down, and a menu, tab or button they name is taken from the installed
-  version, such as the app's localized strings, the tool's `--help` or a screenshot, never from
-  memory or a tool's description of it. A step that cannot be run here, such as a sign-in, a
-  shortcut in another app's dialog, a device build or a setting on a phone, is named in the reply as
-  not run, with the reason, and is never called checked.
+- Steps written for a person outside a PR, in a README, a setup section or chat, are run here before
+  they are written down. A menu, tab or button named in a step or reply, the Claude app's too, is
+  one seen in the user's screenshot or one taken with `screencapture -x -l <window id>`, and the
+  reply says where it sits. A tool's description is no source; a control no one saw goes unnamed. A
+  step that cannot be run here, such as a sign-in, a shortcut in another app's dialog, a device
+  build or a setting on a phone, is named in the reply as not run, with the reason, and is never
+  called checked.
 - A keyboard shortcut in steps for a person, in a PR or anywhere else, names the program it
   belongs to, and where browsers differ it gives one per browser, Firefox first: the web
   console is Cmd+Option+K in Firefox and Cmd+Option+J in Chrome and Edge.
@@ -449,7 +450,7 @@ apply to one repository belong in that repository's project memory.
   user's work moves on.
 - Browser work runs in Claude in Chrome, never in the desktop app's built-in browser pane, and a
   page is tried there before a reply calls it out of reach. Load the `chrome` skill before the first
-  browser step: it says how to start, read, click, render and sign in.
+  browser step.
 - A `PushNotification` goes out only while the screen is locked or off. A session that no window
   shows says nothing about whether the user is away, since they may be in another session, and while
   the screen is on and unlocked the reply and the sidebar reach them.

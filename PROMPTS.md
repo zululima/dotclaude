@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Name a control only once it has been seen on screen
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.**
+> where do you always get this x on the pr bar thingy? never do that
+> again unless you actually can show me where that is
+
 ## Delete leftover Chrome tab groups and retry them while idle
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
+2026-11-13, commit [f410151](https://github.com/zululima/dotclaude/commit/f410151df60d0d60ed617eb06fdf76bb6b6fb44d), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
 
 **1.**
 > theres a lot of old already archived tabs there. clean them up
