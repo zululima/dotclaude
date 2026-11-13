@@ -267,7 +267,11 @@ GitHub.
   the reproductions stay the one thing in the reply written for the author.
 - A reply that suggests the next PR review, such as once the PR before it is merged, suggests it in
   a session of its own, never as more work in this session: a next-step box question, as the models
-  skill says, and on the user's yes a `start_session` call with the whole brief.
+  skill says, and on the user's yes a `start_session` call with the whole brief. Before it suggests
+  one, it reads `list_sessions`: a PR whose review a session already holds, running or not, is never
+  suggested, and a session still running a review in the same repository holds its one stack, so the
+  reply then suggests no review at all and names that session instead. A next PR named in the
+  session's brief is checked the same way, since the brief predates the sessions started since.
 
 ## Merging
 

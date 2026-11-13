@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## pull-requests: check running sessions before suggesting a review
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+
+**3.**
+> dont suggest that since pr 235 review has been going on for a long
+> while now
+
 ## Name a control only once it has been seen on screen
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [a6a6dd9](https://github.com/zululima/dotclaude/commit/a6a6dd9999978cb77e455f4734d532270d60d851), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > where do you always get this x on the pr bar thingy? never do that
