@@ -6,9 +6,19 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Keep the second graph in how-it-works.md clear of the zoom buttons
+## Publish Overload, the menu bar app the Mac doc describes
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (answer to: shall I publish Overload's source too?)
+> Yes, publish it
+
+**3.**
+> r
+
+## Keep the second graph in how-it-works.md clear of the zoom buttons
+
+2026-11-13, commit [c0593f2](https://github.com/zululima/setup/commit/c0593f2fecb462365d41a930cfc2c56354c2ba36), model claude-opus-5-5, effort xhigh.
 
 **1.** (handed over from another session, which quoted it whole) Quoted under [60a5744](https://github.com/zululima/setup/commit/60a5744cc5ce6efb7d40857fff58dfc4a4abd832).
 
@@ -7000,6 +7010,7 @@ Stop, add it to dotclaude?)
 - prs: pull requests
 - QR: Quick Response (a two-dimensional barcode)
 - qr: quick response code
+- r: retry
 - repo: repository
 - rest: REST, an HTTP API style
 - rn: right now

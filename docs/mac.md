@@ -11,13 +11,14 @@ display beside it.
 
 Three items on the right:
 
-- Overload's battery: the percentage over a bar as full as the battery, with a bolt while it is
-  plugged in. Overload is a small menu bar app Claude wrote for me in Swift. It has a second item
-  that shows only when something needs a look, one symbol for the first that applies: the CPU at 90%
-  or more, critical memory pressure or heat, or a disk with under 10 GB free in red, no network or
-  no internet in blue, a busy iPhone hotspot in orange and the hotspot itself in green. Its menu
-  lists CPU, memory, swap, disk, heat, battery and network, and the processes using the most CPU and
-  memory. It is not published here.
+- Overload's battery: the percentage over a bar as full as the battery, yellow at 20% and red at
+  10%, with a bolt while it is plugged in. [Overload](../overload/install.sh) is a small menu bar
+  app Claude wrote for me in Swift. It has a second item that shows only when something needs a
+  look, one symbol for the first that applies: the CPU at 90% or more, critical memory pressure or
+  heat, or a disk with under 10 GB free in red, no network or no internet in blue, a busy iPhone
+  hotspot in orange and the hotspot itself in green. Its menu lists CPU, memory, swap, disk, heat,
+  battery and network, and the processes using the most CPU and memory. [What you
+  get](what-you-get.md) shows how to install it.
 - Control Center.
 - The clock.
 

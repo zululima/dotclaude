@@ -183,6 +183,16 @@
   ```zsh
   ~/.claude/energy/install.sh
   ```
+- [`overload`](../overload/install.sh): a menu bar app for the Mac. One item shows the battery: the
+  percentage over a bar as full as it, yellow at 20% and red at 10%. The other stays hidden until
+  something needs a look, then shows one symbol for the first that applies: the CPU, memory
+  pressure, heat or a nearly full disk in red, no network or no internet in blue, a busy iPhone
+  hotspot in orange and the hotspot itself in green. A click on either opens a menu with the CPU,
+  memory, disk, battery and network, the apps using the most, recent events and Open at Login. Mac
+  only. This builds it into `~/Applications` and starts it, and again after a change:
+  ```zsh
+  ~/.claude/overload/install.sh
+  ```
 - [`skills/commit-messages`](../skills/commit-messages/SKILL.md): how Claude writes a commit
   message: the order of its parts, the prompts behind the change, and what it leaves out or redacts.
 - [`skills/pull-requests`](../skills/pull-requests/SKILL.md): how Claude writes a pull request: the
