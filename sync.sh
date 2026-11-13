@@ -15,9 +15,9 @@
 #                      commit and push the same paths in every mirror, the
 #                      message gaining a line that names the commit here, then
 #                      list the open PRs of the gh user whose body links this
-#                      repository but not the commit just pushed. Named paths
-#                      of which none but PROMPTS.md has a change stop the run
-#                      before the commit.
+#                      repository or a mirror's but not the commit just pushed
+#                      there. Named paths of which none but PROMPTS.md has a
+#                      change stop the run before the commit.
 #
 # Reconciling: a file the pull changed is installed locally, a file changed
 # only in the checkout, its local copy still as committed, is installed
@@ -1021,14 +1021,23 @@ elif [ -n "$message_file" ]; then
   release_clones
   rm -f "$mirror_message"
   if command -v gh >/dev/null 2>&1; then
-    repo_url="$(git remote get-url origin | sed -E 's#^git@([^:]+):#https://\1/#; s#\.git$##')"
-    pin="$repo_url/tree/$(git rev-parse HEAD)"
+    https_url() { git -C "$1" remote get-url origin | sed -E 's#^git@([^:]+):#https://\1/#; s#\.git$##'; }
+    repo_urls=("$(https_url .)")
+    pins=("${repo_urls[0]}/tree/$(git rev-parse HEAD)")
+    for dir in ${mirror_dirs[@]+"${mirror_dirs[@]}"}; do
+      url="$(https_url "$dir")" || continue
+      repo_urls+=("$url")
+      pins+=("$url/tree/$(git -C "$dir" rev-parse HEAD)")
+    done
     stale="$(gh search prs --author @me --state open --limit 100 --json url --jq '.[].url' |
       while IFS= read -r pr; do
         body="$(gh pr view "$pr" --json body --jq .body)" || continue
-        if [[ "$body" == *"$repo_url"* && "$body" != *"$pin"* ]]; then
-          echo "  $pr"
-        fi
+        for i in "${!repo_urls[@]}"; do
+          if [[ "$body" == *"${repo_urls[$i]}/"* && "$body" != *"${pins[$i]}"* ]]; then
+            echo "  $pr"
+            break
+          fi
+        done
       done)" || echo "sync: could not list the open PRs" >&2
     [ -z "$stale" ] || printf 'sync: open PRs whose link pins an older commit\n%s\n' "$stale"
   fi

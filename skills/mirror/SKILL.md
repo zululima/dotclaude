@@ -140,18 +140,21 @@ run and its commit in the same turn.
 
 ## After a push
 
-- Every push to the checkout is followed in the same turn by a pass over the user's open PRs,
-  listed with `gh search prs --author @me --state open`. Each PR whose body carries a block the
+- Every push to the checkout is followed in the same turn by a pass over the user's open PRs, listed
+  with `gh search prs --author @me --state open`. Each PR whose body carries a block the
   `pull-requests` skill puts there, the configuration link or the prompts block, gets the link
   pinned to the commit just pushed and the rest of the body brought into line with the rules as they
   now stand, as far as the skill lets an edit of the body change it. The link pinned is the one to
-  the repository of the checkout's `origin` remote, matched by owner and name: a link to another
-  owner's copy of the repository stays as it is, hash included. A PR with neither block was
-  written by hand and stays as it is. Nothing is rebuilt from another session's context: what the
-  new rules need beyond the body, such as prompts, a verify run or new screenshots, is named in the
-  reply under its PR, next to what the edit changed. `sync.sh --commit` ends by listing the open PRs
-  whose body links the repository but not the commit it just pushed. It is a safety net for the
-  pass, not a substitute for it: a PR with only the prompts block is not on that list.
+  the repository of the checkout's `origin` remote, or to that of a copy `sync-mirrors.txt` lists,
+  matched by owner and name and pinned to the commit the run pushed there, and it points at the copy
+  the `pull-requests` skill picks for the PR's repository, so a link in a PR whose repository's
+  owner also owns a copy's repository moves to that copy. A link to another owner's copy of the
+  repository stays as it is, hash included. A PR with neither block was written by hand and stays as
+  it is. Nothing is rebuilt from another session's context: what the new rules need beyond the body,
+  such as prompts, a verify run or new screenshots, is named in the reply under its PR, next to what
+  the edit changed. `sync.sh --commit` ends by listing the open PRs whose body links the repository
+  or a copy's repository but not the commit it just pushed there. It is a safety net for the pass,
+  not a substitute for it: a PR with only the prompts block is not on that list.
 - When the user asked why a problem still shows in a teammate's work or setup, such as issues a
   teammate's merge left open, the reply that reports the push also gives a prompt the user can hand
   to that teammate, who runs a copy of this setup, and other pushes give none. It stands in a `text`

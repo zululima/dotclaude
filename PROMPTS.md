@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Link the copy a PR's own organisation can open
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** (with a screenshot of the README on GitHub)
+> hmm in future pin those against the [a mirror's name] one instead?
+> it is still not one sreenful
+
 ## Leave runs of claude -p out of the usage hourglass
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+2026-11-13, commit [35c010d](https://github.com/zululima/setup/commit/35c010d1fe38983cc05ed31b9cb8d48e150cb599), model claude-opus-5-5, effort high.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
