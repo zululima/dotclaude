@@ -20,7 +20,8 @@
 #                           count down from
 #   usage.sh --next <session id>
 #                           the other sessions of the last hour that ran on
-#                           this machine, whose cache is
+#                           this machine and are no run of claude -p, whose
+#                           cache is
 #                           still warm, whose last turn has ended, that wait on
 #                           no background work and on no session they started
 #                           that still works, whose last turn the user did
@@ -430,6 +431,18 @@ if [ "${1:-}" = --next ]; then
         [ -n "$title" ] && printf '0\t%s\town\t%s\t%s\t%s\n' "$title" "$record" "$source" "$id"
         continue
       fi
+      # Syncthing brings the other machine's transcripts too. Its sessions ran
+      # in a folder this machine lacks, and only that machine can prompt them.
+      [ -d "${cwd:-/}" ] || continue
+      # Nobody can open or prompt a run of claude -p. One a desktop session's
+      # tools start inherits its entrypoint but gets no record from the app, and
+      # one from a terminal has an sdk entrypoint.
+      if [ -z "$record" ]; then
+        case $(grep -m1 -o '"entrypoint":"[^"]*"' "$f") in
+          *'"sdk-'*) continue ;;
+          *'"claude-desktop"') grep -rqF --include='local_*.json' "\"$id\"" "$sessions" || continue ;;
+        esac
+      fi
       named=$title
       [ -n "$title" ] || title=$(grep '"type":"custom-title"' "$f" | tail -1 | jq -r '.customTitle // empty' 2>/dev/null)
       untitled=''
@@ -438,9 +451,6 @@ if [ "${1:-}" = --next ]; then
         title=$(grep '"type":"last-prompt"' "$f" | tail -1 | jq -r '.lastPrompt // empty | gsub("\\s+"; " ")' 2>/dev/null)
       fi
       title=${title:-${id:0:8}}
-      # Syncthing brings the other machine's transcripts too. Its sessions ran
-      # in a folder this machine lacks, and only that machine can prompt them.
-      [ -d "${cwd:-/}" ] || continue
       [ -n "$named" ] && printf '%s\t%s\ttitle\t%s\t%s\t%s\n' "${cold:-0}" "$named" "$record" "$source" "$id"
       # A session waiting on a subagent still holds its tabs.
       [ "$chrome" = true ] && [ "${ends:-0}" -gt "$now" ] && printf '%s\t%s\tsign-in\t%s\t%s\n' "$ends" "$title" "$record" "$untitled"
