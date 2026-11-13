@@ -12,7 +12,7 @@ node ~/Projects/setup/test/evals.mjs
 | Suite | What it checks | Result |
 | --- | --- | --- |
 | [Hook tests](../test/hooks/checks.mjs) | every hook, fed the input Claude Code sends it | 356 of 357 pass |
-| [Sync tests](../test/sync/checks.mjs) | what `sync.sh` pulls and copies between two computers, against a throwaway remote | 17 of 17 pass |
+| [Sync tests](../test/sync/checks.mjs) | what `sync.sh` pulls and copies between two computers, against a throwaway remote | 29 of 29 pass |
 | [Dream simulation](../test/dream-sim/checks.mjs) | how `/dream` spends usage and when it stops | 181 of 181 pass |
 | [Usage mod tests](../mods/session-usage/hooks/register.test.ts) | the line under the prompt box | 29 of 29 pass |
 

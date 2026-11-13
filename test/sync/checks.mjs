@@ -157,6 +157,16 @@ const suites = [
       const r = sync(s)
       return r.code === 1 && refusedPull(r) && read(s.copy) === text(pulled) && read(s.local) === text(pulled)
     }],
+    ['leaves out a mirrored file the remote deleted once the file sync removed it, and puts back one the remote kept', () => {
+      const s = scene(), gone = 'hooks/calendar-free-busy-only.sh', kept = 'hooks/check-not-piped.sh'
+      fs.appendFileSync(path.join(s.checkout, 'README.md'), '\nA line a session added here.\n')
+      fs.appendFileSync(path.join(s.other, 'README.md'), '\nA line the other computer added.\n')
+      git(s, `rm -q ${gone}`, s.other); pushes(s, pulled)
+      for (const file of [gone, kept]) fs.rmSync(path.join(s.config, file))
+      const r = sync(s)
+      return r.code === 1 && refusedPull(r) && r.out.includes(`sync: ${gone} is gone upstream`) &&
+        !fs.existsSync(path.join(s.config, gone)) && fs.existsSync(path.join(s.config, kept))
+    }],
   ]],
 
   ['a pull that nothing stands in the way of', () => [

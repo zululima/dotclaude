@@ -6,9 +6,20 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Refuse a sync.sh commit whose message has no prompts
+## Leave out a mirrored file the remote deleted while the pull is refused
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+Reply: The desktop checkout is at origin/main and sync.sh runs with no "pull refused" error. The rename prompt and its updated report are in done/, and the machine-setups line says what holds now. Nothing was committed.
+
+**2.** (answer to: shall I make sync.sh stop putting back files the pull deleted while a pull is refused?)
+> Yes, fix it here
+
+## Refuse a sync.sh commit whose message has no prompts
+
+2026-11-13, commit [a62cde4](https://github.com/zululima/setup/commit/a62cde495946a5d40e03232fe24b8307e4b7a2e2), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: shall I make sync.sh refuse a message with no prompts?)
 > Yes, go ahead

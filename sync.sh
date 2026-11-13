@@ -38,7 +38,10 @@
 # HEAD, which loses nothing while the local copy stands, the pull
 # fast-forwards, and the reconciling above copies back what the local copy
 # holds beyond the pulled commits. That is the state a file sync leaves when
-# the other computer committed and pushed the file first.
+# the other computer committed and pushed the file first. A mirrored file
+# missing locally is installed from here unless the fetched upstream has
+# deleted it, as a rename on the other computer does: the file sync removes
+# the local copy before a pull here can drop the file from this list.
 #
 # Lock: hooks/mirror-sync.sh runs this on every prompt of every session, so
 # a run takes .git/sync.lock, holding its process id, and waits for another
@@ -484,7 +487,12 @@ for path in "${mirrored[@]}"; do
   local_file="$source_dir/$path"
   repo_file="$checkout/$path"
   if [ ! -f "$local_file" ]; then
-    install_file "$repo_file" "$local_file"
+    if git rev-parse --verify --quiet '@{upstream}' >/dev/null 2>&1 &&
+      ! git cat-file -e "@{upstream}:$path" 2>/dev/null; then
+      echo "sync: $path is gone upstream, left out locally"
+    else
+      install_file "$repo_file" "$local_file"
+    fi
     continue
   fi
   if git diff --quiet "$before" HEAD -- "$path"; then
