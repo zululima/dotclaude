@@ -19,29 +19,38 @@ What happens between typing a prompt and reading the reply:
 
 ```mermaid
 flowchart TD
-  start(["I type a prompt"])
-  hooksIn["Prompt hooks log the prompt, fetch git,<br/>pull this copy and flag rules<br/>another window changed"]
-  ctx["Claude reads CLAUDE.md and<br/>the project's memory index"]
-  skl["A skill, such as pull-requests"]
-  tool["Claude calls a tool"]
-  before{"Hooks before the call"}
-  runs["The command or edit runs"]
-  after["Hooks after the call note this window's edits,<br/>share memory notes and update submodules"]
-  turnEnd{"Hooks at the end of the turn"}
-  answer(["The reply, ending with feedback on my prompt"])
+  start(["Prompt"])
+  hooksIn["Prompt hooks"]
+  ctx["CLAUDE.md and memory"]
+  skl["Skill"]
+  tool["Tool call"]
+  before{"Hooks before"}
+  runs["Command or edit"]
+  after["Hooks after"]
+  turnEnd{"Hooks at the end"}
+  answer(["Reply"])
 
   start --> hooksIn --> ctx --> tool --> before
-  ctx -.->|when the task needs one| skl -.-> tool
+  ctx -.->|when needed| skl -.-> tool
   before -->|allowed| runs --> after
-  before -->|refused, with a way that works| tool
+  before -->|refused| tool
   after -->|more to do| tool
   after -->|done| turnEnd
-  turnEnd -->|feedback missing or a stack still up| tool
+  turnEnd -->|sent back| tool
   turnEnd -->|all clear| answer
 ```
 
-A hook that refuses a call tells Claude why and what to run instead, so Claude tries again the right
-way rather than stopping. [What you get](what-you-get.md) lists every hook and what it stops.
+- Prompt hooks log the prompt, fetch git, pull this copy and tell Claude when another window changed
+  the rules.
+- Claude reads `CLAUDE.md` and the project's memory index, and loads a skill, such as
+  `pull-requests`, only when the task needs it.
+- Hooks before each tool call refuse a mistake, and tell Claude why and what to run instead, so it
+  tries again the right way rather than stopping.
+- Hooks after each call note this window's edits, share memory notes and update submodules.
+- Hooks at the end of the turn send it back once when the feedback on my prompt is missing or a
+  stack Claude started is still up.
+
+[What you get](what-you-get.md) lists every hook and what it stops.
 
 ## How a rule gets in
 
@@ -49,25 +58,30 @@ Many rules here started as a mistake Claude made:
 
 ```mermaid
 flowchart TD
-  slip(["Claude makes a mistake"])
-  sayMirror["I say mirror and what should<br/>happen next time"]
-  dreamRun["My /dream run reads a week of sessions<br/>and proposes changes"]
-  dreamReview["In the dream review I answer<br/>Add it or Not now"]
-  rule["Claude writes a rule into CLAUDE.md,<br/>a skill or a hook in ~/.claude"]
-  syncSh["sync.sh copies it into this copy and stops<br/>on a name, a home path or a secret"]
-  commitPush["sync.sh --commit commits it with my prompt<br/>quoted and pushes it"]
+  slip(["Mistake"])
+  sayMirror["I say mirror"]
+  dreamRun["My /dream run"]
+  dreamReview["Dream review"]
+  rule["Rule in ~/.claude"]
+  syncSh["sync.sh scan"]
+  commitPush["Commit and push"]
   repo[("This repository")]
-  desktop["~/.claude on my Linux desktop"]
+  desktop["My Linux desktop"]
   yourCopy["Your ~/.claude"]
 
   slip --> sayMirror --> rule
   dreamRun --> dreamReview --> rule
   rule --> syncSh --> commitPush --> repo
   rule -.->|Syncthing| desktop
-  repo -->|clone, then pick pieces or install all| yourCopy
+  repo -->|clone| yourCopy
 ```
 
-[`sync.sh`](../sync.sh) also runs in the background at every prompt, so a change pushed from one
-computer reaches the other. Every commit quotes the prompts behind it, and
-[`PROMPTS.md`](../PROMPTS.md) collects them. [Install](install.md) shows how to take pieces or all
-of it.
+- I say `mirror` and what should happen next time, or `/dream` reads a week of my sessions and I
+  answer Add it or Not now to each change it proposes.
+- Claude writes the rule into `CLAUDE.md`, a skill or a hook in `~/.claude`, and Syncthing carries
+  it to my other computer.
+- [`sync.sh`](../sync.sh) copies it here and stops on a name, a home path or a secret. With
+  `--commit` it commits the change with my prompt quoted and pushes it, and
+  [`PROMPTS.md`](../PROMPTS.md) collects those prompts. It also runs in the background at every
+  prompt, so a change pushed from one computer reaches the other.
+- You clone this repository and take pieces or all of it, as [install](install.md) shows.
