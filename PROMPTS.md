@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Ask a held-back question in the reply after the answer
+## Link the Qobuz AirPods helper from the Mac doc
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: where shall I publish the Qobuz AirPods helper?)
+> a, own repository
+
+## Ask a held-back question in the reply after the answer
+
+2026-11-13, commit [8f555f4](https://github.com/zululima/setup/commit/8f555f40a39d11ab30db624fa3a53ed23862e77c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > lol why qobuz airpods helper still unpublished

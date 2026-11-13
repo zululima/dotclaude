@@ -210,4 +210,6 @@ LaunchAgents in `~/Library/LaunchAgents` start these at login:
   this repository, which [what you get](what-you-get.md) explains.
 - A helper Claude wrote for Qobuz, which ignores the pause macOS sends when I take my AirPods out
   and lets a press on an AirPod open Apple Music. The helper pauses Qobuz then, and makes the press
-  play and pause Qobuz. It is not published here.
+  play and pause Qobuz. It has its own repository,
+  [https://github.com/zululima/qobuz-ear-pause](https://github.com/zululima/qobuz-ear-pause), with
+  its install steps.
