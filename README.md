@@ -9,8 +9,9 @@ so every commit here quotes the prompts behind it, collected in [`PROMPTS.md`](P
 | --- | --- | --- | --- | --- |
 | the rules Claude follows in every project | stop mistakes, keep git tidy, keep a record | pull requests, Slack drafts, this copy | `/dream`, an idle-time review that proposes changes | cache and context gauge under the prompt, archived sessions' files moved |
 
-**Docs:** [what you get](docs/what-you-get.md), [how I work](docs/how-i-work.md),
-[evals](docs/evals.md), [install](docs/install.md).
+**Docs:** [how it works](docs/how-it-works.md), [what you get](docs/what-you-get.md), [how I
+work](docs/how-i-work.md), [my Mac](docs/mac.md), [evals](docs/evals.md),
+[install](docs/install.md).
 
 New here? Paste this into Claude Code:
 

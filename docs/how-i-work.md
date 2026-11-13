@@ -1,7 +1,7 @@
 # How I work
 
 This is how I use this setup from day to day, on a MacBook Air with an M5 chip. It leaves out what I
-work on.
+work on. The Mac itself, its menu bar, apps and settings, is in [my Mac](mac.md).
 
 ## Start of day
 
@@ -173,9 +173,9 @@ Two habits do most of the work:
 ## Browsers
 
 Firefox is my default browser, so the links Claude gives me, such as a pull request or a page it
-made, open there. Claude does its own browsing in the browser built into the desktop app, the pane
-beside the chat, where I sign in once to the sites it needs. When a bot check fails in that pane,
-Claude moves to Claude in Chrome, and I handle the check there myself.
+made, open there. Claude does its own browsing in Claude in Chrome, the extension in my own Chrome,
+never in the browser pane of the desktop app. It starts Chrome hidden, so Chrome never lands on top
+of my work, and leaves each sign-in and bot check there to me.
 
 ## Battery and sleep
 

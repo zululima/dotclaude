@@ -6,6 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Add docs on how the setup works and on my Mac
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** (handed over from another session, which quoted it whole)
+> my dotclaude/setup include thing my way of working with mac (menu
+> bar items, literally anything thats secure to share maybe like
+> software etc anything that might be useful to someone) setup should
+> also probably have some mermaid graph on how the setup works
+
 ## Lock a mirror's clone for sync.sh and share-memories.sh
 
 2026-11-13, commit [ce7424d](https://github.com/zululima/setup/commit/ce7424dbb5fb410f694d0b060079022dd14ba188), model claude-opus-5-5, effort xhigh.
