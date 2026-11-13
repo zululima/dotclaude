@@ -182,8 +182,10 @@ GitHub.
   no session reads it or the page back, and a later build translates the English again.
 - Where someone else reviews the repository's PRs, as its project memory or the user says, the user
   still checks the change by hand first, so the session builds the page and the reply ends with its
-  address as for any other PR. Once the PR is done, the reply also asks whether the session marks it
-  ready and requests that person's review.
+  address as for any other PR. Before opening the PR, the session reads the project memory note on
+  who reviews which PRs. The reply that opens the PR, or the first one after its checks pass, also
+  asks whether the session marks it ready and requests that person's review, also when the issue
+  keeps work outside the PR.
 
 ## Reviewing a PR
 

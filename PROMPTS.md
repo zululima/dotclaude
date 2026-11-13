@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## pull-requests: ask for the review when the PR opens
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+
+**4.**
+> why didnt you ask put draft to ready and ask [a teammate's] review
+> since this was not ui pr
+
 ## Ask before a tool call puts a dialog on the screen
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/dotclaude/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [4597fd2](https://github.com/zululima/setup/commit/4597fd2c19f6d98377a68f37095d90e418cf8768), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [a remark about a translation task left out] also ask before you put
@@ -16,7 +24,7 @@ lost at the next commit.
 
 ## pull-requests: link the PR page beside the review page
 
-2026-11-13, commit [3d15703](https://github.com/zululima/dotclaude/commit/3d15703b8e55ce4b168d3e011ef646cb39ef617e), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [3d15703](https://github.com/zululima/setup/commit/3d15703b8e55ce4b168d3e011ef646cb39ef617e), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > in the future give me the link to the pr page too. [an ask about a
@@ -24,7 +32,7 @@ lost at the next commit.
 
 ## pull-requests: check running sessions before suggesting a review
 
-2026-11-13, commit [e84891c](https://github.com/zululima/dotclaude/commit/e84891cec4afa6aa410c55178802b721364d19b1), model claude-opus-5-5, effort high.
+2026-11-13, commit [e84891c](https://github.com/zululima/setup/commit/e84891cec4afa6aa410c55178802b721364d19b1), model claude-opus-5-5, effort high.
 
 **3.**
 > dont suggest that since pr 235 review has been going on for a long
@@ -32,7 +40,7 @@ lost at the next commit.
 
 ## Name a control only once it has been seen on screen
 
-2026-11-13, commit [a6a6dd9](https://github.com/zululima/dotclaude/commit/a6a6dd9999978cb77e455f4734d532270d60d851), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [a6a6dd9](https://github.com/zululima/setup/commit/a6a6dd9999978cb77e455f4734d532270d60d851), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > where do you always get this x on the pr bar thingy? never do that
@@ -40,7 +48,7 @@ lost at the next commit.
 
 ## Delete leftover Chrome tab groups and retry them while idle
 
-2026-11-13, commit [f410151](https://github.com/zululima/dotclaude/commit/f410151df60d0d60ed617eb06fdf76bb6b6fb44d), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
+2026-11-13, commit [f410151](https://github.com/zululima/setup/commit/f410151df60d0d60ed617eb06fdf76bb6b6fb44d), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
 
 **1.**
 > theres a lot of old already archived tabs there. clean them up
@@ -61,7 +69,7 @@ Reply: The cleanup of archived sessions' Chrome tab groups is fixed and will rep
 
 ## Wait for the internet before gm updates anything
 
-2026-11-13, commit [aea3eee](https://github.com/zululima/dotclaude/commit/aea3eee51f8391b90458265bdd2323e6263157b7), model claude-fable-5-2, effort xhigh.
+2026-11-13, commit [aea3eee](https://github.com/zululima/setup/commit/aea3eee51f8391b90458265bdd2323e6263157b7), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > gm should probably wait for internet on terminal cuz sometimes
@@ -69,7 +77,7 @@ Reply: The cleanup of archived sessions' Chrome tab groups is fixed and will rep
 
 ## Keep another session's hunks out of sync.sh --commit
 
-2026-11-12, commit [f8af927](https://github.com/zululima/dotclaude/commit/f8af9271ab590592e690bba471b8879c049121e2), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [f8af927](https://github.com/zululima/setup/commit/f8af9271ab590592e690bba471b8879c049121e2), model claude-opus-5-5, effort xhigh.
 
 **1.** [a task another Claude session wrote, left out]
 
@@ -79,22 +87,22 @@ sync.sh --commit race fix in its own session on Opus 5.5 at xhigh?)
 
 ## Have the share read-through make guessed pronouns neutral
 
-2026-11-12, commit [79c1fec](https://github.com/zululima/dotclaude/commit/79c1fec8946f2416f87f1f4edd8da7924f951b1e), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [79c1fec](https://github.com/zululima/setup/commit/79c1fec8946f2416f87f1f4edd8da7924f951b1e), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > a, read before push
 
 ## Give a session the gear while a session it started works
 
-2026-11-12, commit [76ed25c](https://github.com/zululima/dotclaude/commit/76ed25cfc0891bbf4d79dededbeee9b564876717), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [76ed25c](https://github.com/zululima/setup/commit/76ed25cfc0891bbf4d79dededbeee9b564876717), model claude-opus-5-5, effort xhigh.
 
-**2.** [with a screenshot of a proposed session card] Quoted under [1746b57](https://github.com/zululima/dotclaude/commit/1746b57098006530427980df2f11ce22f7cfee5e).
+**2.** [with a screenshot of a proposed session card] Quoted under [1746b57](https://github.com/zululima/setup/commit/1746b57098006530427980df2f11ce22f7cfee5e).
 
 ## Say who archives a session that handed over
 
-2026-11-12, commit [1a05edc](https://github.com/zululima/dotclaude/commit/1a05edc1bedac5380056daf920b21919e21e63f6), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [1a05edc](https://github.com/zululima/setup/commit/1a05edc1bedac5380056daf920b21919e21e63f6), model claude-fable-5-2, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.** (answer to: shall I move this fix to a session on Opus 5.5?)
 > [an answer about a downstream project left out]
@@ -104,13 +112,13 @@ sync.sh --commit race fix in its own session on Opus 5.5 at xhigh?)
 
 ## Read a session's first timestamp without a pipe that can break
 
-2026-11-12, commit [68465c6](https://github.com/zululima/dotclaude/commit/68465c630c5511d1a272568c745630918c220659), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [68465c6](https://github.com/zululima/setup/commit/68465c630c5511d1a272568c745630918c220659), model claude-opus-5-5, effort xhigh.
 
-**5.** (answer to: what should a shared conversation keep and leave out?) Quoted under [854b322](https://github.com/zululima/dotclaude/commit/854b322c33bfc5a009313233839dcd56989871ef).
+**5.** (answer to: what should a shared conversation keep and leave out?) Quoted under [854b322](https://github.com/zululima/setup/commit/854b322c33bfc5a009313233839dcd56989871ef).
 
 ## Add the share skill, which puts a session on a sessions branch
 
-2026-11-12, commit [854b322](https://github.com/zululima/dotclaude/commit/854b322c33bfc5a009313233839dcd56989871ef), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [854b322](https://github.com/zululima/setup/commit/854b322c33bfc5a009313233839dcd56989871ef), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which branch name and reach should shared sessions use?)
 > a, claude-sessions
@@ -127,7 +135,7 @@ Reply: Both share scripts now sit in ~/.claude/skills/share, and sharing stops i
 
 ## Refuse a session card in favour of a next-step box question
 
-2026-11-12, commit [1746b57](https://github.com/zululima/dotclaude/commit/1746b57098006530427980df2f11ce22f7cfee5e), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [1746b57](https://github.com/zululima/setup/commit/1746b57098006530427980df2f11ce22f7cfee5e), model claude-opus-5-5, effort xhigh.
 
 **2.** [with a screenshot of a proposed session card]
 > again with the new session. never do that. should always be a cmd
@@ -136,16 +144,16 @@ Reply: Both share scripts now sit in ~/.claude/skills/share, and sharing stops i
 
 ## Allow archiving sessions without the auto mode check
 
-2026-11-12, commit [7d787a6](https://github.com/zululima/dotclaude/commit/7d787a6e0f3a9d1d916c0b812aa16d892fcbbe2b), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [7d787a6](https://github.com/zululima/setup/commit/7d787a6e0f3a9d1d916c0b812aa16d892fcbbe2b), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: have you run the script that allows archiving sessions?)
 > Yes, ran it
 
 ## Print a summary of each reply under its prompt
 
-2026-11-12, commit [d2969cb](https://github.com/zululima/dotclaude/commit/d2969cb998e8ce16055280bde110578ce17bb1e4), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [d2969cb](https://github.com/zululima/setup/commit/d2969cb998e8ce16055280bde110578ce17bb1e4), model claude-opus-5-5, effort xhigh.
 
-**1.** (typed in the session that handed this task over) Quoted under [a4d3da8](https://github.com/zululima/dotclaude/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550).
+**1.** (typed in the session that handed this task over) Quoted under [a4d3da8](https://github.com/zululima/setup/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550).
 
 Reply: prompt-log.sh can now pair each prompt with its turn's recap and last message (pushed as a4d3da8), and a branch writer that never touches the checkout is tested in a scratch repo. print and the share skill are not built yet; they wait on four answers, asked one at a time.
 
@@ -154,7 +162,7 @@ Reply: prompt-log.sh can now pair each prompt with its turn's recap and last mes
 
 ## Name a session whose wrap-up asks something in the usage hourglass
 
-2026-11-12, commit [03c5001](https://github.com/zululima/dotclaude/commit/03c50012cc2c34375dd98c647ce975494f1f0bc3), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [03c5001](https://github.com/zululima/setup/commit/03c50012cc2c34375dd98c647ce975494f1f0bc3), model claude-opus-5-5, effort xhigh.
 
 **1.** (typed in the session that started this one)
 > sessions should have some waiting icon if they are waiting for
@@ -163,9 +171,9 @@ Reply: prompt-log.sh can now pair each prompt with its turn's recap and last mes
 
 ## Cut what every session loads before its first prompt
 
-2026-11-12, commit [107f7b7](https://github.com/zululima/dotclaude/commit/107f7b76d97fabfdcc01fec5feead1b2dd34ef1a), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [107f7b7](https://github.com/zululima/setup/commit/107f7b76d97fabfdcc01fec5feead1b2dd34ef1a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the fixed part, and 15 large rewrites cost $22.20 in the window. Nothing in ~/.claude or settings has changed; the proposal waits on your pick.
 
@@ -174,9 +182,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Archive a session that handed its task over
 
-2026-11-12, commit [fe17fac](https://github.com/zululima/dotclaude/commit/fe17facab346b7c82a40a1286634d8badc33e8c7), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [fe17fac](https://github.com/zululima/setup/commit/fe17facab346b7c82a40a1286634d8badc33e8c7), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.** (answer to: shall I start the review in its own session?)
 > [an answer about a downstream project left out]
@@ -187,7 +195,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Add prompt-log.sh turns, which pairs each prompt with its reply
 
-2026-11-12, commit [a4d3da8](https://github.com/zululima/dotclaude/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [a4d3da8](https://github.com/zululima/setup/commit/a4d3da832c793f3579a8b6e7e572c01e6d237550), model claude-opus-5-5, effort xhigh.
 
 **1.** (typed in the session that handed this task over)
 > lets create a better system for commits so that they include a
@@ -201,7 +209,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Ask one question a reply; sessions keep starting on Fable 5.2
 
-2026-11-12, commit [1b1bc93](https://github.com/zululima/dotclaude/commit/1b1bc935f5c069d7fdc92600f78d3fbc121024c3), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [1b1bc93](https://github.com/zululima/setup/commit/1b1bc935f5c069d7fdc92600f78d3fbc121024c3), model claude-fable-5-2, effort xhigh.
 
 **2.**
 > you just gave a vs b before the question box of cmd enter. only one
@@ -212,7 +220,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## models: pick rows the 5-hour limit carries, step down by model
 
-2026-11-12, commit [655850d](https://github.com/zululima/dotclaude/commit/655850d5f04b06798e692f3b222679dd1a15cde6), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [655850d](https://github.com/zululima/setup/commit/655850d5f04b06798e692f3b222679dd1a15cde6), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > 5 h limit was reached. this is not acceptable. fix your model and
@@ -220,7 +228,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## docs(pull-requests): one verb for a run of clicks, typed values as code
 
-2026-11-12, commit [874135b](https://github.com/zululima/dotclaude/commit/874135bfa940851ad172527e9a2fa40455b8eb63), model claude-fable-5-2, effort high.
+2026-11-12, commit [874135b](https://github.com/zululima/setup/commit/874135bfa940851ad172527e9a2fa40455b8eb63), model claude-fable-5-2, effort high.
 
 **4.**
 > [an ask about a downstream project left out] also dont say click
@@ -232,7 +240,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## fix(review-page): size screenshots to the window, drop the rail
 
-2026-11-12, commit [90dd02b](https://github.com/zululima/dotclaude/commit/90dd02b841f49db86ac9cbfd7b0aadb2abd14b39), model claude-fable-5-2, effort high.
+2026-11-12, commit [90dd02b](https://github.com/zululima/setup/commit/90dd02b841f49db86ac9cbfd7b0aadb2abd14b39), model claude-fable-5-2, effort high.
 
 **3.**
 > review page should maximize the screenshot as much as possible and
@@ -241,14 +249,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Ask every question in the next-step box
 
-2026-11-12, commit [ed2fc12](https://github.com/zululima/dotclaude/commit/ed2fc12f188bc62f464b429c09eadb78bded23a7), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [ed2fc12](https://github.com/zululima/setup/commit/ed2fc12f188bc62f464b429c09eadb78bded23a7), model claude-fable-5-2, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.** (answer to: shall the work run in a new session at lower effort?)
 > [an answer about a downstream project left out]
 
-**3.** Quoted under [c558028](https://github.com/zululima/dotclaude/commit/c5580280d88009eaee4bebd8703b6ba173c54888).
+**3.** Quoted under [c558028](https://github.com/zululima/setup/commit/c5580280d88009eaee4bebd8703b6ba173c54888).
 
 **4.**
 > you should ask the question thingy where i can either choose a with
@@ -256,23 +264,23 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Pin only links to the checkout's own repository after a push
 
-2026-11-12, commit [f478772](https://github.com/zululima/dotclaude/commit/f4787725f6d30ff7f631602d68386913d5914169), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [f478772](https://github.com/zululima/setup/commit/f4787725f6d30ff7f631602d68386913d5914169), model claude-fable-5-2, effort xhigh.
 
 **4.** (answer to: add to the skill that a push pins only your own links?)
 > Kyllä, lisää
 
 ## Never ask which branch a change goes on
 
-2026-11-12, commit [64e21ee](https://github.com/zululima/dotclaude/commit/64e21eeb3048342c43e5c7739b6119011df86bb9), model claude-fable-5-2, effort high.
+2026-11-12, commit [64e21ee](https://github.com/zululima/setup/commit/64e21eeb3048342c43e5c7739b6119011df86bb9), model claude-fable-5-2, effort high.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.**
 > what yes ofc separate branch dont ask taht again?
 
 ## Offer a new session in the next-step box, never as a card
 
-2026-11-12, commit [9ab15b2](https://github.com/zululima/dotclaude/commit/9ab15b2eac90742d46d79114cac43f37931df72f), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [9ab15b2](https://github.com/zululima/setup/commit/9ab15b2eac90742d46d79114cac43f37931df72f), model claude-fable-5-2, effort xhigh.
 
 **4.**
 > start also dont give that new session thingy it should be the cmd
@@ -280,7 +288,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## docs(rules): end the reply with a question the box cannot hold
 
-2026-11-12, commit [cb71a74](https://github.com/zululima/dotclaude/commit/cb71a74d9cd138be9e586e66a18cb2c5fb481d7b), model claude-fable-5-2, effort high.
+2026-11-12, commit [cb71a74](https://github.com/zululima/setup/commit/cb71a74d9cd138be9e586e66a18cb2c5fb481d7b), model claude-fable-5-2, effort high.
 
 **3.**
 > a or b was kinda hidden there i want it to be a question like that.
@@ -291,7 +299,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## models: a session card's title names its model and effort
 
-2026-11-12, commit [0d70bf7](https://github.com/zululima/dotclaude/commit/0d70bf7d76b25bdf05ee391156deb9736965f840), model claude-fable-5-2, effort xhigh.
+2026-11-12, commit [0d70bf7](https://github.com/zululima/setup/commit/0d70bf7d76b25bdf05ee391156deb9736965f840), model claude-fable-5-2, effort xhigh.
 
 **2.**
 > why would you suggest to do 229 although i have many thigns in your
@@ -304,16 +312,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Write IS or PR before a number in a session title
 
-2026-11-12, commit [48c10e1](https://github.com/zululima/dotclaude/commit/48c10e184090f656f5d41bb5e8f1fa250111105f), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [48c10e1](https://github.com/zululima/setup/commit/48c10e184090f656f5d41bb5e8f1fa250111105f), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > #176 doesnt say issue or pr maybe say IS in future and now
 
 ## Send no message to a session whose cache has gone cold
 
-2026-11-12, commit [7147e00](https://github.com/zululima/dotclaude/commit/7147e00ca3a09e358579f5d22ff2a6c2fa06c21f), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [7147e00](https://github.com/zululima/setup/commit/7147e00ca3a09e358579f5d22ff2a6c2fa06c21f), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.**
 > ? this was cold cache for a while. usage doesnt say cash emoji so did
@@ -322,14 +330,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Never wait in the background on the user's hand steps
 
-2026-11-12, commit [4a391e2](https://github.com/zululima/dotclaude/commit/4a391e2b4f7072482e7c0c375052c7a8608f3193), model claude-opus-5-5, effort xhigh.
+2026-11-12, commit [4a391e2](https://github.com/zululima/setup/commit/4a391e2b4f7072482e7c0c375052c7a8608f3193), model claude-opus-5-5, effort xhigh.
 
 **34.**
 > wait what? what are you waiting for now? dont do that
 
 ## Catch Finnish claims of an unreachable source in the Stop hook
 
-2026-11-11, commit [9250327](https://github.com/zululima/dotclaude/commit/925032780008784a7a8e5cc4de94dde64f0dd18f), model claude-fable-5-2, effort xhigh.
+2026-11-11, commit [9250327](https://github.com/zululima/setup/commit/925032780008784a7a8e5cc4de94dde64f0dd18f), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > [a question about where to park left out]
@@ -343,7 +351,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Have every brief tell its session to move to top level first
 
-2026-11-11, commit [03b51da](https://github.com/zululima/dotclaude/commit/03b51da26ee7b49efc1ec8c532ece5cc99b44852), model claude-fable-5-2, effort high.
+2026-11-11, commit [03b51da](https://github.com/zululima/setup/commit/03b51da26ee7b49efc1ec8c532ece5cc99b44852), model claude-fable-5-2, effort high.
 
 **2.**
 > you again asked for a new session that was sub session for a while
@@ -351,19 +359,19 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Let sync.sh pull past a file the other computer committed first
 
-2026-11-11, commit [3bdd6b4](https://github.com/zululima/dotclaude/commit/3bdd6b479bb1d7e801c3d710402b597ac6a109a3), model claude-fable-5-2, effort high.
+2026-11-11, commit [3bdd6b4](https://github.com/zululima/setup/commit/3bdd6b479bb1d7e801c3d710402b597ac6a109a3), model claude-fable-5-2, effort high.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 ## Let an unattended dream run guard itself in a terminal session
 
-2026-11-11, commit [3757954](https://github.com/zululima/dotclaude/commit/375795438a5daef7ff7a8db52e2c8461ffc0df7b), model claude-fable-5-2, effort high.
+2026-11-11, commit [3757954](https://github.com/zululima/setup/commit/375795438a5daef7ff7a8db52e2c8461ffc0df7b), model claude-fable-5-2, effort high.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 ## Put a question in the next-step box, the pick on its first button
 
-2026-11-11, commit [58675a5](https://github.com/zululima/dotclaude/commit/58675a5e9623ec49f974b4d5fc94fc7554ce35c1), model claude-opus-5-5, effort xhigh.
+2026-11-11, commit [58675a5](https://github.com/zululima/setup/commit/58675a5e9623ec49f974b4d5fc94fc7554ce35c1), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: have you run the removal and install steps?)
 > [an answer about package removal steps left out]
@@ -375,7 +383,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give each label in a reply one item only
 
-2026-11-11, commit [e56d65d](https://github.com/zululima/dotclaude/commit/e56d65d6ba76a6a095155ecab86459a56cb2371f), model claude-opus-5-5, effort xhigh.
+2026-11-11, commit [e56d65d](https://github.com/zululima/setup/commit/e56d65d6ba76a6a095155ecab86459a56cb2371f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a system upgrade left out]
@@ -393,13 +401,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Step a task down to a cheaper model when the limits run short
 
-2026-11-11, commit [6174e7f](https://github.com/zululima/dotclaude/commit/6174e7f91ae3b5beed44cdbd471fa570cc926227), model claude-fable-5-2, effort xhigh.
+2026-11-11, commit [6174e7f](https://github.com/zululima/setup/commit/6174e7f91ae3b5beed44cdbd471fa570cc926227), model claude-fable-5-2, effort xhigh.
 
-**1.** Quoted under [625b5bc](https://github.com/zululima/dotclaude/commit/625b5bc1b138917533c1d5a05aa701d958c3f941).
+**1.** Quoted under [625b5bc](https://github.com/zululima/setup/commit/625b5bc1b138917533c1d5a05aa701d958c3f941).
 
 ## Price Fable 5.2 and Mythos 5.2 in the usage totals
 
-2026-11-11, commit [625b5bc](https://github.com/zululima/dotclaude/commit/625b5bc1b138917533c1d5a05aa701d958c3f941), model claude-fable-5-2, effort xhigh.
+2026-11-11, commit [625b5bc](https://github.com/zululima/setup/commit/625b5bc1b138917533c1d5a05aa701d958c3f941), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > can you make it so that based on benchmarks and nerfbenches etc youll
@@ -412,7 +420,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Say why a started session's model and effort fit its task
 
-2026-11-10, commit [437892f](https://github.com/zululima/dotclaude/commit/437892ffa9e9290b28385b885987c8dd5d34fa3a), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [437892f](https://github.com/zululima/setup/commit/437892ffa9e9290b28385b885987c8dd5d34fa3a), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > does my claude switch to automatically opus 5.5 for knowledge work
@@ -438,7 +446,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read an archived copy before setting a search figure aside
 
-2026-11-10, commit [9101c18](https://github.com/zululima/dotclaude/commit/9101c18fd757ebaa17237eab15c5a5d1d1438852), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [9101c18](https://github.com/zululima/setup/commit/9101c18fd757ebaa17237eab15c5a5d1d1438852), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > [a question about a service's plans left out]
@@ -449,7 +457,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Expect the Fable limit shown in the dream simulator checks
 
-2026-11-10, commit [e546e58](https://github.com/zululima/dotclaude/commit/e546e58c0fc352a393d7ae300ee292e51a57d84f), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [e546e58](https://github.com/zululima/setup/commit/e546e58c0fc352a393d7ae300ee292e51a57d84f), model claude-fable-5-2, effort xhigh.
 
 **5.** (answer to: shall I list backend and frontend as English words, not taustajärjestelmä and edustajärjestelmä?)
 > Yes, keep English
@@ -459,13 +467,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give find its times without milliseconds in the dream prompts
 
-2026-11-10, commit [b65d4ef](https://github.com/zululima/dotclaude/commit/b65d4ef2cd97724cd43c43c78b3a723d536516ec), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [b65d4ef](https://github.com/zululima/setup/commit/b65d4ef2cd97724cd43c43c78b3a723d536516ec), model claude-fable-5-2, effort xhigh.
 
-**4.** (answer to: shall I fix the dream workflow so a one-part run keeps its carried transcripts?) Quoted under [24b7eb4](https://github.com/zululima/dotclaude/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca).
+**4.** (answer to: shall I fix the dream workflow so a one-part run keeps its carried transcripts?) Quoted under [24b7eb4](https://github.com/zululima/setup/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca).
 
 ## Keep the window and carried transcripts in a one-source dream run
 
-2026-11-10, commit [24b7eb4](https://github.com/zululima/dotclaude/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [24b7eb4](https://github.com/zululima/setup/commit/24b7eb4e325d1f7f949143e6ac6d2af04cbf2aca), model claude-fable-5-2, effort xhigh.
 
 **3.** (answer to: shall I run the dream workflow's new Finnish check once now, on last week's texts?)
 > Yes, run it
@@ -475,7 +483,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Add a Finnish terms source to the dream run
 
-2026-11-10, commit [28b457c](https://github.com/zululima/dotclaude/commit/28b457cff8ad62697be25d7cf1a1630e6a6a1c7a), model claude-fable-5-2, effort xhigh.
+2026-11-10, commit [28b457c](https://github.com/zululima/setup/commit/28b457cff8ad62697be25d7cf1a1630e6a6a1c7a), model claude-fable-5-2, effort xhigh.
 
 **1.** (typed in a session on claude-opus-5-5, which handed the work to this one)
 > maybe we should start building a finnish dictionary locally since
@@ -491,7 +499,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read the whole thread around a search hit before citing it
 
-2026-11-10, commit [91a0b8a](https://github.com/zululima/dotclaude/commit/91a0b8a5360f757fd48a9c4870d312b087e500f2), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [91a0b8a](https://github.com/zululima/setup/commit/91a0b8a5360f757fd48a9c4870d312b087e500f2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a shared account's sign-in left out]
@@ -501,7 +509,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Hand software work to a session on its row; read nerf trackers
 
-2026-11-10, commit [ad1de0e](https://github.com/zululima/dotclaude/commit/ad1de0e2804e546fa290b01f90a9d68194c4ed42), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [ad1de0e](https://github.com/zululima/setup/commit/ad1de0e2804e546fa290b01f90a9d68194c4ed42), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > cant i just use haiku and then it automaticalyl switches to correct
@@ -516,7 +524,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Stop before software work on the wrong model; show Fable
 
-2026-11-10, commit [a022278](https://github.com/zululima/dotclaude/commit/a022278711461bb19453fcf675a7e17c2d020d51), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [a022278](https://github.com/zululima/setup/commit/a022278711461bb19453fcf675a7e17c2d020d51), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I show the Fable weekly limit in dream reports again?)
 > Yes, show it
@@ -527,7 +535,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Pick the model and effort per task from benchmarks
 
-2026-11-10, commit [b5d7f8c](https://github.com/zululima/dotclaude/commit/b5d7f8c39d8c10ac54200ffb2e70c9e8fda72caf), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [b5d7f8c](https://github.com/zululima/setup/commit/b5d7f8c39d8c10ac54200ffb2e70c9e8fda72caf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > could we make a dream check out latest benchmarks like the ones
@@ -542,7 +550,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep steps short where the user types them by hand
 
-2026-11-10, commit [a10b365](https://github.com/zululima/dotclaude/commit/a10b3659e303bf9044f2763a9bc3802a80841dfb), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [a10b365](https://github.com/zululima/setup/commit/a10b3659e303bf9044f2763a9bc3802a80841dfb), model claude-opus-5-5, effort xhigh.
 
 **7.** to 21.
 > [fifteen prompts about setting up a TV box left out]
@@ -553,7 +561,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: never push to another author's PR branch
 
-2026-11-10, commit [a1390de](https://github.com/zululima/dotclaude/commit/a1390de1b4629ed7b43680a438c99761125e2b4c), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [a1390de](https://github.com/zululima/setup/commit/a1390de1b4629ed7b43680a438c99761125e2b4c), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > next time dont push directly to someone elses branch althoguh you fix
@@ -561,7 +569,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep a command on one line when a split cannot fit it
 
-2026-11-10, commit [da4c232](https://github.com/zululima/dotclaude/commit/da4c2326ebfe1e3b26c33cd34175e9f15db4711b), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [da4c232](https://github.com/zululima/setup/commit/da4c2326ebfe1e3b26c33cd34175e9f15db4711b), model claude-opus-5-5, effort xhigh.
 
 **1.** to 5.
 > [five prompts about connecting game controllers left out]
@@ -576,7 +584,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name the cheaper official route beside a paid pick
 
-2026-11-10, commit [0db367c](https://github.com/zululima/dotclaude/commit/0db367c490bc847e48aa0a8e1ff748dd4840549d), model claude-opus-5-5, effort xhigh.
+2026-11-10, commit [0db367c](https://github.com/zululima/setup/commit/0db367c490bc847e48aa0a8e1ff748dd4840549d), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > [an ask about a personal project left out]
@@ -586,7 +594,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Count a goal a later step narrows as a request read two ways
 
-2026-11-09, commit [70c4b2e](https://github.com/zululima/dotclaude/commit/70c4b2ebda8bcf0f92216433d6f5fcc898eab19e), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [70c4b2e](https://github.com/zululima/setup/commit/70c4b2ebda8bcf0f92216433d6f5fcc898eab19e), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an ask about the session's permission mode, left out]
@@ -596,16 +604,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Detach started sessions from both ends
 
-2026-11-09, commit [3ffe6ec](https://github.com/zululima/dotclaude/commit/3ffe6ece65ad90a40d3ba6733fbedfc76db3da32), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [3ffe6ec](https://github.com/zululima/setup/commit/3ffe6ece65ad90a40d3ba6733fbedfc76db3da32), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.**
 > my guy why is this sub session AGAIN
 
 ## Keep pushes off the phone while a KDE desktop is in use
 
-2026-11-09, commit [dba6f22](https://github.com/zululima/dotclaude/commit/dba6f22716fe90c4abe51e27a26488e1742cd6c0), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [dba6f22](https://github.com/zululima/setup/commit/dba6f22716fe90c4abe51e27a26488e1742cd6c0), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > claude keeps sending me notifications from cachyos to iphone although
@@ -613,7 +621,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name the permission modes as the app's menu does
 
-2026-11-09, commit [b026bf6](https://github.com/zululima/dotclaude/commit/b026bf61a79bd3571cf95b0383b1a0d15b84fa98), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [b026bf6](https://github.com/zululima/setup/commit/b026bf61a79bd3571cf95b0383b1a0d15b84fa98), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to run three prompt files on another machine, left out]
@@ -630,13 +638,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep archive-files from moving the other machine's drafts
 
-2026-11-09, commit [0af8baa](https://github.com/zululima/dotclaude/commit/0af8baa1ff420f80a60fba2af4a1c6c88f659b13), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [0af8baa](https://github.com/zululima/setup/commit/0af8baa1ff420f80a60fba2af4a1c6c88f659b13), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 ## Leave the other machine's sessions out of the usage line
 
-2026-11-09, commit [af37f51](https://github.com/zululima/dotclaude/commit/af37f51b52f73dcaec9d4c4655aed61f3a101186), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [af37f51](https://github.com/zululima/setup/commit/af37f51b52f73dcaec9d4c4655aed61f3a101186), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > this is not correct as its a session living on my mac laptop and not
@@ -644,9 +652,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Put the readers' question in a reply draft
 
-2026-11-09, commit [549f181](https://github.com/zululima/dotclaude/commit/549f1816892eb45de18b28acba59f61e4b57b765), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [549f181](https://github.com/zululima/setup/commit/549f1816892eb45de18b28acba59f61e4b57b765), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.**
 > [an answer about the same project left out]
@@ -666,14 +674,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: notify when a long verify step ends
 
-2026-11-09, commit [7cb8b34](https://github.com/zululima/dotclaude/commit/7cb8b3401480f387f684c3047235d6d118b05b08), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [7cb8b34](https://github.com/zululima/setup/commit/7cb8b3401480f387f684c3047235d6d118b05b08), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > terminal didnt tell me when the e2e verify was done
 
 ## Name every count a figure is made from beside it
 
-2026-11-09, commit [243adfe](https://github.com/zululima/dotclaude/commit/243adfeeb28acc50e6772ea020928703cb92954d), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [243adfe](https://github.com/zululima/setup/commit/243adfeeb28acc50e6772ea020928703cb92954d), model claude-opus-5-5, effort xhigh.
 
 **11.** (answer to: shall I change the fee clause of the rules?)
 > [an ask about a personal project left out]
@@ -683,9 +691,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: free the PR branch from a session's worktree
 
-2026-11-09, commit [f3d6c7d](https://github.com/zululima/dotclaude/commit/f3d6c7d381dfb920c38a344a8eb2788667e83b9c), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [f3d6c7d](https://github.com/zululima/setup/commit/f3d6c7d381dfb920c38a344a8eb2788667e83b9c), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.**
 > [pasted: a screenshot of git refusing to switch to a branch that
@@ -694,7 +702,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Check a money option against its law before naming it
 
-2026-11-09, commit [818a0ae](https://github.com/zululima/dotclaude/commit/818a0ae092e9e16d75e959d989be57bff3b4ec8e), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [818a0ae](https://github.com/zululima/setup/commit/818a0ae092e9e16d75e959d989be57bff3b4ec8e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a personal project left out]
@@ -728,7 +736,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Archive a session once a merging reviewer has its PR
 
-2026-11-09, commit [99bed71](https://github.com/zululima/dotclaude/commit/99bed71e4ea4eeb1de063515cfb447a38ea44f38), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [99bed71](https://github.com/zululima/setup/commit/99bed71e4ea4eeb1de063515cfb447a38ea44f38), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > no [a teammate] reviews adn merges it when they see fit. ill archive
@@ -736,7 +744,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Start each new issue in a session of its own
 
-2026-11-09, commit [b5cc517](https://github.com/zululima/dotclaude/commit/b5cc5173bc3c83568d6b8db7a170f8aafec95358), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [b5cc517](https://github.com/zululima/setup/commit/b5cc5173bc3c83568d6b8db7a170f8aafec95358), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > never here. dotclaude pls remember you should suggest ask start issue
@@ -744,7 +752,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name Syncthing conflict copies in ~/.claude to each session
 
-2026-11-09, commit [ed3ea7c](https://github.com/zululima/dotclaude/commit/ed3ea7c6008663c310ada60ea3c2c07c37e1cf70), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [ed3ea7c](https://github.com/zululima/setup/commit/ed3ea7c6008663c310ada60ea3c2c07c37e1cf70), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > make ALL my claude things sync to my cachyos so that they both have
@@ -755,7 +763,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Bring the app forward from a notification, never Script Editor
 
-2026-11-09, commit [71009ba](https://github.com/zululima/dotclaude/commit/71009ba86bd30a1f74a964722cd7e2d3af9c8a4a), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [71009ba](https://github.com/zululima/setup/commit/71009ba86bd30a1f74a964722cd7e2d3af9c8a4a), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an ask for a notification when a long command ends, left out]
@@ -766,7 +774,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Leave a session that is still working out of the hourglass
 
-2026-11-09, commit [492fa03](https://github.com/zululima/dotclaude/commit/492fa03f46903653a63c23c9434cb823bcbf4c7a), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [492fa03](https://github.com/zululima/setup/commit/492fa03f46903653a63c23c9434cb823bcbf4c7a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dont show [a session] or others here when they are not clearly
@@ -774,7 +782,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read what a user's car or device came with from its catalogue
 
-2026-11-09, commit [32f4b85](https://github.com/zululima/dotclaude/commit/32f4b85945145d7842791497c40a74bcd989a4c4), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [32f4b85](https://github.com/zululima/setup/commit/32f4b85945145d7842791497c40a74bcd989a4c4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about car parts and workshops left out]
@@ -788,7 +796,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Install a built app on this Mac without asking
 
-2026-11-09, commit [79e3071](https://github.com/zululima/dotclaude/commit/79e3071eecb484b19490da51c52743b1d100c29c), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [79e3071](https://github.com/zululima/setup/commit/79e3071eecb484b19490da51c52743b1d100c29c), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I install this branch's build on your Mac now?)
 > yes always
@@ -798,7 +806,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Take tax and benefit rules only from a current page
 
-2026-11-09, commit [13fc662](https://github.com/zululima/dotclaude/commit/13fc6629405bc21ba68f091becae0beb62f64c12), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [13fc662](https://github.com/zululima/setup/commit/13fc6629405bc21ba68f091becae0beb62f64c12), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a personal matter left out]
@@ -814,16 +822,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Count a session's first prompt warm for an hour
 
-2026-11-09, commit [ee06012](https://github.com/zululima/dotclaude/commit/ee06012f608922932f89544ef201acf4f3aa1f5f), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [ee06012](https://github.com/zululima/setup/commit/ee06012f608922932f89544ef201acf4f3aa1f5f), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [7bc0838](https://github.com/zululima/dotclaude/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd).
+**2.** Quoted under [7bc0838](https://github.com/zululima/setup/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd).
 
 **3.** (answer to: shall I make the usage mod guess 1 hour instead of 5    minutes for a new prompt?)
 > Yes, fix it
 
 ## Cite the code run behind a figure a tool showed
 
-2026-11-09, commit [7bc0838](https://github.com/zululima/dotclaude/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [7bc0838](https://github.com/zululima/setup/commit/7bc08381feeb7d3209798a19462e3eb3ce9c1efd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > 3m [a session title]? bug fix?
@@ -834,20 +842,20 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Rewrap the archive-when-done entry in what-you-get.md
 
-2026-11-09, commit [bec13ec](https://github.com/zululima/dotclaude/commit/bec13ec20004672827edc15633252ce9fdaa9e59), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [bec13ec](https://github.com/zululima/setup/commit/bec13ec20004672827edc15633252ce9fdaa9e59), model claude-opus-5-5, effort xhigh.
 
-**6.** Quoted under [5305a65](https://github.com/zululima/dotclaude/commit/5305a65c0a8bec3a6e5acc480e4852a64c631bd3).
+**6.** Quoted under [5305a65](https://github.com/zululima/setup/commit/5305a65c0a8bec3a6e5acc480e4852a64c631bd3).
 
 ## Send a finished turn back until it offers the archive
 
-2026-11-09, commit [5305a65](https://github.com/zululima/dotclaude/commit/5305a65c0a8bec3a6e5acc480e4852a64c631bd3), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [5305a65](https://github.com/zululima/setup/commit/5305a65c0a8bec3a6e5acc480e4852a64c631bd3), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > voinko siis arkistoida tämän. jos niin, mikset sanonut sitä
 
 ## Show a dream report in a review only once
 
-2026-11-09, commit [9c76a1e](https://github.com/zululima/dotclaude/commit/9c76a1e29cdb901a92df505878294b1b14a31cb5), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [9c76a1e](https://github.com/zululima/setup/commit/9c76a1e29cdb901a92df505878294b1b14a31cb5), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > so no new proposals
@@ -857,7 +865,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Fix stale facts found in passing without asking
 
-2026-11-09, commit [8369b54](https://github.com/zululima/dotclaude/commit/8369b545d06d7ad2cee6a943b8d58fc434dc700c), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [8369b54](https://github.com/zululima/setup/commit/8369b545d06d7ad2cee6a943b8d58fc434dc700c), model claude-opus-5-5, effort xhigh.
 
 **1.** [an ask about pricing a consulting job left out]
 
@@ -873,7 +881,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Refuse secrets typed into commands, and scan for them
 
-2026-11-09, commit [23b1ec0](https://github.com/zululima/dotclaude/commit/23b1ec0debc059fc1807231978dfce8b25826189), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [23b1ec0](https://github.com/zululima/setup/commit/23b1ec0debc059fc1807231978dfce8b25826189), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: the address of Apiiro's article on coding agents leaking
@@ -884,29 +892,29 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Test the Chrome window script and the own address hook
 
-2026-11-09, commit [4f1b05b](https://github.com/zululima/dotclaude/commit/4f1b05b172b4cf764045eaaade8ef5921113bd90), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [4f1b05b](https://github.com/zululima/setup/commit/4f1b05b172b4cf764045eaaade8ef5921113bd90), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I add tests for the two hooks that have none?)
 > Yes, go ahead
 
 ## Refresh the evals for 2 to 9 November
 
-2026-11-09, commit [b3cedff](https://github.com/zululima/dotclaude/commit/b3cedffc939a642460e4769b7d895f4eb8e7f8a4), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [b3cedff](https://github.com/zululima/setup/commit/b3cedffc939a642460e4769b7d895f4eb8e7f8a4), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [7c32637](https://github.com/zululima/dotclaude/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd).
+**1.** Quoted under [7c32637](https://github.com/zululima/setup/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd).
 
 ## Stop a final dream run before its scout when no work can start
 
-2026-11-09, commit [7fc86ac](https://github.com/zululima/dotclaude/commit/7fc86ac5631bc542e8684aca604771d190ba75aa), model claude-opus-5-5, effort xhigh.
+2026-11-09, commit [7fc86ac](https://github.com/zululima/setup/commit/7fc86ac5631bc542e8684aca604771d190ba75aa), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 **2.** (answer to: shall I make dream check the cutoff before its scout?)
 > Yes, go ahead
 
 ## Check a part's fit on its own page and the maker's catalogue
 
-2026-11-08, commit [b74b977](https://github.com/zululima/dotclaude/commit/b74b977040dc688d71f83c983eaf1c1c8a53dde4), model claude-opus-5-5, effort xhigh.
+2026-11-08, commit [b74b977](https://github.com/zululima/setup/commit/b74b977040dc688d71f83c983eaf1c1c8a53dde4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to pick up a chat about the car's wipers, left out]
@@ -917,7 +925,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read independent tests before picking a product
 
-2026-11-08, commit [ad31083](https://github.com/zululima/dotclaude/commit/ad31083944a7b355d3035af778c8eda398b28baa), model claude-opus-5-5, effort xhigh.
+2026-11-08, commit [ad31083](https://github.com/zululima/setup/commit/ad31083944a7b355d3035af778c8eda398b28baa), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [pasted: an address of a consumer car seat test page]
@@ -926,14 +934,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Hold every claim in a reply to a cited source
 
-2026-11-08, commit [617ceb9](https://github.com/zululima/dotclaude/commit/617ceb9a860b6f665a5a291d928124da5d2ace98), model claude-opus-5-5, effort xhigh.
+2026-11-08, commit [617ceb9](https://github.com/zululima/setup/commit/617ceb9a860b6f665a5a291d928124da5d2ace98), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > luulin että isofix on turvallisempi kuin turvavyö
 
 ## Spell out abbreviations the user has not marked as known
 
-2026-11-08, commit [e2510ef](https://github.com/zululima/dotclaude/commit/e2510ef85bbf926ea5b292752c9526fc738283e9), model claude-opus-5-5, effort xhigh.
+2026-11-08, commit [e2510ef](https://github.com/zululima/setup/commit/e2510ef85bbf926ea5b292752c9526fc738283e9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a child car seat left out]
@@ -947,14 +955,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Move an archived session's files on Linux too
 
-2026-11-07, commit [b2c79e7](https://github.com/zululima/dotclaude/commit/b2c79e7ae412509fce945c56f99955b55c44eb24), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [b2c79e7](https://github.com/zululima/setup/commit/b2c79e7ae412509fce945c56f99955b55c44eb24), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I fix the same macOS-only paths in the    archive-files mod?)
 > Yes, fix it
 
 ## Name what listed items are in their heading
 
-2026-11-07, commit [ac6467c](https://github.com/zululima/dotclaude/commit/ac6467c3b6054342944e002ffc15ec60b35e15ea), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [ac6467c](https://github.com/zululima/setup/commit/ac6467c3b6054342944e002ffc15ec60b35e15ea), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [a quoted part of an earlier reply: a list of restaurants under the
@@ -967,27 +975,27 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Hold the usage mod to macOS and Linux alike
 
-2026-11-07, commit [350aa1f](https://github.com/zululima/dotclaude/commit/350aa1f8844cc3de33bb771c7834146d82feabde), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [350aa1f](https://github.com/zululima/setup/commit/350aa1f8844cc3de33bb771c7834146d82feabde), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [f4298ba](https://github.com/zululima/dotclaude/commit/f4298ba24de4da4c052910cddae540d50f1593af).
+**1.** Quoted under [f4298ba](https://github.com/zululima/setup/commit/f4298ba24de4da4c052910cddae540d50f1593af).
 
 ## Read the app's session records on Linux in the usage mod
 
-2026-11-07, commit [f4298ba](https://github.com/zululima/dotclaude/commit/f4298ba24de4da4c052910cddae540d50f1593af), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [f4298ba](https://github.com/zululima/setup/commit/f4298ba24de4da4c052910cddae540d50f1593af), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > ? you show flame but you also show cold
 
 ## Suggest the next PR review in a session of its own
 
-2026-11-07, commit [8241c75](https://github.com/zululima/dotclaude/commit/8241c75215609c6167f60fdf7f3a2fca6777a451), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [8241c75](https://github.com/zululima/setup/commit/8241c75215609c6167f60fdf7f3a2fca6777a451), model claude-opus-5-5, effort xhigh.
 
 **8.** (answer to: shall I review the next PR next?)
 > yes in another session. suggest that next time too
 
 ## Read a program's log before swapping its source
 
-2026-11-07, commit [ad7bf8b](https://github.com/zululima/dotclaude/commit/ad7bf8b97171dc8bbb2771bbfaa56280ee856d73), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [ad7bf8b](https://github.com/zululima/setup/commit/ad7bf8b97171dc8bbb2771bbfaa56280ee856d73), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to debug a stalled download left out]
@@ -1009,7 +1017,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Offer the archive only once the session's PRs are done
 
-2026-11-07, commit [a3c46a9](https://github.com/zululima/dotclaude/commit/a3c46a909596ee96aea9efdb29d14732d20afda5), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [a3c46a9](https://github.com/zululima/setup/commit/a3c46a909596ee96aea9efdb29d14732d20afda5), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > lol you should probably not say archive since im not done. [an ask
@@ -1017,9 +1025,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Land a promised change, close a stale tasks pane
 
-2026-11-07, commit [3d4204a](https://github.com/zululima/dotclaude/commit/3d4204a2cd59786e3993029d30a41735ef761797), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [3d4204a](https://github.com/zululima/setup/commit/3d4204a2cd59786e3993029d30a41735ef761797), model claude-opus-5-5, effort xhigh.
 
-**3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+**3.** Quoted under [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
 **4.** (answer to: shall I fix finding 5 in the PR's body too?)
 > [an ask about a downstream project left out]
@@ -1033,9 +1041,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep How to verify out of PR reviews
 
-2026-11-07, commit [dc2e8ad](https://github.com/zululima/dotclaude/commit/dc2e8ad64c5e1c5b142b59c97ba4396746b985b3), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [dc2e8ad](https://github.com/zululima/setup/commit/dc2e8ad64c5e1c5b142b59c97ba4396746b985b3), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.**
 > [an ask to fix a review's findings left out] and again dont tell me
@@ -1043,29 +1051,29 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Rewrap the usage mod's entry in what-you-get.md
 
-2026-11-07, commit [c479044](https://github.com/zululima/dotclaude/commit/c4790441ca0ac9dfb441a66fc7476950e3d761e7), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [c479044](https://github.com/zululima/setup/commit/c4790441ca0ac9dfb441a66fc7476950e3d761e7), model claude-opus-5-5, effort xhigh.
 
-**5.** (answer to: shall I also leave sessions with the gear out of the    status line's hourglass?) Quoted under [20f2733](https://github.com/zululima/dotclaude/commit/20f2733685987eb97d5ca7cf5373b5925f2e93b7).
+**5.** (answer to: shall I also leave sessions with the gear out of the    status line's hourglass?) Quoted under [20f2733](https://github.com/zululima/setup/commit/20f2733685987eb97d5ca7cf5373b5925f2e93b7).
 
 ## Leave a session with the gear out of the hourglass
 
-2026-11-07, commit [20f2733](https://github.com/zululima/dotclaude/commit/20f2733685987eb97d5ca7cf5373b5925f2e93b7), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [20f2733](https://github.com/zululima/setup/commit/20f2733685987eb97d5ca7cf5373b5925f2e93b7), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I also leave sessions with the gear out of the    status line's hourglass?)
 > Yes, do it
 
 ## Run usage-waiting.sh at every Stop
 
-2026-11-07, commit [8159c76](https://github.com/zululima/dotclaude/commit/8159c763059129b37730d3f400fdb4d3ceca07b1), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [8159c76](https://github.com/zululima/setup/commit/8159c763059129b37730d3f400fdb4d3ceca07b1), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: have you run the settings.json command?)
 > Done
 
 ## Mark a session waiting on background work with a gear
 
-2026-11-07, commit [edbfa19](https://github.com/zululima/dotclaude/commit/edbfa19c6f143901104f2a4a919f0467777cde0e), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [edbfa19](https://github.com/zululima/setup/commit/edbfa19c6f143901104f2a4a919f0467777cde0e), model claude-opus-5-5, effort xhigh.
 
-**1.** [a task another Claude session wrote, left out] Quoted under [812f476](https://github.com/zululima/dotclaude/commit/812f476244a367b44587dfe76d47635f613df9b5).
+**1.** [a task another Claude session wrote, left out] Quoted under [812f476](https://github.com/zululima/setup/commit/812f476244a367b44587dfe76d47635f613df9b5).
 
 **2.** (answer to: which mark should a waiting session get?)
 > Gear
@@ -1075,7 +1083,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Start Chromium hidden for Claude in Chrome on KDE Plasma
 
-2026-11-07, commit [45aa17e](https://github.com/zululima/dotclaude/commit/45aa17e5e2c42ae1149796005589e354fe757063), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [45aa17e](https://github.com/zululima/setup/commit/45aa17e5e2c42ae1149796005589e354fe757063), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > make chromium open to background in startup or maybe when its needed
@@ -1083,7 +1091,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep setup downloads in Downloads and delete them once unused
 
-2026-11-07, commit [29a4be4](https://github.com/zululima/dotclaude/commit/29a4be4da1e0959183918c30c97d547c250579a5), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [29a4be4](https://github.com/zululima/setup/commit/29a4be4da1e0959183918c30c97d547c250579a5), model claude-opus-5-5, effort xhigh.
 
 **1.** to 8.
 > [asks about setting up a PS2 game in an emulator and in Steam,
@@ -1095,7 +1103,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read facts a source holds instead of asking the user
 
-2026-11-07, commit [7184d6b](https://github.com/zululima/dotclaude/commit/7184d6b51efb28b106d0f6427609d9a6d989e2c4), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [7184d6b](https://github.com/zululima/setup/commit/7184d6b51efb28b106d0f6427609d9a6d989e2c4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to add a private rules file for prompts synced from another
@@ -1106,7 +1114,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## archive-files: give the front back when Chrome takes it
 
-2026-11-07, commit [f0e0d44](https://github.com/zululima/dotclaude/commit/f0e0d44711148ee7de5a937bccac302c3df7678c), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [f0e0d44](https://github.com/zululima/setup/commit/f0e0d44711148ee7de5a937bccac302c3df7678c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > bruh just now the chrome jumped to foreground when i was typing here
@@ -1115,7 +1123,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Move every session a session starts to top level
 
-2026-11-07, commit [65cd232](https://github.com/zululima/dotclaude/commit/65cd232ebb69e35bec5668c7c54431ba3c2dcd97), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [65cd232](https://github.com/zululima/setup/commit/65cd232ebb69e35bec5668c7c54431ba3c2dcd97), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > can you create new sessions in cluade code desktop or only sub
@@ -1128,7 +1136,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name the source for who holds a role or right
 
-2026-11-07, commit [ff0f522](https://github.com/zululima/dotclaude/commit/ff0f522d554d233d11c020e2b8d88365a3ea337b), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [ff0f522](https://github.com/zululima/setup/commit/ff0f522d554d233d11c020e2b8d88365a3ea337b), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about publishing an app under an employer's store
@@ -1143,7 +1151,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Open the tasks pane when a window starts showing the session
 
-2026-11-07, commit [c05fd43](https://github.com/zululima/dotclaude/commit/c05fd43ac87248a89ad5f29bdf25f42fa44381f1), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [c05fd43](https://github.com/zululima/setup/commit/c05fd43ac87248a89ad5f29bdf25f42fa44381f1), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > bro you have again a background task but no pane open?
@@ -1157,7 +1165,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Hand prompts for another computer over as a one-word file
 
-2026-11-07, commit [696dffa](https://github.com/zululima/dotclaude/commit/696dffab3bbe00d898809de0075023bf72318531), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [696dffa](https://github.com/zululima/setup/commit/696dffab3bbe00d898809de0075023bf72318531), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about using a desktop computer from a laptop left out]
@@ -1179,7 +1187,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show the sticker table in every reply on a sticker pack
 
-2026-11-07, commit [fb92817](https://github.com/zululima/dotclaude/commit/fb92817b6f3721450be8b76e621481876f64545f), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [fb92817](https://github.com/zululima/setup/commit/fb92817b6f3721450be8b76e621481876f64545f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask for a sticker made from a meme left out]
@@ -1194,7 +1202,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name one-time codes and make the fix a why question uncovers
 
-2026-11-07, commit [0ea99e0](https://github.com/zululima/dotclaude/commit/0ea99e02391428f074ab14f7b3464c50e65c5311), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [0ea99e0](https://github.com/zululima/setup/commit/0ea99e02391428f074ab14f7b3464c50e65c5311), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > why couldnt you paste that code?
@@ -1205,7 +1213,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Let a review or comment through when the user worded it
 
-2026-11-07, commit [d19a8e8](https://github.com/zululima/dotclaude/commit/d19a8e82e6ac5db3e482a85c234407474bf54e41), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [d19a8e8](https://github.com/zululima/setup/commit/d19a8e82e6ac5db3e482a85c234407474bf54e41), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > you cant approve on behalf of me?
@@ -1215,7 +1223,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give an extension or app its icon from the first build
 
-2026-11-07, commit [a4f762e](https://github.com/zululima/dotclaude/commit/a4f762e8ea5531ef26323e2175a82618aec1172a), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [a4f762e](https://github.com/zululima/setup/commit/a4f762e8ea5531ef26323e2175a82618aec1172a), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > [a step done in the browser, left out] also why no icons of cookie
@@ -1223,7 +1231,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep calling show_pane for the tasks pane while a run goes on
 
-2026-11-07, commit [f3efb0c](https://github.com/zululima/dotclaude/commit/f3efb0c8a1adf54cb1279b2871bc3088b40a5684), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [f3efb0c](https://github.com/zululima/setup/commit/f3efb0c8a1adf54cb1279b2871bc3088b40a5684), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > you have background task running again but no background task pane
@@ -1231,7 +1239,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Select the tab a browser step waits on
 
-2026-11-07, commit [fb2a0cf](https://github.com/zululima/dotclaude/commit/fb2a0cfd3a41c80d0de6514fe94d4f1cfab13d9a), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [fb2a0cf](https://github.com/zululima/setup/commit/fb2a0cfd3a41c80d0de6514fe94d4f1cfab13d9a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to handle a mail left out]
@@ -1260,7 +1268,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Add hook that keeps your own email out of web requests
 
-2026-11-07, commit [550c1e5](https://github.com/zululima/dotclaude/commit/550c1e55b4b59678cb0a4f5487690e9dafeac486), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [550c1e5](https://github.com/zululima/setup/commit/550c1e55b4b59678cb0a4f5487690e9dafeac486), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: the address of a Claude Code issue on GitHub] does my
@@ -1271,16 +1279,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Leave Chrome tabs open; the archive closes them
 
-2026-11-07, commit [5b39de1](https://github.com/zululima/dotclaude/commit/5b39de16294dc5e575ab2d938c4da435cec6c464), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [5b39de1](https://github.com/zululima/setup/commit/5b39de16294dc5e575ab2d938c4da435cec6c464), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [c594116](https://github.com/zululima/dotclaude/commit/c594116d49caa9e5db6f1070906e6451474d1c82).
+**1.** Quoted under [c594116](https://github.com/zululima/setup/commit/c594116d49caa9e5db6f1070906e6451474d1c82).
 
 **3.** (answer to: should sessions stop closing their Chrome tabs each turn    and leave that to the archive?)
 > Yes, leave them open
 
 ## archive-files: close every Chrome tab no open session names
 
-2026-11-07, commit [c594116](https://github.com/zululima/dotclaude/commit/c594116d49caa9e5db6f1070906e6451474d1c82), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [c594116](https://github.com/zululima/setup/commit/c594116d49caa9e5db6f1070906e6451474d1c82), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > hmmm you can safely close all tabs during archive operation that are
@@ -1291,7 +1299,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Check a Chrome page as it is before each click
 
-2026-11-07, commit [c2f95d4](https://github.com/zululima/dotclaude/commit/c2f95d4eb32c819af583e7291b223860a71c5391), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [c2f95d4](https://github.com/zululima/setup/commit/c2f95d4eb32c819af583e7291b223860a71c5391), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I click Create on the issue in Chrome?)
 > Yes, create it
@@ -1302,7 +1310,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show a new GitHub issue in Chrome before opening it
 
-2026-11-07, commit [4c81dc8](https://github.com/zululima/dotclaude/commit/4c81dc8504777a611b8f7d8aa514d9143cde8aeb), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [4c81dc8](https://github.com/zululima/setup/commit/4c81dc8504777a611b8f7d8aa514d9143cde8aeb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a macOS permission prompt left out]
@@ -1322,14 +1330,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Skip Homebrew's sudo reset in the gm script
 
-2026-11-07, commit [4452c92](https://github.com/zululima/dotclaude/commit/4452c9229d22306ce97747cd0cfc934fec7e7f41), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [4452c92](https://github.com/zululima/setup/commit/4452c9229d22306ce97747cd0cfc934fec7e7f41), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > bruh gm still asks sudo again in the process
 
 ## Wait 75 s for containers to stop before gm restarts
 
-2026-11-07, commit [46c679f](https://github.com/zululima/dotclaude/commit/46c679f9eb70fe92bdcc16f6d8f69b2d06f54c00), model claude-opus-5-5, effort xhigh.
+2026-11-07, commit [46c679f](https://github.com/zululima/setup/commit/46c679f9eb70fe92bdcc16f6d8f69b2d06f54c00), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm terminal failed
@@ -1340,7 +1348,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Allow the release script's APK and Android upload commands
 
-2026-11-06, commit [cdb2dee](https://github.com/zululima/dotclaude/commit/cdb2deeb4d0d29fe771d1010089c85e5c17fb106), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [cdb2dee](https://github.com/zululima/setup/commit/cdb2deeb4d0d29fe771d1010089c85e5c17fb106), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [an ask for an APK download link in a project's README left out]
@@ -1350,14 +1358,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Let sessions reinstall the mic log agent
 
-2026-11-06, commit [f5bbc8c](https://github.com/zululima/dotclaude/commit/f5bbc8cbcecbaf49864aeef8719ec59321b3a98c), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [f5bbc8c](https://github.com/zululima/setup/commit/f5bbc8cbcecbaf49864aeef8719ec59321b3a98c), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I install the hourly mic log job once you have    run the rule script?)
 > ran it, install
 
 ## Name an untitled session by its last prompt in the usage line
 
-2026-11-06, commit [d6e4ab7](https://github.com/zululima/dotclaude/commit/d6e4ab7d627d4fc9d2923e3110de8df0df3552cb), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [d6e4ab7](https://github.com/zululima/setup/commit/d6e4ab7d627d4fc9d2923e3110de8df0df3552cb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > what is that hourgalss
@@ -1368,7 +1376,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Close the tasks pane in the turn a background run's end arrives
 
-2026-11-06, commit [bec075e](https://github.com/zululima/dotclaude/commit/bec075e78f60c8feefac7e36788c908b1059c1f7), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [bec075e](https://github.com/zululima/setup/commit/bec075e78f60c8feefac7e36788c908b1059c1f7), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > why didnt you close the background tasks again automatically after
@@ -1376,7 +1384,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Let a draft in the user's voice say we for their employer
 
-2026-11-06, commit [b8b98b1](https://github.com/zululima/dotclaude/commit/b8b98b139bcc4bb7bbe6d04ef4f2849136bf10b1), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [b8b98b1](https://github.com/zululima/setup/commit/b8b98b139bcc4bb7bbe6d04ef4f2849136bf10b1), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [an ask about a downstream draft left out] also say in the future
@@ -1385,7 +1393,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Say what changes next time in a message owning a mistake
 
-2026-11-06, commit [89d2b01](https://github.com/zululima/dotclaude/commit/89d2b01b1ae4e5a8ba7b3cf5771ac15a9bdbbccb), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [89d2b01](https://github.com/zululima/setup/commit/89d2b01b1ae4e5a8ba7b3cf5771ac15a9bdbbccb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a downstream project's failing tests left out]
@@ -1396,7 +1404,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 **3.**
 > [a question about a downstream project's pull request left out]
 
-**4.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+**4.** Quoted under [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
 
 **5.**
 > messages like that should probably say that what well do try
@@ -1404,7 +1412,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Leave PROMPTS.md to the default branch on pull request branches
 
-2026-11-06, commit [2edd729](https://github.com/zululima/dotclaude/commit/2edd72957568962045b03e3d60c30a99a70d531e), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [2edd729](https://github.com/zululima/setup/commit/2edd72957568962045b03e3d60c30a99a70d531e), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > maybe make fix so that [two colleagues'] agents dont create
@@ -1412,14 +1420,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Set Chrome's window back after a session resizes it
 
-2026-11-06, commit [377cb8e](https://github.com/zululima/dotclaude/commit/377cb8e6230f4671fecb7f8401b053a4f0e97e2e), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [377cb8e](https://github.com/zululima/setup/commit/377cb8e6230f4671fecb7f8401b053a4f0e97e2e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is there some reason why chrome opens like this and not full
 
 ## Sort lists of files picked from a folder by name
 
-2026-11-06, commit [7370ae8](https://github.com/zululima/dotclaude/commit/7370ae835546a2ea8cbc5e7fcfb865af3bc6c1eb), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [7370ae8](https://github.com/zululima/setup/commit/7370ae835546a2ea8cbc5e7fcfb865af3bc6c1eb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to add a sticker to a Signal sticker pack left out]
@@ -1432,7 +1440,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read bold numbered lines as sections on the review page
 
-2026-11-06, commit [7cd7a5a](https://github.com/zululima/dotclaude/commit/7cd7a5aed93daef4953e8c87ab82265f57d816ca), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [7cd7a5a](https://github.com/zululima/setup/commit/7cd7a5aed93daef4953e8c87ab82265f57d816ca), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to review a pull request in a downstream project left out]
@@ -1443,7 +1451,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Say in the reply text that a session can be archived
 
-2026-11-06, commit [abca499](https://github.com/zululima/dotclaude/commit/abca499c004b32434540ce42f99b15eb5ab0f98c), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [abca499](https://github.com/zululima/setup/commit/abca499c004b32434540ce42f99b15eb5ab0f98c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dont ask me that weird box with x on it. you can just tell me in
@@ -1451,7 +1459,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Close the tasks pane once the session's background runs end
 
-2026-11-06, commit [bde4807](https://github.com/zululima/dotclaude/commit/bde4807aa4830916f6395a9d9fb7d2ea7181e25b), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [bde4807](https://github.com/zululima/setup/commit/bde4807aa4830916f6395a9d9fb7d2ea7181e25b), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: archive this session?)
 > yes also you cant hide the bakcground tasks panel after youve opened
@@ -1459,9 +1467,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Write the whole reply below the last fold, earlier replies included
 
-2026-11-06, commit [cb74f43](https://github.com/zululima/dotclaude/commit/cb74f431f022da4b221e895e72d954b14ba068d6), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [cb74f43](https://github.com/zululima/setup/commit/cb74f431f022da4b221e895e72d954b14ba068d6), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [57858d1](https://github.com/zululima/dotclaude/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb).
+**1.** Quoted under [57858d1](https://github.com/zululima/setup/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb).
 
 **2.**
 > remember that i will not read anything above grey ran a command
@@ -1470,7 +1478,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show the gm script as it now runs, sudo prompt first
 
-2026-11-06, commit [c785c38](https://github.com/zululima/dotclaude/commit/c785c386ec4f4def81fceaff9f4e0e4cb098fecd), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [c785c38](https://github.com/zululima/setup/commit/c785c386ec4f4def81fceaff9f4e0e4cb098fecd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is it possible for gm terminal to ask beforehand sudo so that i dont
@@ -1481,7 +1489,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Delete the closed Chrome tab groups archived sessions leave
 
-2026-11-06, commit [cd59c7d](https://github.com/zululima/dotclaude/commit/cd59c7da00d68c3987ecdf235e4e028e7922d307), model claude-opus-5-5, effort xhigh.
+2026-11-06, commit [cd59c7d](https://github.com/zululima/setup/commit/cd59c7da00d68c3987ecdf235e4e028e7922d307), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > chrome pls clean up after yourself. some weird bookmark groups here
@@ -1492,7 +1500,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name no control a tool's description promises without seeing it
 
-2026-11-05, commit [37a71cd](https://github.com/zululima/dotclaude/commit/37a71cdf21f574373c14480b19661398e2e52e0d), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [37a71cd](https://github.com/zululima/setup/commit/37a71cdf21f574373c14480b19661398e2e52e0d), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > what where is that x you always keep talking about? take a screenshot
@@ -1500,7 +1508,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give a file to upload its file:// address, not a Finder reveal
 
-2026-11-05, commit [696c60f](https://github.com/zululima/dotclaude/commit/696c60f991e5d0956756ea4e72b30c2c48e5d124), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [696c60f](https://github.com/zululima/setup/commit/696c60f991e5d0956756ea4e72b30c2c48e5d124), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a meeting transcript left out]
@@ -1524,7 +1532,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Stop leaving a blank tab in view when sessions wake Claude in Chrome
 
-2026-11-05, commit [0137f8d](https://github.com/zululima/dotclaude/commit/0137f8da5d1941493a7ff79d0805697b05960d09), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [0137f8d](https://github.com/zululima/setup/commit/0137f8da5d1941493a7ff79d0805697b05960d09), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > again with the about:blank 😃 can you fix
@@ -1534,7 +1542,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Leave stopped sessions out of the usage hourglass
 
-2026-11-05, commit [be357e4](https://github.com/zululima/dotclaude/commit/be357e4ced309525bf34f75927248020fe50219f), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [be357e4](https://github.com/zululima/setup/commit/be357e4ced309525bf34f75927248020fe50219f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > flame mod just gave me about blank issue although theres nothing i
@@ -1545,7 +1553,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Allow sessions to run the qobuz-ear-pause installer
 
-2026-11-05, commit [0414ca7](https://github.com/zululima/dotclaude/commit/0414ca7de64da4fd0e739a4e5511374ce17d3788), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [0414ca7](https://github.com/zululima/setup/commit/0414ca7de64da4fd0e739a4e5511374ce17d3788), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a music app on the Mac left out]
@@ -1558,7 +1566,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Tell the user to archive a session once nothing is left
 
-2026-11-05, commit [97f1a93](https://github.com/zululima/dotclaude/commit/97f1a937cf7c9ed2c4e34028b800adc586522566), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [97f1a93](https://github.com/zululima/setup/commit/97f1a937cf7c9ed2c4e34028b800adc586522566), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > if nothing left to do in this session you can tell me to archive a
@@ -1566,15 +1574,15 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give local files as file:// addresses to copy in CLAUDE.md too
 
-2026-11-05, commit [0811e2d](https://github.com/zululima/dotclaude/commit/0811e2d7fb7d49b6bc0deef734a95e0f060113f4), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [0811e2d](https://github.com/zululima/setup/commit/0811e2d7fb7d49b6bc0deef734a95e0f060113f4), model claude-opus-5-5, effort xhigh.
 
-**7.** Quoted under [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
+**7.** Quoted under [c5ea45b](https://github.com/zululima/setup/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
 
-**12.** (answer to: a local server for one-click links, or b, keep copying the file:// address?) Quoted under [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
+**12.** (answer to: a local server for one-click links, or b, keep copying the file:// address?) Quoted under [c5ea45b](https://github.com/zululima/setup/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d).
 
 ## Copy local file addresses and share files from one folder per work
 
-2026-11-05, commit [c5ea45b](https://github.com/zululima/dotclaude/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [c5ea45b](https://github.com/zululima/setup/commit/c5ea45ba99f0c23b72b978448e45393f79757a9d), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > step one doesnt open it in firefox
@@ -1602,7 +1610,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: Finnish review page, copyable values, screen order
 
-2026-11-05, commit [237bb58](https://github.com/zululima/dotclaude/commit/237bb58f27ad16c64ad0ec7bfdb516b70a1ed313), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [237bb58](https://github.com/zululima/setup/commit/237bb58f27ad16c64ad0ec7bfdb516b70a1ed313), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > in the future give pr review instructiosn in finnish but always
@@ -1618,14 +1626,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Have the session fill in forms whose answers a source records
 
-2026-11-05, commit [017dc20](https://github.com/zululima/dotclaude/commit/017dc20868b8bcf9c515cde2f85c598894128d2b), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [017dc20](https://github.com/zululima/setup/commit/017dc20868b8bcf9c515cde2f85c598894128d2b), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [a step reported done] why cant you do other steps
 
 ## pull-requests: crop each step's screenshot to what the step is about
 
-2026-11-05, commit [f090aa6](https://github.com/zululima/dotclaude/commit/f090aa6a529f6565fea273579f395098ea41eb5f), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [f090aa6](https://github.com/zululima/setup/commit/f090aa6a529f6565fea273579f395098ea41eb5f), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > well now step 4 is just abusmally small. crop the images to crop out
@@ -1634,7 +1642,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## review-page: fit each step's screenshot into one window
 
-2026-11-05, commit [8202c1d](https://github.com/zululima/dotclaude/commit/8202c1d8211ac2e6c5e3cb72b2d27924755c396f), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [8202c1d](https://github.com/zululima/setup/commit/8202c1d8211ac2e6c5e3cb72b2d27924755c396f), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [pasted: a screenshot of a review page in Firefox, its step 3 picture
@@ -1643,14 +1651,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: build the review page when someone else reviews
 
-2026-11-05, commit [b25ad07](https://github.com/zululima/dotclaude/commit/b25ad0756380dab02ddcc8155de14d84b9a2123b), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [b25ad07](https://github.com/zululima/setup/commit/b25ad0756380dab02ddcc8155de14d84b9a2123b), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > huh? always add the html thingy where i can verify manually myself
 
 ## Make local pages and PDFs clickable file:// links
 
-2026-11-05, commit [160b681](https://github.com/zululima/dotclaude/commit/160b68151a806950264711d28c671b8adc4f25ff), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [160b681](https://github.com/zululima/setup/commit/160b68151a806950264711d28c671b8adc4f25ff), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > just clickable pdf link from hereonout like i said in another session
@@ -1658,7 +1666,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Make web addresses the reader opens clickable links
 
-2026-11-05, commit [3ea7fce](https://github.com/zululima/dotclaude/commit/3ea7fce9f496430ac76a2e84a1acd4a63c785a1a), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [3ea7fce](https://github.com/zululima/setup/commit/3ea7fce9f496430ac76a2e84a1acd4a63c785a1a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a product search left out]
@@ -1669,7 +1677,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Send documents as PDF and give local files as file:// addresses
 
-2026-11-05, commit [94cbca3](https://github.com/zululima/dotclaude/commit/94cbca3da7c035cf7de67a9f8e58a7362f3fa86e), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [94cbca3](https://github.com/zululima/setup/commit/94cbca3da7c035cf7de67a9f8e58a7362f3fa86e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about filling in a form for an email left out]
@@ -1689,7 +1697,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Leave completed sessions out of the usage mod's next cold slot
 
-2026-11-05, commit [6a3564d](https://github.com/zululima/dotclaude/commit/6a3564d2d608bdda87a98dba8d22d85a74b2e3b1), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [6a3564d](https://github.com/zululima/setup/commit/6a3564d2d608bdda87a98dba8d22d85a74b2e3b1), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > complteed background sessions shouldnt show up as going cold next in
@@ -1697,7 +1705,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name scheduled tasks in replies and propose them in dream
 
-2026-11-05, commit [4e00a20](https://github.com/zululima/dotclaude/commit/4e00a20f3033563c00444b3a230cbb396478a917), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [4e00a20](https://github.com/zululima/setup/commit/4e00a20f3033563c00444b3a230cbb396478a917), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > will teh on-call use cloud or my local machine claude dekstop
@@ -1710,7 +1718,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Put checks set for later in the app's scheduled tasks
 
-2026-11-05, commit [22f9a74](https://github.com/zululima/dotclaude/commit/22f9a7418891ed63d499b43c7bfdc33f480f8a64), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [22f9a74](https://github.com/zululima/setup/commit/22f9a7418891ed63d499b43c7bfdc33f480f8a64), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > can i archive this chat or will the background task get cancelled?
@@ -1718,7 +1726,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep Chrome hidden when a session starts it for the extension
 
-2026-11-05, commit [344fc5f](https://github.com/zululima/dotclaude/commit/344fc5fe931c05ede60c85a3107b9eb2092b53df), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [344fc5f](https://github.com/zululima/setup/commit/344fc5fe931c05ede60c85a3107b9eb2092b53df), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > who just opened chrome to my screen? can we fix it so it woudl be
@@ -1726,7 +1734,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Count the brain against the compaction window, warm a new chat
 
-2026-11-05, commit [2d12b65](https://github.com/zululima/dotclaude/commit/2d12b65723f498cc08aba87c14ed4e5aa49ce444), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [2d12b65](https://github.com/zululima/setup/commit/2d12b65723f498cc08aba87c14ed4e5aa49ce444), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > whats up brain showin 35 and context showing 99
@@ -1736,7 +1744,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Say what changed to prevent a fault, not only whose it was
 
-2026-11-05, commit [bbadff2](https://github.com/zululima/dotclaude/commit/bbadff25a5ddcb0a5c41af37a3f2eddc35f391ab), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [bbadff2](https://github.com/zululima/setup/commit/bbadff25a5ddcb0a5c41af37a3f2eddc35f391ab), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [an answer about a scheduled check left out] also in the future its
@@ -1746,9 +1754,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Hand no work to an archived session
 
-2026-11-05, commit [0757338](https://github.com/zululima/dotclaude/commit/0757338ae7ae7a9dcbabb1be0820b8973bca5dc2), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [0757338](https://github.com/zululima/setup/commit/0757338ae7ae7a9dcbabb1be0820b8973bca5dc2), model claude-opus-5-5, effort xhigh.
 
-**12.** Quoted under [05edd94](https://github.com/zululima/dotclaude/commit/05edd941981f613960b92a145e40ebe69a66c5c2).
+**12.** Quoted under [05edd94](https://github.com/zululima/setup/commit/05edd941981f613960b92a145e40ebe69a66c5c2).
 
 **13.**
 > 2. dont recommend me that [a session named after a downstream
@@ -1756,17 +1764,17 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give local pages as a one-click Firefox command
 
-2026-11-05, commit [20f13d2](https://github.com/zululima/dotclaude/commit/20f13d2c82a39862347e02e92e9d42ab41cdbc73), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [20f13d2](https://github.com/zululima/setup/commit/20f13d2c82a39862347e02e92e9d42ab41cdbc73), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
-**2.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**2.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
-**3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+**3.** Quoted under [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
-**4.** Quoted under [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
+**4.** Quoted under [8f63649](https://github.com/zululima/setup/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
 
-**5.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+**5.** Quoted under [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
 **6.**
 > [a command run in the terminal pane left out]
@@ -1778,7 +1786,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 **8.**
 > [an ask about a downstream project left out]
 
-**9.** Quoted under [ca26192](https://github.com/zululima/dotclaude/commit/ca26192e7d051a5d01b10bd35d97ce909c2bd0eb).
+**9.** Quoted under [ca26192](https://github.com/zululima/setup/commit/ca26192e7d051a5d01b10bd35d97ce909c2bd0eb).
 
 **10.**
 > [an ask about a downstream project left out]
@@ -1790,7 +1798,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Open a background Chrome window before giving up on it
 
-2026-11-05, commit [d51ce6f](https://github.com/zululima/dotclaude/commit/d51ce6fc446e109de002f53dad84ce396d428404), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [d51ce6f](https://github.com/zululima/setup/commit/d51ce6fc446e109de002f53dad84ce396d428404), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about permissions in a chat workspace left out]
@@ -1800,13 +1808,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Rebuild PROMPTS.md mid-merge with the commits merged in
 
-2026-11-05, commit [812f476](https://github.com/zululima/dotclaude/commit/812f476244a367b44587dfe76d47635f613df9b5), model claude-opus-5-5, effort xhigh.
+2026-11-05, commit [812f476](https://github.com/zululima/setup/commit/812f476244a367b44587dfe76d47635f613df9b5), model claude-opus-5-5, effort xhigh.
 
 **1.** [a task another Claude session wrote, left out]
 
 ## Retry dropped API connections for about 6 minutes
 
-2026-11-04, commit [4990ea1](https://github.com/zululima/dotclaude/commit/4990ea152eca4d54e9a6381853dc0e3e0972451c), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [4990ea1](https://github.com/zululima/setup/commit/4990ea152eca4d54e9a6381853dc0e3e0972451c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > why was there a [two session names] notifiction of claude code hit an
@@ -1821,7 +1829,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Close an archived session's leftover Chrome tabs
 
-2026-11-04, commit [5deff68](https://github.com/zululima/dotclaude/commit/5deff687dd6e3964a2c5740abb10f5a97d06c56a), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [5deff68](https://github.com/zululima/setup/commit/5deff687dd6e3964a2c5740abb10f5a97d06c56a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > does chrome claude keep intentionally the tabs in groups with session
@@ -1832,16 +1840,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## usage mod: write minutes as 59m to fit whole session names
 
-2026-11-04, commit [27658af](https://github.com/zululima/dotclaude/commit/27658af9d26b2df6bc07ce5e2b55eaa945f74792), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [27658af](https://github.com/zululima/setup/commit/27658af9d26b2df6bc07ce5e2b55eaa945f74792), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: shall I write minutes as 59m so whole names fit?)
 > Yes, use 59m
 
 ## usage mod: name the next-cold session in whole words only
 
-2026-11-04, commit [d741fea](https://github.com/zululima/dotclaude/commit/d741fea22c4bc3433f273a6f6a4e62fd85f3aa53), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [d741fea](https://github.com/zululima/setup/commit/d741fea22c4bc3433f273a6f6a4e62fd85f3aa53), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [6461bbb](https://github.com/zululima/dotclaude/commit/6461bbb75c21200ca3889432e896723ebbd12540).
+**1.** Quoted under [6461bbb](https://github.com/zululima/setup/commit/6461bbb75c21200ca3889432e896723ebbd12540).
 
 **2.**
 > its not really good either that the status bar cuts the session name
@@ -1849,28 +1857,28 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## usage mod: keep the first word in the next-cold session's name
 
-2026-11-04, commit [6461bbb](https://github.com/zululima/dotclaude/commit/6461bbb75c21200ca3889432e896723ebbd12540), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [6461bbb](https://github.com/zululima/setup/commit/6461bbb75c21200ca3889432e896723ebbd12540), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > bug hourglass just says fixes
 
 ## usage mod: refuse a title Cmd+K would list another session for
 
-2026-11-04, commit [b7eaeaa](https://github.com/zululima/dotclaude/commit/b7eaeaa9697a3320229082889b19a7d2f7711654), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [b7eaeaa](https://github.com/zululima/setup/commit/b7eaeaa9697a3320229082889b19a7d2f7711654), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I also make the mod refuse a new session title    whose words another session's title already holds?)
 > Yes, do that
 
 ## usage mod: refuse a session title over 16 characters
 
-2026-11-04, commit [ce43cd2](https://github.com/zululima/dotclaude/commit/ce43cd2e1d50991b95385c9495f51b5ab9de59c4), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [ce43cd2](https://github.com/zululima/setup/commit/ce43cd2e1d50991b95385c9495f51b5ab9de59c4), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to: shall I make the usage mod refuse titles over 16    characters?)
 > Yes, add the check
 
 ## Name the next-cold session by words Cmd+K lists it first by
 
-2026-11-04, commit [f71d1f1](https://github.com/zululima/dotclaude/commit/f71d1f1a761a553d64dc2fbe5921a99b5b917b7c), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [f71d1f1](https://github.com/zululima/setup/commit/f71d1f1a761a553d64dc2fbe5921a99b5b917b7c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > make sure that when i cmd k the first one at least if not the only
@@ -1878,14 +1886,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep each list item of a Slack draft to one line
 
-2026-11-04, commit [559e8fc](https://github.com/zululima/dotclaude/commit/559e8fc1e977307862172846b89c867a1245ec6c), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [559e8fc](https://github.com/zululima/setup/commit/559e8fc1e977307862172846b89c867a1245ec6c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > rivi 16 ei oo oneliner toi on kauheeta luettavaa muuten
 
 ## Send a patch no teammate cares about straight to the default branch
 
-2026-11-04, commit [9950553](https://github.com/zululima/dotclaude/commit/9950553e4686a15562cb2e2d1e7cd06458ea0f23), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [9950553](https://github.com/zululima/setup/commit/9950553e4686a15562cb2e2d1e7cd06458ea0f23), model claude-opus-5-5, effort xhigh.
 
 **1.** [a message to a teammate and an ask about it left out]
 
@@ -1898,14 +1906,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name the box and untested shortcuts in two rules
 
-2026-11-04, commit [da3197a](https://github.com/zululima/dotclaude/commit/da3197abf3c8dc8faf0fcc465493edd8be4f8444), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [da3197a](https://github.com/zululima/setup/commit/da3197abf3c8dc8faf0fcc465493edd8be4f8444), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > 3. cmd shift g didnt work?. 4answer the box?
 
 ## Cap session titles at 16 characters
 
-2026-11-04, commit [f6b47df](https://github.com/zululima/dotclaude/commit/f6b47df95e32b00f0138bade52fa7da086f253f2), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [f6b47df](https://github.com/zululima/setup/commit/f6b47df95e32b00f0138bade52fa7da086f253f2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > session names are too long theyre wrapping
@@ -1913,7 +1921,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## usage mod: read each transcript again only once it has changed
 
-2026-11-04, commit [1a9df0d](https://github.com/zululima/dotclaude/commit/1a9df0d0a6c9cd9c5b607bdc885ef2dc93d4a72a), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [1a9df0d](https://github.com/zululima/setup/commit/1a9df0d0a6c9cd9c5b607bdc885ef2dc93d4a72a), model claude-opus-5-5, effort xhigh.
 
 **9.** (answer to: shall I check once you have run the removal?)
 > Ran it, check now
@@ -1930,7 +1938,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## usage mod: start session titles with a fire or an ice cube
 
-2026-11-04, commit [1a94caf](https://github.com/zululima/dotclaude/commit/1a94caf3004e33ec16eef9fea762bba007cc1289), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [1a94caf](https://github.com/zululima/setup/commit/1a94caf3004e33ec16eef9fea762bba007cc1289), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > can you also put icecube or fire to the session names if they're
@@ -1938,14 +1946,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep a project session's replies to that project's work
 
-2026-11-04, commit [4dea7c8](https://github.com/zululima/dotclaude/commit/4dea7c8a8339b36194758aec58d6b209061c73c2), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [4dea7c8](https://github.com/zululima/setup/commit/4dea7c8a8339b36194758aec58d6b209061c73c2), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > what [an event] invite doesnt belong here in [a project]
 
 ## Reread sources when asked to redo an answer
 
-2026-11-04, commit [a9edb43](https://github.com/zululima/dotclaude/commit/a9edb43f0e6dac297644f90e7ce91d669da14e93), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [a9edb43](https://github.com/zululima/setup/commit/a9edb43f0e6dac297644f90e7ce91d669da14e93), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a meeting's talking points left out]
@@ -1961,14 +1969,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Have the README show every way to use or try a project
 
-2026-11-04, commit [214adf8](https://github.com/zululima/dotclaude/commit/214adf84094721f6f4129ecd12acf1c5838ee34f), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [214adf8](https://github.com/zululima/setup/commit/214adf84094721f6f4129ecd12acf1c5838ee34f), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > why not documented on how to test in vm in readme
 
 ## Default the user's public software to AGPL and CC BY-SA
 
-2026-11-04, commit [963c795](https://github.com/zululima/dotclaude/commit/963c795b63d2d08284c3ebddf7f776cdf92e2544), model claude-opus-5-5, effort xhigh.
+2026-11-04, commit [963c795](https://github.com/zululima/setup/commit/963c795b63d2d08284c3ebddf7f776cdf92e2544), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: which licence on the add-on store?)
 > [answers about a store listing left out]
@@ -1978,20 +1986,20 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## usage mod: count a Työmarkkinatori sign-in from the sign-in
 
-2026-11-03, commit [5fbb4a3](https://github.com/zululima/dotclaude/commit/5fbb4a33f9ffa5cb5d86f2c4aad5d3867f7f3f5b), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [5fbb4a3](https://github.com/zululima/setup/commit/5fbb4a33f9ffa5cb5d86f2c4aad5d3867f7f3f5b), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 ## Retire the root powermetrics service from the energy log
 
-2026-11-03, commit [4c75d91](https://github.com/zululima/dotclaude/commit/4c75d9160bf6de913b28f027fb5cbbdc53d357b6), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [4c75d91](https://github.com/zululima/setup/commit/4c75d9160bf6de913b28f027fb5cbbdc53d357b6), model claude-opus-5-5, effort xhigh.
 
 **8.** (answer to: shall I retire the root powermetrics service now that    the sampler covers it?)
 > Yes, retire it
 
 ## usage mod: a cookie for the own sign-in, a lock for another's
 
-2026-11-03, commit [5c55845](https://github.com/zululima/dotclaude/commit/5c55845f58667be96c4410ac9f441e4e4a73a550), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [5c55845](https://github.com/zululima/setup/commit/5c55845f58667be96c4410ac9f441e4e4a73a550), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > perhaps it should be cookies instead of key emoji? also when checked
@@ -2002,14 +2010,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## pull-requests: leave the review to whoever reviews the PRs
 
-2026-11-03, commit [7b727dc](https://github.com/zululima/dotclaude/commit/7b727dc198db4f28e58f088c87836206c6230c61), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [7b727dc](https://github.com/zululima/setup/commit/7b727dc198db4f28e58f088c87836206c6230c61), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > [a colleague] always reviews prs not me
 
 ## usage mod: count Chrome sign-ins that end beside cold caches
 
-2026-11-03, commit [9553e0f](https://github.com/zululima/dotclaude/commit/9553e0fcf61d11d7fea5fe373ac5481137499909), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [9553e0f](https://github.com/zululima/setup/commit/9553e0fcf61d11d7fea5fe373ac5481137499909), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > actually could the staus bar hourglass include the session that has
@@ -2019,21 +2027,21 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Never suggest storing passwords in Chrome
 
-2026-11-03, commit [d5c765d](https://github.com/zululima/dotclaude/commit/d5c765d5fa832dedfdc512a265cc798425f8ca45), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [d5c765d](https://github.com/zululima/setup/commit/d5c765d5fa832dedfdc512a265cc798425f8ca45), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > never suggest storing passwords on chrome
 
 ## Read the chip's energy counters in the sampler, without root
 
-2026-11-03, commit [754172a](https://github.com/zululima/dotclaude/commit/754172ad67ad116237619b4748d9c7cca8ce6669), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [754172a](https://github.com/zululima/setup/commit/754172ad67ad116237619b4748d9c7cca8ce6669), model claude-opus-5-5, effort xhigh.
 
 **7.** (answer to: shall I try splitting the screen-and-rest row with    macOS's own energy counters?)
 > Yes, try it
 
 ## Write every emoji with U+FE0F when it has an emoji style
 
-2026-11-03, commit [84a4231](https://github.com/zululima/dotclaude/commit/84a4231dfabaf64265a27334ed9378cf9342c020), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [84a4231](https://github.com/zululima/setup/commit/84a4231dfabaf64265a27334ed9378cf9342c020), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about renaming files left out] also why is medium black
@@ -2047,21 +2055,21 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Count battery energy by charge and price commands from the chip
 
-2026-11-03, commit [5e75f1e](https://github.com/zululima/dotclaude/commit/5e75f1edfb80aa66b44af4d224e1278ec0694aeb), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [5e75f1e](https://github.com/zululima/setup/commit/5e75f1edfb80aa66b44af4d224e1278ec0694aeb), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I check the chip log once you have run the root    installer with sudo?)
 > Ran it, check now
 
 ## Measure the chip's power as root beside the energy log
 
-2026-11-03, commit [f316cd6](https://github.com/zululima/dotclaude/commit/f316cd619b70275c55ffac3407b272c10f5bb746), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [f316cd6](https://github.com/zululima/setup/commit/f316cd619b70275c55ffac3407b272c10f5bb746), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I still build the root powermetrics service on top    of the logger?)
 > Yes, build it
 
 ## Restart without reopening every app
 
-2026-11-03, commit [d207b70](https://github.com/zululima/dotclaude/commit/d207b70c72f1390bf320df94893e85aaf185fa92), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [d207b70](https://github.com/zululima/setup/commit/d207b70c72f1390bf320df94893e85aaf185fa92), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > restart script seems to reopen all same windows. dont do that. open
@@ -2069,7 +2077,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show the restart alias for a safe restart outside gm
 
-2026-11-03, commit [9f6bb8b](https://github.com/zululima/dotclaude/commit/9f6bb8b6e1f6ef3d14f2961efedc78c770119bdf), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [9f6bb8b](https://github.com/zululima/setup/commit/9f6bb8b6e1f6ef3d14f2961efedc78c770119bdf), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > also can you create an alias of restart since reboot is reserved so i
@@ -2077,7 +2085,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show the graceful container stop in the start of day section
 
-2026-11-03, commit [106c062](https://github.com/zululima/dotclaude/commit/106c062eeb61e69e607970fbcc473f0dbc878e09), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [106c062](https://github.com/zululima/setup/commit/106c062eeb61e69e607970fbcc473f0dbc878e09), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > does the restart button of mac gracefully shutdown all apps or should
@@ -2095,20 +2103,20 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Make energy/install.sh executable
 
-2026-11-03, commit [3afda10](https://github.com/zululima/dotclaude/commit/3afda105035d0d2260681fa51444a867fafd1fb9), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [3afda10](https://github.com/zululima/setup/commit/3afda105035d0d2260681fa51444a867fafd1fb9), model claude-opus-5-5, effort xhigh.
 
-**4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?) Quoted under [835b0dc](https://github.com/zululima/dotclaude/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2).
+**4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?) Quoted under [835b0dc](https://github.com/zululima/setup/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2).
 
 ## Log battery energy per Claude Code session and prompt
 
-2026-11-03, commit [835b0dc](https://github.com/zululima/dotclaude/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [835b0dc](https://github.com/zululima/setup/commit/835b0dc4bd16d90ff1583164a492f241739f2cd2), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: which to set up: a per-session energy log, that plus    powermetrics as root, or no setup?)
 > b
 
 ## Start Chrome without a window so it stays out of view
 
-2026-11-03, commit [8075df9](https://github.com/zululima/dotclaude/commit/8075df9734854b5408e29171ce954cde0a2b5129), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [8075df9](https://github.com/zululima/setup/commit/8075df9734854b5408e29171ce954cde0a2b5129), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which way should I turn off What's New?)
 > [an answer about a Chrome setting left out]
@@ -2127,7 +2135,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep the user's sessions out of advice on cutting costs
 
-2026-11-03, commit [5d35e1c](https://github.com/zululima/dotclaude/commit/5d35e1c58724949ce5f6b371546e2f5ea8343fdf), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [5d35e1c](https://github.com/zululima/setup/commit/5d35e1c58724949ce5f6b371546e2f5ea8343fdf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about the Mac's battery use today left out]
@@ -2142,7 +2150,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Read the best Hacker News stories in weekly dream runs
 
-2026-11-03, commit [70a8532](https://github.com/zululima/dotclaude/commit/70a8532e0e793597d5488f8f687dadfdb617516d), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [70a8532](https://github.com/zululima/setup/commit/70a8532e0e793597d5488f8f687dadfdb617516d), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > add articles of [pasted: the address of the Hacker News best page
@@ -2154,7 +2162,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Run browser work in Claude in Chrome, not the built-in pane
 
-2026-11-03, commit [b4cf6be](https://github.com/zululima/dotclaude/commit/b4cf6beb573d0b558c903f1e35ed32f354960de7), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [b4cf6be](https://github.com/zululima/setup/commit/b4cf6beb573d0b558c903f1e35ed32f354960de7), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > always use chrome for browser things instead of builtin browser. just
@@ -2167,7 +2175,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Search every source for what the user asks about
 
-2026-11-03, commit [acaca5c](https://github.com/zululima/dotclaude/commit/acaca5cbfe13113ed5bf623d4504f2e6d6945c2f), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [acaca5c](https://github.com/zululima/setup/commit/acaca5cbfe13113ed5bf623d4504f2e6d6945c2f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about an item at an office left out]
@@ -2178,14 +2186,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Trim the dream report to about 4,000 characters
 
-2026-11-03, commit [594e301](https://github.com/zululima/dotclaude/commit/594e301cdbf5857c9f581ca5866cc160e5667dea), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [594e301](https://github.com/zululima/setup/commit/594e301cdbf5857c9f581ca5866cc160e5667dea), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: which shorter dream report, trimmed to about 4,000    characters or cut to about 2,500?)
 > Trim to 4,000
 
 ## Show the dream report only at the first gm after the reset
 
-2026-11-03, commit [d7239c1](https://github.com/zululima/dotclaude/commit/d7239c195f94e298e0a4cd49e2e8ed4c013f18dd), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [d7239c1](https://github.com/zululima/setup/commit/d7239c195f94e298e0a4cd49e2e8ed4c013f18dd), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > why did you give me dream review? did i not run gm yesterday? it
@@ -2195,28 +2203,28 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Refresh the evals after the 3 Nov dream review
 
-2026-11-03, commit [57858d1](https://github.com/zululima/dotclaude/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb), model claude-opus-5-5, effort xhigh.
+2026-11-03, commit [57858d1](https://github.com/zululima/setup/commit/57858d106b34f34ffd55daa49fe2437fb51eaadb), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm
 
 ## Stop denying Claude in Chrome
 
-2026-11-02, commit [26b971f](https://github.com/zululima/dotclaude/commit/26b971fa0ae21a472758d832502d1d46fdb420ab), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [26b971f](https://github.com/zululima/setup/commit/26b971fa0ae21a472758d832502d1d46fdb420ab), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > all done. chromium doesnt work on mac?
 
 ## Move a failed bot check to Claude in Chrome
 
-2026-11-02, commit [2c06475](https://github.com/zululima/dotclaude/commit/2c06475c81dbdbcfa5e92ace411f91cc9c8d4dcc), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [2c06475](https://github.com/zululima/setup/commit/2c06475c81dbdbcfa5e92ace411f91cc9c8d4dcc), model claude-opus-5-5, effort xhigh.
 
 **10.** (answer to: shall I set up the switch to Claude in Chrome?)
 > Yes, go ahead
 
 ## Put every two-answer question in the next-step box
 
-2026-11-02, commit [a70e854](https://github.com/zululima/dotclaude/commit/a70e854de6085d3a951f4201e983037cc811813f), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [a70e854](https://github.com/zululima/setup/commit/a70e854de6085d3a951f4201e983037cc811813f), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [a question about the browser pane left out]
@@ -2238,7 +2246,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Try plain curl from the user's machine on a blocked page
 
-2026-11-02, commit [53ca7b6](https://github.com/zululima/dotclaude/commit/53ca7b6f404ded33a780c480db17da07d6a646a7), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [53ca7b6](https://github.com/zululima/setup/commit/53ca7b6f404ded33a780c480db17da07d6a646a7), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a game left out]
@@ -2252,16 +2260,16 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Skip working files in drafts when archive-files looks for tasks
 
-2026-11-02, commit [4d83c5a](https://github.com/zululima/dotclaude/commit/4d83c5a6cace9af95e449cd7341aec7eca084fd1), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [4d83c5a](https://github.com/zululima/setup/commit/4d83c5a6cace9af95e449cd7341aec7eca084fd1), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > [pasted: 15 lines of the archive-files log after the first archives]
 
 ## Read the Mac's PowerLog in dream to find battery drain
 
-2026-11-02, commit [0932511](https://github.com/zululima/dotclaude/commit/0932511b8336c0981eb24e177cba01bf4b1f40a1), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [0932511](https://github.com/zululima/setup/commit/0932511b8336c0981eb24e177cba01bf4b1f40a1), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
 **2.** (answer to: PowerLog or a top sampler?)
 > a if that happens youll notify me in dreaming. also if powerlog turns
@@ -2269,14 +2277,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Move an archived session's files with the archive-files mod
 
-2026-11-02, commit [0a3b645](https://github.com/zululima/dotclaude/commit/0a3b645d9f0acc6d5c076bdd455041f7e0b13874), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [0a3b645](https://github.com/zululima/setup/commit/0a3b645d9f0acc6d5c076bdd455041f7e0b13874), model claude-opus-5-5, effort xhigh.
 
 **7.** (answer to: shall I build b, the sidebar-archive watcher?)
 > Yes, build b
 
 ## Recommend glue that saves the user a step on every use
 
-2026-11-02, commit [6f1d957](https://github.com/zululima/dotclaude/commit/6f1d957ddd8a55ebf3522f2f8cd885c8ca054840), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [6f1d957](https://github.com/zululima/setup/commit/6f1d957ddd8a55ebf3522f2f8cd885c8ca054840), model claude-opus-5-5, effort xhigh.
 
 **1.** to 4.
 > [prompts about another task left out]
@@ -2290,7 +2298,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Show the next session to go cold before the first answer
 
-2026-11-02, commit [e44b67c](https://github.com/zululima/dotclaude/commit/e44b67c71a7d055f9c4f711fdf412d75a68b3437), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [e44b67c](https://github.com/zululima/setup/commit/e44b67c71a7d055f9c4f711fdf412d75a68b3437), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is it not possibel toput status bar mod to the new session window
@@ -2300,7 +2308,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Move the hourglass on within seconds of an archive
 
-2026-11-02, commit [b17c407](https://github.com/zululima/dotclaude/commit/b17c4076716628805ca79a751be7b4aed607684f), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [b17c407](https://github.com/zululima/setup/commit/b17c4076716628805ca79a751be7b4aed607684f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > so the problem rn is that when i archive a session thats going cold
@@ -2312,7 +2320,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Carry pane-bridge files in the address fragment
 
-2026-11-02, commit [bf10a4b](https://github.com/zululima/dotclaude/commit/bf10a4bd00289053cfb763c76c5632126deb38a9), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a task another Claude session wrote, left out]
@@ -2322,44 +2330,44 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep the forTheSession field name out of dream launch replies
 
-2026-11-02, commit [58f3c34](https://github.com/zululima/dotclaude/commit/58f3c34281eac8c16df314b8d5978d1c427aba7a), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [58f3c34](https://github.com/zululima/setup/commit/58f3c34281eac8c16df314b8d5978d1c427aba7a), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Keep a dream step done as a pull request open until it merges
 
-2026-11-02, commit [9ec43bb](https://github.com/zululima/dotclaude/commit/9ec43bbb46007d4ba170483ffd82920442e2725d), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [9ec43bb](https://github.com/zululima/setup/commit/9ec43bbb46007d4ba170483ffd82920442e2725d), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Explain the agents and the pace in every dream report
 
-2026-11-02, commit [fd1922f](https://github.com/zululima/dotclaude/commit/fd1922f1e64d27f6d703c7a9a667a062d5e41219), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [fd1922f](https://github.com/zululima/setup/commit/fd1922f1e64d27f6d703c7a9a667a062d5e41219), model claude-opus-5-5, effort xhigh.
 
 **6.** (answer to: shall I add p15 to every report?)
 > a, every report
 
 ## List memory indexes only after a Bash call that changed CLAUDE.md
 
-2026-11-02, commit [761dea3](https://github.com/zululima/dotclaude/commit/761dea3fa39673424dfd100790f7083ed57b6e73), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [761dea3](https://github.com/zululima/setup/commit/761dea3fa39673424dfd100790f7083ed57b6e73), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Have a rule diff reopen what the session settled before it
 
-2026-11-02, commit [bd30ddc](https://github.com/zululima/dotclaude/commit/bd30ddc57c1fe24295ae6079b9b168e22d6b7f97), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [bd30ddc](https://github.com/zululima/setup/commit/bd30ddc57c1fe24295ae6079b9b168e22d6b7f97), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Name the abbreviations earlier commits gave when printing prompts
 
-2026-11-02, commit [5e25a50](https://github.com/zululima/dotclaude/commit/5e25a509acb3825e014894e3298c65aa8255f1ef), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [5e25a50](https://github.com/zululima/setup/commit/5e25a509acb3825e014894e3298c65aa8255f1ef), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Move a shared file the user no longer needs out of Downloads
 
-2026-11-02, commit [cc8e0e6](https://github.com/zululima/dotclaude/commit/cc8e0e652ac4588e7a55742833c7adc3b5bbb2aa), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [cc8e0e6](https://github.com/zululima/setup/commit/cc8e0e652ac4588e7a55742833c7adc3b5bbb2aa), model claude-opus-5-5, effort xhigh.
 
 **21.**
 > [an ask about a print layout left out]
@@ -2386,7 +2394,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Copy a secret last, after the command that asks for it
 
-2026-11-02, commit [76b6fe3](https://github.com/zululima/dotclaude/commit/76b6fe3f03759291473ab4e60972dcd82956fdb8), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [76b6fe3](https://github.com/zululima/setup/commit/76b6fe3f03759291473ab4e60972dcd82956fdb8), model claude-opus-5-5, effort xhigh.
 
 **37.**
 > [an ask about a release left out] also fix in the future: i copy
@@ -2399,48 +2407,48 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Scope a rule from a correction by the user's reason, not the example
 
-2026-11-02, commit [a317c50](https://github.com/zululima/dotclaude/commit/a317c50f6c62e49ddd3da9d33c634d7ca571a776), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [a317c50](https://github.com/zululima/setup/commit/a317c50f6c62e49ddd3da9d33c634d7ca571a776), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Drop the trailing newlines a PR body edit added on each round trip
 
-2026-11-02, commit [797dc69](https://github.com/zululima/dotclaude/commit/797dc69cb686f3d07c39851735fe95da190b9695), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [797dc69](https://github.com/zululima/setup/commit/797dc69cb686f3d07c39851735fe95da190b9695), model claude-opus-5-5, effort xhigh.
 
-**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee).
+**1.** (starts the dream review, which applies this step without a question) Quoted under [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee).
 
 ## Make room under the CLAUDE.md budget without asking
 
-2026-11-02, commit [162398b](https://github.com/zululima/dotclaude/commit/162398b2986406552f6066a060040e561eea0dee), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [162398b](https://github.com/zululima/setup/commit/162398b2986406552f6066a060040e561eea0dee), model claude-opus-5-5, effort xhigh.
 
 **1.** (starts the dream review, which applies this step without a question)
 > gm and you better have a good explanation
 
 ## Say the hourglass skips sessions waiting on subagents
 
-2026-11-02, commit [c36f2e5](https://github.com/zululima/dotclaude/commit/c36f2e5ba6994029f75ee64112b2f5ad5ca02955), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [c36f2e5](https://github.com/zululima/setup/commit/c36f2e5ba6994029f75ee64112b2f5ad5ca02955), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [94a7152](https://github.com/zululima/dotclaude/commit/94a7152eeb985d77028c103fe79da938f4b27029).
+**1.** Quoted under [94a7152](https://github.com/zululima/setup/commit/94a7152eeb985d77028c103fe79da938f4b27029).
 
 **2.** (answer to: how should I bring CLAUDE.md under its byte budget?)
 > a, cut both
 
 ## Print an answer given twice, minutes apart, twice
 
-2026-11-02, commit [9cd57b9](https://github.com/zululima/dotclaude/commit/9cd57b9687d3ff1e9da74e24357bf99ff16b1330), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [9cd57b9](https://github.com/zululima/setup/commit/9cd57b9687d3ff1e9da74e24357bf99ff16b1330), model claude-opus-5-5, effort xhigh.
 
-**5.** (answer to: shall I add p14?) Quoted under [38eee52](https://github.com/zululima/dotclaude/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b).
+**5.** (answer to: shall I add p14?) Quoted under [38eee52](https://github.com/zululima/setup/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b).
 
 ## Stop waiting for a dream check that runs past 30 minutes
 
-2026-11-02, commit [38eee52](https://github.com/zululima/dotclaude/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [38eee52](https://github.com/zululima/setup/commit/38eee52aa283cd42258eba509b982c0e60dc7d4b), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I add p14?)
 > a
 
 ## Leave sessions waiting on subagents out of the hourglass
 
-2026-11-02, commit [94a7152](https://github.com/zululima/dotclaude/commit/94a7152eeb985d77028c103fe79da938f4b27029), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [94a7152](https://github.com/zululima/setup/commit/94a7152eeb985d77028c103fe79da938f4b27029), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > lol dont put sessions to the hourglass that have subagenst working
@@ -2449,23 +2457,23 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Commit only this session's own edits of a shared file
 
-2026-11-02, commit [9276bb9](https://github.com/zululima/dotclaude/commit/9276bb999d9b37d0bcecd711d2c5095b5d939541), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [9276bb9](https://github.com/zululima/setup/commit/9276bb999d9b37d0bcecd711d2c5095b5d939541), model claude-opus-5-5, effort xhigh.
 
 **4.** (answer to: shall I add p3?)
 > a
 
 ## Keep the hourglass, write its minutes as the fire's are written
 
-2026-11-02, commit [8231751](https://github.com/zululima/dotclaude/commit/8231751aca567b91efa8aaf784e3832f50a16f93), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [8231751](https://github.com/zululima/setup/commit/8231751aca567b91efa8aaf784e3832f50a16f93), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d7ef255](https://github.com/zululima/dotclaude/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605).
+**1.** Quoted under [d7ef255](https://github.com/zululima/setup/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605).
 
 **2.**
 > noooooooooooooooooooooooooooo i meant not the icon but time
 
 ## Mark the other session's cache with the fire, not an hourglass
 
-2026-11-02, commit [d7ef255](https://github.com/zululima/dotclaude/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [d7ef255](https://github.com/zululima/setup/commit/d7ef255e34bd36c07a1c6e62abd128dabbe79605), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > the hourglass can be the same as the flame
@@ -2473,22 +2481,22 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep back only what the reset day used, not two 5-hour windows
 
-2026-11-02, commit [78b568c](https://github.com/zululima/dotclaude/commit/78b568cb05bb3ff75268a7bb8418336b0bbaa785), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [78b568c](https://github.com/zululima/setup/commit/78b568cb05bb3ff75268a7bb8418336b0bbaa785), model claude-opus-5-5, effort xhigh.
 
-**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
+**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/setup/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
 
-**3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?) Quoted under [e792340](https://github.com/zululima/dotclaude/commit/e792340e6497651ef580b541a869c151c69ad9a4).
+**3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?) Quoted under [e792340](https://github.com/zululima/setup/commit/e792340e6497651ef580b541a869c151c69ad9a4).
 
 ## Hold dream work for the 5-hour reset instead of dropping it
 
-2026-11-02, commit [e792340](https://github.com/zululima/dotclaude/commit/e792340e6497651ef580b541a869c151c69ad9a4), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [e792340](https://github.com/zululima/setup/commit/e792340e6497651ef580b541a869c151c69ad9a4), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to: how to spend the week on a working Saturday, and shall I add p13?)
 > a and p13 a
 
 ## Ask to archive a work's files only once nothing is left to do
 
-2026-11-02, commit [ccb0213](https://github.com/zululima/dotclaude/commit/ccb0213904b85fab9cb5544e58c2faa7bfd0d391), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [ccb0213](https://github.com/zululima/setup/commit/ccb0213904b85fab9cb5544e58c2faa7bfd0d391), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > [an ask for a printed card for a downstream event left out]
@@ -2502,13 +2510,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Bring a long rule diff whole, across calls, instead of cutting it
 
-2026-11-02, commit [e3e7cb2](https://github.com/zululima/dotclaude/commit/e3e7cb299e581dc964e8bec1872c086548617e20), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [e3e7cb2](https://github.com/zululima/setup/commit/e3e7cb299e581dc964e8bec1872c086548617e20), model claude-opus-5-5, effort xhigh.
 
-**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
+**2.** (answer to: shall I add p1?) Quoted under [191f5b9](https://github.com/zululima/setup/commit/191f5b9faf00b30eefbc0b9cf910217302813e80).
 
 ## Ask before publishing quoted remarks anywhere others can read
 
-2026-11-02, commit [191f5b9](https://github.com/zululima/dotclaude/commit/191f5b9faf00b30eefbc0b9cf910217302813e80), model claude-opus-5-5, effort xhigh.
+2026-11-02, commit [191f5b9](https://github.com/zululima/setup/commit/191f5b9faf00b30eefbc0b9cf910217302813e80), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > gm and you better have a good explanation
@@ -2522,7 +2530,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give other computers prompts, ask two-way questions in the box
 
-2026-11-01, commit [2146f91](https://github.com/zululima/dotclaude/commit/2146f91601399f8d88e5b2ba6b004f185f171891), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [2146f91](https://github.com/zululima/setup/commit/2146f91601399f8d88e5b2ba6b004f185f171891), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > ? what prompt do i give to mac
@@ -2533,7 +2541,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Try Linux's stat first and drop the pinned default model
 
-2026-11-01, commit [0c2b3e0](https://github.com/zululima/dotclaude/commit/0c2b3e0546120a5ee710fdd18e11d0f6ad18817f), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [0c2b3e0](https://github.com/zululima/setup/commit/0c2b3e0546120a5ee710fdd18e11d0f6ad18817f), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > what does reconcile mean. why no push
@@ -2543,14 +2551,14 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Sync the configuration at the start of each prompt
 
-2026-11-01, commit [38e6f78](https://github.com/zululima/dotclaude/commit/38e6f784692992cdb2852969f25afb6600fdf5d9), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [38e6f78](https://github.com/zululima/setup/commit/38e6f784692992cdb2852969f25afb6600fdf5d9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > at the start of each prompt keep my dotclaude in sync
 
 ## Show only the usage points when a dream run ends
 
-2026-11-01, commit [3de147d](https://github.com/zululima/dotclaude/commit/3de147d04062493613e6ac6317389f737c71ae71), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [3de147d](https://github.com/zululima/setup/commit/3de147d04062493613e6ac6317389f737c71ae71), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > dotclaude next time when dreaming ends just give me report on how
@@ -2558,7 +2566,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Add the prose licence and README steps rules
 
-2026-11-01, commit [9e44148](https://github.com/zululima/dotclaude/commit/9e44148c5e25a68f2f71ebe88bc9358350cf9aae), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [9e44148](https://github.com/zululima/setup/commit/9e44148c5e25a68f2f71ebe88bc9358350cf9aae), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about a project's repository left out] also always use
@@ -2570,7 +2578,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Put files to share loose in Downloads, the rest in drafts
 
-2026-11-01, commit [0ce0564](https://github.com/zululima/dotclaude/commit/0ce056471f954e5dc08bd41f1f84585f3c4af097), model claude-opus-5-5, effort xhigh.
+2026-11-01, commit [0ce0564](https://github.com/zululima/setup/commit/0ce056471f954e5dc08bd41f1f84585f3c4af097), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > always if i have artifacts i have to share somewhere put them
@@ -2578,9 +2586,9 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Refresh the evals after the 31 Oct dream run
 
-2026-10-31, commit [c699fb4](https://github.com/zululima/dotclaude/commit/c699fb41712bd5355b8c5cef67fdc93a85efae5a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [c699fb4](https://github.com/zululima/setup/commit/c699fb41712bd5355b8c5cef67fdc93a85efae5a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 **2.**
 > 1 agent running? 77% weekly usage and 45mins left until reset. im
@@ -2588,7 +2596,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep an HTML page in ~/.claude/pages, not in Downloads
 
-2026-10-31, commit [76af4d5](https://github.com/zululima/dotclaude/commit/76af4d595b2b14d64e962dd8965fe4079631d72a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [76af4d5](https://github.com/zululima/setup/commit/76af4d595b2b14d64e962dd8965fe4079631d72a), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [an answer about deleting a page left out]
@@ -2599,7 +2607,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Offer the Trash beside the archive for a finished Downloads folder
 
-2026-10-31, commit [1b466f2](https://github.com/zululima/dotclaude/commit/1b466f245b4497012817336ad7efe7178dc8d9cb), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [1b466f2](https://github.com/zululima/setup/commit/1b466f245b4497012817336ad7efe7178dc8d9cb), model claude-opus-5-5, effort xhigh.
 
 **16.**
 > always put the artifacts i need to personally share soon inDownloads
@@ -2607,7 +2615,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give a local PDF or image its Firefox address too
 
-2026-10-31, commit [4574990](https://github.com/zululima/dotclaude/commit/457499003fc574b91e5c686f9579170d33d334ce), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [4574990](https://github.com/zululima/setup/commit/457499003fc574b91e5c686f9579170d33d334ce), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > [a change to a downstream printed sheet left out]
@@ -2620,7 +2628,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Check a README on one screen scrolled to its top
 
-2026-10-31, commit [dcd3ca2](https://github.com/zululima/dotclaude/commit/dcd3ca244b3d0268ecee12d14263b0a0e47681d3), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [dcd3ca2](https://github.com/zululima/setup/commit/dcd3ca244b3d0268ecee12d14263b0a0e47681d3), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about a project's repository and its licence left out] also
@@ -2629,7 +2637,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Move the status line on as soon as a session is prompted
 
-2026-10-31, commit [29e18ac](https://github.com/zululima/dotclaude/commit/29e18ac11ad00a9a250dc07cc68998c9910d55f9), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [29e18ac](https://github.com/zululima/setup/commit/29e18ac11ad00a9a250dc07cc68998c9910d55f9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > hmmm the status bar is probelmatic in that way that it shows the
@@ -2642,7 +2650,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Ask in the closing message, never with a question card
 
-2026-10-31, commit [01434dc](https://github.com/zululima/dotclaude/commit/01434dc068d5aff7f4df26dce13a83b5266e4328), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [01434dc](https://github.com/zululima/setup/commit/01434dc068d5aff7f4df26dce13a83b5266e4328), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask for a skill for a colleague left out] probably dont use
@@ -2655,7 +2663,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give a local HTML page as a file:// address for Firefox
 
-2026-10-31, commit [36fec73](https://github.com/zululima/dotclaude/commit/36fec7359741e7c231c103ea7cd9ccbe4e88ddce), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [36fec73](https://github.com/zululima/setup/commit/36fec7359741e7c231c103ea7cd9ccbe4e88ddce), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > hmm instead could you just give the link to the html like pwd instead
@@ -2666,7 +2674,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name dream steps by p number and agents by title, not tier codes
 
-2026-10-31, commit [2987c07](https://github.com/zululima/dotclaude/commit/2987c07f40ad4cbef56c854c3b44fccb5d3eac81), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [2987c07](https://github.com/zululima/setup/commit/2987c07f40ad4cbef56c854c3b44fccb5d3eac81), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > what i dont undersatnd the nwkd at all. should we ditch those? also
@@ -2677,7 +2685,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Ask to archive finished Downloads work in ~/.claude
 
-2026-10-31, commit [b5fe0b5](https://github.com/zululima/dotclaude/commit/b5fe0b55f5b6ef67de985146d5a9911e35daa27e), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [b5fe0b5](https://github.com/zululima/setup/commit/b5fe0b55f5b6ef67de985146d5a9911e35daa27e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > my guy the downloads folder is an actual mess rn. for eaxmple the mr
@@ -2692,7 +2700,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Build the review page and step pictures for every PR
 
-2026-10-31, commit [f0ea2c9](https://github.com/zululima/dotclaude/commit/f0ea2c9857b98b154eb2dc471c269633f60138ec), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [f0ea2c9](https://github.com/zululima/setup/commit/f0ea2c9857b98b154eb2dc471c269633f60138ec), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > always give me the html i can open in firefox like the guide
@@ -2701,7 +2709,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Mark only a prompt sent after the cache went cold
 
-2026-10-31, commit [b861e76](https://github.com/zululima/dotclaude/commit/b861e76c5ecaf5dd82b8ef8065e44ee685500c8a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [b861e76](https://github.com/zululima/setup/commit/b861e76c5ecaf5dd82b8ef8065e44ee685500c8a), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > no need for the checkmark just put that flyign dollar if indeed the
@@ -2712,13 +2720,13 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Name a misused term in Prompt feedback, with the one that fits
 
-2026-10-31, commit [6817cf8](https://github.com/zululima/dotclaude/commit/6817cf8cbf07fb9b82a53548065263887eeb06da), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [6817cf8](https://github.com/zululima/setup/commit/6817cf8cbf07fb9b82a53548065263887eeb06da), model claude-opus-5-5, effort xhigh.
 
-**2.** (answer to: shall I add both checks to dream's library review) Quoted under [518b183](https://github.com/zululima/dotclaude/commit/518b183377a33f3af894e0b0f5f7609284ceb05a).
+**2.** (answer to: shall I add both checks to dream's library review) Quoted under [518b183](https://github.com/zululima/setup/commit/518b183377a33f3af894e0b0f5f7609284ceb05a).
 
 ## Hand over files outside the session with an open command
 
-2026-10-31, commit [f2bfcc7](https://github.com/zululima/dotclaude/commit/f2bfcc763f31ff835d71b7298e2f317d1e07c1eb), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [f2bfcc7](https://github.com/zululima/setup/commit/f2bfcc763f31ff835d71b7298e2f317d1e07c1eb), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask for a printed sheet for a downstream event left out]
@@ -2736,7 +2744,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Flag shared memory notes that belong in the repo or help no one
 
-2026-10-31, commit [518b183](https://github.com/zululima/dotclaude/commit/518b183377a33f3af894e0b0f5f7609284ceb05a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [518b183](https://github.com/zululima/setup/commit/518b183377a33f3af894e0b0f5f7609284ceb05a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > does dream now also check that memories in [a shared repository]
@@ -2751,7 +2759,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Mark cache hits and the last warm minute in the usage line
 
-2026-10-31, commit [e90c293](https://github.com/zululima/dotclaude/commit/e90c293eaba645c446df43074e6e908c02740517), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [e90c293](https://github.com/zululima/setup/commit/e90c293eaba645c446df43074e6e908c02740517), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > ill use this chat as the time being for the next cold session since i
@@ -2770,7 +2778,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give text for Slack as a draft, written as a report
 
-2026-10-31, commit [e748207](https://github.com/zululima/dotclaude/commit/e748207c60211dd5a3af3aeb8e34a7e3ffc3e6bf), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [e748207](https://github.com/zululima/setup/commit/e748207c60211dd5a3af3aeb8e34a7e3ffc3e6bf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about scheduling a team event left out]
@@ -2817,7 +2825,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Tell the user how to open the pane, word step questions
 
-2026-10-31, commit [8eb06e7](https://github.com/zululima/dotclaude/commit/8eb06e744e79bdb048bd9e042bdbd56502531d33), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [8eb06e7](https://github.com/zululima/setup/commit/8eb06e744e79bdb048bd9e042bdbd56502531d33), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a project's store status left out]
@@ -2836,7 +2844,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Keep question cards short enough to read without scrolling
 
-2026-10-31, commit [330b360](https://github.com/zululima/dotclaude/commit/330b360f80b0f9d88b8a461a7d928424b4724afe), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [330b360](https://github.com/zululima/setup/commit/330b360f80b0f9d88b8a461a7d928424b4724afe), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > my guy dont create questiosn (or what are those called) where i have
@@ -2847,7 +2855,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Reload the usage mod in desktop sessions when it changes
 
-2026-10-31, commit [ddc1930](https://github.com/zululima/dotclaude/commit/ddc19303fc375b3e7a63c1fb21164abd94b5d6f1), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [ddc1930](https://github.com/zululima/setup/commit/ddc19303fc375b3e7a63c1fb21164abd94b5d6f1), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > mod? also why not the last thingy not showing in other sessions but
@@ -2858,7 +2866,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Give each part of the status line its own emoji
 
-2026-10-31, commit [bd86066](https://github.com/zululima/dotclaude/commit/bd860661bf03c9db792c1e6e224d2020ee120ff6), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [bd86066](https://github.com/zululima/setup/commit/bd860661bf03c9db792c1e6e224d2020ee120ff6), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > oh ok so do i need to tell archive for the session so that you and
@@ -2867,7 +2875,7 @@ Reply: Context measured: replies carry 210,584 tokens on average, 41% of it the 
 
 ## Take a same-page sign-in before handing a blocked popup to the user
 
-2026-10-31, commit [e3ca5b7](https://github.com/zululima/dotclaude/commit/e3ca5b7cac039aa197479be8340506dea229f078), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [e3ca5b7](https://github.com/zululima/setup/commit/e3ca5b7cac039aa197479be8340506dea229f078), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2880,20 +2888,20 @@ blocked popup to the user?)
 
 ## Hold CLAUDE.md to a size budget that sync.sh checks
 
-2026-10-31, commit [96c8202](https://github.com/zululima/dotclaude/commit/96c820206451be0959dbe107b2992c7d98eaf8d1), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [96c8202](https://github.com/zululima/setup/commit/96c820206451be0959dbe107b2992c7d98eaf8d1), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [bf6fec9](https://github.com/zululima/dotclaude/commit/bf6fec937dc184555253743ae2a86abd7d9deda5).
+**1.** Quoted under [bf6fec9](https://github.com/zululima/setup/commit/bf6fec937dc184555253743ae2a86abd7d9deda5).
 
 ## Give the fewest letters that find an emoji, not a whole word
 
-2026-10-31, commit [1bf65ff](https://github.com/zululima/dotclaude/commit/1bf65ff91a4d792c1f4ff715a10b5c9f6c643a44), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [1bf65ff](https://github.com/zululima/setup/commit/1bf65ff91a4d792c1f4ff715a10b5c9f6c643a44), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > nice try but again for example with collision a coll was enough
 
 ## Answer a mid-turn question in the next question, not above it
 
-2026-10-31, commit [bf6fec9](https://github.com/zululima/dotclaude/commit/bf6fec937dc184555253743ae2a86abd7d9deda5), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [bf6fec9](https://github.com/zululima/setup/commit/bf6fec937dc184555253743ae2a86abd7d9deda5), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2908,7 +2916,7 @@ blocked popup to the user?)
 
 ## Show the session whose cache goes cold next in the status line
 
-2026-10-31, commit [eff5852](https://github.com/zululima/dotclaude/commit/eff5852c5b866b95c1f30b5f490eb532fe2e5647), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [eff5852](https://github.com/zululima/setup/commit/eff5852c5b866b95c1f30b5f490eb532fe2e5647), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > was it so that the status bar in claude code is real time? as in
@@ -2921,7 +2929,7 @@ blocked popup to the user?)
 
 ## Let a repository's commit-msg check skip terms it may name
 
-2026-10-31, commit [d053e5c](https://github.com/zululima/dotclaude/commit/d053e5c54f4b9a6f8a3bec18b6fd55f53e386a38), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [d053e5c](https://github.com/zululima/setup/commit/d053e5c54f4b9a6f8a3bec18b6fd55f53e386a38), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2936,7 +2944,7 @@ employer's own name?)
 
 ## Give the shortest word that finds an emoji, then its name
 
-2026-10-31, commit [b1608c1](https://github.com/zululima/dotclaude/commit/b1608c17d795c6895ee465e85f5dc3aeb3a93142), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [b1608c1](https://github.com/zululima/setup/commit/b1608c17d795c6895ee465e85f5dc3aeb3a93142), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > nice try but for example with face with monocle the right word woudl
@@ -2945,7 +2953,7 @@ employer's own name?)
 
 ## Open a draft PR per issue; side changes join one already open
 
-2026-10-31, commit [9d07b06](https://github.com/zululima/dotclaude/commit/9d07b062369170682dc3e9267dec43aac4260b76), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [9d07b06](https://github.com/zululima/setup/commit/9d07b062369170682dc3e9267dec43aac4260b76), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2958,7 +2966,7 @@ one already open?)
 
 ## Move the commit message rules into a commit-messages skill
 
-2026-10-31, commit [50909f2](https://github.com/zululima/dotclaude/commit/50909f28ec6da78c84b3c19c457abc71f54801a4), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [50909f2](https://github.com/zululima/setup/commit/50909f28ec6da78c84b3c19c457abc71f54801a4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2971,7 +2979,7 @@ skill?)
 
 ## Name each emoji the user picks by the app's search name
 
-2026-10-31, commit [d117e99](https://github.com/zululima/dotclaude/commit/d117e996474b958fceafa357cbf32b95d4c0e0fa), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [d117e99](https://github.com/zululima/setup/commit/d117e996474b958fceafa357cbf32b95d4c0e0fa), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [a question about a downstream task left out]
@@ -2986,7 +2994,7 @@ skill?)
 
 ## Refuse a second draft PR in a repository with a hook
 
-2026-10-31, commit [9765244](https://github.com/zululima/dotclaude/commit/97652445f8233943ab543312ae2256807af29d2e), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [9765244](https://github.com/zululima/setup/commit/97652445f8233943ab543312ae2256807af29d2e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -2998,7 +3006,7 @@ skill?)
 
 ## Show a dream run's report and figures in the final run only
 
-2026-10-31, commit [3306885](https://github.com/zululima/dotclaude/commit/3306885f1fd98c959fe949298b09d695c35161dc), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [3306885](https://github.com/zululima/setup/commit/3306885f1fd98c959fe949298b09d695c35161dc), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > dont give me these numbers  and reports in the first dream run.
@@ -3015,103 +3023,103 @@ skill?)
 
 ## Refresh the evals after the 30 Oct dream review
 
-2026-10-31, commit [7712786](https://github.com/zululima/dotclaude/commit/77127869b3b68ac41897ef8967d1d7fb98abc49b), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [7712786](https://github.com/zululima/setup/commit/77127869b3b68ac41897ef8967d1d7fb98abc49b), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Name the hours a meeting slot search assumes before it runs
 
-2026-10-31, commit [b49ee05](https://github.com/zululima/dotclaude/commit/b49ee05fcfe54f93ab24329c34517f43316d4d1e), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [b49ee05](https://github.com/zululima/setup/commit/b49ee05fcfe54f93ab24329c34517f43316d4d1e), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Keep the wrong-folder opening line out of No folder sessions
 
-2026-10-31, commit [3759abc](https://github.com/zululima/dotclaude/commit/3759abc7f70c1f2eb4bf75ad1ee54c563ff7eaeb), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [3759abc](https://github.com/zululima/setup/commit/3759abc7f70c1f2eb4bf75ad1ee54c563ff7eaeb), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Record a setup a session leaves on the user's machines
 
-2026-10-31, commit [edf3aa9](https://github.com/zululima/dotclaude/commit/edf3aa97ccf5a509810a516e7ad4d185326c78e5), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [edf3aa9](https://github.com/zululima/setup/commit/edf3aa97ccf5a509810a516e7ad4d185326c78e5), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Answer for the deliverable the user names
 
-2026-10-31, commit [072295b](https://github.com/zululima/dotclaude/commit/072295bec58a705c04d39584e73e6a04dc56f9ff), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [072295b](https://github.com/zululima/setup/commit/072295bec58a705c04d39584e73e6a04dc56f9ff), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Ship the browser-pane file bridge as a script
 
-2026-10-31, commit [bf26bb3](https://github.com/zululima/dotclaude/commit/bf26bb306a5b86d078cfaf15e2325e2bd2fb24c0), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [bf26bb3](https://github.com/zululima/setup/commit/bf26bb306a5b86d078cfaf15e2325e2bd2fb24c0), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Ask before a rule adds a new way to reach the user
 
-2026-10-31, commit [6b5e50d](https://github.com/zululima/dotclaude/commit/6b5e50d7ea79c62600b53b8c92df21932e74d84a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [6b5e50d](https://github.com/zululima/setup/commit/6b5e50d7ea79c62600b53b8c92df21932e74d84a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Leave the write-up of finished learning work to Claude
 
-2026-10-31, commit [aa03e7e](https://github.com/zululima/dotclaude/commit/aa03e7e21d648938e3629a2061809e54a5aa400a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [aa03e7e](https://github.com/zululima/setup/commit/aa03e7e21d648938e3629a2061809e54a5aa400a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Print a forked session's earlier prompts from its parent's log
 
-2026-10-31, commit [602dd43](https://github.com/zululima/dotclaude/commit/602dd43ed088345388f81bfe5d55d47c7be6ca26), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [602dd43](https://github.com/zululima/setup/commit/602dd43ed088345388f81bfe5d55d47c7be6ca26), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Let stop-unreachable-claim.sh catch "I couldn't find"
 
-2026-10-31, commit [dce0b24](https://github.com/zululima/dotclaude/commit/dce0b246c38b59dc3160d9279752ea0c0a44c259), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [dce0b24](https://github.com/zululima/setup/commit/dce0b246c38b59dc3160d9279752ea0c0a44c259), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Name what a build round delivers when the go asks for it
 
-2026-10-31, commit [d4313fb](https://github.com/zululima/dotclaude/commit/d4313fba2845829a434d3f52891f78a73ea2cba3), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [d4313fb](https://github.com/zululima/setup/commit/d4313fba2845829a434d3f52891f78a73ea2cba3), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Stop no-home-search.sh reading cd "\<path>" as a bare cd home
 
-2026-10-31, commit [ab1d97c](https://github.com/zululima/dotclaude/commit/ab1d97c66f20cc8d8a614cfe901334234084133a), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [ab1d97c](https://github.com/zululima/setup/commit/ab1d97c66f20cc8d8a614cfe901334234084133a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Search package sources before calling a program unavailable
 
-2026-10-31, commit [38d52c1](https://github.com/zululima/dotclaude/commit/38d52c18a45b563fcd61ca39507ecfd8da4274da), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [38d52c1](https://github.com/zululima/setup/commit/38d52c18a45b563fcd61ca39507ecfd8da4274da), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Match a next-step button by its label, after a reminder too
 
-2026-10-31, commit [e30b5f1](https://github.com/zululima/dotclaude/commit/e30b5f130005239f2a06771da50503035a3ca4c1), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [e30b5f1](https://github.com/zululima/setup/commit/e30b5f130005239f2a06771da50503035a3ca4c1), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Say in commit hook refusals that the message file was not written
 
-2026-10-31, commit [152b874](https://github.com/zululima/dotclaude/commit/152b874677b8c587d0d648374ef45b2f5c19548c), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [152b874](https://github.com/zululima/setup/commit/152b874677b8c587d0d648374ef45b2f5c19548c), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Look for a task's earlier sessions before making its files
 
-2026-10-31, commit [5e7a179](https://github.com/zululima/dotclaude/commit/5e7a179bd489ce9a0431009c61ecaaddcbaf0674), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [5e7a179](https://github.com/zululima/setup/commit/5e7a179bd489ce9a0431009c61ecaaddcbaf0674), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
+**1.** Quoted under [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e).
 
 ## Build what the user asked; put an advised-against part to a question
 
-2026-10-31, commit [8f605a4](https://github.com/zululima/dotclaude/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e), model claude-opus-5-5, effort xhigh.
+2026-10-31, commit [8f605a4](https://github.com/zululima/setup/commit/8f605a4ea1f4e7e2c2a6f75b9df9cc106d42475e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review also tell me about this Security flag: [pasted: a
@@ -3120,13 +3128,13 @@ skill?)
 
 ## Refresh the evals after the 30 Oct dream run
 
-2026-10-30, commit [0d14d9e](https://github.com/zululima/dotclaude/commit/0d14d9ef03fbb9ee27414277110b1d96d5665168), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [0d14d9e](https://github.com/zululima/setup/commit/0d14d9ef03fbb9ee27414277110b1d96d5665168), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Give a local file for an HTML request, never an Artifact
 
-2026-10-30, commit [3ac28af](https://github.com/zululima/dotclaude/commit/3ac28afab63f27204b2a16b035ab79e248814f0c), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [3ac28af](https://github.com/zululima/setup/commit/3ac28afab63f27204b2a16b035ab79e248814f0c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: a list of places from a game guide]
@@ -3142,7 +3150,7 @@ skill?)
 
 ## Push to the phone only while the Mac is locked
 
-2026-10-30, commit [e6254f2](https://github.com/zululima/dotclaude/commit/e6254f2287b38fc7c51172b11658663a97fae0c2), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [e6254f2](https://github.com/zululima/setup/commit/e6254f2287b38fc7c51172b11658663a97fae0c2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > you seem to notify my phone a lot even though im not afk. for example
@@ -3150,7 +3158,7 @@ skill?)
 
 ## Keep a Slack draft from repeating the page it links
 
-2026-10-30, commit [b107263](https://github.com/zululima/dotclaude/commit/b1072631c964a8e34159204f28212de5e89aa3d6), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [b107263](https://github.com/zululima/setup/commit/b1072631c964a8e34159204f28212de5e89aa3d6), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [an ask for a chat draft left out]
@@ -3165,7 +3173,7 @@ skill?)
 
 ## Say how a local file reaches a site in the browser pane
 
-2026-10-30, commit [6c5ef04](https://github.com/zululima/dotclaude/commit/6c5ef046d7757d1b4ba65bb6b7c8ef90e065a934), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [6c5ef04](https://github.com/zululima/setup/commit/6c5ef046d7757d1b4ba65bb6b7c8ef90e065a934), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [a note on a local server left out]
@@ -3175,7 +3183,7 @@ skill?)
 
 ## Say plainly why the browser pane stays shut
 
-2026-10-30, commit [b728d20](https://github.com/zululima/dotclaude/commit/b728d201636bcecc7b1f5b45c385aad92d6f601a), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [b728d20](https://github.com/zululima/setup/commit/b728d201636bcecc7b1f5b45c385aad92d6f601a), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a downstream task left out]
@@ -3186,7 +3194,7 @@ skill?)
 
 ## Keep learning work the user's own, taught by norms
 
-2026-10-30, commit [257295d](https://github.com/zululima/dotclaude/commit/257295d3549cc4f789eeac5be6c9fcbf1715e27d), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [257295d](https://github.com/zululima/setup/commit/257295d3549cc4f789eeac5be6c9fcbf1715e27d), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about setting up a design portfolio left out]
@@ -3208,7 +3216,7 @@ skill?)
 
 ## Copy the files sync-private.txt lists into the mirrors only
 
-2026-10-30, commit [aa0af1d](https://github.com/zululima/dotclaude/commit/aa0af1de3d035256f6b049e1fa1461c091b86cd0), model claude-opus-5-5, effort xhigh.
+2026-10-30, commit [aa0af1d](https://github.com/zululima/setup/commit/aa0af1de3d035256f6b049e1fa1461c091b86cd0), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a run of the morning routine left out]
@@ -3226,7 +3234,7 @@ skill?)
 
 ## Say why the browser pane is not on screen
 
-2026-10-29, commit [be53eb7](https://github.com/zululima/dotclaude/commit/be53eb7b18143a232e6a7b1846fb3d8d848bb76c), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [be53eb7](https://github.com/zululima/setup/commit/be53eb7b18143a232e6a7b1846fb3d8d848bb76c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about other work left out]
@@ -3245,7 +3253,7 @@ skill?)
 
 ## Sign off only where a repository asks for it
 
-2026-10-29, commit [b3378a9](https://github.com/zululima/dotclaude/commit/b3378a9df61b7af210bc2f72e16f59d2f8c954ec), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [b3378a9](https://github.com/zululima/setup/commit/b3378a9df61b7af210bc2f72e16f59d2f8c954ec), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > i just checked the commit messages why is there a signed off thingy?
@@ -3254,23 +3262,23 @@ skill?)
 
 ## Open the tasks pane for every background run
 
-2026-10-29, commit [05edd94](https://github.com/zululima/dotclaude/commit/05edd941981f613960b92a145e40ebe69a66c5c2), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [05edd94](https://github.com/zululima/setup/commit/05edd941981f613960b92a145e40ebe69a66c5c2), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+**1.** Quoted under [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
 
-**2.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+**2.** Quoted under [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
 
 **3.**
 > [a question about the previous reply left out]
 
-**4.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+**4.** Quoted under [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
 
-**5.** Quoted under [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
+**5.** Quoted under [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5).
 
 **6.**
 > [a question about a downstream project left out]
 
-**7.** Quoted under [b64c518](https://github.com/zululima/dotclaude/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
+**7.** Quoted under [b64c518](https://github.com/zululima/setup/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
 
 **8.**
 > [a question about a downstream project left out]
@@ -3305,7 +3313,7 @@ skill?)
 
 ## List every row of a change table, and say why a figure is short
 
-2026-10-29, commit [ca26192](https://github.com/zululima/dotclaude/commit/ca26192e7d051a5d01b10bd35d97ce909c2bd0eb), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [ca26192](https://github.com/zululima/setup/commit/ca26192e7d051a5d01b10bd35d97ce909c2bd0eb), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > [an ask about a downstream project left out]
@@ -3328,7 +3336,7 @@ skill?)
 
 ## Take the one-screen check unscrolled
 
-2026-10-29, commit [a317778](https://github.com/zululima/dotclaude/commit/a317778c5619e38161bdf0402ef149bf3694a58e), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [a317778](https://github.com/zululima/setup/commit/a317778c5619e38161bdf0402ef149bf3694a58e), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > [pasted: a screenshot of a page in a browser, its last line cut off
@@ -3337,7 +3345,7 @@ skill?)
 
 ## Wait in the session for every CI run a push sets off
 
-2026-10-29, commit [2a713be](https://github.com/zululima/dotclaude/commit/2a713be00decab38deda8f2db7adc0005cbb05a4), model claude-opus-5-5, effort xhigh.
+2026-10-29, commit [2a713be](https://github.com/zululima/setup/commit/2a713be00decab38deda8f2db7adc0005cbb05a4), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > its green why didnt it wake you up
@@ -3348,7 +3356,7 @@ skill?)
 
 ## Draft Slack messages only when asked, and list their send once
 
-2026-10-28, commit [3d0d861](https://github.com/zululima/dotclaude/commit/3d0d8613d4804ca41167ddffc76abc59ec923abb), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [3d0d861](https://github.com/zululima/setup/commit/3d0d8613d4804ca41167ddffc76abc59ec923abb), model claude-opus-5-5, effort xhigh.
 
 **21.**
 > dont recommend me a slack draft if i dont ask so. [an ask about a
@@ -3356,7 +3364,7 @@ skill?)
 
 ## Show only what changed in a table of changes
 
-2026-10-28, commit [4189f70](https://github.com/zululima/dotclaude/commit/4189f7082463258db6a00cf5d8b2bbe23e8db771), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [4189f70](https://github.com/zululima/setup/commit/4189f7082463258db6a00cf5d8b2bbe23e8db771), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > dont show things that havent changed just blank or delete whole row
@@ -3368,7 +3376,7 @@ skill?)
 
 ## Give the teammate prompt only for a teammate's problem
 
-2026-10-28, commit [6c043c4](https://github.com/zululima/dotclaude/commit/6c043c40a409fcd7fc7bbe2f5e8047067be6d07a), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [6c043c4](https://github.com/zululima/setup/commit/6c043c40a409fcd7fc7bbe2f5e8047067be6d07a), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [two questions about a downstream project left out] also no need for
@@ -3381,9 +3389,9 @@ skill?)
 
 ## Spell out figures in next-step questions and buttons
 
-2026-10-28, commit [5156ade](https://github.com/zululima/dotclaude/commit/5156adebec410a7743df57da7f772e6f2c4c0492), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [5156ade](https://github.com/zululima/setup/commit/5156adebec410a7743df57da7f772e6f2c4c0492), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.** (answers the next-step question)
 > [a reply about a downstream project's figures left out]
@@ -3397,7 +3405,7 @@ skill?)
 
 ## Check the VPN is on before naming it as a cause
 
-2026-10-28, commit [f7c6bbc](https://github.com/zululima/dotclaude/commit/f7c6bbc2b7e5936871d1ceb4bb30324edd7f1018), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [f7c6bbc](https://github.com/zululima/setup/commit/f7c6bbc2b7e5936871d1ceb4bb30324edd7f1018), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a game map of a workplace left out]
@@ -3414,19 +3422,19 @@ skill?)
 
 ## Close a parent with its last sub-issue, patch teammates' copies
 
-2026-10-28, commit [5dca0f6](https://github.com/zululima/dotclaude/commit/5dca0f6e31f883c96aa868e72df57366f5ecdc0b), model claude-opus-5-5, effort xhigh.
+2026-10-28, commit [5dca0f6](https://github.com/zululima/setup/commit/5dca0f6e31f883c96aa868e72df57366f5ecdc0b), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
-**2.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**2.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
-**3.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+**3.** Quoted under [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
-**4.** Quoted under [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
+**4.** Quoted under [8f63649](https://github.com/zululima/setup/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
 
-**5.** Quoted under [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
+**5.** Quoted under [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e).
 
-**6.** Quoted under [b64c518](https://github.com/zululima/dotclaude/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
+**6.** Quoted under [b64c518](https://github.com/zululima/setup/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
 
 **7.**
 > [an ask about a downstream project left out]
@@ -3442,7 +3450,7 @@ skill?)
 
 ## Give plain Slack drafts in the reply, not on the clipboard
 
-2026-10-27, commit [6099cf2](https://github.com/zululima/dotclaude/commit/6099cf232838c055f0f4e8f409506c57e0b94a99), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [6099cf2](https://github.com/zululima/setup/commit/6099cf232838c055f0f4e8f409506c57e0b94a99), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > if the slack text is something that will survive a copypaste without
@@ -3450,7 +3458,7 @@ skill?)
 
 ## Keep link text and company forms to shared Slack channels
 
-2026-10-27, commit [c0df483](https://github.com/zululima/dotclaude/commit/c0df483acb284b846c1859962a7252d67a63f727), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [c0df483](https://github.com/zululima/setup/commit/c0df483acb284b846c1859962a7252d67a63f727), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > [an ask about the draft's content left out] dont use oy in non ext
@@ -3461,7 +3469,7 @@ skill?)
 
 ## Point the clone addresses at zululima
 
-2026-10-27, commit [6cda127](https://github.com/zululima/dotclaude/commit/6cda127a097ca74f9be0bbbf5505a5a52be18200), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [6cda127](https://github.com/zululima/setup/commit/6cda127a097ca74f9be0bbbf5505a5a52be18200), model claude-opus-5-5, effort xhigh.
 
 **8.** (answer to whether the rename and the account are done)
 > i renamed to zululima, made the lambdakilo account, created
@@ -3470,7 +3478,7 @@ skill?)
 
 ## Flag a first prompt that does not fit its folder
 
-2026-10-27, commit [235714b](https://github.com/zululima/dotclaude/commit/235714bd84eaa8bac5f637c725479d9c31680918), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [235714b](https://github.com/zululima/setup/commit/235714bd84eaa8bac5f637c725479d9c31680918), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > yeah leave it but in the future are you able to de-folder it in the
@@ -3482,7 +3490,7 @@ skill?)
 
 ## Say what This computer in the sidebar is
 
-2026-10-27, commit [b538f71](https://github.com/zululima/dotclaude/commit/b538f71a7a4041eae8623d9b239c64b085d353cd), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [b538f71](https://github.com/zululima/setup/commit/b538f71a7a4041eae8623d9b239c64b085d353cd), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > can you move this from [a project] to this computer
@@ -3502,27 +3510,27 @@ skill?)
 
 ## Have the dream project audit send hand setup to docs
 
-2026-10-27, commit [35517c5](https://github.com/zululima/dotclaude/commit/35517c5c93afcf120511f80b6e44fb40cd12fe06), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [35517c5](https://github.com/zululima/setup/commit/35517c5c93afcf120511f80b6e44fb40cd12fe06), model claude-opus-5-5, effort xhigh.
 
 **2.** (answer to whether to fix the dream prompt)
 > yes fix the dream prompt that still says setup goes in the readme
 
 ## Keep the README's newcomer prompt clear of the copy button
 
-2026-10-27, commit [9884fae](https://github.com/zululima/dotclaude/commit/9884fae323812d14d05b916d18b610b45ae6e295), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [9884fae](https://github.com/zululima/setup/commit/9884fae323812d14d05b916d18b610b45ae6e295), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d265fb0](https://github.com/zululima/dotclaude/commit/d265fb0b4a78ca9943f3dbee8578e5eea06ffbb6).
+**1.** Quoted under [d265fb0](https://github.com/zululima/setup/commit/d265fb0b4a78ca9943f3dbee8578e5eea06ffbb6).
 
 ## Fit the README on one screen, the rest in docs
 
-2026-10-27, commit [d265fb0](https://github.com/zululima/dotclaude/commit/d265fb0b4a78ca9943f3dbee8578e5eea06ffbb6), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [d265fb0](https://github.com/zululima/setup/commit/d265fb0b4a78ca9943f3dbee8578e5eea06ffbb6), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dotclaude compact the readme to a screenful like my other repos
 
 ## Say that only the closing message is read
 
-2026-10-27, commit [12080eb](https://github.com/zululima/dotclaude/commit/12080ebdb95bfce5e94421ca22c52d78f4c49dfe), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [12080eb](https://github.com/zululima/setup/commit/12080ebdb95bfce5e94421ca22c52d78f4c49dfe), model claude-opus-5-5, effort xhigh.
 
 **9.** (with a screenshot of the end of a reply)
 > [an answer about a downstream project left out] btw im never reading
@@ -3531,7 +3539,7 @@ skill?)
 
 ## Keep each task's files in one Downloads folder
 
-2026-10-27, commit [1b5b94d](https://github.com/zululima/dotclaude/commit/1b5b94d6d8c4c78799b9cec2c7b5c7bb670452fc), model claude-opus-5-5, effort xhigh.
+2026-10-27, commit [1b5b94d](https://github.com/zululima/setup/commit/1b5b94d6d8c4c78799b9cec2c7b5c7bb670452fc), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a study programme left out]
@@ -3588,7 +3596,7 @@ skill?)
 
 ## Name a draft's Slack thread in words, without a link
 
-2026-10-26, commit [5c5695d](https://github.com/zululima/dotclaude/commit/5c5695d8772c27a1b817c475257635e37a844faa), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [5c5695d](https://github.com/zululima/setup/commit/5c5695d8772c27a1b817c475257635e37a844faa), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to draft a Slack reply for a downstream project left out]
@@ -3608,7 +3616,7 @@ skill?)
 
 ## Never draft GitHub comments for the user to post
 
-2026-10-26, commit [b2b6cae](https://github.com/zululima/dotclaude/commit/b2b6cae1e53a701a5008783745ee68f4a64f03dc), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [b2b6cae](https://github.com/zululima/setup/commit/b2b6cae1e53a701a5008783745ee68f4a64f03dc), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a downstream project's issue comment left out]
@@ -3618,7 +3626,7 @@ skill?)
 
 ## Keep client material out of shared memory notes
 
-2026-10-26, commit [8665fe4](https://github.com/zululima/dotclaude/commit/8665fe42c92806036bd54aa3a87163e31d9435cf), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [8665fe4](https://github.com/zululima/setup/commit/8665fe42c92806036bd54aa3a87163e31d9435cf), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a client contract left out]
@@ -3635,7 +3643,7 @@ skill?)
 
 ## Keep rendering in the browser pane, not the Chrome app
 
-2026-10-26, commit [edc5916](https://github.com/zululima/dotclaude/commit/edc591678b5a6503f4822066761190370746ef2c), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [edc5916](https://github.com/zululima/setup/commit/edc591678b5a6503f4822066761190370746ef2c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > who opened my google chrome and why?
@@ -3648,7 +3656,7 @@ skill?)
 
 ## Number review steps across the page and show section headings
 
-2026-10-26, commit [1505c80](https://github.com/zululima/dotclaude/commit/1505c80e722654394be0bba6687e7ead623b5dc5), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [1505c80](https://github.com/zululima/setup/commit/1505c80e722654394be0bba6687e7ead623b5dc5), model claude-opus-5-5, effort xhigh.
 
 **26.**
 > moving from step 3 to step 4 which is btw not correct it says step 1
@@ -3656,7 +3664,7 @@ skill?)
 
 ## Keep the review page's focused step alone on the screen
 
-2026-10-26, commit [d915bc3](https://github.com/zululima/dotclaude/commit/d915bc331c47e200abaaa39d68247524eb1c45e9), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [d915bc3](https://github.com/zululima/setup/commit/d915bc331c47e200abaaa39d68247524eb1c45e9), model claude-opus-5-5, effort xhigh.
 
 **25.** (with a screenshot of the review page)
 > hmmm i can see the next step too a bit. is there some css trick that
@@ -3664,7 +3672,7 @@ skill?)
 
 ## Hide what sits above the review page's focused step
 
-2026-10-26, commit [27c6125](https://github.com/zululima/dotclaude/commit/27c6125669d8c04a17c1861cebce001035ac5875), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [27c6125](https://github.com/zululima/setup/commit/27c6125669d8c04a17c1861cebce001035ac5875), model claude-opus-5-5, effort xhigh.
 
 **24.** (with a screenshot of the review page)
 > its not completely top theres still some leftover from last step in
@@ -3672,21 +3680,21 @@ skill?)
 
 ## Move the review page on to the next step when x ticks one
 
-2026-10-26, commit [9f72aad](https://github.com/zululima/dotclaude/commit/9f72aad621b0f714e7ebfdbeef10527d469db1a8), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [9f72aad](https://github.com/zululima/setup/commit/9f72aad621b0f714e7ebfdbeef10527d469db1a8), model claude-opus-5-5, effort xhigh.
 
 **23.**
 > pressing x should move on to next step
 
 ## Scroll the review page's next step to the top of the window
 
-2026-10-26, commit [fec4f8f](https://github.com/zululima/dotclaude/commit/fec4f8f914518a8a40d61b7d8a9d6618d2100c23), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [fec4f8f](https://github.com/zululima/setup/commit/fec4f8f914518a8a40d61b7d8a9d6618d2100c23), model claude-opus-5-5, effort xhigh.
 
 **22.**
 > oof when going to next step put it to the top since im using a laptop
 
 ## Drop the review rail and open the page on its first step
 
-2026-10-26, commit [3a61517](https://github.com/zululima/dotclaude/commit/3a6151769ccfaefde800a99c576d0c912ff677d0), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [3a61517](https://github.com/zululima/setup/commit/3a6151769ccfaefde800a99c576d0c912ff677d0), model claude-opus-5-5, effort xhigh.
 
 **21.**
 > the n next open is gay. also
@@ -3703,7 +3711,7 @@ skill?)
 
 ## Centre the review steps and leave fixed findings off the page
 
-2026-10-26, commit [f4b9b3c](https://github.com/zululima/dotclaude/commit/f4b9b3cdd7073fd6a4d0158dd8670f3687649b4a), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [f4b9b3c](https://github.com/zululima/setup/commit/f4b9b3cdd7073fd6a4d0158dd8670f3687649b4a), model claude-opus-5-5, effort xhigh.
 
 **20.** (with a screenshot of the review page)
 > its still not centered. you can move the left side bar a lot to left
@@ -3716,7 +3724,7 @@ skill?)
 
 ## Put review findings first and show keys on the current step
 
-2026-10-26, commit [cb18719](https://github.com/zululima/dotclaude/commit/cb18719cae6c7370a4837c40d42dc3f39c4db731), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [cb18719](https://github.com/zululima/setup/commit/cb18719cae6c7370a4837c40d42dc3f39c4db731), model claude-opus-5-5, effort xhigh.
 
 **19.**
 > ok so. i want the current step centered. no need for the big ass
@@ -3734,7 +3742,7 @@ skill?)
 
 ## Show the gm alias and the restart in the start of day section
 
-2026-10-26, commit [4bfacaa](https://github.com/zululima/dotclaude/commit/4bfacaa8b7e615bbd36c4698b234ced04f0d99c4), model claude-opus-5-5, effort xhigh.
+2026-10-26, commit [4bfacaa](https://github.com/zululima/setup/commit/4bfacaa8b7e615bbd36c4698b234ced04f0d99c4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > can you alias s to gm instead the bin sod that is, you can actually
@@ -3753,7 +3761,7 @@ skill?)
 
 ## Give a README's newcomer a prompt that clones the repository
 
-2026-10-25, commit [7073814](https://github.com/zululima/dotclaude/commit/70738149a8fd6fec4165a04803b2df8e2b40a906), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [7073814](https://github.com/zululima/setup/commit/70738149a8fd6fec4165a04803b2df8e2b40a906), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [pasted: a README sentence on what Claude Code reads]
@@ -3769,14 +3777,14 @@ skill?)
 
 ## Mask a Linux home path in printed prompts too
 
-2026-10-25, commit [139bc5e](https://github.com/zululima/dotclaude/commit/139bc5ee412fbe26dafeaefc3a738ef6f7ab1bfb), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [139bc5e](https://github.com/zululima/setup/commit/139bc5ee412fbe26dafeaefc3a738ef6f7ab1bfb), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer to whether to fix the masking too)
 > also fix prompt-log.sh so it masks /home paths, here
 
 ## Keep the same abbreviation case in PROMPTS.md on Linux and macOS
 
-2026-10-25, commit [3f8f767](https://github.com/zululima/dotclaude/commit/3f8f7678ea4dc817423aaa569bb38adc5680b4ec), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [3f8f767](https://github.com/zululima/setup/commit/3f8f7678ea4dc817423aaa569bb38adc5680b4ec), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about model sizes left out] also fetch my whole ass
@@ -3787,7 +3795,7 @@ skill?)
 
 ## Leave the VPN switch to the user, then say it can go back on
 
-2026-10-25, commit [590df15](https://github.com/zululima/dotclaude/commit/590df1559b9bc73cbde8878c4314e93fbd235d56), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [590df15](https://github.com/zululima/setup/commit/590df1559b9bc73cbde8878c4314e93fbd235d56), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > do you remember to still pause and tell me if my proton vpn is the
@@ -3796,7 +3804,7 @@ skill?)
 
 ## Keep asking an open question until it is answered
 
-2026-10-25, commit [7425554](https://github.com/zululima/dotclaude/commit/7425554fa5ce938ffeff2c0d0f9604f428a9502a), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [7425554](https://github.com/zululima/setup/commit/7425554fa5ce938ffeff2c0d0f9604f428a9502a), model claude-opus-5-5, effort xhigh.
 
 **38.**
 > [a question about an IDE sign-in left out]
@@ -3810,7 +3818,7 @@ skill?)
 
 ## Fit the whole README on one screen, setup in docs
 
-2026-10-25, commit [6a0a0da](https://github.com/zululima/dotclaude/commit/6a0a0daad6e45634f36036453e25420846b5e7fa), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [6a0a0da](https://github.com/zululima/setup/commit/6a0a0daad6e45634f36036453e25420846b5e7fa), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > readme is not short rn. make it so that the readmovfile link shows
@@ -3823,7 +3831,7 @@ skill?)
 
 ## Count simulator processes in the crash rule
 
-2026-10-25, commit [05a61d8](https://github.com/zululima/dotclaude/commit/05a61d87c40c7ea6ceadde2906b5ae298e52e608), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [05a61d8](https://github.com/zululima/setup/commit/05a61d87c40c7ea6ceadde2906b5ae298e52e608), model claude-opus-5-5, effort xhigh.
 
 **36.**
 > [an ask about an app's log left out]
@@ -3833,7 +3841,7 @@ skill?)
 
 ## Leave settings the user turned on as they are
 
-2026-10-25, commit [4ad0136](https://github.com/zululima/dotclaude/commit/4ad0136cf90a5313919e9333c9fd2f0bd8ccdae1), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [4ad0136](https://github.com/zululima/setup/commit/4ad0136cf90a5313919e9333c9fd2f0bd8ccdae1), model claude-opus-5-5, effort xhigh.
 
 **31.**
 > [a question about a store review left out]
@@ -3856,7 +3864,7 @@ skill?)
 
 ## Ping the user when the browser pane cannot be shown
 
-2026-10-25, commit [e9533e7](https://github.com/zululima/dotclaude/commit/e9533e7dfb37105c260b8c821617be2c5ab9e18a), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [e9533e7](https://github.com/zululima/setup/commit/e9533e7dfb37105c260b8c821617be2c5ab9e18a), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > my guy. if you need something from me from the pane in the future
@@ -3865,7 +3873,7 @@ skill?)
 
 ## Show tokens and dollars only in the final dream report
 
-2026-10-25, commit [5aa28d3](https://github.com/zululima/dotclaude/commit/5aa28d3877a55ae1f6933256bec28443d5c5ddb4), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [5aa28d3](https://github.com/zululima/setup/commit/5aa28d3877a55ae1f6933256bec28443d5c5ddb4), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > remove dollars and token amounts from taskbar but keep them in the
@@ -3876,7 +3884,7 @@ skill?)
 
 ## Close the browser pane and simulators when done
 
-2026-10-25, commit [ae13644](https://github.com/zululima/dotclaude/commit/ae13644dbd93edced0ad9da1a21a80e0a7c6349c), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [ae13644](https://github.com/zululima/setup/commit/ae13644dbd93edced0ad9da1a21a80e0a7c6349c), model claude-opus-5-5, effort xhigh.
 
 **30.**
 > can you close the browser and simulation windows when theyre done
@@ -3884,7 +3892,7 @@ skill?)
 
 ## Ask before relaunching an app that crashed
 
-2026-10-25, commit [ad4d6ba](https://github.com/zululima/dotclaude/commit/ad4d6ba042abb7c2918b0d6bc994206377bbcde1), model claude-opus-5-5, effort xhigh.
+2026-10-25, commit [ad4d6ba](https://github.com/zululima/setup/commit/ad4d6ba042abb7c2918b0d6bc994206377bbcde1), model claude-opus-5-5, effort xhigh.
 
 **24.**
 > [a feature request for an app left out]
@@ -3906,7 +3914,7 @@ skill?)
 
 ## Check a service's claims against its docs before repeating them
 
-2026-10-24, commit [938ef43](https://github.com/zululima/dotclaude/commit/938ef43c98dcd7ae1d37b659a7b1b4228aac5e19), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [938ef43](https://github.com/zululima/setup/commit/938ef43c98dcd7ae1d37b659a7b1b4228aac5e19), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [questions doubting the service's privacy and data residency claims
@@ -3918,7 +3926,7 @@ skill?)
 
 ## Read a setup's own docs before naming what it cannot do
 
-2026-10-24, commit [ed9a4e7](https://github.com/zululima/dotclaude/commit/ed9a4e7d6275021d2446c082671c09348be507df), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [ed9a4e7](https://github.com/zululima/setup/commit/ed9a4e7d6275021d2446c082671c09348be507df), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a hosted agent service left out]
@@ -3936,23 +3944,23 @@ skill?)
 
 ## Refuse git identity overrides with a hook
 
-2026-10-24, commit [7bed059](https://github.com/zululima/dotclaude/commit/7bed05993d53078e591c23b004996f8383fec34e), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [7bed059](https://github.com/zululima/setup/commit/7bed05993d53078e591c23b004996f8383fec34e), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
-**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d).
+**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d).
 
 ## Block a commit only for CLAUDE.md changes that bear on it
 
-2026-10-24, commit [b1b0ad5](https://github.com/zululima/dotclaude/commit/b1b0ad5d73d17834044b1c6c1a5f4a04d1d01ee6), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [b1b0ad5](https://github.com/zululima/setup/commit/b1b0ad5d73d17834044b1c6c1a5f4a04d1d01ee6), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
-**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d).
+**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d).
 
 ## Open the dream reply with weekly points a run left unspent
 
-2026-10-24, commit [d048675](https://github.com/zululima/dotclaude/commit/d048675fb86c8d56b1c716e9d9c5d21c3b172d51), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [d048675](https://github.com/zululima/setup/commit/d048675fb86c8d56b1c716e9d9c5d21c3b172d51), model claude-opus-5-5, effort xhigh.
 
 **3.** (asking why the weekly usage stood at 67% near the reset)
 > holdup what the weekly usage is reseting soon but i see only 67
@@ -3964,15 +3972,15 @@ skill?)
 
 ## Let the CLAUDE.md watcher replace the manual re-read
 
-2026-10-24, commit [16dae55](https://github.com/zululima/dotclaude/commit/16dae55afce06277bef33e20793001213c40d5fd), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [16dae55](https://github.com/zululima/setup/commit/16dae55afce06277bef33e20793001213c40d5fd), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
-**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d).
+**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d).
 
 ## Hand the dream review to a new session when the user is away
 
-2026-10-24, commit [fbb41ac](https://github.com/zululima/dotclaude/commit/fbb41acd298799383fa6778a6e989b636015d8ec), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [fbb41ac](https://github.com/zululima/setup/commit/fbb41acd298799383fa6778a6e989b636015d8ec), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream
@@ -3980,26 +3988,26 @@ skill?)
 (Add p9, hand the dream review to a new session?)
 > Add it (Recommended)
 
-**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d).
+**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d).
 
 ## Run dream agents without the always-loaded CLAUDE.md
 
-2026-10-24, commit [5ea9c06](https://github.com/zululima/dotclaude/commit/5ea9c069ef12a2dd325223d294139fb94449f2bb), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [5ea9c06](https://github.com/zululima/setup/commit/5ea9c069ef12a2dd325223d294139fb94449f2bb), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
-**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d).
+**2.** (asking why a dream step was put to the user) Quoted under [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d).
 
 ## Ask in a dream review only about private details, not shared repos
 
-2026-10-24, commit [12dd424](https://github.com/zululima/dotclaude/commit/12dd424b38f38135fb83d65d11214707f462d44d), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [12dd424](https://github.com/zululima/setup/commit/12dd424b38f38135fb83d65d11214707f462d44d), model claude-opus-5-5, effort xhigh.
 
 **2.** (asking why a dream step was put to the user)
 > wait why you ask it was not shady nor behavior
 
 ## Make sync.sh --commit take only the paths a session names
 
-2026-10-24, commit [3acfa5c](https://github.com/zululima/dotclaude/commit/3acfa5c996984fd40384cf675abefce06155bbf9), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [3acfa5c](https://github.com/zululima/setup/commit/3acfa5c996984fd40384cf675abefce06155bbf9), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream
@@ -4009,92 +4017,92 @@ skill?)
 
 ## Hold back a commit that drops an abbreviation expanded before
 
-2026-10-24, commit [b6a04c3](https://github.com/zululima/dotclaude/commit/b6a04c38813fdb0a7b4c5d52abe5becb7f9b6eb9), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [b6a04c3](https://github.com/zululima/setup/commit/b6a04c38813fdb0a7b4c5d52abe5becb7f9b6eb9), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Hold back a commit that leaves PROMPTS.md unrebuilt
 
-2026-10-24, commit [f7193a3](https://github.com/zululima/dotclaude/commit/f7193a395713d980d78f860afad8e7fca2bce7d0), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f7193a3](https://github.com/zululima/setup/commit/f7193a395713d980d78f860afad8e7fca2bce7d0), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Leave notices and the compaction note out of prompt-log.sh print
 
-2026-10-24, commit [0fb383a](https://github.com/zululima/dotclaude/commit/0fb383a6ef030d07da44f41134bada3d98896ac8), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [0fb383a](https://github.com/zululima/setup/commit/0fb383a6ef030d07da44f41134bada3d98896ac8), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Refuse a grep -a whose pattern opens with a counted window
 
-2026-10-24, commit [a4494ba](https://github.com/zululima/dotclaude/commit/a4494baac2f468e38bd4f133e14a0954cfc365b3), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [a4494ba](https://github.com/zululima/setup/commit/a4494baac2f468e38bd4f133e14a0954cfc365b3), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Look through the session history before making up an example
 
-2026-10-24, commit [bc7da4d](https://github.com/zululima/dotclaude/commit/bc7da4dcde1018caef7de15c25f87563062e041a), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [bc7da4d](https://github.com/zululima/setup/commit/bc7da4dcde1018caef7de15c25f87563062e041a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Count an edit chained with sync.sh as the session's own
 
-2026-10-24, commit [1e5097f](https://github.com/zululima/dotclaude/commit/1e5097f05d8c98ced634d33c92f9c191d060d3d4), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [1e5097f](https://github.com/zululima/setup/commit/1e5097f05d8c98ced634d33c92f9c191d060d3d4), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Add reflow.sh to rewrap the paragraphs an edit touched
 
-2026-10-24, commit [2baa204](https://github.com/zululima/dotclaude/commit/2baa204dd1a0b5459ccbc696b52cb0b4b229a4f1), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [2baa204](https://github.com/zululima/setup/commit/2baa204dd1a0b5459ccbc696b52cb0b4b229a4f1), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Name the presence folder among the mirrored parts
 
-2026-10-24, commit [f144ac4](https://github.com/zululima/dotclaude/commit/f144ac470cb2d1ea60a2ba4ec4dd467a158bdb47), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f144ac4](https://github.com/zululima/setup/commit/f144ac470cb2d1ea60a2ba4ec4dd467a158bdb47), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Match an unanchored correction to what just changed first
 
-2026-10-24, commit [ee853ef](https://github.com/zululima/dotclaude/commit/ee853ef47cf0a2fa9549cd96a1c50bb000636764), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [ee853ef](https://github.com/zululima/setup/commit/ee853ef47cf0a2fa9549cd96a1c50bb000636764), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Split a long command with line continuations in the command rule
 
-2026-10-24, commit [bc7e15a](https://github.com/zululima/dotclaude/commit/bc7e15a43df585bd0525b738bbd8ca05b3880ae9), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [bc7e15a](https://github.com/zululima/setup/commit/bc7e15a43df585bd0525b738bbd8ca05b3880ae9), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Check every page made for the user at 1440x730
 
-2026-10-24, commit [3e67088](https://github.com/zululima/dotclaude/commit/3e67088569e6a98b97d8290ca30f7092b7ed4133), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [3e67088](https://github.com/zululima/setup/commit/3e67088569e6a98b97d8290ca30f7092b7ed4133), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Own a tool's mistake in Prompt feedback and keep a bare run bare
 
-2026-10-24, commit [1cb91bc](https://github.com/zululima/dotclaude/commit/1cb91bc1281371a8c1b893ecf1be80a3db4e9197), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [1cb91bc](https://github.com/zululima/setup/commit/1cb91bc1281371a8c1b893ecf1be80a3db4e9197), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Check a PR against what reviewers corrected on recent PRs
 
-2026-10-24, commit [34ec29d](https://github.com/zululima/dotclaude/commit/34ec29d25ffa17fb0c1e7f24e86c3ca6bd9c9a9b), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [34ec29d](https://github.com/zululima/setup/commit/34ec29d25ffa17fb0c1e7f24e86c3ca6bd9c9a9b), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd).
+**1.** Quoted under [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd).
 
 ## Refresh the README evals block after the 2026-10-24 dream run
 
-2026-10-24, commit [d509ffb](https://github.com/zululima/dotclaude/commit/d509ffba63465b54dae1031f35aa4020500768fd), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [d509ffb](https://github.com/zululima/setup/commit/d509ffba63465b54dae1031f35aa4020500768fd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream
 
 ## Keep one open draft PR per repository
 
-2026-10-24, commit [cbd7e8e](https://github.com/zululima/dotclaude/commit/cbd7e8e2971316319b575f3d10ee4ebb66511562), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [cbd7e8e](https://github.com/zululima/setup/commit/cbd7e8e2971316319b575f3d10ee4ebb66511562), model claude-opus-5-5, effort xhigh.
 
 **18.**
 > theres still two pr drafts on my end open on [a project's] frontend
@@ -4102,7 +4110,7 @@ skill?)
 
 ## Leave a person's own entry in a shared document to them
 
-2026-10-24, commit [3cab280](https://github.com/zululima/dotclaude/commit/3cab280dbd201a4e522f62b3a97b92755d4f7bb2), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [3cab280](https://github.com/zululima/setup/commit/3cab280dbd201a4e522f62b3a97b92755d4f7bb2), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > Do this task here: "Carry two new wiki edits into the intra handbook"
@@ -4115,14 +4123,14 @@ expense app paragraph, land in the handbook repository?)
 
 ## Keep a change to a shared file in the PR in play, with no offer
 
-2026-10-24, commit [3036182](https://github.com/zululima/dotclaude/commit/3036182b0420854a7eb6c875138ae0814958174a), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [3036182](https://github.com/zululima/setup/commit/3036182b0420854a7eb6c875138ae0814958174a), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > bro what. just incorporate always the things to the same pr
 
 ## Keep the review page's PR, progress and review in a side column
 
-2026-10-24, commit [c4bd0fe](https://github.com/zululima/dotclaude/commit/c4bd0fe8a44cb4644ca4102356dd1661212e0cd4), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [c4bd0fe](https://github.com/zululima/setup/commit/c4bd0fe8a44cb4644ca4102356dd1661212e0cd4), model claude-opus-5-5, effort xhigh.
 
 **16.**
 > bruh now its hidden in more. also the header takes a lot of screen
@@ -4131,13 +4139,13 @@ expense app paragraph, land in the handbook repository?)
 
 ## Refresh the README evals block after the 2026-10-23 dream review
 
-2026-10-24, commit [4bef872](https://github.com/zululima/dotclaude/commit/4bef8724aee77a16ba346427a667173ab558f782), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [4bef872](https://github.com/zululima/setup/commit/4bef8724aee77a16ba346427a667173ab558f782), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Start the review page at no step, fold the review, link addresses
 
-2026-10-24, commit [7f326bb](https://github.com/zululima/dotclaude/commit/7f326bbeb020e22e14b3d63537cb4b49f348d9fc), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [7f326bb](https://github.com/zululima/setup/commit/7f326bbeb020e22e14b3d63537cb4b49f348d9fc), model claude-opus-5-5, effort xhigh.
 
 **15.**
 > [a screenshot of the review page open in a browser]
@@ -4147,25 +4155,25 @@ expense app paragraph, land in the handbook repository?)
 
 ## Number any steps the reader takes in order
 
-2026-10-24, commit [40bb88c](https://github.com/zululima/dotclaude/commit/40bb88cd941bed5861ce7275183e2c83f76ee25e), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [40bb88c](https://github.com/zululima/setup/commit/40bb88cd941bed5861ce7275183e2c83f76ee25e), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Give the commit-msg hook install step in the README
 
-2026-10-24, commit [c6d5bb8](https://github.com/zululima/dotclaude/commit/c6d5bb80220c88e3a8f4e459fae6edc31e2ff811), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [c6d5bb8](https://github.com/zululima/setup/commit/c6d5bb80220c88e3a8f4e459fae6edc31e2ff811), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Point a new machine at the README's Install section
 
-2026-10-24, commit [1d2e084](https://github.com/zululima/dotclaude/commit/1d2e084b586a283014bddec4f1accddd479650db), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [1d2e084](https://github.com/zululima/setup/commit/1d2e084b586a283014bddec4f1accddd479650db), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Ask in a dream review only about security, privacy or a new habit
 
-2026-10-24, commit [60f3bf1](https://github.com/zululima/dotclaude/commit/60f3bf1e3f2ebc11cf96571936dde3ed936dcc94), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [60f3bf1](https://github.com/zululima/setup/commit/60f3bf1e3f2ebc11cf96571936dde3ed936dcc94), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > ok these are pretty esoteric. in the future just ask me a input if
@@ -4174,7 +4182,7 @@ expense app paragraph, land in the handbook repository?)
 
 ## Hold the fenced-command rule to Markdown a person reads
 
-2026-10-24, commit [d1a5e8a](https://github.com/zululima/dotclaude/commit/d1a5e8ab24dd717dd9a2fce83a0f0be0ade12fb9), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [d1a5e8a](https://github.com/zululima/setup/commit/d1a5e8ab24dd717dd9a2fce83a0f0be0ade12fb9), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4185,7 +4193,7 @@ it?)
 
 ## Keep only what a session does about the stack hooks in CLAUDE.md
 
-2026-10-24, commit [871f637](https://github.com/zululima/dotclaude/commit/871f6372f656ea691b8ff4f1bf80f39b797f2ef5), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [871f637](https://github.com/zululima/setup/commit/871f6372f656ea691b8ff4f1bf80f39b797f2ef5), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4196,7 +4204,7 @@ entry for each new hook, add it?)
 
 ## Keep a PR's review page as a local file with a link
 
-2026-10-24, commit [3d4cb0f](https://github.com/zululima/dotclaude/commit/3d4cb0fddbabe13c6ed4890950e3ba22c5d8727d), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [3d4cb0f](https://github.com/zululima/setup/commit/3d4cb0fddbabe13c6ed4890950e3ba22c5d8727d), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > nah bro no artifacts create a local html in appropriate place and
@@ -4204,7 +4212,7 @@ entry for each new hook, add it?)
 
 ## Move the dotclaude mirroring mechanics into a dotclaude skill
 
-2026-10-24, commit [6d60275](https://github.com/zululima/dotclaude/commit/6d6027541fb4ee250085683eb4729f0a2e111f2a), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [6d60275](https://github.com/zululima/setup/commit/6d6027541fb4ee250085683eb4729f0a2e111f2a), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4215,7 +4223,7 @@ skill, add it?)
 
 ## Compact sessions at 400k tokens instead of about 967k
 
-2026-10-24, commit [1d9861a](https://github.com/zululima/dotclaude/commit/1d9861ac524118136a5005307a0db1f67269fe70), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [1d9861a](https://github.com/zululima/setup/commit/1d9861ac524118136a5005307a0db1f67269fe70), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4225,7 +4233,7 @@ skill, add it?)
 
 ## Commit the fixes a check on the user's own PR recommends
 
-2026-10-24, commit [49d562d](https://github.com/zululima/dotclaude/commit/49d562dceb1192275bf84a44bcd72658f6cd56b4), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [49d562d](https://github.com/zululima/setup/commit/49d562dceb1192275bf84a44bcd72658f6cd56b4), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4236,7 +4244,7 @@ it to dotclaude?)
 
 ## Show each dream review question's place among the questions
 
-2026-10-24, commit [c163935](https://github.com/zululima/dotclaude/commit/c163935d777b193c676cf149cb929894d41cff4f), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [c163935](https://github.com/zululima/setup/commit/c163935d777b193c676cf149cb929894d41cff4f), model claude-opus-5-5, effort xhigh.
 
 **8.**
 > oof can you add a p12 out of something so ican see how manyproposals
@@ -4244,7 +4252,7 @@ it to dotclaude?)
 
 ## Say that the Bash tool runs zsh, and which pitfalls remain
 
-2026-10-24, commit [a984b3e](https://github.com/zululima/dotclaude/commit/a984b3e4cd94fa83c05c16194ecb2f53f397d6a7), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [a984b3e](https://github.com/zululima/setup/commit/a984b3e4cd94fa83c05c16194ecb2f53f397d6a7), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4255,7 +4263,7 @@ bullet on zsh, add it?)
 
 ## Put a PR review's steps on a review page
 
-2026-10-24, commit [a74e0d8](https://github.com/zululima/dotclaude/commit/a74e0d872d4ecaecfa79ef61ad24d140e0c91c83), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [a74e0d8](https://github.com/zululima/setup/commit/a74e0d872d4ecaecfa79ef61ad24d140e0c91c83), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > lets start doing a new way to review prs. theres a mismatch between
@@ -4266,7 +4274,7 @@ bullet on zsh, add it?)
 
 ## Have sync.sh parse scripts, require README entries and cap widths
 
-2026-10-24, commit [81f40fa](https://github.com/zululima/dotclaude/commit/81f40fa82e1328cc309c036e7dc6a66903ce541c), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [81f40fa](https://github.com/zululima/setup/commit/81f40fa82e1328cc309c036e7dc6a66903ce541c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4277,7 +4285,7 @@ and cap prose at 100 columns, add it?)
 
 ## Deny seven tools no session has ever called
 
-2026-10-24, commit [d72016d](https://github.com/zululima/dotclaude/commit/d72016dcd7626a059c3fc7b270d149a271043588), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [d72016d](https://github.com/zululima/setup/commit/d72016dcd7626a059c3fc7b270d149a271043588), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4288,19 +4296,19 @@ dotclaude?)
 
 ## Keep the history example in dream's review text generic
 
-2026-10-24, commit [4fccd4e](https://github.com/zululima/dotclaude/commit/4fccd4ec21e2e9d39d066002f9ad6faaeef691c0), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [4fccd4e](https://github.com/zululima/setup/commit/4fccd4ec21e2e9d39d066002f9ad6faaeef691c0), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [01f7bfc](https://github.com/zululima/dotclaude/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2).
+**4.** Quoted under [01f7bfc](https://github.com/zululima/setup/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2).
 
 ## Name real examples from history when explaining a dream step
 
-2026-10-24, commit [7c27206](https://github.com/zululima/dotclaude/commit/7c272065817f2303fb71628f90fa0b6490c6ec25), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [7c27206](https://github.com/zululima/setup/commit/7c272065817f2303fb71628f90fa0b6490c6ec25), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [01f7bfc](https://github.com/zululima/dotclaude/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2).
+**4.** Quoted under [01f7bfc](https://github.com/zululima/setup/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2).
 
 ## Say when remote deployment tooling may run
 
-2026-10-24, commit [01f7bfc](https://github.com/zululima/dotclaude/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [01f7bfc](https://github.com/zululima/setup/commit/01f7bfc02b23fae2ff12f3e609ad6749798f54c2), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4312,19 +4320,19 @@ allows only an asked-for action and target, add it to dotclaude?)
 
 ## Add the explain-first sentence that debda14 left out
 
-2026-10-24, commit [f709146](https://github.com/zululima/dotclaude/commit/f709146dd30677c61a060c2ce9a9456b702bbfca), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f709146](https://github.com/zululima/setup/commit/f709146dd30677c61a060c2ce9a9456b702bbfca), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [a18fc01](https://github.com/zululima/dotclaude/commit/a18fc01ec8b103a749af569818613bff38936b30).
+**4.** Quoted under [a18fc01](https://github.com/zululima/setup/commit/a18fc01ec8b103a749af569818613bff38936b30).
 
 ## Explain each dream step from the beginning before asking about it
 
-2026-10-24, commit [debda14](https://github.com/zululima/dotclaude/commit/debda14d57573acdcdfe49e782b1e9f3f2feed23), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [debda14](https://github.com/zululima/setup/commit/debda14d57573acdcdfe49e782b1e9f3f2feed23), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [a18fc01](https://github.com/zululima/dotclaude/commit/a18fc01ec8b103a749af569818613bff38936b30).
+**4.** Quoted under [a18fc01](https://github.com/zululima/setup/commit/a18fc01ec8b103a749af569818613bff38936b30).
 
 ## Write the closing reply after the next-step box, check it on Stop
 
-2026-10-24, commit [a18fc01](https://github.com/zululima/dotclaude/commit/a18fc01ec8b103a749af569818613bff38936b30), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [a18fc01](https://github.com/zululima/setup/commit/a18fc01ec8b103a749af569818613bff38936b30), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
@@ -4338,7 +4346,7 @@ Stop, add it to dotclaude?)
 
 ## Record the list of changes under the PR summary sentence
 
-2026-10-24, commit [f76c0d0](https://github.com/zululima/dotclaude/commit/f76c0d01c8e131eec76efbc2256db67ccac3a31e), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f76c0d0](https://github.com/zululima/setup/commit/f76c0d01c8e131eec76efbc2256db67ccac3a31e), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > whats the current "prompt" that writes my pr descriptions currently.
@@ -4353,115 +4361,115 @@ Stop, add it to dotclaude?)
 
 ## Name the Claude Code binary in dream's ground rules
 
-2026-10-24, commit [0b234e8](https://github.com/zululima/dotclaude/commit/0b234e8a0dc1a5dac0189c32aa3f4f1912e350d3), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [0b234e8](https://github.com/zululima/setup/commit/0b234e8a0dc1a5dac0189c32aa3f4f1912e350d3), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## List the carried unchecked proposals in the backlog note
 
-2026-10-24, commit [e2fdbc4](https://github.com/zululima/dotclaude/commit/e2fdbc44ed24dcf1d1471e5cb132a78aca4ab70f), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [e2fdbc4](https://github.com/zululima/setup/commit/e2fdbc44ed24dcf1d1471e5cb132a78aca4ab70f), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Have the reviewing session carry out a no-script step
 
-2026-10-24, commit [9786c64](https://github.com/zululima/dotclaude/commit/9786c64045e50ecc2d50cbd67054d9de0e794ccb), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [9786c64](https://github.com/zululima/setup/commit/9786c64045e50ecc2d50cbd67054d9de0e794ccb), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Give the dream readers the closed backlog too
 
-2026-10-24, commit [9f9a104](https://github.com/zululima/dotclaude/commit/9f9a1047a3df95c0c7f1dea4830bf4160610d902), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [9f9a104](https://github.com/zululima/setup/commit/9f9a1047a3df95c0c7f1dea4830bf4160610d902), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Have one dream agent read the window's Prompt feedback
 
-2026-10-24, commit [9175bcf](https://github.com/zululima/dotclaude/commit/9175bcf15a4c01073db9e6647c87eb7e1523e8c2), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [9175bcf](https://github.com/zululima/setup/commit/9175bcf15a4c01073db9e6647c87eb7e1523e8c2), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Read a forked transcript only from its fork point
 
-2026-10-24, commit [cf41759](https://github.com/zululima/dotclaude/commit/cf41759313c5e7e544426f47c9005d2d429cc992), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [cf41759](https://github.com/zululima/setup/commit/cf41759313c5e7e544426f47c9005d2d429cc992), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Stop the CLAUDE.md watcher matching git commit-tree
 
-2026-10-24, commit [83f998c](https://github.com/zululima/dotclaude/commit/83f998c35034653e482569158c9a2a4aa5ddc21e), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [83f998c](https://github.com/zululima/setup/commit/83f998c35034653e482569158c9a2a4aa5ddc21e), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Point a failed Slack user search at the shared channels
 
-2026-10-24, commit [87e7c9e](https://github.com/zululima/dotclaude/commit/87e7c9e3b592e7d4fc479192c82e6eac03707660), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [87e7c9e](https://github.com/zululima/setup/commit/87e7c9e3b592e7d4fc479192c82e6eac03707660), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Tell a session when its permission mode changed
 
-2026-10-24, commit [4bf2aaf](https://github.com/zululima/dotclaude/commit/4bf2aafc59866124030b754d5a87c70f2ef750ae), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [4bf2aaf](https://github.com/zululima/setup/commit/4bf2aafc59866124030b754d5a87c70f2ef750ae), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Refuse foreground wait loops on a background job
 
-2026-10-24, commit [78f55fa](https://github.com/zululima/dotclaude/commit/78f55fae828fac88116f992bf4f61d4c14072c52), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [78f55fa](https://github.com/zululima/setup/commit/78f55fae828fac88116f992bf4f61d4c14072c52), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Send back a give-up reply that never tried the browser pane
 
-2026-10-24, commit [d3d65e8](https://github.com/zululima/dotclaude/commit/d3d65e8d8bf491ffce3907b9a2d71972fd3cf097), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [d3d65e8](https://github.com/zululima/setup/commit/d3d65e8d8bf491ffce3907b9a2d71972fd3cf097), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Name a removal's target as a literal path
 
-2026-10-24, commit [f5a83f9](https://github.com/zululima/dotclaude/commit/f5a83f910243889186f44db6a2686c533755dda2), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f5a83f9](https://github.com/zululima/setup/commit/f5a83f910243889186f44db6a2686c533755dda2), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Keep Prompt feedback from blaming the prompt for a misread
 
-2026-10-24, commit [8240afe](https://github.com/zululima/dotclaude/commit/8240afe189583aeeeb21b8f00a397af4bdf7255d), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [8240afe](https://github.com/zululima/setup/commit/8240afe189583aeeeb21b8f00a397af4bdf7255d), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Hand over prompts that run in order as one prompt
 
-2026-10-24, commit [fbb71b8](https://github.com/zululima/dotclaude/commit/fbb71b8e830590abbd0fabf7cc52c45c8a392b28), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [fbb71b8](https://github.com/zululima/setup/commit/fbb71b8e830590abbd0fabf7cc52c45c8a392b28), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Write out in the reply whatever the user is to read
 
-2026-10-24, commit [47bc411](https://github.com/zululima/dotclaude/commit/47bc4113202c4f4e5a2c3780900e03c1ff6603e6), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [47bc411](https://github.com/zululima/setup/commit/47bc4113202c4f4e5a2c3780900e03c1ff6603e6), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Say when a repo-wide change rides on the feature PR
 
-2026-10-24, commit [856554b](https://github.com/zululima/dotclaude/commit/856554b2aa2d84c2487de05079c20c533683a08a), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [856554b](https://github.com/zululima/setup/commit/856554b2aa2d84c2487de05079c20c533683a08a), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Explain a term a session coined, or use plain words
 
-2026-10-24, commit [f74e173](https://github.com/zululima/dotclaude/commit/f74e1734809297adff9891052dbc78c22ba5392b), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [f74e173](https://github.com/zululima/setup/commit/f74e1734809297adff9891052dbc78c22ba5392b), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Let a session's own CLAUDE.md edit through the watcher
 
-2026-10-24, commit [7ca211e](https://github.com/zululima/dotclaude/commit/7ca211ed1c7f6be6b69fd3eb5e62fae58ee5a33d), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [7ca211e](https://github.com/zululima/setup/commit/7ca211ed1c7f6be6b69fd3eb5e62fae58ee5a33d), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Ask before working around a failure the VPN could cause
 
-2026-10-24, commit [fb0545a](https://github.com/zululima/dotclaude/commit/fb0545aee388530e010236923cd5045f12aa2e8b), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [fb0545a](https://github.com/zululima/setup/commit/fb0545aee388530e010236923cd5045f12aa2e8b), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > dotclaude always tell me and do the ask dialogue if you have a hunch
@@ -4469,44 +4477,44 @@ Stop, add it to dotclaude?)
 
 ## Fit glance pages on one screen, and watch the skill too
 
-2026-10-24, commit [1c85586](https://github.com/zululima/dotclaude/commit/1c85586789d0cd3fbdab9716fa1a054f7a5e862c), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [1c85586](https://github.com/zululima/setup/commit/1c85586789d0cd3fbdab9716fa1a054f7a5e862c), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Open the memory note an index line names before its step
 
-2026-10-24, commit [25fa6f5](https://github.com/zululima/dotclaude/commit/25fa6f5e7aceda7489fdf4f6a3d3dbbc29b7aa62), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [25fa6f5](https://github.com/zululima/setup/commit/25fa6f5e7aceda7489fdf4f6a3d3dbbc29b7aa62), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Read each earlier workflow run from its journal first
 
-2026-10-24, commit [9b94b7b](https://github.com/zululima/dotclaude/commit/9b94b7bba599565e4e5150b087698906d665098b), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [9b94b7b](https://github.com/zululima/setup/commit/9b94b7bba599565e4e5150b087698906d665098b), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Commit each dream step alone during a review
 
-2026-10-24, commit [8d80617](https://github.com/zululima/dotclaude/commit/8d8061791877680499fc532f3ef14ca088513c8f), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [8d80617](https://github.com/zululima/setup/commit/8d8061791877680499fc532f3ef14ca088513c8f), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
+**4.** Quoted under [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81).
 
 ## Have a tool built for the user run bare and pick its own mode
 
-2026-10-24, commit [eee020a](https://github.com/zululima/dotclaude/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [eee020a](https://github.com/zululima/setup/commit/eee020afd844b6bcfff03d3e6a8e953d4248ea81), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > dream review
 
 ## Refresh the README evals block after the 2026-10-23 dream run
 
-2026-10-24, commit [9e3cc9e](https://github.com/zululima/dotclaude/commit/9e3cc9eccbe42942172fb05b4969e890653ae595), model claude-opus-5-5, effort xhigh.
+2026-10-24, commit [9e3cc9e](https://github.com/zululima/setup/commit/9e3cc9eccbe42942172fb05b4969e890653ae595), model claude-opus-5-5, effort xhigh.
 
-**3.** Quoted under [5c100c9](https://github.com/zululima/dotclaude/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
+**3.** Quoted under [5c100c9](https://github.com/zululima/setup/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
 
 ## Quote AskUserQuestion answers as pairs, nothing nested
 
-2026-10-23, commit [fb29876](https://github.com/zululima/dotclaude/commit/fb2987626a91ed8018cbdb481f5174d8c5e2cf45), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [fb29876](https://github.com/zululima/setup/commit/fb2987626a91ed8018cbdb481f5174d8c5e2cf45), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: the prompts section of 5c100c9, with the questions and
@@ -4519,15 +4527,15 @@ Stop, add it to dotclaude?)
 
 ## Apply clean dream steps without asking, and ask about the rest
 
-2026-10-23, commit [32a32d7](https://github.com/zululima/dotclaude/commit/32a32d79367f28b1fa5f9543e024fc67071074a9), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [32a32d7](https://github.com/zululima/setup/commit/32a32d79367f28b1fa5f9543e024fc67071074a9), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [5c100c9](https://github.com/zululima/dotclaude/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
+**2.** Quoted under [5c100c9](https://github.com/zululima/setup/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
 
-**3.** Quoted under [5c100c9](https://github.com/zululima/dotclaude/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
+**3.** Quoted under [5c100c9](https://github.com/zululima/setup/commit/5c100c9f6ee285bed1c25c439b448b801d739871).
 
 ## Apply 27 steps of the 2026-10-17 dream report in a review
 
-2026-10-23, commit [5c100c9](https://github.com/zululima/dotclaude/commit/5c100c9f6ee285bed1c25c439b448b801d739871), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [5c100c9](https://github.com/zululima/setup/commit/5c100c9f6ee285bed1c25c439b448b801d739871), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review
@@ -4566,14 +4574,14 @@ Stop, add it to dotclaude?)
 
 ## Repeat the text to paste in every reply, clipboard or not
 
-2026-10-23, commit [8e1a04e](https://github.com/zululima/dotclaude/commit/8e1a04ed1b112b3578c7fedb7f121da1252af518), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [8e1a04e](https://github.com/zululima/setup/commit/8e1a04ed1b112b3578c7fedb7f121da1252af518), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > what? you gave me nothing to copy
 
 ## Read a screenshot to its edges before blaming the prompt
 
-2026-10-23, commit [9a5644c](https://github.com/zululima/dotclaude/commit/9a5644ce53e4e18266e6c33a9e9efa33992f1da3), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [9a5644c](https://github.com/zululima/setup/commit/9a5644ce53e4e18266e6c33a9e9efa33992f1da3), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to rewrite a note left out]
@@ -4586,7 +4594,7 @@ Stop, add it to dotclaude?)
 
 ## Put every Slack draft on the clipboard, never in the reply
 
-2026-10-23, commit [038b327](https://github.com/zululima/dotclaude/commit/038b327a8105f77b990512a7b7d110f1597fc666), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [038b327](https://github.com/zululima/setup/commit/038b327a8105f77b990512a7b7d110f1597fc666), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a Slack draft for work left out]
@@ -4606,7 +4614,7 @@ Stop, add it to dotclaude?)
 
 ## Give only the copy command for clipboard Slack drafts
 
-2026-10-23, commit [ddc0bb5](https://github.com/zululima/dotclaude/commit/ddc0bb58ea40c37b83f643e7a4b081243976e725), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [ddc0bb5](https://github.com/zululima/setup/commit/ddc0bb58ea40c37b83f643e7a4b081243976e725), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > [a shell command the user ran left out]
@@ -4617,12 +4625,12 @@ Stop, add it to dotclaude?)
 
 ## Link Slack draft evidence inline and format code as code
 
-2026-10-23, commit [b17576c](https://github.com/zululima/dotclaude/commit/b17576c9fe8cefef50c2b00e3b8a7078c6493379), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [b17576c](https://github.com/zululima/setup/commit/b17576c9fe8cefef50c2b00e3b8a7078c6493379), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > [a shell command the user ran left out]
 
-**6.** Quoted under [b64c518](https://github.com/zululima/dotclaude/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
+**6.** Quoted under [b64c518](https://github.com/zululima/setup/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8).
 
 **7.**
 > [a correction about a downstream project's channel left out]
@@ -4638,11 +4646,11 @@ Stop, add it to dotclaude?)
 
 ## Ask before a command opens a window on the screen
 
-2026-10-23, commit [40bd746](https://github.com/zululima/dotclaude/commit/40bd746b2185eb22f7e409513215b601c602f2c2), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [40bd746](https://github.com/zululima/setup/commit/40bd746b2185eb22f7e409513215b601c602f2c2), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
-**2.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**2.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **3.**
 > [a question about opening a downstream project's file left out]
@@ -4653,14 +4661,14 @@ Stop, add it to dotclaude?)
 
 ## Move How I work into the README
 
-2026-10-23, commit [f38a703](https://github.com/zululima/dotclaude/commit/f38a70342d5b5264d7c3f9537f331bc9774469e0), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [f38a703](https://github.com/zululima/setup/commit/f38a70342d5b5264d7c3f9537f331bc9774469e0), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > maybe it should be on readme instead
 
 ## Read earlier draft prompts before drafting a message
 
-2026-10-23, commit [a2cad92](https://github.com/zululima/dotclaude/commit/a2cad921a128a0fc8ace18cf59ad88b8ccbfad0c), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [a2cad92](https://github.com/zululima/setup/commit/a2cad921a128a0fc8ace18cf59ad88b8ccbfad0c), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a research ask about a university course left out]
@@ -4678,7 +4686,7 @@ Stop, add it to dotclaude?)
 
 ## Add how-i-work.md on the daily and weekend routine
 
-2026-10-23, commit [3a5aff5](https://github.com/zululima/dotclaude/commit/3a5aff5b15da295da3a042b9e246674ebd8efc70), model claude-opus-5-5, effort xhigh.
+2026-10-23, commit [3a5aff5](https://github.com/zululima/setup/commit/3a5aff5b15da295da3a042b9e246674ebd8efc70), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dotclaude i should add a how i work .md file there as well that
@@ -4691,7 +4699,7 @@ Stop, add it to dotclaude?)
 
 ## Test every hook, count rule slips, publish evals in README
 
-2026-10-22, commit [539cb34](https://github.com/zululima/dotclaude/commit/539cb3408ca4e175dfea07d389184b45aad0d922), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [539cb34](https://github.com/zululima/setup/commit/539cb3408ca4e175dfea07d389184b45aad0d922), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > is it even possible to do any evals on dotclaude?
@@ -4713,7 +4721,7 @@ Stop, add it to dotclaude?)
 
 ## Let dream propose what derived projects take over from upstreams
 
-2026-10-22, commit [6a5818e](https://github.com/zululima/dotclaude/commit/6a5818ed25b795bbfafb16ab7098100631cd1689), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [6a5818e](https://github.com/zululima/setup/commit/6a5818ed25b795bbfafb16ab7098100631cd1689), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dreaming should also include [a shared AI library], [a CLI] and
@@ -4722,7 +4730,7 @@ Stop, add it to dotclaude?)
 
 ## Allow short company names in internal Slack, drop the Finnish joo
 
-2026-10-22, commit [95ed02e](https://github.com/zululima/dotclaude/commit/95ed02e97d9d28866372e2fdec469aeb0a8447bb), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [95ed02e](https://github.com/zululima/setup/commit/95ed02e97d9d28866372e2fdec469aeb0a8447bb), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > kirjakieli also only in [a downstream channel]
@@ -4736,12 +4744,12 @@ Stop, add it to dotclaude?)
 
 ## Keep Slack drafts off the clipboard unless memory names the channel
 
-2026-10-22, commit [55fb3db](https://github.com/zululima/dotclaude/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [55fb3db](https://github.com/zululima/setup/commit/55fb3db3aa4bd4b4fcdc78fce09856ca5904538e), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [an ask about a downstream project left out]
 
-**4.** Quoted under [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
+**4.** Quoted under [8f63649](https://github.com/zululima/setup/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
 
 **5.**
 > [an ask about a downstream project left out]
@@ -4754,9 +4762,9 @@ Stop, add it to dotclaude?)
 
 ## Answer in the format the asking message set
 
-2026-10-22, commit [ffd6ec3](https://github.com/zululima/dotclaude/commit/ffd6ec328ad6bfc9ab712551cb344966fa831e8a), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [ffd6ec3](https://github.com/zululima/setup/commit/ffd6ec328ad6bfc9ab712551cb344966fa831e8a), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.**
 > what. in future i wanna see the same format as asked in your replies:
@@ -4767,7 +4775,7 @@ Stop, add it to dotclaude?)
 
 ## Repeat every pending step in every reply, complete on its own
 
-2026-10-22, commit [83f4ebf](https://github.com/zululima/dotclaude/commit/83f4ebf4511ef77760f01ed40826355a4215876e), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [83f4ebf](https://github.com/zululima/setup/commit/83f4ebf4511ef77760f01ed40826355a4215876e), model claude-opus-5-5, effort xhigh.
 
 **29.**
 > again with the things being in other replies. dotclaude fix. next
@@ -4776,9 +4784,9 @@ Stop, add it to dotclaude?)
 
 ## Keep Slack draft HTML in ~/.claude/drafts, not Downloads
 
-2026-10-22, commit [9e28119](https://github.com/zululima/dotclaude/commit/9e281190bd04863f9e03568ac9380cd52e3759a0), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [9e28119](https://github.com/zululima/setup/commit/9e281190bd04863f9e03568ac9380cd52e3759a0), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.**
 > [a question about a draft for a downstream project left out]
@@ -4790,7 +4798,7 @@ Stop, add it to dotclaude?)
 
 ## Say in the README why this setup is public
 
-2026-10-22, commit [3ebb7db](https://github.com/zululima/dotclaude/commit/3ebb7dbeb9b5a3e71e5e798e51aaca143030c6a2), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [3ebb7db](https://github.com/zululima/setup/commit/3ebb7dbeb9b5a3e71e5e798e51aaca143030c6a2), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > make the description oneliner. also topics only oneliner. use builtin
@@ -4801,7 +4809,7 @@ Stop, add it to dotclaude?)
 
 ## Rename the session after each prompt in the desktop app
 
-2026-10-22, commit [db33bc4](https://github.com/zululima/dotclaude/commit/db33bc436ccb01850f94bae26c06626c3ab6d8fc), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [db33bc4](https://github.com/zululima/setup/commit/db33bc436ccb01850f94bae26c06626c3ab6d8fc), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > can claude code still not rename sessions here?
@@ -4823,7 +4831,7 @@ Stop, add it to dotclaude?)
 
 ## Drop the one-off push rule
 
-2026-10-22, commit [8b750ae](https://github.com/zululima/dotclaude/commit/8b750ae1f27b17c8c4f8e4e60c92801dc10e8bfe), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [8b750ae](https://github.com/zululima/setup/commit/8b750ae1f27b17c8c4f8e4e60c92801dc10e8bfe), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > what is that dead weight rule? also explain that new session
@@ -4834,7 +4842,7 @@ Stop, add it to dotclaude?)
 
 ## Point two hooks at ~/Projects instead of the ~/src symlink
 
-2026-10-22, commit [d7e83e0](https://github.com/zululima/dotclaude/commit/d7e83e0a4c3361e7cb5820e643a07f6b744288e1), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [d7e83e0](https://github.com/zululima/setup/commit/d7e83e0a4c3361e7cb5820e643a07f6b744288e1), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > can you remove src even though its just symlink and removing it
@@ -4846,7 +4854,7 @@ Stop, add it to dotclaude?)
 
 ## Allow the push and the sync that a session was refused
 
-2026-10-22, commit [cfdf0b3](https://github.com/zululima/dotclaude/commit/cfdf0b363038c44590f9a9b216a68bfb546d853f), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [cfdf0b3](https://github.com/zululima/setup/commit/cfdf0b363038c44590f9a9b216a68bfb546d853f), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > [an ask to push a downstream project's work straight to its default
@@ -4863,7 +4871,7 @@ Stop, add it to dotclaude?)
 
 ## Rewrite the README for readers who do not read code
 
-2026-10-22, commit [8c0bcdc](https://github.com/zululima/dotclaude/commit/8c0bcdcc69461f268bc0e8e4e0ba5f52601047b6), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [8c0bcdc](https://github.com/zululima/setup/commit/8c0bcdcc69461f268bc0e8e4e0ba5f52601047b6), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > could we get human readable readme in dotclaude? its very long, too
@@ -4875,7 +4883,7 @@ Stop, add it to dotclaude?)
 
 ## List the open PRs pinned to an older commit after a push
 
-2026-10-22, commit [bfc2d36](https://github.com/zululima/dotclaude/commit/bfc2d36bd8763d439cb4c5ecadbc065f023523d6), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [bfc2d36](https://github.com/zululima/setup/commit/bfc2d36bd8763d439cb4c5ecadbc065f023523d6), model claude-opus-5-5, effort xhigh.
 
 **2.** (answering whether sync.sh should list the PRs pinned to an older commit)
 > yes, make sync.sh --commit list my open prs that carry the dotclaude
@@ -4883,7 +4891,7 @@ Stop, add it to dotclaude?)
 
 ## Check the open PRs after every push to the checkout
 
-2026-10-22, commit [4f8fc53](https://github.com/zululima/dotclaude/commit/4f8fc53dd365a951b298fffbebd8215a6f220e1f), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [4f8fc53](https://github.com/zululima/setup/commit/4f8fc53dd365a951b298fffbebd8215a6f220e1f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dotclaude when i make edits to dotclaude remember to check all my
@@ -4892,14 +4900,14 @@ Stop, add it to dotclaude?)
 
 ## Keep commit dates when the memory hook rebases
 
-2026-10-22, commit [92d1e9c](https://github.com/zululima/dotclaude/commit/92d1e9cca82f90820c86f05fdebc4991fdc43403), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [92d1e9c](https://github.com/zululima/setup/commit/92d1e9cca82f90820c86f05fdebc4991fdc43403), model claude-opus-5-5, effort xhigh.
 
 **3.** (answer: the user ran Claude's sed edit of the hook, which auto    mode had refused to make)
 > ran
 
 ## Rebase each mirror onto its remote instead of a fast-forward pull
 
-2026-10-22, commit [0b9780d](https://github.com/zululima/dotclaude/commit/0b9780df3061cae8484ac7b1abab6589d8439cff), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [0b9780d](https://github.com/zululima/setup/commit/0b9780df3061cae8484ac7b1abab6589d8439cff), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a fast-forward error in another repository left out]
@@ -4910,7 +4918,7 @@ Stop, add it to dotclaude?)
 
 ## Keep commit dates on every rebase
 
-2026-10-22, commit [49b8a20](https://github.com/zululima/dotclaude/commit/49b8a20d84480fcbd8f8f7e1aed02d8fb072f864), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [49b8a20](https://github.com/zululima/setup/commit/49b8a20d84480fcbd8f8f7e1aed02d8fb072f864), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > when i rebase something i force push as in rewrite history does git
@@ -4924,7 +4932,7 @@ Stop, add it to dotclaude?)
 
 ## Put every Slack draft on the clipboard with a re-copy command
 
-2026-10-22, commit [16d04eb](https://github.com/zululima/dotclaude/commit/16d04eb97b95fe9cac79be33499eac9425774b33), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [16d04eb](https://github.com/zululima/setup/commit/16d04eb97b95fe9cac79be33499eac9425774b33), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a work task left out]
@@ -4935,7 +4943,7 @@ Stop, add it to dotclaude?)
 
 ## docs: say what a status figure was counted from
 
-2026-10-22, commit [7102d15](https://github.com/zululima/dotclaude/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [7102d15](https://github.com/zululima/setup/commit/7102d15a5941c6938129c0f6d75e0b971a2730f5), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a question about a downstream project left out]
@@ -4943,7 +4951,7 @@ Stop, add it to dotclaude?)
 **2.**
 > [a question about a downstream project left out]
 
-**3.** Quoted under [c558028](https://github.com/zululima/dotclaude/commit/c5580280d88009eaee4bebd8703b6ba173c54888).
+**3.** Quoted under [c558028](https://github.com/zululima/setup/commit/c5580280d88009eaee4bebd8703b6ba173c54888).
 
 **4.**
 > [a question about a downstream project left out]
@@ -4956,7 +4964,7 @@ Stop, add it to dotclaude?)
 
 ## Write the user's steps in the order they are done
 
-2026-10-22, commit [df95b19](https://github.com/zululima/dotclaude/commit/df95b19a6d0f61124ba7cd48de1ea2d90595c88d), model claude-opus-5-5, effort xhigh.
+2026-10-22, commit [df95b19](https://github.com/zululima/setup/commit/df95b19a6d0f61124ba7cd48de1ea2d90595c88d), model claude-opus-5-5, effort xhigh.
 
 **28.**
 > dotclaude you instructions were in wrong order. you first told me to
@@ -4965,15 +4973,15 @@ Stop, add it to dotclaude?)
 
 ## Add the library source to dream.js itself
 
-2026-10-21, commit [a174303](https://github.com/zululima/dotclaude/commit/a17430310606a36b7a63f2c5dd18a6d2f21ca2ac), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [a174303](https://github.com/zululima/setup/commit/a17430310606a36b7a63f2c5dd18a6d2f21ca2ac), model claude-opus-5-5, effort xhigh.
 
-**20.** Quoted under [1538093](https://github.com/zululima/dotclaude/commit/15380931d79035caefc4095a2014ef66a6d44baa).
+**20.** Quoted under [1538093](https://github.com/zululima/setup/commit/15380931d79035caefc4095a2014ef66a6d44baa).
 
-**23.** Quoted under [1538093](https://github.com/zululima/dotclaude/commit/15380931d79035caefc4095a2014ef66a6d44baa).
+**23.** Quoted under [1538093](https://github.com/zululima/setup/commit/15380931d79035caefc4095a2014ef66a6d44baa).
 
 ## Review the shared memory repository in dream runs
 
-2026-10-21, commit [1538093](https://github.com/zululima/dotclaude/commit/15380931d79035caefc4095a2014ef66a6d44baa), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [1538093](https://github.com/zululima/setup/commit/15380931d79035caefc4095a2014ef66a6d44baa), model claude-opus-5-5, effort xhigh.
 
 **20.**
 > also can you make dreaming also analyze the [shared repository] in
@@ -4986,7 +4994,7 @@ Stop, add it to dotclaude?)
 
 ## Let a session place handed-over facts and rules itself
 
-2026-10-21, commit [0a5b6b1](https://github.com/zululima/dotclaude/commit/0a5b6b152c4e3d6649bb69b66d35d40a842fb5fe), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [0a5b6b1](https://github.com/zululima/setup/commit/0a5b6b152c4e3d6649bb69b66d35d40a842fb5fe), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > put these to the appropriate context (when i say in future context
@@ -5001,13 +5009,13 @@ Stop, add it to dotclaude?)
 
 ## Read share: no in any form and key memory to the session's folder
 
-2026-10-21, commit [05ac304](https://github.com/zululima/dotclaude/commit/05ac30415d015f365b2d6a53e2b10cdc14b8246f), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [05ac304](https://github.com/zululima/setup/commit/05ac30415d015f365b2d6a53e2b10cdc14b8246f), model claude-opus-5-5, effort xhigh.
 
-**15.** Quoted under [9294539](https://github.com/zululima/dotclaude/commit/9294539af47dbf80e3af9902a9897278ef108103).
+**15.** Quoted under [9294539](https://github.com/zululima/setup/commit/9294539af47dbf80e3af9902a9897278ef108103).
 
 ## Share project memory with colleagues through a hook
 
-2026-10-21, commit [9294539](https://github.com/zululima/dotclaude/commit/9294539af47dbf80e3af9902a9897278ef108103), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [9294539](https://github.com/zululima/setup/commit/9294539af47dbf80e3af9902a9897278ef108103), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > can i just poke a hole in the automode so it can exfil info to
@@ -5040,7 +5048,7 @@ Stop, add it to dotclaude?)
 
 ## Add a slack-draft skill that copies drafts as rich text
 
-2026-10-21, commit [b64c518](https://github.com/zululima/dotclaude/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [b64c518](https://github.com/zululima/setup/commit/b64c518cc4b49d4b4a4d1b20421f0bf705799cc8), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [an ask about a downstream project left out]
@@ -5065,14 +5073,14 @@ Stop, add it to dotclaude?)
 
 ## Read every source before drafting a message for the user
 
-2026-10-21, commit [c558028](https://github.com/zululima/dotclaude/commit/c5580280d88009eaee4bebd8703b6ba173c54888), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [c558028](https://github.com/zululima/setup/commit/c5580280d88009eaee4bebd8703b6ba173c54888), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**2.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **3.**
 > [a question about a downstream project left out]
 
-**4.** Quoted under [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
+**4.** Quoted under [8f63649](https://github.com/zululima/setup/commit/8f6364920b100a9d53dedb44ef924140fa0c665c).
 
 **5.**
 > did you check the [a deployed test environment], [a legacy app] and
@@ -5080,7 +5088,7 @@ Stop, add it to dotclaude?)
 
 ## Never send a Slack message on the user's behalf
 
-2026-10-21, commit [319428f](https://github.com/zululima/dotclaude/commit/319428f1d0c5e3bc7bb5c4ff4ff319ea23d6f35b), model claude-opus-5-5, effort xhigh.
+2026-10-21, commit [319428f](https://github.com/zululima/setup/commit/319428f1d0c5e3bc7bb5c4ff4ff319ea23d6f35b), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about a downstream project's chat thread left out] never
@@ -5088,7 +5096,7 @@ Stop, add it to dotclaude?)
 
 ## Refuse whole-disk and home-wide searches with a PreToolUse hook
 
-2026-10-20, commit [daa423d](https://github.com/zululima/dotclaude/commit/daa423d3bc90296211719dc02544c286c6ca0fce), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [daa423d](https://github.com/zululima/setup/commit/daa423d3bc90296211719dc02544c286c6ca0fce), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > your example was not clear and concrete enough
@@ -5098,7 +5106,7 @@ Stop, add it to dotclaude?)
 
 ## Keep a dotclaude ask whole in Prompt feedback
 
-2026-10-20, commit [99a557c](https://github.com/zululima/dotclaude/commit/99a557c7430a116984f37c74a9555211c1cd0a73), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [99a557c](https://github.com/zululima/setup/commit/99a557c7430a116984f37c74a9555211c1cd0a73), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > your example was not clear and concrete enough
@@ -5108,14 +5116,14 @@ Stop, add it to dotclaude?)
 
 ## Show a dream review example as the exchange itself, before and after
 
-2026-10-20, commit [3450279](https://github.com/zululima/dotclaude/commit/34502791a229031fda2ef48906a8ab5713864e18), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [3450279](https://github.com/zululima/setup/commit/34502791a229031fda2ef48906a8ab5713864e18), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > your example was not clear and concrete enough
 
 ## Run the dream workflow's agents as dream-worker, with only their tools
 
-2026-10-20, commit [3216b16](https://github.com/zululima/dotclaude/commit/3216b16e7c0f92d2ea07760b726a4a2547702657), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [3216b16](https://github.com/zululima/setup/commit/3216b16e7c0f92d2ea07760b726a4a2547702657), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > give an example of p12 then ask again from me
@@ -5125,21 +5133,21 @@ Stop, add it to dotclaude?)
 
 ## Show the draft in the question that asks to confirm it
 
-2026-10-20, commit [992d9b7](https://github.com/zululima/dotclaude/commit/992d9b7d0667c88e6f1f8399b12be89d1327f3a4), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [992d9b7](https://github.com/zululima/setup/commit/992d9b7d0667c88e6f1f8399b12be89d1327f3a4), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > you didnt tell me the issue names. fix in the future and now
 
 ## Show each dream review step's example above its question
 
-2026-10-20, commit [7684d53](https://github.com/zululima/dotclaude/commit/7684d5371b26f2a44d092475dd6e9cc9d16b9f83), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [7684d53](https://github.com/zululima/setup/commit/7684d5371b26f2a44d092475dd6e9cc9d16b9f83), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > give an example of p12 then ask again from me
 
 ## Keep dots out of file names but before the extension
 
-2026-10-20, commit [bf29ab3](https://github.com/zululima/dotclaude/commit/bf29ab3ccf3d38b24a22453fd02b8e07c079e59a), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [bf29ab3](https://github.com/zululima/setup/commit/bf29ab3ccf3d38b24a22453fd02b8e07c079e59a), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > also dont say dot in the filename if not necessary for example 20-oct
@@ -5147,7 +5155,7 @@ Stop, add it to dotclaude?)
 
 ## Name dream review steps by p-number, and label a made-up example
 
-2026-10-20, commit [d1a6ed5](https://github.com/zululima/dotclaude/commit/d1a6ed5724089591f1799f98d7a04bc798294373), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [d1a6ed5](https://github.com/zululima/setup/commit/d1a6ed5724089591f1799f98d7a04bc798294373), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > what does w mean here? also if you dont have any examples stored
@@ -5155,7 +5163,7 @@ Stop, add it to dotclaude?)
 
 ## Name one session's moment, not a total, as a dream preview example
 
-2026-10-20, commit [7c32637](https://github.com/zululima/dotclaude/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [7c32637](https://github.com/zululima/setup/commit/7c326372af1a572a63446ffdce3c5328eb96e6cd), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dream review
@@ -5166,14 +5174,14 @@ Stop, add it to dotclaude?)
 
 ## Name files with dashes, never underscores
 
-2026-10-20, commit [bf06b4e](https://github.com/zululima/dotclaude/commit/bf06b4e55eeb8614500cd3458d3e68a19672e7ca), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [bf06b4e](https://github.com/zululima/setup/commit/bf06b4e55eeb8614500cd3458d3e68a19672e7ca), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > also never use underscores in the filenames you can use dashes -
 
 ## Pin the PR body's dotclaude link to the commit of its last edit
 
-2026-10-20, commit [c0a94a8](https://github.com/zululima/dotclaude/commit/c0a94a8b001eb36e602c8153c3f9b244f8ba617f), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [c0a94a8](https://github.com/zululima/setup/commit/c0a94a8b001eb36e602c8153c3f9b244f8ba617f), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dotclaude maybe add in my prs instead of link to my dotclaude add
@@ -5181,7 +5189,7 @@ Stop, add it to dotclaude?)
 
 ## Mark a warm and a cold cache with fire and ice in the usage line
 
-2026-10-20, commit [6fe58fc](https://github.com/zululima/dotclaude/commit/6fe58fc92ee0470ef33142da6cf38d66572df2eb), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [6fe58fc](https://github.com/zululima/setup/commit/6fe58fc92ee0470ef33142da6cf38d66572df2eb), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > restart the session so i see it
@@ -5192,7 +5200,7 @@ Stop, add it to dotclaude?)
 
 ## Name the session-usage mod usage for a shorter status label
 
-2026-10-20, commit [34e7c44](https://github.com/zululima/dotclaude/commit/34e7c4469e6517285cb9f70beb36fe21ac80bd5e), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [34e7c44](https://github.com/zululima/setup/commit/34e7c4469e6517285cb9f70beb36fe21ac80bd5e), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > is the text session-usage necessary in statusline?
@@ -5201,7 +5209,7 @@ Stop, add it to dotclaude?)
 
 ## Give a review's serious findings a short reproduction
 
-2026-10-20, commit [e619ae3](https://github.com/zululima/dotclaude/commit/e619ae3269a98e035b228708c3ca5b8c8185d53c), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [e619ae3](https://github.com/zululima/setup/commit/e619ae3269a98e035b228708c3ca5b8c8185d53c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > if somethings medium or high (anything not low) give me shortest
@@ -5210,7 +5218,7 @@ Stop, add it to dotclaude?)
 
 ## Put the cache first in a 40-character session-usage line
 
-2026-10-20, commit [363d13f](https://github.com/zululima/dotclaude/commit/363d13fa463330111c2dd592923a2a6113e13ac5), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [363d13f](https://github.com/zululima/setup/commit/363d13fa463330111c2dd592923a2a6113e13ac5), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > [pasted: a screenshot of the status line cut off after the cost]
@@ -5220,7 +5228,7 @@ Stop, add it to dotclaude?)
 
 ## Count the prompt cache down in the session-usage status line
 
-2026-10-20, commit [c27220d](https://github.com/zululima/dotclaude/commit/c27220d053762f91e5955e7c0ce1b8832ed3b34b), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [c27220d](https://github.com/zululima/setup/commit/c27220d053762f91e5955e7c0ce1b8832ed3b34b), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > add to the status line warm cache until num Month then the time
@@ -5230,7 +5238,7 @@ Stop, add it to dotclaude?)
 
 ## Log every response's usage and total a week of all sessions
 
-2026-10-20, commit [53bed44](https://github.com/zululima/dotclaude/commit/53bed4461543a227f344574cad9eb9c40e3aab33), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [53bed44](https://github.com/zululima/setup/commit/53bed4461543a227f344574cad9eb9c40e3aab33), model claude-opus-5-5, effort xhigh.
 
 **16.**
 > dont add p9 and also add co2 and kwh at the end of dreaming. add also
@@ -5243,7 +5251,7 @@ Stop, add it to dotclaude?)
 
 ## Make review steps type what the PR's pictures show
 
-2026-10-20, commit [23969ef](https://github.com/zululima/dotclaude/commit/23969ef2bdc4d713452da2bad71ade1a4eca6130), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [23969ef](https://github.com/zululima/setup/commit/23969ef2bdc4d713452da2bad71ade1a4eca6130), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > [a note that a review step named other test data than the PR's
@@ -5251,14 +5259,14 @@ Stop, add it to dotclaude?)
 
 ## Delete the head branch of every merged PR
 
-2026-10-20, commit [4368f4d](https://github.com/zululima/dotclaude/commit/4368f4d6f0f6d3887899e100ff1d43ac0c5b5764), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [4368f4d](https://github.com/zululima/setup/commit/4368f4d6f0f6d3887899e100ff1d43ac0c5b5764), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > always delete merged branches
 
 ## Allow gh pr ready and gh pr merge
 
-2026-10-20, commit [428a710](https://github.com/zululima/dotclaude/commit/428a710eab1273207444596f67694d050dd1e32e), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [428a710](https://github.com/zululima/setup/commit/428a710eab1273207444596f67694d050dd1e32e), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to merge a pull request in a downstream project left out]
@@ -5268,7 +5276,7 @@ Stop, add it to dotclaude?)
 
 ## Estimate energy and CO2e in the session-usage status line
 
-2026-10-20, commit [648b928](https://github.com/zululima/dotclaude/commit/648b928861137977c38315a06c7c1d9a7557a0e6), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [648b928](https://github.com/zululima/setup/commit/648b928861137977c38315a06c7c1d9a7557a0e6), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > dotclaude add estimates of kilowatthours and co2 grams to the
@@ -5278,7 +5286,7 @@ Stop, add it to dotclaude?)
 
 ## Show the tokens and dollars a dream run spent
 
-2026-10-20, commit [c224c07](https://github.com/zululima/dotclaude/commit/c224c07ab907b4a044e4d86c36adbeea762f8f00), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [c224c07](https://github.com/zululima/setup/commit/c224c07ab907b4a044e4d86c36adbeea762f8f00), model claude-opus-5-5, effort xhigh.
 
 **15.**
 > after dreaming is done does it say how many tokens and usd were
@@ -5286,7 +5294,7 @@ Stop, add it to dotclaude?)
 
 ## Make a review show where each bug it finds can be seen
 
-2026-10-20, commit [9d08ba7](https://github.com/zululima/dotclaude/commit/9d08ba71f1c7a33717509d06ac7aee3391886841), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [9d08ba7](https://github.com/zululima/setup/commit/9d08ba71f1c7a33717509d06ac7aee3391886841), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [a review of a pull request in a downstream project left out]
@@ -5297,20 +5305,20 @@ Stop, add it to dotclaude?)
 
 ## Rewrap the dream entry of the README
 
-2026-10-20, commit [8aca51a](https://github.com/zululima/dotclaude/commit/8aca51a75fe2e0402e802aa5aa1bb9ac730eb7f7), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [8aca51a](https://github.com/zululima/setup/commit/8aca51a75fe2e0402e802aa5aa1bb9ac730eb7f7), model claude-opus-5-5, effort xhigh.
 
-**14.** Quoted under [15d672a](https://github.com/zululima/dotclaude/commit/15d672a63f759a420755dd034ab79c406754f0ca).
+**14.** Quoted under [15d672a](https://github.com/zululima/setup/commit/15d672a63f759a420755dd034ab79c406754f0ca).
 
 ## Let /dream review ask about the open backlog without a run
 
-2026-10-20, commit [15d672a](https://github.com/zululima/dotclaude/commit/15d672a63f759a420755dd034ab79c406754f0ca), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [15d672a](https://github.com/zululima/setup/commit/15d672a63f759a420755dd034ab79c406754f0ca), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > ok but how do i continue working with the previous dream results now?
 
 ## Show each dream proposal's exact change with a before and after
 
-2026-10-20, commit [bef9337](https://github.com/zululima/dotclaude/commit/bef9337832d86bc7b11923b599e14a6e3a6ec8bc), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [bef9337](https://github.com/zululima/setup/commit/bef9337832d86bc7b11923b599e14a6e3a6ec8bc), model claude-opus-5-5, effort xhigh.
 
 **13.**
 > theres a lot of proposals after every dream. let alone after fri and
@@ -5321,7 +5329,7 @@ Stop, add it to dotclaude?)
 
 ## Leave the desktop app's window layout to the user
 
-2026-10-20, commit [1732363](https://github.com/zululima/dotclaude/commit/17323634c20c635a17fe9665f4bb21fec2269443), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [1732363](https://github.com/zululima/setup/commit/17323634c20c635a17fe9665f4bb21fec2269443), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > lets test the usage line
@@ -5331,7 +5339,7 @@ Stop, add it to dotclaude?)
 
 ## Show session usage as a status line, not a notice
 
-2026-10-20, commit [0dbf3f0](https://github.com/zululima/dotclaude/commit/0dbf3f04f897ffc163dd1202f2d95d82c3d6aa77), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [0dbf3f0](https://github.com/zululima/setup/commit/0dbf3f04f897ffc163dd1202f2d95d82c3d6aa77), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [pasted: a screenshot of the usage line in a Claude Code notice]
@@ -5348,13 +5356,13 @@ Stop, add it to dotclaude?)
 
 ## Keep the copy block rule to what the reader copies
 
-2026-10-20, commit [44b93de](https://github.com/zululima/dotclaude/commit/44b93dee9a81e0269249c6ffae774aaa599f985f), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [44b93de](https://github.com/zululima/setup/commit/44b93dee9a81e0269249c6ffae774aaa599f985f), model claude-opus-5-5, effort xhigh.
 
-**19.** Quoted under [49e41eb](https://github.com/zululima/dotclaude/commit/49e41eb3e9df74aede4aba8afb2b97d35a3f99e6).
+**19.** Quoted under [49e41eb](https://github.com/zululima/setup/commit/49e41eb3e9df74aede4aba8afb2b97d35a3f99e6).
 
 ## Put everything the reader copies in a code block
 
-2026-10-20, commit [49e41eb](https://github.com/zululima/dotclaude/commit/49e41eb3e9df74aede4aba8afb2b97d35a3f99e6), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [49e41eb](https://github.com/zululima/setup/commit/49e41eb3e9df74aede4aba8afb2b97d35a3f99e6), model claude-opus-5-5, effort xhigh.
 
 **19.**
 > also when you say copy something put that in a triple backquote
@@ -5365,7 +5373,7 @@ Stop, add it to dotclaude?)
 
 ## Infer the scope of corrections, show usage after each turn
 
-2026-10-20, commit [74a5666](https://github.com/zululima/dotclaude/commit/74a5666afbbee8a2cb63ca6128740e02f68e7980), model claude-opus-5-5, effort xhigh.
+2026-10-20, commit [74a5666](https://github.com/zululima/setup/commit/74a5666afbbee8a2cb63ca6128740e02f68e7980), model claude-opus-5-5, effort xhigh.
 
 **16.**
 > [an ask about a downstream project left out]
@@ -5389,7 +5397,7 @@ Stop, add it to dotclaude?)
 
 ## Give document headings a clear pause in text-to-speech
 
-2026-10-19, commit [e1d30be](https://github.com/zululima/dotclaude/commit/e1d30be3c0c868abcb574f7d879307518da23045), model claude-opus-5-5, effort xhigh.
+2026-10-19, commit [e1d30be](https://github.com/zululima/setup/commit/e1d30be3c0c868abcb574f7d879307518da23045), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask to turn a book into audio left out]
@@ -5407,7 +5415,7 @@ Stop, add it to dotclaude?)
 
 ## Apply the dream's high-impact proposals and ask about each step
 
-2026-10-19, commit [656a92e](https://github.com/zululima/dotclaude/commit/656a92ee75437d2c8161af0b3f81a640aaf7d838), model claude-opus-5-5, effort xhigh.
+2026-10-19, commit [656a92e](https://github.com/zululima/setup/commit/656a92ee75437d2c8161af0b3f81a640aaf7d838), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > its now monday and im looking at the session limit message. any stats
@@ -5425,7 +5433,7 @@ Stop, add it to dotclaude?)
 
 ## Move the checkouts from ~/src to ~/Projects
 
-2026-10-19, commit [6c05d5d](https://github.com/zululima/dotclaude/commit/6c05d5d898c661f0068ca0e29425f7909dfedb50), model claude-opus-5-5, effort xhigh.
+2026-10-19, commit [6c05d5d](https://github.com/zululima/setup/commit/6c05d5d898c661f0068ca0e29425f7909dfedb50), model claude-opus-5-5, effort xhigh.
 
 **14.**
 > [an ask about a downstream project left out]
@@ -5437,7 +5445,7 @@ Stop, add it to dotclaude?)
 
 ## Keep a dream run's results when its last steps run out of usage
 
-2026-10-19, commit [5df2771](https://github.com/zululima/dotclaude/commit/5df27717a4add62c1287b9aff059dae0c4f4d0cf), model claude-opus-5-5, effort xhigh.
+2026-10-19, commit [5df2771](https://github.com/zululima/setup/commit/5df27717a4add62c1287b9aff059dae0c4f4d0cf), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > dream
@@ -5452,23 +5460,23 @@ Stop, add it to dotclaude?)
 
 ## Read the prompts heading that names the model in PROMPTS.md
 
-2026-10-17, commit [4feb84f](https://github.com/zululima/dotclaude/commit/4feb84fb181efea2f8dfa44320b4031c334e54a7), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [4feb84f](https://github.com/zululima/setup/commit/4feb84fb181efea2f8dfa44320b4031c334e54a7), model claude-opus-5-5, effort xhigh.
 
-**3.** Quoted under [ff9d05b](https://github.com/zululima/dotclaude/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
+**3.** Quoted under [ff9d05b](https://github.com/zululima/setup/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
 
-**4.** Quoted under [ff9d05b](https://github.com/zululima/dotclaude/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
+**4.** Quoted under [ff9d05b](https://github.com/zululima/setup/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
 
 ## Stop PROMPTS.md reading a sign-off as an abbreviation
 
-2026-10-17, commit [992ac4c](https://github.com/zululima/dotclaude/commit/992ac4c55455cd76a7244a5f0b60c92009c6bf1d), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [992ac4c](https://github.com/zululima/setup/commit/992ac4c55455cd76a7244a5f0b60c92009c6bf1d), model claude-opus-5-5, effort xhigh.
 
-**3.** Quoted under [ff9d05b](https://github.com/zululima/dotclaude/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
+**3.** Quoted under [ff9d05b](https://github.com/zululima/setup/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
 
-**4.** Quoted under [ff9d05b](https://github.com/zululima/dotclaude/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
+**4.** Quoted under [ff9d05b](https://github.com/zululima/setup/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027).
 
 ## Recover the effort PROMPTS.md dropped from a settings object
 
-2026-10-17, commit [ff9d05b](https://github.com/zululima/dotclaude/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [ff9d05b](https://github.com/zululima/setup/commit/ff9d05b22983b199b532d3f14cb4a0c5e9136027), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > not bad. [a question about which repositories could use a PROMPTS.md
@@ -5480,7 +5488,7 @@ Stop, add it to dotclaude?)
 
 ## Generate PROMPTS.md from the prompts in commit messages
 
-2026-10-17, commit [4f5472e](https://github.com/zululima/dotclaude/commit/4f5472e517e030bb77578bf6c25b5bf3769aa354), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [4f5472e](https://github.com/zululima/setup/commit/4f5472e517e030bb77578bf6c25b5bf3769aa354), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > what sort of file name would be good for for example dotclaude
@@ -5493,7 +5501,7 @@ Stop, add it to dotclaude?)
 
 ## Keep steps the session can take out of the user's hands
 
-2026-10-17, commit [3a679ab](https://github.com/zululima/dotclaude/commit/3a679abd411ef118793c92336dfcefb957134e7b), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [3a679ab](https://github.com/zululima/setup/commit/3a679abd411ef118793c92336dfcefb957134e7b), model claude-opus-5-5, effort xhigh.
 
 **25.**
 > [a note about a project left out] dotclaude if not personal dont tell
@@ -5507,7 +5515,7 @@ Stop, add it to dotclaude?)
 
 ## Cover review fixes in a PR's verify steps and summary
 
-2026-10-17, commit [64b0e44](https://github.com/zululima/dotclaude/commit/64b0e44fc5a0a6972a67b9bb883bbe23081fb5f2), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [64b0e44](https://github.com/zululima/setup/commit/64b0e44fc5a0a6972a67b9bb883bbe23081fb5f2), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > [an ask about a downstream project left out]
@@ -5521,7 +5529,7 @@ Stop, add it to dotclaude?)
 
 ## Leave the steps after a long run for the reply that follows it
 
-2026-10-17, commit [7171229](https://github.com/zululima/dotclaude/commit/7171229501dc940c4c928028312b9244334d692d), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [7171229](https://github.com/zululima/setup/commit/7171229501dc940c4c928028312b9244334d692d), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > dotclaude dont give me those instructions 2 and 3 since theyll anyway
@@ -5535,7 +5543,7 @@ Stop, add it to dotclaude?)
 
 ## End a dream run with a usage check and the steps to take
 
-2026-10-17, commit [cdcd62e](https://github.com/zululima/dotclaude/commit/cdcd62e2ce4de06b5f7115431717089fce1d7618), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [cdcd62e](https://github.com/zululima/setup/commit/cdcd62e2ce4de06b5f7115431717089fce1d7618), model claude-opus-5-5, effort xhigh.
 
 **9.**
 > dotclaude dont give me those instructions 2 and 3 since theyll anyway
@@ -5548,7 +5556,7 @@ Stop, add it to dotclaude?)
 
 ## Say that commands for the user must work pasted into a new terminal
 
-2026-10-17, commit [4b564c1](https://github.com/zululima/dotclaude/commit/4b564c1f32aef7358f92718bc84e44e573735d85), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [4b564c1](https://github.com/zululima/setup/commit/4b564c1f32aef7358f92718bc84e44e573735d85), model claude-opus-5-5, effort xhigh.
 
 **21.**
 > dotclaude always give the commands like i could paste them from home
@@ -5560,7 +5568,7 @@ Stop, add it to dotclaude?)
 
 ## List every step still to do after changing given steps
 
-2026-10-17, commit [489399d](https://github.com/zululima/dotclaude/commit/489399d42452cdd8a9c2e499ee9e0ca1d359669c), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [489399d](https://github.com/zululima/setup/commit/489399d42452cdd8a9c2e499ee9e0ca1d359669c), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [an ask about a weekly usage recap in the dream report left out] also
@@ -5572,13 +5580,13 @@ Stop, add it to dotclaude?)
 **7.** (answering whether to add the rule as drafted)
 > go, add the full to-do list rule to CLAUDE.md as drafted
 
-**8.** (answering whether to commit p1 to p4 and the new rule as two commits) Quoted under [2250924](https://github.com/zululima/dotclaude/commit/2250924accb02788f5fab1a707dea2e4b1fbfe60).
+**8.** (answering whether to commit p1 to p4 and the new rule as two commits) Quoted under [2250924](https://github.com/zululima/setup/commit/2250924accb02788f5fab1a707dea2e4b1fbfe60).
 
 ## Apply dream proposals on prompt logs, shared stacks and the browser
 
-2026-10-17, commit [2250924](https://github.com/zululima/dotclaude/commit/2250924accb02788f5fab1a707dea2e4b1fbfe60), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [2250924](https://github.com/zululima/setup/commit/2250924accb02788f5fab1a707dea2e4b1fbfe60), model claude-opus-5-5, effort xhigh.
 
-**4.** Quoted under [5d38f18](https://github.com/zululima/dotclaude/commit/5d38f18b7d5ddc97beb218d493c9b173f26231d2).
+**4.** Quoted under [5d38f18](https://github.com/zululima/setup/commit/5d38f18b7d5ddc97beb218d493c9b173f26231d2).
 
 **8.** (answering whether to commit p1 to p4 and the new rule as two commits)
 > yes, commit p1 to p4 first and then the new rule, as two commits, and
@@ -5586,7 +5594,7 @@ Stop, add it to dotclaude?)
 
 ## End the dream report with a weekly usage recap
 
-2026-10-17, commit [dfc134f](https://github.com/zululima/dotclaude/commit/dfc134f18076a3177029e6253ac18ca3b77da7a4), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [dfc134f](https://github.com/zululima/setup/commit/dfc134f18076a3177029e6253ac18ca3b77da7a4), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > weekly usage history should be a nice recap in the chat in the end of
@@ -5596,7 +5604,7 @@ Stop, add it to dotclaude?)
 
 ## Check carried proposals first and pick transcripts by last use
 
-2026-10-17, commit [5d38f18](https://github.com/zululima/dotclaude/commit/5d38f18b7d5ddc97beb218d493c9b173f26231d2), model claude-opus-5-5, effort xhigh.
+2026-10-17, commit [5d38f18](https://github.com/zululima/setup/commit/5d38f18b7d5ddc97beb218d493c9b173f26231d2), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > run the dream workflow now
@@ -5612,7 +5620,7 @@ Stop, add it to dotclaude?)
 
 ## Read the Claude Platform release notes and Managed Agents docs
 
-2026-10-16, commit [bc05825](https://github.com/zululima/dotclaude/commit/bc05825849de8742c5928c6a6f5205e807d87ee0), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [bc05825](https://github.com/zululima/setup/commit/bc05825849de8742c5928c6a6f5205e807d87ee0), model claude-opus-5-5, effort xhigh.
 
 **3.**
 > also have you put the documentation etc of claude dream etc [pasted:
@@ -5622,7 +5630,7 @@ Stop, add it to dotclaude?)
 
 ## Pick the dream mode from the weekly reset and rank its work in tiers
 
-2026-10-16, commit [a999519](https://github.com/zululima/dotclaude/commit/a9995191f446a32e554cb56f1bf027b765e26f28), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [a999519](https://github.com/zululima/setup/commit/a9995191f446a32e554cb56f1bf027b765e26f28), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > you said my weekly usage wont even fill up currently with my dreaming
@@ -5651,7 +5659,7 @@ Stop, add it to dotclaude?)
 
 ## Move the pull request procedures into a skill
 
-2026-10-16, commit [c4657b7](https://github.com/zululima/dotclaude/commit/c4657b7632a40e9ef3e73847144a29807fbba955), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [c4657b7](https://github.com/zululima/setup/commit/c4657b7632a40e9ef3e73847144a29807fbba955), model claude-opus-5-5, effort xhigh.
 
 **27.**
 > regenerate p26 from the weekly report
@@ -5661,14 +5669,14 @@ Stop, add it to dotclaude?)
 
 ## Keep session transcripts for 90 days
 
-2026-10-16, commit [2360937](https://github.com/zululima/dotclaude/commit/23609376c9cabe2346ecc23b7e8acd709b5f8735), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [2360937](https://github.com/zululima/setup/commit/23609376c9cabe2346ecc23b7e8acd709b5f8735), model claude-opus-5-5, effort xhigh.
 
 **26.**
 > keep transcripts for 90 days
 
 ## Spend what is left of the week with a weekend dream
 
-2026-10-16, commit [e4194a7](https://github.com/zululima/dotclaude/commit/e4194a7ad38d5a608e1fad1a0fcc256a6d014832), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [e4194a7](https://github.com/zululima/setup/commit/e4194a7ad38d5a608e1fad1a0fcc256a6d014832), model claude-opus-5-5, effort xhigh.
 
 **25.**
 > could we do it so that a dream with weekend as parameter so it burns
@@ -5676,7 +5684,7 @@ Stop, add it to dotclaude?)
 
 ## Let a dream run fill the 5-hour limit by default
 
-2026-10-16, commit [0b253b5](https://github.com/zululima/dotclaude/commit/0b253b516b3d310ea2fe437acda82e3a3bbbb4d0), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [0b253b5](https://github.com/zululima/setup/commit/0b253b516b3d310ea2fe437acda82e3a3bbbb4d0), model claude-opus-5-5, effort xhigh.
 
 **24.**
 > arent all dream workflows overnight? why do i need to say that again
@@ -5684,7 +5692,7 @@ Stop, add it to dotclaude?)
 
 ## Rename the weekly workflow to dream for idle-time runs
 
-2026-10-16, commit [6f5bea1](https://github.com/zululima/dotclaude/commit/6f5bea1d48e8f90e111375f33eb3ffe8e084dcdb), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [6f5bea1](https://github.com/zululima/setup/commit/6f5bea1d48e8f90e111375f33eb3ffe8e084dcdb), model claude-opus-5-5, effort xhigh.
 
 **17.**
 > i didnt understand the habit of p10 so i didnt run the bash command.
@@ -5726,9 +5734,9 @@ Stop, add it to dotclaude?)
 
 ## Retry a connector file once, then read it in the browser
 
-2026-10-16, commit [0cf6598](https://github.com/zululima/dotclaude/commit/0cf659810b905a3f36d9ab01aff631b4245f05b6), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [0cf6598](https://github.com/zululima/setup/commit/0cf659810b905a3f36d9ab01aff631b4245f05b6), model claude-opus-5-5, effort xhigh.
 
-**1.** Quoted under [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237).
+**1.** Quoted under [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237).
 
 **2.** (answer to which message was meant)
 > [an ask about a downstream project left out]
@@ -5751,114 +5759,114 @@ Stop, add it to dotclaude?)
 
 ## Audit in the agent and leave no probe sessions in the weekly run
 
-2026-10-16, commit [5239b0d](https://github.com/zululima/dotclaude/commit/5239b0dd1c8e20901a39f9ef196830ba2b40811b), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [5239b0d](https://github.com/zululima/setup/commit/5239b0dd1c8e20901a39f9ef196830ba2b40811b), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Update submodules after every branch switch with a hook
 
-2026-10-16, commit [d6a6580](https://github.com/zululima/dotclaude/commit/d6a65808309a6fb882b5b353f4a5805c0a4b60e5), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [d6a6580](https://github.com/zululima/setup/commit/d6a65808309a6fb882b5b353f4a5805c0a4b60e5), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Check properly before reporting pass, fail or blocked
 
-2026-10-16, commit [6d420c0](https://github.com/zululima/dotclaude/commit/6d420c091987e6c6c3ea04ddc57f49ff279901fd), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [6d420c0](https://github.com/zululima/setup/commit/6d420c091987e6c6c3ea04ddc57f49ff279901fd), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Commit on the default branch where the user is the only collaborator
 
-2026-10-16, commit [5542c3b](https://github.com/zululima/dotclaude/commit/5542c3be5ac9783e34b599edc11c240312a4d4f0), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [5542c3b](https://github.com/zululima/setup/commit/5542c3be5ac9783e34b599edc11c240312a4d4f0), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Turn off the ultracode keyword trigger
 
-2026-10-16, commit [9d48081](https://github.com/zululima/dotclaude/commit/9d480816e94d1ded6109689f9eeb7a5aa61b636d), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [9d48081](https://github.com/zululima/setup/commit/9d480816e94d1ded6109689f9eeb7a5aa61b636d), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Weekdays from date, complete result lists, free/busy for others
 
-2026-10-16, commit [dddd06c](https://github.com/zululima/dotclaude/commit/dddd06c897e02a2979bdd965f241e73907e399a9), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [dddd06c](https://github.com/zululima/setup/commit/dddd06c897e02a2979bdd965f241e73907e399a9), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Commit and push the checkout and every mirror with sync.sh --commit
 
-2026-10-16, commit [fac48a0](https://github.com/zululima/dotclaude/commit/fac48a0070d5aa6555565eb10e24090e6e1aee08), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [fac48a0](https://github.com/zululima/setup/commit/fac48a0070d5aa6555565eb10e24090e6e1aee08), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > regenerate p18 from the weekly report
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Prune patch-equivalent gone branches and tell the user once
 
-2026-10-16, commit [57ae11d](https://github.com/zululima/dotclaude/commit/57ae11dfc696f2ae89f95d652a88b4eb69680504), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [57ae11d](https://github.com/zululima/setup/commit/57ae11dfc696f2ae89f95d652a88b4eb69680504), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Make CLAUDE.md edits in auto mode, and start sessions in auto
 
-2026-10-16, commit [f49c2be](https://github.com/zululima/dotclaude/commit/f49c2be0a3132bbcfec5bdc31464a783df7b75dc), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [f49c2be](https://github.com/zululima/setup/commit/f49c2be0a3132bbcfec5bdc31464a783df7b75dc), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Print the prompts block from a prompt log
 
-2026-10-16, commit [022aead](https://github.com/zululima/dotclaude/commit/022aead8a652c7c9b96072c2a962ad36cf79a8e9), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [022aead](https://github.com/zululima/setup/commit/022aead8a652c7c9b96072c2a962ad36cf79a8e9), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Cover No folder sessions and keep organisation names local
 
-2026-10-16, commit [8136ad9](https://github.com/zululima/dotclaude/commit/8136ad9df272725cccd82cdf626219baeb964087), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [8136ad9](https://github.com/zululima/setup/commit/8136ad9df272725cccd82cdf626219baeb964087), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Skip prompt feedback on turns the user did not prompt
 
-2026-10-16, commit [b744ac0](https://github.com/zululima/dotclaude/commit/b744ac0f48c98de1bcf35e5b685f84cc3408da0d), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [b744ac0](https://github.com/zululima/setup/commit/b744ac0f48c98de1bcf35e5b685f84cc3408da0d), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Memory notes state what holds now, with a hook for em dashes
 
-2026-10-16, commit [ee21883](https://github.com/zululima/dotclaude/commit/ee21883b9c9c6a765fc91bef2441407250282a5a), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [ee21883](https://github.com/zululima/setup/commit/ee21883b9c9c6a765fc91bef2441407250282a5a), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**2.** Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
-**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
+**3.** (answer to whether the scripts in the terminal were done) Quoted under [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7).
 
 ## Hand a shared branch's change to its session, and add a Stop hook
 
-2026-10-16, commit [bd95b64](https://github.com/zululima/dotclaude/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7), model claude-opus-5-5, effort xhigh.
+2026-10-16, commit [bd95b64](https://github.com/zululima/setup/commit/bd95b6426fb77b507c5ad6c9d4b32a5244633ed7), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > go, run p18 and commit and push dotclaude
@@ -5869,65 +5877,65 @@ Stop, add it to dotclaude?)
 
 ## Steps and pictures show what the reader will really see
 
-2026-10-15, commit [8974a1e](https://github.com/zululima/dotclaude/commit/8974a1e241e82f871d503447e5e7432434254afe), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [8974a1e](https://github.com/zululima/setup/commit/8974a1e241e82f871d503447e5e7432434254afe), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > regenerate p9 from the weekly report
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Run steps for a person first, and keep setup in the README
 
-2026-10-15, commit [2363a7e](https://github.com/zululima/dotclaude/commit/2363a7e5978e60fd0c2bbeb843295c7f40a00d37), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [2363a7e](https://github.com/zululima/setup/commit/2363a7e5978e60fd0c2bbeb843295c7f40a00d37), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Rewrite the PR review rule as one bullet
 
-2026-10-15, commit [b2d761e](https://github.com/zululima/dotclaude/commit/b2d761eaa157a147e849f425ec5b86ee04c54e16), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [b2d761e](https://github.com/zululima/setup/commit/b2d761eaa157a147e849f425ec5b86ee04c54e16), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Quote corrections in memory and keep a note's qualifiers
 
-2026-10-15, commit [e03c79c](https://github.com/zululima/dotclaude/commit/e03c79c78832d4c601bec435060a8f6a9f84d040), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [e03c79c](https://github.com/zululima/setup/commit/e03c79c78832d4c601bec435060a8f6a9f84d040), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Change the rules only on a go, and draft rules from corrections
 
-2026-10-15, commit [125e1b5](https://github.com/zululima/dotclaude/commit/125e1b5790bb650bb525eac4faff256869a8cb27), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [125e1b5](https://github.com/zululima/setup/commit/125e1b5790bb650bb525eac4faff256869a8cb27), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Tell a running session when CLAUDE.md changed under it
 
-2026-10-15, commit [dfc4754](https://github.com/zululima/dotclaude/commit/dfc4754fea3a87030a855e1e0b9cdf2ca38f9ece), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [dfc4754](https://github.com/zululima/setup/commit/dfc4754fea3a87030a855e1e0b9cdf2ca38f9ece), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Ask before installing software or adding CI
 
-2026-10-15, commit [9c39a2c](https://github.com/zululima/dotclaude/commit/9c39a2c72d682e165a714a9c01459d7f13faf9c8), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [9c39a2c](https://github.com/zululima/setup/commit/9c39a2c72d682e165a714a9c01459d7f13faf9c8), model claude-opus-5-5, effort xhigh.
 
-**2.** Quoted under [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7).
+**2.** Quoted under [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7).
 
 ## Refuse GitHub posts as the user with a PreToolUse hook
 
-2026-10-15, commit [168c498](https://github.com/zululima/dotclaude/commit/168c49830747761824e49988c91f5bf7942ebcd7), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [168c498](https://github.com/zululima/setup/commit/168c49830747761824e49988c91f5bf7942ebcd7), model claude-opus-5-5, effort xhigh.
 
 **2.**
 > go, run p9 and commit and push dotclaude
 
 ## Print weekly script diffs without a pager
 
-2026-10-15, commit [6f9607e](https://github.com/zululima/dotclaude/commit/6f9607e806418bf77109b9a9447ba9f134e82b60), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [6f9607e](https://github.com/zululima/setup/commit/6f9607e806418bf77109b9a9447ba9f134e82b60), model claude-opus-5-5, effort xhigh.
 
-**16.** Quoted under [696018f](https://github.com/zululima/dotclaude/commit/696018f01f529914df58ac1e0e70fe83305e5480).
+**16.** Quoted under [696018f](https://github.com/zululima/setup/commit/696018f01f529914df58ac1e0e70fe83305e5480).
 
 ## Number weekly changes in apply order, with commands
 
-2026-10-15, commit [696018f](https://github.com/zululima/dotclaude/commit/696018f01f529914df58ac1e0e70fe83305e5480), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [696018f](https://github.com/zululima/setup/commit/696018f01f529914df58ac1e0e70fe83305e5480), model claude-opus-5-5, effort xhigh.
 
 **16.**
 > force push with lease to dotclaude. dotclaude add commands that i can
@@ -5939,7 +5947,7 @@ Stop, add it to dotclaude?)
 
 ## Open PR bodies with the summary, verify in two command steps
 
-2026-10-15, commit [e576a66](https://github.com/zululima/dotclaude/commit/e576a66d8b11c959030351f47c58a6e6b1ef74fc), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [e576a66](https://github.com/zululima/setup/commit/e576a66d8b11c959030351f47c58a6e6b1ef74fc), model claude-opus-5-5, effort xhigh.
 
 **5.**
 > why 5 commands and not 2 like other two prs had? dotclaude fix.
@@ -5951,13 +5959,13 @@ Stop, add it to dotclaude?)
 
 ## Size the weekly report for the chat, scripts apart
 
-2026-10-15, commit [6650f14](https://github.com/zululima/dotclaude/commit/6650f1462af28730ee4681706f40b98fe04e8762), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [6650f14](https://github.com/zululima/setup/commit/6650f1462af28730ee4681706f40b98fe04e8762), model claude-opus-5-5, effort xhigh.
 
-**15.** Quoted under [24b09c5](https://github.com/zululima/dotclaude/commit/24b09c5646bc77097b3bf4702c6fc45bd46fa095).
+**15.** Quoted under [24b09c5](https://github.com/zululima/setup/commit/24b09c5646bc77097b3bf4702c6fc45bd46fa095).
 
 ## Keep private project terms out of the published files
 
-2026-10-15, commit [24b09c5](https://github.com/zululima/dotclaude/commit/24b09c5646bc77097b3bf4702c6fc45bd46fa095), model claude-opus-5-5, effort xhigh.
+2026-10-15, commit [24b09c5](https://github.com/zululima/setup/commit/24b09c5646bc77097b3bf4702c6fc45bd46fa095), model claude-opus-5-5, effort xhigh.
 
 **15.**
 > fix the two things. anonymize and dotclaude so that it doesnt happen
@@ -5966,7 +5974,7 @@ Stop, add it to dotclaude?)
 
 ## Record the session's effort in the weekly usage history
 
-2026-10-14, commit [ae4d0d9](https://github.com/zululima/dotclaude/commit/ae4d0d9fc2899d3cc24738c8e5a135706e7227ee), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [ae4d0d9](https://github.com/zululima/setup/commit/ae4d0d9fc2899d3cc24738c8e5a135706e7227ee), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > do you think this particular workflow should be js then instead of
@@ -5981,7 +5989,7 @@ Stop, add it to dotclaude?)
 
 ## Rename the weekly review workflow to weekly
 
-2026-10-14, commit [c397f0f](https://github.com/zululima/dotclaude/commit/c397f0f06df2cf76ba98979aa96b0ce944de910a), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [c397f0f](https://github.com/zululima/setup/commit/c397f0f06df2cf76ba98979aa96b0ce944de910a), model claude-opus-5-5, effort xhigh.
 
 **10.**
 > remove [a person] and [another person] from the workflow
@@ -5992,7 +6000,7 @@ Stop, add it to dotclaude?)
 
 ## Keep the weekly review under the plan usage limits
 
-2026-10-14, commit [cce004a](https://github.com/zululima/dotclaude/commit/cce004af276ace537c579da9003f7d4823393896), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [cce004a](https://github.com/zululima/setup/commit/cce004af276ace537c579da9003f7d4823393896), model claude-opus-5-5, effort xhigh.
 
 **7.**
 > github plugin removed from claude.ai. how much will opus 5.5.
@@ -6011,13 +6019,13 @@ Stop, add it to dotclaude?)
 
 ## Run the weekly review's checks on the desktop build
 
-2026-10-14, commit [4f573a5](https://github.com/zululima/dotclaude/commit/4f573a5a37fb80707ecf2108a98191e21b73a635), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [4f573a5](https://github.com/zululima/setup/commit/4f573a5a37fb80707ecf2108a98191e21b73a635), model claude-opus-5-5, effort xhigh.
 
-**6.** Quoted under [67172c0](https://github.com/zululima/dotclaude/commit/67172c0c9d3b2ecda466bda68dc0dbc10dfb0af4).
+**6.** Quoted under [67172c0](https://github.com/zululima/setup/commit/67172c0c9d3b2ecda466bda68dc0dbc10dfb0af4).
 
 ## Turn the Figma plugin off by default
 
-2026-10-14, commit [67172c0](https://github.com/zululima/dotclaude/commit/67172c0c9d3b2ecda466bda68dc0dbc10dfb0af4), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [67172c0](https://github.com/zululima/setup/commit/67172c0c9d3b2ecda466bda68dc0dbc10dfb0af4), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > do i need the terminal claude to anything? are you srue github
@@ -6033,7 +6041,7 @@ Stop, add it to dotclaude?)
 
 ## Upload screenshots through the built-in browser when Chrome is out
 
-2026-10-14, commit [03071ff](https://github.com/zululima/dotclaude/commit/03071ff9bb77435cde111d9cb86f64168cf02ffa), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [03071ff](https://github.com/zululima/setup/commit/03071ff9bb77435cde111d9cb86f64168cf02ffa), model claude-opus-5-5, effort xhigh.
 
 **6.**
 > [pasted: a review of why the screenshot upload stalled, asking for the
@@ -6042,7 +6050,7 @@ Stop, add it to dotclaude?)
 
 ## Upload a PR's screenshots without asking first
 
-2026-10-14, commit [8f63649](https://github.com/zululima/dotclaude/commit/8f6364920b100a9d53dedb44ef924140fa0c665c), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [8f63649](https://github.com/zululima/setup/commit/8f6364920b100a9d53dedb44ef924140fa0c665c), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > [an ask about a downstream project left out]
@@ -6053,7 +6061,7 @@ Stop, add it to dotclaude?)
 
 ## Add a weekly review workflow
 
-2026-10-14, commit [c97a0a4](https://github.com/zululima/dotclaude/commit/c97a0a4ef3cbabad47e53bc2d76bd285fd1a8fda), model claude-opus-5-5, effort xhigh.
+2026-10-14, commit [c97a0a4](https://github.com/zululima/setup/commit/c97a0a4ef3cbabad47e53bc2d76bd285fd1a8fda), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > will / doctor analyze deprecations based on my claude history or
@@ -6078,14 +6086,14 @@ Stop, add it to dotclaude?)
 
 ## Never post on GitHub as the user
 
-2026-10-13, commit [bf8105e](https://github.com/zululima/dotclaude/commit/bf8105ede233e8a03059f2011a14ea165b838dbd), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [bf8105e](https://github.com/zululima/setup/commit/bf8105ede233e8a03059f2011a14ea165b838dbd), model claude-fable-5-1, effort xhigh.
 
 **15.**
 > dotclaude never reply to anyone on behalf of me on github
 
 ## Stop the stack before every reply
 
-2026-10-13, commit [27b102b](https://github.com/zululima/dotclaude/commit/27b102be9389750bc51481b956fdba27e2348237), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [27b102b](https://github.com/zululima/setup/commit/27b102be9389750bc51481b956fdba27e2348237), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > [an ask about a downstream project left out]
@@ -6098,7 +6106,7 @@ Stop, add it to dotclaude?)
 
 ## Delete the template box that does not apply
 
-2026-10-13, commit [e2a5a2a](https://github.com/zululima/dotclaude/commit/e2a5a2ace218c0fb7ee1b289b08ace485e441f1d), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [e2a5a2a](https://github.com/zululima/setup/commit/e2a5a2ace218c0fb7ee1b289b08ace485e441f1d), model claude-fable-5-1, effort xhigh.
 
 **13.**
 > dotclaude so i want the other non checked box to be deleted isntead
@@ -6106,14 +6114,14 @@ Stop, add it to dotclaude?)
 
 ## Manual steps give a page's full local address
 
-2026-10-13, commit [33f590f](https://github.com/zululima/dotclaude/commit/33f590f3bfd8f624ce9c13da3ed5a3c52b2c2e00), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [33f590f](https://github.com/zululima/setup/commit/33f590f3bfd8f624ce9c13da3ed5a3c52b2c2e00), model claude-fable-5-1, effort xhigh.
 
 **12.**
 > dotclaude you didnt put url localhost etc in the pr description
 
 ## Pictures on their own line under the step number
 
-2026-10-13, commit [95b332c](https://github.com/zululima/dotclaude/commit/95b332c57e2bbd2243862a51abb6ab2d26fa04b0), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [95b332c](https://github.com/zululima/setup/commit/95b332c57e2bbd2243862a51abb6ab2d26fa04b0), model claude-fable-5-1, effort xhigh.
 
 **11.**
 > dotclaude put the images and videos under the step number not at the
@@ -6121,7 +6129,7 @@ Stop, add it to dotclaude?)
 
 ## Pictures at the start of their steps, recordings slowed
 
-2026-10-13, commit [4b45b7b](https://github.com/zululima/dotclaude/commit/4b45b7bee1e8e349beb1c70d957c13a9ca35956c), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [4b45b7b](https://github.com/zululima/setup/commit/4b45b7bee1e8e349beb1c70d957c13a9ca35956c), model claude-fable-5-1, effort xhigh.
 
 **10.**
 > dotclaude pull out the screenshots and videos from the detail element
@@ -6132,7 +6140,7 @@ Stop, add it to dotclaude?)
 
 ## One draft PR per session
 
-2026-10-13, commit [644646a](https://github.com/zululima/dotclaude/commit/644646a6e1fa047880bfc6c0ee684aad2fde968b), model claude-fable-5-1, effort xhigh.
+2026-10-13, commit [644646a](https://github.com/zululima/setup/commit/644646a6e1fa047880bfc6c0ee684aad2fde968b), model claude-fable-5-1, effort xhigh.
 
 **8.**
 > [an ask about a downstream project left out] dotclaude dont open two
@@ -6140,7 +6148,7 @@ Stop, add it to dotclaude?)
 
 ## Name the PR's picture before the click, paste the command steps
 
-2026-10-12, commit [36b2e16](https://github.com/zululima/dotclaude/commit/36b2e16a6458d3228fefd914f2972dd1db8beab1), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [36b2e16](https://github.com/zululima/setup/commit/36b2e16a6458d3228fefd914f2972dd1db8beab1), model claude-fable-5-1, effort xhigh.
 
 **11.**
 > dotclaude. a step’s screenshot is named at the start of the step and
@@ -6159,7 +6167,7 @@ Stop, add it to dotclaude?)
 
 ## Review replies are one list with commands, subshells for cd
 
-2026-10-12, commit [d5727d3](https://github.com/zululima/dotclaude/commit/d5727d375dcb9272c5922d1a4553439d2f531c31), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [d5727d3](https://github.com/zululima/setup/commit/d5727d375dcb9272c5922d1a4553439d2f531c31), model claude-fable-5-1, effort xhigh.
 
 **7.**
 > dotclaude give me the steps you would have given me to test things.
@@ -6184,7 +6192,7 @@ Stop, add it to dotclaude?)
 
 ## Quote only the configuration part of a prompt, redacted
 
-2026-10-12, commit [719067c](https://github.com/zululima/dotclaude/commit/719067cac511c51c5d4caa5d4490bc8ffa8bfa9b), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [719067c](https://github.com/zululima/setup/commit/719067cac511c51c5d4caa5d4490bc8ffa8bfa9b), model claude-fable-5-1, effort xhigh.
 
 **6.**
 > [a mirror] now has commit message such as "[a content type] with a
@@ -6195,7 +6203,7 @@ Stop, add it to dotclaude?)
 
 ## Review corrections are short prose, nothing to paste
 
-2026-10-12, commit [986a428](https://github.com/zululima/dotclaude/commit/986a4286d280d22e3e01d368b38ee043ab6e78cc), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [986a428](https://github.com/zululima/setup/commit/986a4286d280d22e3e01d368b38ee043ab6e78cc), model claude-fable-5-1, effort xhigh.
 
 **5.**
 > no. dotclaude dont put copypastable things to pr reviews. just tell
@@ -6203,7 +6211,7 @@ Stop, add it to dotclaude?)
 
 ## Shell scripts for the user, corrected steps in a review
 
-2026-10-12, commit [a9604bf](https://github.com/zululima/dotclaude/commit/a9604bfd3d563c42d77eb918e87e695d429d4de0), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [a9604bf](https://github.com/zululima/setup/commit/a9604bfd3d563c42d77eb918e87e695d429d4de0), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > [pasted: the previous script's terminal output]
@@ -6217,7 +6225,7 @@ Stop, add it to dotclaude?)
 
 ## Review a PR by correcting its own test steps
 
-2026-10-12, commit [b45b966](https://github.com/zululima/dotclaude/commit/b45b966a13bd3f898d2dea7518831412e507561a), model claude-fable-5-1, effort xhigh.
+2026-10-12, commit [b45b966](https://github.com/zululima/setup/commit/b45b966a13bd3f898d2dea7518831412e507561a), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > review pr 110 here only give manual testing instructions
@@ -6245,7 +6253,7 @@ Stop, add it to dotclaude?)
 
 ## Let the user's own name stand in the public repository's history
 
-2026-10-10, commit [92bccf0](https://github.com/zululima/dotclaude/commit/92bccf01e2c7e4a85049f5d5f2f6e9c4b65629fd), model claude-fable-5-1, effort xhigh.
+2026-10-10, commit [92bccf0](https://github.com/zululima/setup/commit/92bccf01e2c7e4a85049f5d5f2f6e9c4b65629fd), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > well then change the rules of the checkout local identity. my name is
@@ -6253,7 +6261,7 @@ Stop, add it to dotclaude?)
 
 ## Copy the published files into the directories sync-mirrors.txt lists
 
-2026-10-10, commit [9d7fdc6](https://github.com/zululima/dotclaude/commit/9d7fdc65ae8a0facfc9ad519d83c025b3359dddc), model claude-fable-5-1, effort xhigh.
+2026-10-10, commit [9d7fdc6](https://github.com/zululima/setup/commit/9d7fdc65ae8a0facfc9ad519d83c025b3359dddc), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > add local project memory to sync also to [a directory in a second
@@ -6265,7 +6273,7 @@ Stop, add it to dotclaude?)
 
 ## Plain characters, shortest test names, no implied actions
 
-2026-10-10, commit [aa3cc21](https://github.com/zululima/dotclaude/commit/aa3cc21b7aae36e5daa780b0dbd018bbd1ca38b9), model claude-fable-5-1, effort xhigh.
+2026-10-10, commit [aa3cc21](https://github.com/zululima/setup/commit/aa3cc21b7aae36e5daa780b0dbd018bbd1ca38b9), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > › what in gods name is this character. dotclaude dont output chars
@@ -6282,7 +6290,7 @@ Stop, add it to dotclaude?)
 
 ## Manual steps follow the screen and name controls by label
 
-2026-10-10, commit [8a2f66e](https://github.com/zululima/dotclaude/commit/8a2f66eacdf49e712d484639c42d8a5e001d22e2), model claude-fable-5-1, effort xhigh.
+2026-10-10, commit [8a2f66e](https://github.com/zululima/setup/commit/8a2f66eacdf49e712d484639c42d8a5e001d22e2), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > review pr 12 and give manual testing instructions here
@@ -6312,7 +6320,7 @@ Stop, add it to dotclaude?)
 
 ## Letter alternatives, number only ordered steps
 
-2026-10-09, commit [59970a4](https://github.com/zululima/dotclaude/commit/59970a4cc683b8601d1a2f087e609c31c7422335), model claude-fable-5-1, effort xhigh.
+2026-10-09, commit [59970a4](https://github.com/zululima/setup/commit/59970a4cc683b8601d1a2f087e609c31c7422335), model claude-fable-5-1, effort xhigh.
 
 **7.**
 > global ruling: if theres two ways to do something dont say 1, 2 etc.
@@ -6322,7 +6330,7 @@ Stop, add it to dotclaude?)
 
 ## Put screenshots of a visual change in the PR body
 
-2026-10-09, commit [a6451f2](https://github.com/zululima/dotclaude/commit/a6451f2fd82238dfd7c52d157eb17b186b0dcf3c), model claude-fable-5-1, effort xhigh.
+2026-10-09, commit [a6451f2](https://github.com/zululima/setup/commit/a6451f2fd82238dfd7c52d157eb17b186b0dcf3c), model claude-fable-5-1, effort xhigh.
 
 **6.**
 > are you able to take screenshots or screen recordings of when for
@@ -6340,7 +6348,7 @@ Stop, add it to dotclaude?)
 
 ## Hand over the allow rule script on a classifier refusal
 
-2026-10-08, commit [5f8d268](https://github.com/zululima/dotclaude/commit/5f8d2681ae9f6df128cb2f7fce027dd9d821e3bd), model claude-fable-5-1, effort xhigh.
+2026-10-08, commit [5f8d268](https://github.com/zululima/setup/commit/5f8d2681ae9f6df128cb2f7fce027dd9d821e3bd), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > global ruling: if classifier refuses something i can fix with giving
@@ -6351,7 +6359,7 @@ Stop, add it to dotclaude?)
 
 ## Allow gh issue and pull request edits from a session
 
-2026-10-08, commit [f3b322b](https://github.com/zululima/dotclaude/commit/f3b322b4da4d01e795e5447ede80065430f21094), model claude-fable-5-1, effort xhigh.
+2026-10-08, commit [f3b322b](https://github.com/zululima/setup/commit/f3b322b4da4d01e795e5447ede80065430f21094), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > ok lets continue working on the [a feature of a downstream project].
@@ -6362,14 +6370,14 @@ Stop, add it to dotclaude?)
 
 ## Count the merge prompt among a PR's prompts
 
-2026-10-08, commit [f1fa780](https://github.com/zululima/dotclaude/commit/f1fa7807b86c6ae2a44f7510838ee616aba466bb), model claude-fable-5-1, effort xhigh.
+2026-10-08, commit [f1fa780](https://github.com/zululima/setup/commit/f1fa7807b86c6ae2a44f7510838ee616aba466bb), model claude-fable-5-1, effort xhigh.
 
 **14.**
 > global ruling: put the merge prompt also to the pr when i say merge
 
 ## Assign the user to the issues a PR closes
 
-2026-10-08, commit [280fcd7](https://github.com/zululima/dotclaude/commit/280fcd7b982c597180d7661d6caceaae41eb1472), model claude-fable-5-1, effort xhigh.
+2026-10-08, commit [280fcd7](https://github.com/zululima/setup/commit/280fcd7b982c597180d7661d6caceaae41eb1472), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > [a question about a downstream project's backlog and next task]
@@ -6379,7 +6387,7 @@ Stop, add it to dotclaude?)
 
 ## Allow sessions to start and stop the local stack
 
-2026-10-08, commit [1dc8ca2](https://github.com/zululima/dotclaude/commit/1dc8ca287f247b6063eee9e89051bbd339b1b960), model claude-fable-5-1, effort xhigh.
+2026-10-08, commit [1dc8ca2](https://github.com/zululima/setup/commit/1dc8ca287f247b6063eee9e89051bbd339b1b960), model claude-fable-5-1, effort xhigh.
 
 **7.**
 > also you always start the stack not me. also so hotspot is now ok
@@ -6402,7 +6410,7 @@ Stop, add it to dotclaude?)
 
 ## Add a length rule to the Prose section
 
-2026-10-07, commit [8d49c37](https://github.com/zululima/dotclaude/commit/8d49c37df94399d6ecd77f8c3d64d9e7af9ae2a9), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [8d49c37](https://github.com/zululima/setup/commit/8d49c37df94399d6ecd77f8c3d64d9e7af9ae2a9), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > whats that one chatgpt session where this mathematician speaks very
@@ -6420,7 +6428,7 @@ Stop, add it to dotclaude?)
 
 ## Put end to end before the manual pass in test steps
 
-2026-10-07, commit [867d6f2](https://github.com/zululima/dotclaude/commit/867d6f2d3cc362b51f1385e87d0991aa19a45a82), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [867d6f2](https://github.com/zululima/setup/commit/867d6f2d3cc362b51f1385e87d0991aa19a45a82), model claude-fable-5-1, effort xhigh.
 
 **6.**
 > global memory: dont put e2e tests then never after manual testing in
@@ -6428,7 +6436,7 @@ Stop, add it to dotclaude?)
 
 ## End review test steps with the last check
 
-2026-10-07, commit [f4cb122](https://github.com/zululima/dotclaude/commit/f4cb122373bbddad02f9a0d432375d698d2d5655), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [f4cb122](https://github.com/zululima/setup/commit/f4cb122373bbddad02f9a0d432375d698d2d5655), model claude-fable-5-1, effort xhigh.
 
 **5.**
 > global memory: dont tell me step 9 again pr review scenarios or
@@ -6439,7 +6447,7 @@ Stop, add it to dotclaude?)
 
 ## Run the submodule update unconditionally after a switch
 
-2026-10-07, commit [1e889d4](https://github.com/zululima/dotclaude/commit/1e889d448510d355a56ea61448944daa9ebc839f), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [1e889d4](https://github.com/zululima/setup/commit/1e889d448510d355a56ea61448944daa9ebc839f), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > global ruling: no if conditions on like that on submodule. just
@@ -6452,7 +6460,7 @@ Stop, add it to dotclaude?)
 
 ## Update submodules after every branch switch
 
-2026-10-07, commit [62b6d96](https://github.com/zululima/dotclaude/commit/62b6d96caeb1438795b6a0d99ab6a4c161a70065), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [62b6d96](https://github.com/zululima/setup/commit/62b6d96caeb1438795b6a0d99ab6a4c161a70065), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > review pr 104 and tell me how to test locally
@@ -6467,7 +6475,7 @@ Stop, add it to dotclaude?)
 
 ## Pair a cd with an explicit cd back, not a subshell
 
-2026-10-07, commit [a861b43](https://github.com/zululima/dotclaude/commit/a861b43cb424c84afe5aaf69e61ffd495fa42167), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [a861b43](https://github.com/zululima/setup/commit/a861b43cb424c84afe5aaf69e61ffd495fa42167), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > the cd playwright thingy is again without the cd back. also no need
@@ -6475,7 +6483,7 @@ Stop, add it to dotclaude?)
 
 ## Return to the starting directory after a cd
 
-2026-10-07, commit [5af1440](https://github.com/zululima/dotclaude/commit/5af14406eee61fba2ea6993ee4bbd3a13638d336), model claude-fable-5-1, effort xhigh.
+2026-10-07, commit [5af1440](https://github.com/zululima/setup/commit/5af14406eee61fba2ea6993ee4bbd3a13638d336), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > global ruling: when doing cd operations remember to cd back to the
@@ -6490,7 +6498,7 @@ Stop, add it to dotclaude?)
 
 ## Delete gone local branches safely at session start
 
-2026-10-06, commit [2fbeea0](https://github.com/zululima/dotclaude/commit/2fbeea048415d4d0f6a6419208725ae684e69249), model claude-fable-5-1, effort xhigh.
+2026-10-06, commit [2fbeea0](https://github.com/zululima/setup/commit/2fbeea048415d4d0f6a6419208725ae684e69249), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > i would like claude to remove stale branches i.e. that dont have pr
@@ -6506,14 +6514,14 @@ Stop, add it to dotclaude?)
 
 ## Allow gh repo create without a prompt
 
-2026-10-06, commit [0dbe828](https://github.com/zululima/dotclaude/commit/0dbe8285052c3fd32dd88686ce441987744e8033), model claude-fable-5-1, effort xhigh.
+2026-10-06, commit [0dbe828](https://github.com/zululima/setup/commit/0dbe8285052c3fd32dd88686ce441987744e8033), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > add gh repo create for bash in my claude code settings
 
 ## Scope the draft PR rule to one per feature
 
-2026-10-03, commit [d246b5c](https://github.com/zululima/dotclaude/commit/d246b5ca70b42f686d41cb273d064bd88ccf0790), model claude-fable-5-1, effort xhigh.
+2026-10-03, commit [d246b5c](https://github.com/zululima/setup/commit/d246b5ca70b42f686d41cb273d064bd88ccf0790), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > put the places where to check to project memory so that i i can just
@@ -6526,14 +6534,14 @@ Stop, add it to dotclaude?)
 
 ## Allow semicolons in prose again
 
-2026-10-03, commit [0e6c226](https://github.com/zululima/dotclaude/commit/0e6c2262d405b0e12a073c9b2d2ee7f94379fed9), model claude-fable-5-1, effort xhigh.
+2026-10-03, commit [0e6c226](https://github.com/zululima/setup/commit/0e6c2262d405b0e12a073c9b2d2ee7f94379fed9), model claude-fable-5-1, effort xhigh.
 
 **7.**
 > global claude rule you can use semicolons
 
 ## Scope the lowercase rule to the rewritten prompt only
 
-2026-10-03, commit [b05ac24](https://github.com/zululima/dotclaude/commit/b05ac24812476c1ea650bc461aa72b6d09eb2a3a), model claude-fable-5-1, effort xhigh.
+2026-10-03, commit [b05ac24](https://github.com/zululima/setup/commit/b05ac24812476c1ea650bc461aa72b6d09eb2a3a), model claude-fable-5-1, effort xhigh.
 
 **3.**
 > global ruling: you can still use " quotes in the prompt feedback and
@@ -6546,7 +6554,7 @@ Stop, add it to dotclaude?)
 
 ## Give prompt feedback rewrites in lowercase without shift
 
-2026-10-03, commit [4ae697a](https://github.com/zululima/dotclaude/commit/4ae697a7082102be11f82c501fb5ac69d4e5c530), model claude-fable-5-1, effort xhigh.
+2026-10-03, commit [4ae697a](https://github.com/zululima/setup/commit/4ae697a7082102be11f82c501fb5ac69d4e5c530), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > pull the branch and run the same review here locally results. was
@@ -6561,7 +6569,7 @@ Stop, add it to dotclaude?)
 
 ## Link the public rules from a PR instead of copying them
 
-2026-09-30, commit [d7dd1ad](https://github.com/zululima/dotclaude/commit/d7dd1aded41fb43a9fe99317e0181b2ab2a3f29f), model claude-fable-5-1[1m], effort xhigh.
+2026-09-30, commit [d7dd1ad](https://github.com/zululima/setup/commit/d7dd1aded41fb43a9fe99317e0181b2ab2a3f29f), model claude-fable-5-1[1m], effort xhigh.
 
 **4.**
 > global ruling: instead of a details element link my dotclaude there
@@ -6572,7 +6580,7 @@ Stop, add it to dotclaude?)
 
 ## Give list steps their commands in fenced blocks too
 
-2026-09-29, commit [9e0b37c](https://github.com/zululima/dotclaude/commit/9e0b37c95ebde517fa8cbbd251589607294f97f3), model claude-fable-5-1[1m], effort xhigh.
+2026-09-29, commit [9e0b37c](https://github.com/zululima/setup/commit/9e0b37c95ebde517fa8cbbd251589607294f97f3), model claude-fable-5-1[1m], effort xhigh.
 
 **2.**
 > global ruling: why did you not put the tool start --clean in
@@ -6582,7 +6590,7 @@ Stop, add it to dotclaude?)
 
 ## Add a Reviewed-by trailer for reviewers when squashing
 
-2026-09-29, commit [a2762f8](https://github.com/zululima/dotclaude/commit/a2762f8decdc922eb9862bab5c66b55abf2f65e4), model claude-fable-5-1, effort xhigh.
+2026-09-29, commit [a2762f8](https://github.com/zululima/setup/commit/a2762f8decdc922eb9862bab5c66b55abf2f65e4), model claude-fable-5-1, effort xhigh.
 
 **5.**
 > global ruling: put co-authored of any reviewers/commenters of the pr
@@ -6602,7 +6610,7 @@ Stop, add it to dotclaude?)
 
 ## Cut the README to one sentence per file
 
-2026-09-28, commit [15c58c6](https://github.com/zululima/dotclaude/commit/15c58c6efc16caa1ebc4f1ae5d56a12a52135cfa), model claude-fable-5-1, effort xhigh.
+2026-09-28, commit [15c58c6](https://github.com/zululima/setup/commit/15c58c6efc16caa1ebc4f1ae5d56a12a52135cfa), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > nooo wayyy too verbose. like one sentence per each item to be
@@ -6610,7 +6618,7 @@ Stop, add it to dotclaude?)
 
 ## Explain what every file in the repository does
 
-2026-09-28, commit [3eedb3f](https://github.com/zululima/dotclaude/commit/3eedb3f70380bcc6ab4abda9047b380502b8f544), model claude-fable-5-1, effort xhigh.
+2026-09-28, commit [3eedb3f](https://github.com/zululima/setup/commit/3eedb3f70380bcc6ab4abda9047b380502b8f544), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > explain in readme what everything/every file does. for example it was
@@ -6619,7 +6627,7 @@ Stop, add it to dotclaude?)
 
 ## Say when commands share a block and when they get one each
 
-2026-09-27, commit [7786fa1](https://github.com/zululima/dotclaude/commit/7786fa1115300b3134bac5edfbf7d867fc4b4382), model claude-fable-5-1, effort xhigh.
+2026-09-27, commit [7786fa1](https://github.com/zululima/setup/commit/7786fa1115300b3134bac5edfbf7d867fc4b4382), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > named in passing? also now the commands are in one block in pr and
@@ -6628,7 +6636,7 @@ Stop, add it to dotclaude?)
 
 ## Put commands the reader should run in fenced code blocks
 
-2026-09-27, commit [2d8439b](https://github.com/zululima/dotclaude/commit/2d8439b9f7480b25395b8cad07c87e363b5f03e4), model claude-fable-5-1, effort xhigh.
+2026-09-27, commit [2d8439b](https://github.com/zululima/setup/commit/2d8439b9f7480b25395b8cad07c87e363b5f03e4), model claude-fable-5-1, effort xhigh.
 
 **3.**
 > global ruling: when writing terminal commands to the mds like the
@@ -6637,7 +6645,7 @@ Stop, add it to dotclaude?)
 
 ## Prefer git switch over git checkout for branch changes
 
-2026-09-26, commit [1423306](https://github.com/zululima/dotclaude/commit/1423306f7b8ae7a3daeabee6d4fcd84aee4762e3), model claude-fable-5-1, effort xhigh.
+2026-09-26, commit [1423306](https://github.com/zululima/setup/commit/1423306f7b8ae7a3daeabee6d4fcd84aee4762e3), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > global ruling: use git switch whenever you can get away with it
@@ -6646,7 +6654,7 @@ Stop, add it to dotclaude?)
 
 ## Credit human co-authors when squashing a pull request
 
-2026-09-25, commit [7460cd2](https://github.com/zululima/dotclaude/commit/7460cd2f278620f9eeb85288ba9a5d65034a2af3), model claude-fable-5-1, effort xhigh.
+2026-09-25, commit [7460cd2](https://github.com/zululima/setup/commit/7460cd2f278620f9eeb85288ba9a5d65034a2af3), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > global ruling: when squashing pull requests remember to add co
@@ -6655,7 +6663,7 @@ Stop, add it to dotclaude?)
 
 ## Tie the prompts block update to the turn, not the commit
 
-2026-09-25, commit [c41d5c6](https://github.com/zululima/dotclaude/commit/c41d5c62d7ba749de44332d425dc57e760585c0d), model claude-fable-5-1, effort xhigh.
+2026-09-25, commit [c41d5c6](https://github.com/zululima/setup/commit/c41d5c62d7ba749de44332d425dc57e760585c0d), model claude-fable-5-1, effort xhigh.
 
 **8.**
 > you forgot to put prompt to the description even though we didnt
@@ -6670,7 +6678,7 @@ Stop, add it to dotclaude?)
 
 ## Leave the abbreviations section out when the prompts use none
 
-2026-09-24, commit [33c5067](https://github.com/zululima/dotclaude/commit/33c50679a3bf79ef3a8598881bda719672d826a2), model claude-fable-5-1, effort xhigh.
+2026-09-24, commit [33c5067](https://github.com/zululima/setup/commit/33c50679a3bf79ef3a8598881bda719672d826a2), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > remember: dont put abbreviations details element to commit messages
@@ -6678,7 +6686,7 @@ Stop, add it to dotclaude?)
 
 ## Write the README in first person, drop copyright and SPDX lines
 
-2026-09-24, commit [1cba951](https://github.com/zululima/dotclaude/commit/1cba9513fec80c3e61338f505c75264ffa1b00b8), model claude-fable-5-1, effort xhigh.
+2026-09-24, commit [1cba951](https://github.com/zululima/setup/commit/1cba9513fec80c3e61338f505c75264ffa1b00b8), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > can you write in my dotclaude repo so it reads as mine e.g. a public
@@ -6689,7 +6697,7 @@ Stop, add it to dotclaude?)
 
 ## Ask for prompt feedback at the end of every reply
 
-2026-09-23, commit [49f1c57](https://github.com/zululima/dotclaude/commit/49f1c5777ead77bb35f26f93202cf27cd3c8c928), model claude-fable-5-1, effort xhigh.
+2026-09-23, commit [49f1c57](https://github.com/zululima/setup/commit/49f1c5777ead77bb35f26f93202cf27cd3c8c928), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > can you put into my dotclaude that the model should at the end of
@@ -6697,14 +6705,14 @@ Stop, add it to dotclaude?)
 
 ## Skip the workflow usage warning
 
-2026-09-23, commit [975b506](https://github.com/zululima/dotclaude/commit/975b5065bd67fc10acafd962209eeab4717deef5), model claude-fable-5-1, effort xhigh.
+2026-09-23, commit [975b506](https://github.com/zululima/setup/commit/975b5065bd67fc10acafd962209eeab4717deef5), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > ok then commit that and push settings.json change
 
 ## Drop the abbreviation from the commit message prompt header
 
-2026-09-23, commit [d8ce80a](https://github.com/zululima/dotclaude/commit/d8ce80a32d5db1c21afe5e7ca27d5f507fe1d80f), model claude-fable-5-1, effort xhigh.
+2026-09-23, commit [d8ce80a](https://github.com/zululima/setup/commit/d8ce80a32d5db1c21afe5e7ca27d5f507fe1d80f), model claude-fable-5-1, effort xhigh.
 
 **3.**
 > the commit message always abbreviates llm. dont abbreviate that or
@@ -6713,7 +6721,7 @@ Stop, add it to dotclaude?)
 
 ## Fill the pull request template instead of pasting it unfilled
 
-2026-09-23, commit [6df3bb5](https://github.com/zululima/dotclaude/commit/6df3bb5f7c7e610168142185801c1bcaa88b506e), model claude-fable-5-1, effort xhigh.
+2026-09-23, commit [6df3bb5](https://github.com/zululima/setup/commit/6df3bb5f7c7e610168142185801c1bcaa88b506e), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > remember begin: if the pr template has the added tests? just put the
@@ -6728,7 +6736,7 @@ Stop, add it to dotclaude?)
 
 ## Re-read the rules file before writing a commit message
 
-2026-09-22, commit [0d8a7d9](https://github.com/zululima/dotclaude/commit/0d8a7d90b5067d1bf1c8b007684a1f3f36626df9), model claude-fable-5-1, effort xhigh.
+2026-09-22, commit [0d8a7d9](https://github.com/zululima/setup/commit/0d8a7d90b5067d1bf1c8b007684a1f3f36626df9), model claude-fable-5-1, effort xhigh.
 
 **4.**
 > did you not read the global ruling claude.md? the part of not putting
@@ -6743,7 +6751,7 @@ Stop, add it to dotclaude?)
 
 ## Exclude the clone's CLAUDE.md, reformat commit messages
 
-2026-09-21, commit [ad33df5](https://github.com/zululima/dotclaude/commit/ad33df505606463efe3433990905865edb2b1cd1), model claude-fable-5-1, effort xhigh.
+2026-09-21, commit [ad33df5](https://github.com/zululima/setup/commit/ad33df505606463efe3433990905865edb2b1cd1), model claude-fable-5-1, effort xhigh.
 
 **3.**
 > should the CLAUDE.md file be called something else than that so that
@@ -6766,13 +6774,13 @@ Stop, add it to dotclaude?)
 
 ## Compare files through git, skip the root login in the scan
 
-2026-09-19, commit [d717a6c](https://github.com/zululima/dotclaude/commit/d717a6cbcf77c56388fac67c1df546d35385bb4d), model claude-fable-5-1, effort xhigh.
+2026-09-19, commit [d717a6c](https://github.com/zululima/setup/commit/d717a6cbcf77c56388fac67c1df546d35385bb4d), model claude-fable-5-1, effort xhigh.
 
-**2.** Quoted under [df2d3d7](https://github.com/zululima/dotclaude/commit/df2d3d792251c37a9eac4e51b724f567ef659feb).
+**2.** Quoted under [df2d3d7](https://github.com/zululima/setup/commit/df2d3d792251c37a9eac4e51b724f567ef659feb).
 
 ## Prompts in every commit, licence-only README, two-way sync
 
-2026-09-19, commit [df2d3d7](https://github.com/zululima/dotclaude/commit/df2d3d792251c37a9eac4e51b724f567ef659feb), model claude-fable-5-1, effort xhigh.
+2026-09-19, commit [df2d3d7](https://github.com/zululima/setup/commit/df2d3d792251c37a9eac4e51b724f567ef659feb), model claude-fable-5-1, effort xhigh.
 
 **2.**
 > actually yeah put the prompts in all of my commits in the future. git
@@ -6788,7 +6796,7 @@ Stop, add it to dotclaude?)
 
 ## Publish global Claude Code configuration
 
-2026-09-19, commit [a6bd820](https://github.com/zululima/dotclaude/commit/a6bd82056425642a76c5ed69259a03c514b8c34b), model claude-fable-5-1, effort xhigh.
+2026-09-19, commit [a6bd820](https://github.com/zululima/setup/commit/a6bd82056425642a76c5ed69259a03c514b8c34b), model claude-fable-5-1, effort xhigh.
 
 **1.**
 > how to set global ruling (is that what its called in short? the
