@@ -92,8 +92,8 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   any row without an approval. Such a session reads the task, asks as the bullet on a session's own
   model says and hands the task on. It does none of the task first, since each of its responses
   costs the most. On the Linux desktop, whose account is on the Pro plan, they start on Opus 5.5 at
-  xhigh, as every desktop session there since 12 November 2026 did, so Stepping down offers no
-  session there a cheaper model for its own task.
+  xhigh, as every desktop session there since 12 November 2026 did, so on `tight` the step down
+  there is the one to Sonnet 5.5 that Stepping down gives.
 
 ## Stepping down
 
@@ -104,26 +104,31 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   calls settle runs here whatever the verdict, since a new session costs more than it would save,
   and on `tight` its reply still gives what `pace.sh` printed for the limit that binds.
 - On `tight` no work starts on Fable 5.2, apart from research and chart reading, whose benchmarks
-  put every Opus 5.5 rung at a higher cost per task or far below. Software that is hard or open
-  runs on Opus 5.5 at xhigh, 1.9 points under its row, and stays in a session that is on Opus 5.5
-  already. The task of a session on Fable 5.2 goes to Opus 5.5 at xhigh, at 38% of the cost per
-  response. When the share `pace.sh` printed is under that 38%, the reply says the limit is still
-  on pace to fill.
-- A session on Opus 5.5 or a cheaper model keeps its own task whatever the verdict, and on `tight`
-  its reply says so with what `pace.sh` printed for the limit that binds.
+  put every Opus 5.5 rung at a higher cost per task or far below. A session's own task steps down
+  by model, which sets what a response costs: software that is hard or open runs on Opus 5.5 at
+  xhigh, 1.9 points under its row, at 38% of Fable 5.2's cost per response, and stays in a session
+  that is on Opus 5.5 already. Other software and everything else run on Sonnet 5.5 at xhigh,
+  within 5 points or 34 Elo of Opus 5.5 at xhigh on the four charts of the second table and at
+  about 70% of its cost per task, so about 27% of Fable 5.2's. When the share `pace.sh` printed is
+  under the rung's share of the session's own cost, the reply says the limit is still on pace to
+  fill.
+- A session on Sonnet 5.5 or a cheaper model keeps its own task whatever the verdict, and so does
+  one on Opus 5.5 whose task is software that is hard or open, research or chart reading. On
+  `tight` its reply says so with what `pace.sh` printed for the limit that binds.
 - Work a session starts while the pace is `tight`, such as a subagent, a workflow agent or a new
   session, takes the second rung of its line: Opus 5.5 at xhigh for software that is hard or open,
   Opus 5.5 at high for other software and for everything else, and Fable 5.2 at low for research
   and chart reading, or Opus 5.5 at medium when the limit that binds is the weekly Fable one. The
   Sonnet and Haiku rows stay as they are. It takes that rung without a question of its own, and
   an offer to start a session names it.
-- Before any of its own task is done, a session on Fable 5.2 whose task is neither research nor
-  chart reading asks whether the task should run on Opus 5.5 at xhigh. The next-step box holds
-  the question, with the model and the effort in full, and two buttons: yes, and no, stay on this
-  session's own. The closing message gives what `pace.sh` printed for the limit that binds, the
-  rung's score and cost per task beside those of this session's own model and effort, both from
-  the table, the cost per response of both, and what the tracker line below says of the rung's
-  model.
+- Before any of its own task is done, a session on `tight` whose model costs more than its task's
+  rung above, such as one on Fable 5.2 whose task is neither research nor chart reading or one on
+  Opus 5.5 whose task is other software or anything else, asks whether the task should run on that
+  rung. The next-step box holds the question, with the model and the effort in full, and two
+  buttons: yes, and no, stay on this session's own. The closing message gives what `pace.sh`
+  printed for the limit that binds, the rung's score and cost per task beside those of this
+  session's own model and effort, from the table that holds both, the cost per response of both
+  where What a session costs gives it, and what the tracker line below says of the rung's model.
 - On yes the task goes to a new session on that rung, started with the `model` and `effort` of
   `start_session`, which a step down needs no approval for, and with `context` "fresh". Its prompt
   quotes the user's prompt whole and says the user picked this model and effort for the pace, so
@@ -133,11 +138,11 @@ description: Which Claude model and effort each kind of work runs on, and the ch
 - A stepped-down session that has the context it needs and still gets the task wrong twice says so
   and names the next rung up, which the user picks in the app's model menu.
 
-The table gives the score of each model and effort, its cost per task in dollars at API prices,
-and that cost as a share of Fable 5.2 at xhigh. A benchmark runs its task in a small context, so
-its share between two models holds in the user's sessions, where Opus 5.5 at xhigh costs 38% of
-Fable 5.2 at xhigh per response, and its share between two efforts of one model does not: Fable
-5.2 at high costs 84% of xhigh per response, not 47%.
+The first table gives the score of each model and effort, its cost per task in dollars at API
+prices, and that cost as a share of Fable 5.2 at xhigh. A benchmark runs its task in a small
+context, so its share between two models holds in the user's sessions, where Opus 5.5 at xhigh
+costs 38% of Fable 5.2 at xhigh per response, and its share between two efforts of one model does
+not: Fable 5.2 at high costs 84% of xhigh per response, not 47%.
 
 | Task | Score and cost per task, strongest first | Benchmark |
 |---|---|---|
@@ -145,6 +150,17 @@ Fable 5.2 at xhigh per response, and its share between two efforts of one model 
 | Research | Fable 5.2 xhigh 80.6, $39.84, 100%. Fable 5.2 high 79.3, $29.20, 73%. Fable 5.2 medium 73.6, $15.71, 39%. Fable 5.2 low 71.4, $12.66, 32%. Opus 5.5 xhigh 71.3, $29.25, 73%. Opus 5.5 high 67.3, $17.31, 43%. Opus 5.5 medium 62.8, $11.40, 29% | WANDR |
 | Charts, figures and screenshots | Fable 5.2 xhigh 71.4, $0.151, 100%. Fable 5.2 high 69.8, $0.068, 45%. Fable 5.2 medium 66.4, $0.035, 23%. Fable 5.2 low 64.2, $0.031, 21%. Opus 5.5 xhigh 62.4, $0.082, 54%. Opus 5.5 high 59.2, $0.032, 21%. Opus 5.5 medium 59.0, $0.025, 17% | Chartography |
 | Everything else | Fable 5.2 xhigh 73.4, $1.48, 100%. Fable 5.2 high 71.5, $0.63, 42%. Fable 5.2 medium 68.6, $0.21, 14%. Fable 5.2 low 68.4, $0.19, 13%. Opus 5.5 xhigh 66.4, $0.69, 47%. Opus 5.5 high 63.9, $0.29, 20%. Opus 5.5 medium 63.0, $0.17, 12% | Humanity's Last Exam with tools |
+
+The second table gives Sonnet 5.5 beside Opus 5.5 from the Sonnet 5.5 launch page, whose charts
+leave out Fable 5.2, with each cost per task as a share of Opus 5.5 at xhigh. On Humanity's Last
+Exam with tools that page gives Sonnet 5.5 64.5 and Opus 5.5 67.7, with no effort or cost.
+
+| Task | Score and cost per task, strongest first | Benchmark |
+|---|---|---|
+| Software | Opus 5.5 xhigh 66.4, $7.35, 100%. Opus 5.5 high 64.2, $3.88, 53%. Sonnet 5.5 xhigh 61.5, $5.30, 72%. Opus 5.5 medium 57.6, $2.94, 40%. Sonnet 5.5 high 43.0, $1.94, 26%. Sonnet 5.5 medium 28.8, $0.83, 11% | Terminal-Bench 4.0 |
+| Software | Opus 5.5 medium 54.6, $0.80, 36%. Opus 5.5 high 54.0, $1.09, 48%. Sonnet 5.5 xhigh 52.1, $1.59, 71%. Opus 5.5 xhigh 51.4, $2.25, 100%. Sonnet 5.5 high 49.4, $0.42, 19%. Sonnet 5.5 medium 36.5, $0.24, 11% | FrontierCode 1.1, main set |
+| Software | Opus 5.5 xhigh 56.0, $6.98, 100%. Opus 5.5 high 56.0, $3.97, 57%. Sonnet 5.5 xhigh 53.1, $3.88, 56%. Opus 5.5 medium 52.5, $2.91, 42%. Sonnet 5.5 high 47.8, $1.67, 24%. Sonnet 5.5 medium 39.2, $0.70, 10% | CursorBench 4.0 |
+| Everything else | Opus 5.5 xhigh 1780, $12.27, 100%. Sonnet 5.5 xhigh 1746, $9.63, 79%. Opus 5.5 high 1705, $6.27, 51%. Opus 5.5 medium 1642, $4.40, 36%. Sonnet 5.5 high 1634, $3.95, 32%. Sonnet 5.5 medium 1461, $1.64, 13% | AA-Briefcase v1.1, Elo |
 
 - Trackers, read on 11 November 2026: none flags a Claude model. NerfBench has Opus 5.5 at 105.8%
   of its launch score, last tested on 16 October, and showed no other Claude model. AIStupidLevel,
@@ -158,6 +174,8 @@ Fable 5.2 at xhigh per response, and its share between two efforts of one model 
 
 Sources: Claude Fable 5.2 and Mythos 5.2 launch page, 9 November 2026,
 [https://www.anthropic.com/claude-fable-and-mythos-5-2](https://www.anthropic.com/claude-fable-and-mythos-5-2),
+the Claude Sonnet 5.5 launch page, 28 September 2026,
+[https://www.anthropic.com/news/claude-sonnet-5-5](https://www.anthropic.com/news/claude-sonnet-5-5),
 the model configuration page of the Claude Code docs,
 [https://code.claude.com/docs/en/model-config](https://code.claude.com/docs/en/model-config),
 Anthropic's post on choosing a model and effort level, 7 July 2026,

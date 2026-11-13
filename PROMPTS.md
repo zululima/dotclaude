@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Run the pace read at every task, name the desktop's Opus start
+## Step a tight session's task down to Sonnet 5.5 at xhigh
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**2.** Quoted under [cefca0a](https://github.com/zululima/setup/commit/cefca0a32eb422008af79a06af2347c0cac1a6df).
+
+Reply: Fixed in the models skill (cefca0a, pushed): every task now starts with a plan-limits check, and the skill now says Linux desktop sessions start on Opus 5.5 xhigh. Nothing gives an Opus 5.5 session a cheaper model yet. That rule waits on your pick.
+
+**3.** (answer to: which cheaper rung should Opus 5.5 sessions be offered?)
+> whichever you think is best choice taking usage and benchmarks
+> relating to the task in relation to eachother
+
+## Run the pace read at every task, name the desktop's Opus start
+
+2026-11-13, commit [cefca0a](https://github.com/zululima/setup/commit/cefca0a32eb422008af79a06af2347c0cac1a6df), model claude-opus-5-5, effort xhigh.
 
 **1.** [a question about sidebar rows and a video clip left out]
 
