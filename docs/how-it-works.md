@@ -19,24 +19,21 @@ What happens between typing a prompt and reading the reply:
 
 ```mermaid
 flowchart TD
-  start(["Prompt"])
-  hooksIn["Prompt hooks"]
+  start(["Prompt and its hooks"])
   ctx["CLAUDE.md and memory"]
   skl["Skill"]
-  tool["Tool call"]
-  before{"Hooks before"}
-  runs["Command or edit"]
-  after["Hooks after"]
+  subgraph calls["Each tool call"]
+    direction LR
+    tool["Tool call"] --> before{"Hooks before"}
+    before -->|allowed| runs["Command or edit"] --> after["Hooks after"]
+    before -->|refused| tool
+  end
   turnEnd{"Hooks at the end"}
   answer(["Reply"])
 
-  start --> hooksIn --> ctx --> tool --> before
-  ctx -.->|when needed| skl -.-> tool
-  before -->|allowed| runs --> after
-  before -->|refused| tool
-  after -->|more to do| tool
-  after -->|done| turnEnd
-  turnEnd -->|sent back| tool
+  start --> ctx --> calls --> turnEnd
+  ctx -.->|when needed| skl -.-> calls
+  turnEnd -->|sent back| calls
   turnEnd -->|all clear| answer
 ```
 
@@ -57,7 +54,7 @@ flowchart TD
 Many rules here started as a mistake Claude made:
 
 ```mermaid
-flowchart TD
+flowchart LR
   slip(["Mistake"])
   sayMirror["I say mirror"]
   dreamRun["My /dream run"]
