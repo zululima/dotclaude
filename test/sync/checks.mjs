@@ -25,7 +25,7 @@ function sh(cmd, cwd = home) {
 
 // The identity is put together at run time, so the scan of sync.sh finds it in no file of the checkout.
 fs.mkdirSync(ENV.TMPDIR, { recursive: true })
-write(path.join(home, '.gitconfig'), `[user]\n\tname = ${['Qzvx', 'Wjkq'].join(' ')}\n\temail = ${['qzvx', 'wjkq.invalid'].join('@')}\n[init]\n\tdefaultBranch = main\n[protocol "file"]\n\tallow = always\n[commit]\n\tgpgsign = false\n`)
+write(path.join(home, '.gitconfig'), `[user]\n\tname = ${['Qzvx', 'Wjkq'].join(' ')}\n\temail = ${['qzvx', ['wjkq', 'invalid'].join('.')].join('@')}\n[init]\n\tdefaultBranch = main\n[protocol "file"]\n\tallow = always\n[commit]\n\tgpgsign = false\n`)
 write(path.join(bin, 'gh'), '#!/bin/sh\nexit 0\n')
 fs.chmodSync(path.join(bin, 'gh'), 0o755)
 
@@ -248,6 +248,57 @@ const suites = [
         running(s, own)
         const r = commit(s)
         return r.code === 0 && remote(s) === text(own).trim()
+      }],
+    ]
+  }],
+
+  ['a mirror in a clone that hooks/share-memories.sh commits in too', () => {
+    // A scene whose checkout lists a folder of a second clone in sync-mirrors.txt, as the shared library is.
+    const mirrored = () => {
+      const s = scene(), dir = path.dirname(s.checkout)
+      s.mirrorRemote = path.join(dir, 'mirror.git'); s.mirror = path.join(dir, 'mirror'); s.peer = path.join(dir, 'mirror-peer')
+      sh(`git init -q --bare ${q(s.mirrorRemote)} && git clone -q ${q(s.mirrorRemote)} ${q(s.mirror)} 2>/dev/null && cd ${q(s.mirror)} && git commit -q --allow-empty -m seed && git push -q -u origin main && git clone -q ${q(s.mirrorRemote)} ${q(s.peer)}`)
+      write(path.join(s.checkout, 'sync-mirrors.txt'), `${s.mirror}/me\n`)
+      s.mirrored = path.join(s.mirror, 'me', FILE)
+      fs.mkdirSync(path.dirname(s.mirrored))
+      s.cloneLock = path.join(s.mirror, '.git/claude-clone.lock')
+      return s
+    }
+    const message = () => write(path.join(home, 'message'), 'Rewrite rule 6\n')
+    const own = change(base, { 6: ['- Rule 6 as a session rewrote it.'] })
+    return [
+      ['copies into the mirror and lets the clone lock go', () => {
+        const s = mirrored(), r = sync(s)
+        return r.code === 0 && read(s.mirrored) === text(base) && !fs.existsSync(s.cloneLock) && !fs.existsSync(s.lock)
+      }],
+      ['waits while the hook holds the clone lock, then copies', () => {
+        const s = mirrored()
+        fs.mkdirSync(s.cloneLock)
+        sh(`(sleep 2; rmdir ${q(s.cloneLock)}) > /dev/null 2>&1 &`)
+        const start = Date.now(), r = sync(s)
+        return r.code === 0 && Date.now() - start >= 1500 && read(s.mirrored) === text(base) && !fs.existsSync(s.cloneLock)
+      }],
+      ['stops on a rebase stopped halfway in the mirror, and copies nothing there', () => {
+        const s = mirrored()
+        sync(s)
+        fs.mkdirSync(path.join(s.mirror, '.git/rebase-merge'))
+        arrives(s, own)
+        const r = sync(s)
+        return r.code === 1 && /a rebase stopped halfway/.test(r.err) && read(s.mirrored) === text(base) && !fs.existsSync(s.cloneLock)
+      }],
+      ['under --commit, undoes a mirror rebase that stops, commits nothing there and lets the lock go', () => {
+        const s = mirrored()
+        sync(s)
+        git(s, `add -A && git -C ${q(s.mirror)} commit -q -m ${q('the first copy')}`, s.mirror)
+        write(path.join(s.mirror, 'me/notes.md'), 'a line committed here\n')
+        git(s, `add -A && git -C ${q(s.mirror)} commit -q -m ${q('a commit made here')}`, s.mirror)
+        write(path.join(s.peer, 'me/notes.md'), 'a line the hook pushed from elsewhere\n')
+        git(s, `add -A && git -C ${q(s.peer)} commit -q -m ${q('a commit pushed meanwhile')} && git -C ${q(s.peer)} push -q`, s.peer)
+        const head = git(s, 'rev-parse HEAD', s.mirror)
+        arrives(s, own)
+        const r = sync(s, ['--commit', message(), FILE])
+        return r.code === 1 && /stopped in .* and is undone/.test(r.err) && git(s, `show HEAD:${FILE}`, s.remote) === text(own).trim() &&
+          git(s, 'rev-parse HEAD', s.mirror) === head && !fs.existsSync(path.join(s.mirror, '.git/rebase-merge')) && !fs.existsSync(s.cloneLock)
       }],
     ]
   }],

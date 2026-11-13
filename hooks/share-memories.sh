@@ -10,6 +10,12 @@
 # and pushed in the background. A note that looks like it holds a secret is
 # left out, and exit code 2 names it to the model. Without the conf file the
 # hook does nothing.
+#
+# sync.sh copies its mirrors into the same clone and commits there, so the
+# copy, commit and push wait for claude-clone.lock in the clone's git
+# directory, which sync.sh takes too. A clone with a rebase stopped halfway is
+# left alone, and a rebase onto the fetched commits that stops is undone, so
+# no later run commits onto a detached HEAD.
 
 set -u
 
@@ -83,19 +89,35 @@ while IFS= read -r line; do
 done < "$memory/MEMORY.md" > "$new/MEMORY.md"
 
 dest="$dir/$repo/$handle"
-mkdir -p "$dest"
-rsync -a --delete --exclude '._*' "$new/" "$dest/"
-rm -rf "$new"
-mv "$state/$key.started" "$stamp"
-
+clone="$(git -C "$dir" rev-parse --absolute-git-dir)"
 (
-  cd "$dir" || exit 0
-  export GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o BatchMode=yes"
-  git add -A -- "$repo/$handle"
-  if ! git diff --cached --quiet -- "$repo/$handle"; then
-    git commit -q -m "Update shared memory notes" -- "$repo/$handle"
+  lock="$clone/claude-clone.lock"
+  tries=0
+  until mkdir "$lock" 2> /dev/null; do
+    tries=$((tries + 1))
+    [ "$tries" -le 660 ] || { lock=""; break; }
+    find "$lock" -maxdepth 0 -mmin +10 -exec rmdir {} \;
+    sleep 1
+  done
+  if [ -n "$lock" ] && [ ! -d "$clone/rebase-merge" ] && [ ! -d "$clone/rebase-apply" ] && cd "$dir"; then
+    mkdir -p "$dest"
+    rsync -a --delete --exclude '._*' "$new/" "$dest/"
+    mv "$state/$key.started" "$stamp"
+    export GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o BatchMode=yes"
+    git add -A -- "$repo/$handle"
+    if ! git diff --cached --quiet -- "$repo/$handle"; then
+      git commit -q -m "Update shared memory notes" -- "$repo/$handle"
+    fi
+    if git fetch -q; then
+      if git rebase -q --autostash --committer-date-is-author-date; then
+        git push -q
+      else
+        git rebase --abort
+      fi
+    fi
   fi
-  git fetch -q && git rebase -q --autostash --committer-date-is-author-date && git push -q
+  [ -z "$lock" ] || rmdir "$lock"
+  rm -rf "$new"
   rmdir "$state/$key.lock"
 ) > /dev/null 2>&1 &
 

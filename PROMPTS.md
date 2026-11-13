@@ -6,9 +6,15 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Check bridged local storage before handing a sign-in over
+## Lock a mirror's clone for sync.sh and share-memories.sh
 
 2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**3.** (answer to: shall I add a lock to share-memories.sh?) Quoted under [c90be52](https://github.com/zululima/setup/commit/c90be52017fda0b3e3c273475a21c770b58ae300).
+
+## Check bridged local storage before handing a sign-in over
+
+2026-11-13, commit [6b63bec](https://github.com/zululima/setup/commit/6b63becced5f8cc833a610815fdf217fa2bc5a8d), model claude-opus-5-5, effort xhigh.
 
 **4.**
 > just extend bridge to all apps local storage?

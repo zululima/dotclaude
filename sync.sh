@@ -70,7 +70,12 @@
 # Mirrors: directories listed one per line in sync-mirrors.txt, which git
 # ignores, get a copy of every published file after a clean scan, for a second
 # copy kept in another repository. A leading ~/ stands for the home directory.
-# A file this checkout has deleted is removed from a mirror too.
+# A file this checkout has deleted is removed from a mirror too. From the copy
+# to the mirror's push, a run holds claude-clone.lock in the git directory of
+# each mirror's clone, which hooks/share-memories.sh takes too before it writes
+# there, and a lock older than 10 minutes counts as left behind. A clone with a
+# rebase stopped halfway stops the run, and under --commit a rebase onto the
+# fetched commits that stops is undone.
 #
 # Private files: paths under the configuration directory listed one per line
 # in sync-private.txt, which git ignores, are copied from there into every
@@ -419,8 +424,29 @@ until (set -o noclobber; echo "$$" > "$lock") 2>/dev/null; do
   sleep 1
   waited=$((waited + 1))
 done
+clone_locks=()
+lock_clone() {
+  local clone_lock="$1/claude-clone.lock" held tries=0
+  for held in ${clone_locks[@]+"${clone_locks[@]}"}; do
+    [ "$held" != "$clone_lock" ] || return 0
+  done
+  until mkdir "$clone_lock" 2>/dev/null; do
+    tries=$((tries + 1))
+    [ "$tries" -le 660 ] || return 1
+    find "$clone_lock" -maxdepth 0 -mmin +10 -exec rmdir {} \; 2>/dev/null || true
+    sleep 1
+  done
+  clone_locks+=("$clone_lock")
+}
+release_clones() {
+  local held
+  for held in ${clone_locks[@]+"${clone_locks[@]}"}; do
+    rmdir "$held" 2>/dev/null || true
+  done
+  clone_locks=()
+}
 stage_dir=""
-trap 'rm -f "$lock"; [ -z "$stage_dir" ] || rm -rf "$stage_dir"' EXIT
+trap 'rm -f "$lock"; release_clones; [ -z "$stage_dir" ] || rm -rf "$stage_dir"' EXIT
 
 cd "$checkout"
 before="$(git rev-parse HEAD)"
@@ -891,6 +917,19 @@ if [ "$failed" -eq 0 ] && [ "${#mirror_dirs[@]}" -gt 0 ]; then
       failed=1
       continue
     fi
+    clone="$(git -C "$dir" rev-parse --absolute-git-dir 2>/dev/null)" || clone=""
+    if [ -n "$clone" ]; then
+      if ! lock_clone "$clone"; then
+        echo "sync: could not take $clone/claude-clone.lock" >&2
+        failed=1
+        continue
+      fi
+      if [ -d "$clone/rebase-merge" ] || [ -d "$clone/rebase-apply" ]; then
+        echo "sync: a rebase stopped halfway in $dir, finish it with git rebase --continue there or undo it with git rebase --abort" >&2
+        failed=1
+        continue
+      fi
+    fi
     for path in "${files[@]}"; do
       case "$held" in *$'\n'"$path"$'\n'*) continue ;; esac
       install_file "$checkout/$path" "$dir/$path"
@@ -957,7 +996,12 @@ elif [ -n "$message_file" ]; then
   mirror_paths=(${public_paths[@]+"${public_paths[@]}"} ${private_paths[@]+"${private_paths[@]}"})
   for dir in ${mirror_dirs[@]+"${mirror_dirs[@]}"}; do
     git -C "$dir" fetch -q
-    git -C "$dir" rebase -q --autostash --committer-date-is-author-date
+    if ! git -C "$dir" rebase -q --autostash --committer-date-is-author-date; then
+      git -C "$dir" rebase --abort 2>/dev/null || true
+      echo "sync: the rebase onto the fetched commits stopped in $dir and is undone, nothing committed there" >&2
+      failed=1
+      continue
+    fi
     if [ "${#public_paths[@]}" -gt 0 ]; then
       while IFS=$'\t' read -r -d '' object path; do
         mkdir -p "$(dirname "$dir/$path")"
@@ -971,6 +1015,7 @@ elif [ -n "$message_file" ]; then
     git -C "$dir" push -q
     echo "sync: $(git -C "$dir" rev-parse --short HEAD) pushed in $dir"
   done
+  release_clones
   rm -f "$mirror_message"
   if command -v gh >/dev/null 2>&1; then
     repo_url="$(git remote get-url origin | sed -E 's#^git@([^:]+):#https://\1/#; s#\.git$##')"

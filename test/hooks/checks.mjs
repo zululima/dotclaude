@@ -919,6 +919,7 @@ const suites = [
     const memory = path.join(config, 'projects', proj.replace(/[^A-Za-z0-9]/g, '-'), 'memory')
     const dest = path.join(shared, 'proj/me')
     const lock = path.join(config, 'shared-memories-state', `${proj.replace(/[^A-Za-z0-9]/g, '-')}.lock`)
+    const cloneLock = path.join(shared, '.git/claude-clone.lock')
     const note = (name, text) => { const f = write(path.join(memory, name), text); const later = Date.now() / 1000 + 5; fs.utimesSync(f, later, later) }
     const settle = () => { for (let i = 0; i < 50 && fs.existsSync(lock); i++) sleep(100) }
     return [
@@ -950,6 +951,27 @@ const suites = [
         settle()
         return r.code === 2 && r.err.includes('db.md') && !r.err.includes('local.md') &&
           !fs.existsSync(path.join(dest, 'db.md')) && fs.existsSync(path.join(dest, 'local.md'))
+      }],
+      ['waits for the clone lock that sync.sh holds, then shares and lets it go', () => {
+        fs.rmSync(path.join(memory, 'db.md'))
+        fs.mkdirSync(cloneLock)
+        note('waited.md', 'A note written while sync.sh copied its mirrors.\n')
+        const r = run({}, { env })
+        sleep(1500)
+        const held = !fs.existsSync(path.join(dest, 'waited.md'))
+        fs.rmdirSync(cloneLock)
+        settle()
+        return quiet(r) && held && fs.existsSync(path.join(dest, 'waited.md')) && !fs.existsSync(cloneLock)
+      }],
+      ['leaves a clone with a rebase stopped halfway alone', () => {
+        const stopped = path.join(shared, '.git/rebase-merge')
+        fs.mkdirSync(stopped)
+        note('paused.md', 'A note written while a rebase stood stopped.\n')
+        const r = run({}, { env })
+        settle()
+        const left = !fs.existsSync(path.join(dest, 'paused.md'))
+        fs.rmdirSync(stopped)
+        return quiet(r) && left && !fs.existsSync(cloneLock)
       }],
       ['leaves repositories of other owners alone', () => {
         sh(`git -C ${q(proj)} remote set-url origin https://github.com/other/proj.git`)
