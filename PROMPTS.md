@@ -6,9 +6,19 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Show a page's text whole instead of cutting it at a length
+
+2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**6.**
+> [an ask to download reference files left out]
+
+**7.**
+> it crops out on the explanation
+
 ## Keep a repository's About sidebar to one screen
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-13, commit [9fe7260](https://github.com/zululima/setup/commit/9fe72601f87f1989e7df051d029d7db97c88a07b), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > [pasted: an address] always put off packages, releaseas and

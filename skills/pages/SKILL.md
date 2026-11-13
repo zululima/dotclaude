@@ -20,6 +20,8 @@ description: Pages the user opens in a browser, such as an HTML page, a schedule
   the one exception: scrolled until its tab bar on GitHub meets the window's top, its last line
   shows. On a page the user works through, the first screen reaches what they act on first, what
   stays in view sits at the side or in a thin bar, and a part they call too long gets shorter, not
-  folded behind a toggle. A document modelled on another keeps its page size and page count: a copy
+  folded behind a toggle. Text a page shows the user to read, such as the examples beside a review
+  row, is never cut at a character count: it shows whole, and a list too long for that picks fewer
+  or shorter items. A document modelled on another keeps its page size and page count: a copy
   of a one-page A4 landscape PDF is one A4 landscape page, never a page stretched to fit the
   content.
