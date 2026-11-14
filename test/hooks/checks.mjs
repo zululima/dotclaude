@@ -1283,9 +1283,18 @@ esac`)
         chrome(10, 'navigate', { url: bank }, { 1: bank }),
         chrome(60, 'computer', { action: 'screenshot' }, { 1: bank }),
       ]) === 10 + 15 * 60],
-      ['counts the suomi.fi portal at 30 minutes, not the identification\'s 32', () => ends([
-        chrome(10, 'navigate', { url: 'https://www.suomi.fi/viestit' }, { 1: 'https://www.suomi.fi/viestit' }),
-      ]) === 10 + 30 * 60],
+      ['counts none on a bank\'s public pages', () => ends([
+        chrome(10, 'navigate', { url: 'https://www.op.fi/mobile-payment' }, { 1: 'https://www.op.fi/mobile-payment' }),
+      ]) === 0],
+      ['counts none on the identification page', () => ends([
+        chrome(10, 'navigate', { url: 'https://tunnistautuminen.suomi.fi/' }, { 1: 'https://tunnistautuminen.suomi.fi/sivut/discovery-page/' }),
+      ]) === 0],
+      ['counts OmaKela on its own host, not on the public pages of kela.fi', () => ends([
+        chrome(10, 'navigate', { url: 'https://www.kela.fi/omakela' }, { 1: 'https://www.kela.fi/omakela' }),
+      ]) === 0 && ends([
+        chrome(10, 'navigate', { url: 'https://www.kela.fi/omakela' }, { 1: 'https://www.kela.fi/omakela' }),
+        chrome(30, 'navigate', { url: 'https://oma.kela.fi/' }, { 1: 'https://oma.kela.fi/' }),
+      ]) === 30 + 5 * 60],
     ]
   }],
 

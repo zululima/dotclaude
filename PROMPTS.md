@@ -6,9 +6,15 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## usage mod: count a sign-in only on the host where it is signed in
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
 ## models: a reply's opening line in plain words
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-14, commit [ff9380c](https://github.com/zululima/setup/commit/ff9380c0ed8419cee71181079a24fc3cf4de612f), model claude-fable-5-2, effort xhigh.
 
 **3.**
 > i think you failed to create a question prompt. [two asks about a

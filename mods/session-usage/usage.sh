@@ -282,13 +282,17 @@ waiting() {
 }
 
 # Minutes a sign-in lasts unused, from the service's own page or code where it
-# gives them: S-Pankki 15, OmaVero 60, OmaKanta 30, the suomi.fi portal 30, a
-# Suomi.fi identification 32, and Nordea, OP, Danske Bank and POP Pankki 5. The
-# others publish none, so they get those 5.
-# A host counts with its subdomains. Each Claude in Chrome result lists the tabs
-# of the session's group, so the last one tells which are open, and a tab's
-# sign-in runs from the last acting call made on that tab. Clicks made by hand
-# in it leave no trace here, so such a sign-in can only last longer than counted.
+# gives them: S-Pankki 15, OmaKanta 30, and Nordea, Danske Bank and POP Pankki
+# 5. The others publish none, so they get those 5.
+# A host counts with its subdomains, and each key is the host a service's own
+# sign-in link leads to, where its signed-in pages live, so a visit to its public
+# pages, on www.kela.fi or www.nordea.fi say, starts no sign-in. Left out until
+# a source settles where their signed-in pages are: OP and the suomi.fi portal
+# (30), which share a host with their public pages, OmaSP, Handelsbanken and
+# OmaVero (60). Each Claude in Chrome result lists the tabs of the session's
+# group, so the last one tells which are open, and a tab's sign-in runs from the
+# last acting call made on that tab. Clicks made by hand in it leave no trace
+# here, so such a sign-in can only last longer than counted.
 #
 # A host in lasting ends a sign-in a fixed time after it, used or not, which it
 # keeps in a cookie its own expiry warning reads: Työmarkkinatori's session_exp
@@ -299,10 +303,10 @@ waiting() {
 # again after it, and later only after a click on that button.
 signins='
   def minutes: {
-    "netbank.nordea.fi": 5, "s-pankki.fi": 15, "op.fi": 5, "danskebank.fi": 5,
-    "aktia.fi": 5, "saastopankki.fi": 5, "poppankki.fi": 5, "omasp.fi": 5,
-    "handelsbanken.fi": 5, "alandsbanken.fi": 5, "vero.fi": 60, "suomi.fi": 32,
-    "www.suomi.fi": 30, "kela.fi": 5, "kanta.fi": 30
+    "netbank.nordea.fi": 5, "online.s-pankki.fi": 15, "ebank.danskebank.fi": 5,
+    "verkkopankki.aktia.fi": 5, "verkkopankki.saastopankki.fi": 5,
+    "verkkopankki.poppankki.fi": 5, "online.alandsbanken.fi": 5,
+    "oma.kela.fi": 5, "kansalainen.kanta.fi": 30
   };
   def lasting: {
     "tyomarkkinatori.fi": {minutes: 60, via: "^(tunnistautuminen\\.suomi\\.fi|tyomarkkinatori\\.fi/kirjaudu)"}
