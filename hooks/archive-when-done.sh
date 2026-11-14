@@ -4,8 +4,9 @@
 # says that the user can archive it, and a spawner, which handed its task to
 # another session, archives itself. When the turn's next-step box asked
 # nothing, no background work is in flight, the working directory is on no
-# branch but its repository's default one, and the turn's last message says
-# nothing about archiving, it sends the turn back once. The box call is read
+# branch but its repository's default one, and the turn's last message does
+# not say that the user can archive the session, it sends the turn back once.
+# A mention of another session's archive does not count. The box call is read
 # from the transcript, whose format Claude Code does not document, so a change
 # there makes this hook quietly pass. The last message comes from
 # last_assistant_message, as in prompt-feedback-box.sh.
@@ -42,7 +43,7 @@ jq -Rn -e --arg box mcp__ccd_turn__wrap_up --argjson last "$last" '
     and (($call.input.actions // []) | length) == 0
     and ($last // ([$lines[$turn:][] | select(.type == "assistant") | .message.content[]?
                     | select(.type == "text") | .text] | last // "")
-         | text | test("archiv|arkisto"; "i") | not)
+         | text | test("(you|user)( can| may)? archive|archive (this|the) session|arkisto"; "i") | not)
 ' "$transcript" >/dev/null 2>&1 || exit 0
 
 echo "The next-step box asked nothing and no background work is in flight. When nothing is \

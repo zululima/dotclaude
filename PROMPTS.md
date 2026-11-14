@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## archive-when-done: another session's archive does not count
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**2.**
+> can i archive this session
+
+Reply: Yes, you can archive it. Everything is committed and pushed, the two PR bodies are updated, and nothing is running in the background or on a stack. What stays uncommitted in the checkout (the reflow of two Remote state paragraphs in `CLAUDE.md` and the `settings.json` edit) belongs to another...
+
+**3.**
+> then why didnt you say so?
+
 ## pages: ask a word whose form changes with its use per use
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-14, commit [2458110](https://github.com/zululima/setup/commit/2458110ab70ffe0f68931598d80c433ba8d7a6bd), model claude-opus-5-5, effort xhigh.
 
 **12.**
 > these depend if its a verb or noun and where its used

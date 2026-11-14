@@ -703,6 +703,7 @@ const suites = [
         return quiet(run(stop('Fixed.', { cwd: repo })))
       }],
       ['still sends it back on the default branch', () => { sh(`git -C ${q(repo)} switch -q main`); return refused(run(stop('Fixed.', { cwd: repo }))) }],
+      ['sends back a reply that only mentions another session being archived', () => { jsonl(t, [human('fix it'), box({})]); return refused(run(stop('Fixed. The spawner had already archived itself, and `archive_session` was not needed.'))) }],
       ['tells a spawner to archive itself instead of writing the line', () => { jsonl(t, [human('fix it'), box({})]); const r = run(stop('Fixed.')); return refused(r) && r.err.includes('archive_session with self') }],
     ]
   }],
