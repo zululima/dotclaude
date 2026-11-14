@@ -214,6 +214,7 @@ mirrored=(
   hooks/chrome-anchor-kwin.js
   hooks/energy-session-pid.sh
   hooks/usage-waiting.sh
+  hooks/finished-banner.sh
   hooks/sync-conflicts.sh
   hooks/plan-limits.sh
   presence/install.sh

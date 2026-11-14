@@ -6,9 +6,25 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Post the finished banner from a Stop hook
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+
+**1.** [a task another Claude session wrote, left out]; it relays these prompts from the session that started it (model claude-fable-5-2, effort xhigh):
+
+**1.**
+> also you dont need to throw a notification of the spawned new session
+
+Reply: The banner is the Claude app's own "moved to top level" one, and no app setting turns it off alone. The start-first fix from this morning cannot stop it: the wait is the model writing the brief. Nothing was changed; the way to remove it is your choice.
+
+**2.** (answer to: Which way should the "moved to top level" banner go?)
+> a, hook banner
+
+Reply: Started the session that wrote this hook.
+
 ## archive-when-done: another session's archive does not count
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+2026-11-14, commit [0e71277](https://github.com/zululima/setup/commit/0e71277bcf7afff0870580fd0390576b66197d9a), model claude-sonnet-5-5, effort xhigh.
 
 **2.**
 > can i archive this session

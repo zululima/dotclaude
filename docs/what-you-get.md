@@ -169,6 +169,15 @@
   ```zsh
   ~/.claude/presence/install.sh
   ```
+- [`finished-banner.sh`](../hooks/finished-banner.sh): on a Mac, a banner when a session finishes
+  and waits for you, named after the session, which a click opens. The desktop app also posts
+  banners you may not want, such as when a session moves to the top of the sidebar or is archived,
+  and no setting of its own turns those off. With this hook you can turn off the app's banners in
+  macOS and keep this one. It stays quiet while Claude is the front app, and posts with
+  [terminal-notifier](https://github.com/julienXX/terminal-notifier), which Homebrew installs:
+  ```zsh
+  brew install terminal-notifier
+  ```
 - [`energy`](../energy/install.sh): which Claude Code sessions and prompts used the battery. macOS's
   own battery log puts every session, and every command a session runs, under the Claude app.
   [`energy-sampler.swift`](../energy/energy-sampler.swift) reads each process's energy every 10

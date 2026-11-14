@@ -467,6 +467,12 @@
             "type": "command",
             "command": "\"$HOME/.claude/hooks/usage-waiting.sh\"",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/finished-banner.sh\"",
+            "timeout": 30,
+            "async": true
           }
         ]
       }

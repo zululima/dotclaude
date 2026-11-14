@@ -1258,6 +1258,45 @@ esac`)
     ]
   }],
 
+  ['finished-banner.sh', run => {
+    const fake = path.join(home, 'fake-banner'), posted = path.join(home, 'banner-args')
+    const tool = (name, body) => fs.chmodSync(write(path.join(fake, name), `#!/bin/sh\n${body}\n`), 0o755)
+    tool('uname', 'echo "${FAKE_OS:-Darwin}"')
+    tool('lsappinfo', 'case "$1" in front) echo "ASN:0x0-0x1:" ;; *) echo "\\"CFBundleIdentifier\\"=\\"${FAKE_FRONT:-org.example.browser}\\"" ;; esac')
+    tool('terminal-notifier', `printf '%s\\n' "$@" > ${q(posted)}`)
+    const records = path.join(home, 'Library/Application Support/Claude/claude-code-sessions/a/b')
+    const record = (extra = {}) => write(path.join(records, 'local_one.json'), JSON.stringify({ sessionId: 'local_one', cliSessionId: 's1', title: '\u{1F525} Fix the login', isArchived: false, ...extra }))
+    const t = jsonl(path.join(config, 'projects/-banner/s1.jsonl'), [human('fix it'), says('Fixed.')])
+    const stop = (extra = {}) => ({ hook_event_name: 'Stop', session_id: 's1', transcript_path: t, stop_hook_active: false, background_tasks: [], ...extra })
+    const banner = (input, env = {}) => {
+      fs.rmSync(posted, { force: true })
+      const r = run(input, { env: { PATH: `${fake}:${process.env.PATH}`, FINISHED_BANNER_DELAY: '0', ...env } })
+      return r.code === 0 && r.err === '' ? (fs.existsSync(posted) ? fs.readFileSync(posted, 'utf8').split('\n') : []) : null
+    }
+    const after = (args, flag) => args[args.indexOf(flag) + 1]
+    return [
+      ['names the session and opens it on a click', () => {
+        record()
+        const a = banner(stop())
+        return a && after(a, '-title') === 'Fix the login' && after(a, '-open') === 'claude://claude.ai/epitaxy/local_one' && !a.includes('-sender')
+      }],
+      ['posts nothing while Claude is the front app', () => banner(stop(), { FAKE_FRONT: 'com.anthropic.claudefordesktop' })?.length === 0],
+      ['posts nothing while background work is in flight', () => banner(stop({ background_tasks: [{ id: 'b1' }] }))?.length === 0],
+      ['posts nothing off macOS', () => banner(stop(), { FAKE_OS: 'Linux' })?.length === 0],
+      ['posts nothing for a session that is archived', () => { record({ isArchived: true }); return banner(stop())?.length === 0 }],
+      ['posts nothing after the session archived itself', () => {
+        record()
+        const own = jsonl(path.join(config, 'projects/-banner/s2.jsonl'), [human('go'), uses('mcp__ccd_session_mgmt__archive_session', { session_id: 'self' })])
+        return banner(stop({ transcript_path: own }))?.length === 0
+      }],
+      ['brings Claude to the front when it finds no record', () => {
+        fs.rmSync(records, { recursive: true, force: true })
+        const a = banner(stop())
+        return a && after(a, '-title') === 'Claude' && after(a, '-activate') === 'com.anthropic.claudefordesktop' && !a.includes('-open')
+      }],
+    ]
+  }],
+
   ['usage.sh --status', () => {
     const t = path.join(config, 'projects/-signin/s.jsonl'), fake = path.join(home, 'fake-pgrep')
     fs.chmodSync(write(path.join(fake, 'pgrep'), '#!/bin/sh\nexit 0\n'), 0o755)
