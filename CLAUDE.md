@@ -206,10 +206,10 @@ apply to one repository belong in that repository's project memory.
   its text alone and not in the next-step box. A session that handed its task to another, or started
   the next job's session, with nothing else left in that sense, is instead archived unasked by that
   session once idle: the brief gives its `local_` id, and that session calls `archive_session` on it
-  before its first closing reply, which names it. A job the user takes up once a session offers it,
-  such as finishing recorded meetings, leaves nothing: it is no step in the list either. The reply
-  of the session that handed over says so, names that session and never tells the user to archive
-  it; archiving itself would end it before that reply reaches the user.
+  before its first closing reply, which does not mention it. A job the user takes up once a session
+  offers it, such as finishing recorded meetings, leaves nothing: it is no step in the list either.
+  The reply of the session that handed over says so, names that session and never tells the user to
+  archive it; archiving itself would end it before that reply reaches the user.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the

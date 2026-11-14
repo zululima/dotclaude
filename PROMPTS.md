@@ -6,9 +6,22 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Keep a handed-over session's archive out of the closing reply
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+Reply: The day's hours were applied and the dream review found no proposal due.
+
+**2.**
+> dont give notifications from autoarchived chats being acrhived.
+> [an ask about two items of a downstream project's list left out]
+> remember to give me next [project] task question in gm
+
 ## archive-files: stop showing Chrome to delete tab groups
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
+2026-11-14, commit [1fc51c3](https://github.com/zululima/setup/commit/1fc51c3c9efd838cd9d833f2219f6b3e32fed532), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
 
 **1.**
 > ts is not running in background its dialogues are always poppipng here
