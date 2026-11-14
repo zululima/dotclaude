@@ -6,9 +6,17 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Keep a review page's answers by item and list only flagged items
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**11.**
+> holdup how are these flagged? also you should keep things ive
+> alreaedy entered in the html before
+
 ## Skip the long-command notification for a gm that worked
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-14, commit [7f8a347](https://github.com/zululima/setup/commit/7f8a3478531f62657cd865490436a28c396e992d), model claude-fable-5-2, effort xhigh.
 
 **1.**
 > you dont need to notify when gm is done in terminal

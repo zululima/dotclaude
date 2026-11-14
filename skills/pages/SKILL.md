@@ -23,6 +23,9 @@ description: Pages the user opens in a browser, such as an HTML page, a schedule
   stays in view sits at the side or in a thin bar, and a part they call too long gets shorter, not
   folded behind a toggle. Text a page shows the user to read, such as the examples beside a review
   row, is never cut at a character count: it shows whole, and a list too long for that picks fewer
-  or shorter items. A document modelled on another keeps its page size and page count: a copy
+  or shorter items. A page the user answers on keeps each answer by the item's own id, and a new or
+  shorter version of it, at the old address or a new one, shows every answer given on the earlier
+  one. A shorter list of what to check holds only items something flagged, each with the reason it
+  is there. A document modelled on another keeps its page size and page count: a copy
   of a one-page A4 landscape PDF is one A4 landscape page, never a page stretched to fit the
   content.
