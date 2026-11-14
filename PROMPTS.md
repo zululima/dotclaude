@@ -6,9 +6,26 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## A spawner archives itself right after a clean start
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+**2.** (typed in the session that started this one)
+> could we actually also auto archive spawners immediately after they
+> have gracefully spawned a session
+
+Reply: A spawner archives itself with archive_session and self as the last call of its turn, once the new session has started and moved to top level, and writes no closing reply. On any error it stays and reports it. The started session's own archive call stays as a fallback.
+
+**3.** (answer to: shall I run this rule change in a new session on Sonnet 5.5 at xhigh effort?)
+> Yes, Sonnet 5.5
+
+Reply: The rule change now runs in a new top-level session, Archive at spawn, on Sonnet 5.5 at xhigh effort. Nothing is committed yet. This session handed its task on without an error and archives itself.
+
 ## models: start and detach first at the yes to an offered session
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-14, commit [1e273c3](https://github.com/zululima/setup/commit/1e273c36bf66fbbeff65e9635709dc8dbe86b5a8), model claude-opus-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

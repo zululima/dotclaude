@@ -103,10 +103,11 @@
 - [`prompt-feedback-box.sh`](../hooks/prompt-feedback-box.sh): makes sure every reply to a prompt
   you typed ends with a short note on how your prompt could have been better.
 - [`archive-when-done.sh`](../hooks/archive-when-done.sh): when Claude finishes with nothing left to
-  ask or do, makes it say that you can archive the session, or that the session it handed its task
-  to archives it.
+  ask or do, makes it say that you can archive the session, or, when it only handed its task to
+  another session, archive itself without a closing reply.
 - [`detach-started-session.sh`](../hooks/detach-started-session.sh): when Claude starts another
-  session, reminds it to move that session to the top of the sidebar instead of under its own.
+  session, reminds it to move that session to the top of the sidebar instead of under its own, and
+  to archive itself right after when handing the task on was all it had left.
 - [`no-session-cards.sh`](../hooks/no-session-cards.sh): stops Claude from proposing another
   session as a card you have to click. It asks under its reply instead, with the model and effort
   the session would run on, so one shortcut says yes.

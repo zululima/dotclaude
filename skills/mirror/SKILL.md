@@ -225,8 +225,12 @@ run and its commit in the same turn.
   --author`, and asks the user before `git config` sets or unsets a name or address. It backs the
   rule in `~/.claude/CLAUDE.md` that never overrides the git author.
 - A `PostToolUse` hook, `~/.claude/hooks/detach-started-session.sh`, hands the `detach_session`
-  step back to the model after each `start_session` and `hand_off_to_session` call. It backs the
-  rule in the `models` skill that no session nests under another.
+  step back to the model after each `start_session` and `hand_off_to_session` call, and the
+  `archive_session` step of a spawner, a session with nothing left after the hand-over. It backs the
+  rule in the `models` skill that no session nests under another and the rule in
+  `~/.claude/CLAUDE.md` that a spawner archives itself. A `Stop` hook,
+  `~/.claude/hooks/archive-when-done.sh`, backs the same rule for a spawner that ended its turn
+  without archiving, and the rule that a session with nothing left says the user can archive it.
 - A `PreToolUse` hook, `~/.claude/hooks/no-session-cards.sh`, refuses a `start_session` card, an
   "own_initiative" proposal or an "offer", and names the next-step box question in its place. It
   backs the rule in the `models` skill on offering a session.

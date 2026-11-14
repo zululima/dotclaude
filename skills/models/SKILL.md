@@ -18,11 +18,17 @@ description: Which Claude model and effort each kind of work runs on, and the ch
 - No session nests under another. Every brief, a card's too, opens by telling its session to call
   `detach_session` with `self` before any other step, and a session another one started does so
   first, told or not. The session that started one also detaches it in the next message. It then
-  reports nothing back, so the reply links it, and a step that needs its result waits for the user
-  to say it is done.
-- The window layout of the desktop app is the user's. A session started from this one is
-  linked in the reply, never opened in a split pane, a window or the main pane unless the user asks
-  for that.
+  reports nothing back, so the reply of a session that stays, one with work of its own left, links
+  it, and a step that needs its result waits for the user to say it is done. A spawner, as
+  `~/.claude/CLAUDE.md` defines it, archives itself instead, once the start, the detach and any
+  send of the task returned without error: it calls `wrap_up` with a recap alone, then
+  `archive_session` with `self`, and writes no reply. A session that used `hand_off_to_session` to
+  answer a new message is no spawner, since it answers. The brief of a session a spawner starts
+  also gives the spawner's `local_` id and tells its session to call `archive_session` on it before
+  its first closing reply unless `get_session` shows it archived, and not to mention that.
+- The window layout of the desktop app is the user's. A session started from this one is never
+  opened in a split pane, a window or the main pane unless the user asks for that, and a session
+  that stays links it in its reply.
 - A tool that cannot set the model or effort its row asks for is named in the reply with that row.
 - An offer to start a session is a question in the next-step box, never a `start_session` card,
   neither an "own_initiative" proposal nor an "offer": the question names the task with the
@@ -36,11 +42,13 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   screen, and the person who pressed yes may move to another session within seconds. A started
   session that needs another model or effort gets `set_session_model` and `set_session_effort`
   right after the detach, in the same way.
-- The reply that asks, like the one that links a session this one started, names that session's
-  model and effort and says why they are the best for it: what in its task puts it on its row, and
-  what the score or guidance behind the row means for that task, such as that a crash whose cause
-  is not yet found is hard software, where Fable 5.2 at high scores above Opus 5.5 at xhigh. The
-  reason is written for that session's task, never the row's last cell copied as it stands.
+- The reply that asks, like the one of a session that stays and links a session it started, names
+  that session's model and effort and says why they are the best for it: what in its task puts it
+  on its row, and what the score or guidance behind the row means for that task, such as that a
+  crash whose cause is not yet found is hard software, where Fable 5.2 at high scores above Opus
+  5.5 at xhigh. The reason is written for that session's task, never the row's last cell copied as
+  it stands. A spawner writes no reply after the start, so the question that asked is where its
+  model, effort and reason stand.
 - No row uses max effort: on Fable 5.2 Anthropic keeps it for measuring the model's ceiling, and
   on software work it does worse than xhigh. No row uses Fable 5.2 at xhigh either: the 5-hour
   limit cannot carry it, as What a session costs shows.
@@ -49,8 +57,10 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   hard or open, in a session on a cheaper model than Fable 5.2, goes to a new session on its row
   unless the pace is `tight`: started as above, with `context` "fork" so it holds this conversation,
   and with a task that asks it to carry out the user's last prompt there, so the prompt stays the
-  user's own in its log and its commits. The reply links that session and says the work goes on
-  there, and this session does none of it. A task in a session on a model that costs more than
+  user's own in its log and its commits. This session does none of it: a session that stays links
+  that one in its reply and says the work goes on there, and a spawner writes no reply, so no
+  question named the fork's model and effort and its task asks the fork's first reply to say them,
+  with why, as the sentence below does. A task in a session on a model that costs more than
   its row's, such as a draft or a change with its files named in a session on Fable 5.2, is asked
   about as a step down is, whatever the pace: the question names the row's model and effort, and
   on yes the task goes to a session on them as Stepping down says. Any other task runs on the
@@ -102,7 +112,7 @@ description: Which Claude model and effort each kind of work runs on, and the ch
 - The user's sessions on the Mac start on Fable 5.2 at xhigh, which the user keeps: `start_session`
   takes only a model and effort at or below the session's own, so a session there can start one on
   any row without an approval. Such a session reads the task, asks as the bullet on a session's own
-  model says and hands the task on. It does none of the task first, since each of its responses
+  model says and hands the task on as a spawner. It does none of the task first, since each of its responses
   costs the most. On the Linux desktop, whose account is on the Pro plan, they start on Opus 5.5 at
   xhigh, as every desktop session there since 12 November 2026 did, so on `tight` the step down
   there is the one to Sonnet 5.5 that Stepping down gives.
@@ -147,7 +157,9 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   quotes the user's prompt whole and says the user picked this model and effort for the pace, so
   that session keeps them and asks nothing. A task that leans on this conversation, or on a file
   attached to it, goes to a fork instead, which gets its rung as the second bullet of this skill
-  says. On no the task runs as on `fits`.
+  says. The session that asked has nothing else left, so it is a spawner: once the start and the
+  detach returned without error it archives itself and writes no reply, since the question named
+  the rung's model and effort. On no the task runs as on `fits`.
 - A stepped-down session that has the context it needs and still gets the task wrong twice says so
   and names the next rung up, which the user picks in the app's model menu.
 

@@ -703,6 +703,17 @@ const suites = [
         return quiet(run(stop('Fixed.', { cwd: repo })))
       }],
       ['still sends it back on the default branch', () => { sh(`git -C ${q(repo)} switch -q main`); return refused(run(stop('Fixed.', { cwd: repo }))) }],
+      ['tells a spawner to archive itself instead of writing the line', () => { jsonl(t, [human('fix it'), box({})]); const r = run(stop('Fixed.')); return refused(r) && r.err.includes('archive_session with self') }],
+    ]
+  }],
+
+  ['detach-started-session.sh', run => {
+    const after = tool => run({ hook_event_name: 'PostToolUse', tool_name: tool, tool_input: {}, tool_response: {} })
+    return [
+      ['hands back the detach step after start_session', () => context(after('mcp__ccd_session__start_session')).includes('call detach_session with the local_ id')],
+      ['hands back the detach step after hand_off_to_session', () => context(after('mcp__ccd_session__hand_off_to_session')).includes('call detach_session with the local_ id')],
+      ['hands back the archive step of a spawner', () => context(after('mcp__ccd_session__start_session')).includes('archive_session with self as the turn')],
+      ['names the sessions that are no spawner', () => context(after('mcp__ccd_session__start_session')).includes('no spawner: link the new session')],
     ]
   }],
 

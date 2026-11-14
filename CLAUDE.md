@@ -203,13 +203,14 @@ apply to one repository belong in that repository's project memory.
   follows that run, and the list before it stops at the run.
 - When nothing is left for the user or the session to do, its PRs merged, closed or left to a
   reviewer who merges them, the closing reply says so and that the user can archive the session, in
-  its text alone and not in the next-step box. A session that handed its task to another, or started
-  the next job's session, with nothing else left in that sense, is instead archived unasked by that
-  session once idle: the brief gives its `local_` id, and that session calls `archive_session` on it
-  before its first closing reply, which does not mention it. A job the user takes up once a session
-  offers it, such as finishing recorded meetings, leaves nothing: it is no step in the list either.
-  The reply of the session that handed over says so, names that session and never tells the user to
-  archive it; archiving itself would end it before that reply reaches the user.
+  its text alone and not in the next-step box. A job the user takes up once a session offers it,
+  such as finishing recorded meetings, leaves nothing: it is no step in the list either. A spawner,
+  a session that handed its task to another or started the next job's session with nothing else left
+  in that sense, ends its turn with `archive_session` and `self` once `start_session`,
+  `detach_session` and any send of the task returned without error, and writes no closing reply,
+  link or Prompt feedback, as its question named the model and effort. On an error it stays and says
+  so. The brief gives its `local_` id, and the started session archives it before its first closing
+  reply unless `get_session` shows it archived, without mentioning it.
 - Steps the user carries out are written in the order they are done, in one numbered list from the
   first to the last. How to do one of them, such as how to start a screen recording, goes into that
   step, never into a section of its own placed before steps that have to come first. A value the
