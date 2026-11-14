@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## pages: ask a word whose form changes with its use per use
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**12.**
+> these depend if its a verb or noun and where its used
+
 ## A spawner archives itself right after a clean start
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+2026-11-14, commit [8f9a1f4](https://github.com/zululima/setup/commit/8f9a1f4fb038b9f7a15d00841282a818cac6530a), model claude-sonnet-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 

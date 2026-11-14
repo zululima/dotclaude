@@ -26,6 +26,8 @@ description: Pages the user opens in a browser, such as an HTML page, a schedule
   or shorter items. A page the user answers on keeps each answer by the item's own id, and a new or
   shorter version of it, at the old address or a new one, shows every answer given on the earlier
   one. A shorter list of what to check holds only items something flagged, each with the reason it
-  is there. A document modelled on another keeps its page size and page count: a copy
+  is there. An item asks what one answer settles: a word whose form changes with its use, such as
+  a translation of Search as a verb or a noun, is asked on a string of each doubtful use, never as
+  one word for all of them. A document modelled on another keeps its page size and page count: a copy
   of a one-page A4 landscape PDF is one A4 landscape page, never a page stretched to fit the
   content.
