@@ -6,9 +6,16 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Keep a step for another computer a synced prompt at a usage limit
+## Skip the long-command notification for a gm that worked
 
 2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**1.**
+> you dont need to notify when gm is done in terminal
+
+## Keep a step for another computer a synced prompt at a usage limit
+
+2026-11-14, commit [f84f6e3](https://github.com/zululima/setup/commit/f84f6e31767dc44d316ad1ac17bdf4f4d58c64f0), model claude-fable-5-2, effort xhigh.
 
 **3.**
 > [an ask to bring back a row of the Claude desktop app's sidebar on

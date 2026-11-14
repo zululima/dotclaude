@@ -133,9 +133,9 @@ if [[ -n $CLAUDECODE ]]; then
 fi
 ```
 
-A command that ran a minute or more ends with a macOS notification, unless Ctrl+C stopped it or it
-was an interactive program. A click on the notification brings back the app the shell runs in. It
-needs `terminal-notifier`:
+A command that ran a minute or more ends with a macOS notification, unless Ctrl+C stopped it, it was
+an interactive program or it was a `gm` that worked, which ends in a restart. A click on the
+notification brings back the app the shell runs in. It needs `terminal-notifier`:
 
 ```zsh
 if [[ -o interactive ]]; then
@@ -148,12 +148,16 @@ if [[ -o interactive ]]; then
   }
   long_command_precmd() {
     local exit_code=$? seconds title message
+    local -a words
     [[ -n $long_command_start ]] || return 0
     seconds=$(( EPOCHSECONDS - long_command_start ))
     unset long_command_start
     (( seconds >= long_command_seconds && exit_code != 130 )) || return 0
-    case ${${(z)long_command_line}[1]} in
+    words=(${(z)long_command_line})
+    case $words[1] in
       claude|ssh|vim|nvim|less|man|top|htop|tmux) return 0 ;;
+      # a gm that worked ends in a restart
+      gm) (( exit_code )) || return 0 ;;
     esac
     title="Done after $(( seconds / 60 )) min $(( seconds % 60 )) s"
     (( exit_code )) && title="Failed, exit code $exit_code, after $(( seconds / 60 )) min $(( seconds % 60 )) s"
