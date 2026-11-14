@@ -6,9 +6,20 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
-## Keep a handed-over session's archive out of the closing reply
+## Read a session's state before a step names it
 
 2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**3.**
+> [an answer to an offer to start a session left out]
+
+**4.**
+> ? readmefit has been archived already before you suggested this.
+> check before in the future? also watch slack is archived too
+
+## Keep a handed-over session's archive out of the closing reply
+
+2026-11-14, commit [baee202](https://github.com/zululima/setup/commit/baee2027c45a47bd1364faf338403fd25984efba), model claude-sonnet-5-5, effort xhigh.
 
 **1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
 
