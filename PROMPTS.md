@@ -6,9 +6,21 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Run sudo commands in a Terminal tab after one password
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+Reply: [a reply about a package audit left out]
+
+**3.**
+> [a status update on a package switch left out] next time just spawn
+> terminal pane and ask for my sudo once and you do the rest
+
 ## Post the finished banner from a Stop hook
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort high.
+2026-11-14, commit [549c42d](https://github.com/zululima/setup/commit/549c42dc64861d980fc68be5f215281dc36e4b80), model claude-opus-5-5, effort high.
 
 **1.** [a task another Claude session wrote, left out]; it relays these prompts from the session that started it (model claude-fable-5-2, effort xhigh):
 
