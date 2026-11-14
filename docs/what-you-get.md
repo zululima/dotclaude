@@ -147,12 +147,14 @@
   Chrome's AppleScript, so macOS asks once whether Claude may control Google Chrome. When no tab
   would stay, the last one stays open, so Claude in Chrome keeps the window it connects through.
   Before the close, a small companion extension of yours in Chrome takes those tabs out of their tab
-  groups, which makes Chrome delete each saved group rather than pin it to the bookmarks bar.
-  Nothing it does shows Chrome, brings it to the front or types into it. Groups that were already
-  closed, by a window closing or Chrome quitting, stay on the bar, since deleting one takes its menu
-  on screen. It reads the app's own list of archived sessions, which is not documented and may
-  change in an update. If files stop moving, `~/Library/Logs/claude-archive-files.log` on a Mac, or
-  `~/.local/state/claude-archive-files.log` on Linux, shows the last time it worked.
+  groups, which makes Chrome delete each saved group rather than pin it to the bookmarks bar. Groups
+  that were already closed, by a window closing or Chrome quitting, it reopens from their chip on a
+  New Tab page that the extension opens, then ungroups and closes, only while every Chrome window is
+  behind another app. Nothing it does shows Chrome, brings it to the front or types into it, and if
+  Chrome ever comes forward, the sweep turns itself off. It reads the app's own list of archived
+  sessions, which is not documented and may change in an update. If files stop moving,
+  `~/Library/Logs/claude-archive-files.log` on a Mac, or `~/.local/state/claude-archive-files.log`
+  on Linux, shows the last time it worked.
 - [`presence`](../presence/install.sh): my phone gets Claude's pushes, such as a question waiting
   for an answer, only while the computer is locked or its displays are off.
   [`lock-listener.swift`](../presence/lock-listener.swift) on a Mac and

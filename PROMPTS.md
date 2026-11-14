@@ -6,9 +6,31 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## archive-files: delete closed tab groups out of sight
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**5.** (answer to: shall I reload Cookie bridge in Chrome now?)
+> I'll reload it
+
+Reply: Cookie bridge 1.3 is not loaded yet: the bridge's host process still dates from 07:39. Once you reload it, I test ungrouping on a throwaway tab and then ask about README fit.
+
+**6.** (answer to: have you reloaded Cookie bridge?)
+> Done
+
+Reply: Ungrouping through Cookie bridge 1.3 works: a test group left the bookmarks bar at 08:09 with nothing shown, so archives now delete their groups. README fit and other already-closed groups stay; the screen locked before I could try the chip route.
+
+**7.** (answer to: shall I build the hidden sweep of already-closed groups?)
+> Yes, build it
+
+Reply: The hidden sweep is built: the bridge opens a New Tab page, the mod presses the group's chip, ungroups and closes it, only while Chrome is behind another app. It needs Cookie bridge 1.4 loaded. Untested and not committed yet.
+
+**8.** (answer to: have you reloaded Cookie bridge?)
+> Done
+
 ## Read a session's state before a step names it
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-sonnet-5-5, effort xhigh.
+2026-11-14, commit [cbc02d9](https://github.com/zululima/setup/commit/cbc02d9e3b9389b83b999da9787f25c2f964aa4d), model claude-sonnet-5-5, effort xhigh.
 
 **3.**
 > [an answer to an offer to start a session left out]

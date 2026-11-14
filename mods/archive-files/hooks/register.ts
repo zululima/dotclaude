@@ -39,7 +39,7 @@ const changed = async ($: EngineInterface) => {
   return any
 }
 
-// Chrome tab groups an archive left wait for the user to be idle. The script
+// Chrome tab groups an archive left wait for Chrome to be out of sight. The script
 // stamps groups-checked at each try, so all sessions together try once a minute.
 const groupsDue = async ($: EngineInterface) => {
   const home = await $.env.get('HOME')

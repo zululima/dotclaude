@@ -52,7 +52,8 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   time a site asks, from the password manager they keep outside Chrome.
 - Chrome tabs stay open, so the user never waits on a close: archiving a session closes every
   Chrome tab no open session names, the user's own too, through the app and the `archive-files` mod,
-  which first takes those tabs out of their tab groups so Chrome deletes the saved groups, without
-  showing Chrome. Chrome opens its next window at the size of
+  which first takes those tabs out of their tab groups so Chrome deletes the saved groups, and
+  deletes groups closed earlier while Chrome is out of sight. Chrome opens its next window at the
+  size of
   the last one, so before its first `resize_window` the session reads `window.outerWidth` and
   `window.outerHeight`, and before the reply sets the window back to that size.
