@@ -6,9 +6,23 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## Keep a step for another computer a synced prompt at a usage limit
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**3.**
+> [an ask to bring back a row of the Claude desktop app's sidebar on
+> two computers left out]
+
+Reply: The desktop's Claude read the app's saved sidebar choice but stopped at its usage limit, so a restore script, tested on copies of the Mac app's storage, now sits in the synced folder. It still has to be run on the desktop. That More then returns is not checked.
+
+**4.**
+> ??? what happened to the rule of not putting long stuff like that but
+> syncing and givinf commands like restore
+
 ## Show the pane where a step waits on the user
 
-2026-11-13, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-13, commit [aade1ef](https://github.com/zululima/setup/commit/aade1ef405e283830554ed01454b479e2ee7c6e6), model claude-opus-5-5, effort xhigh.
 
 **1.**
 > [an ask about updating Claude on this machine, left out]

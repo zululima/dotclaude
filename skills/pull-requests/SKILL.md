@@ -130,6 +130,8 @@ GitHub.
   command and the end to end run. Both run in a subshell that opens with `cd` into the checkout, as
   in `(cd ~/Projects/<repo> && git fetch --all --prune && ...)`, since the reader pastes them into a
   new terminal, which starts in `~`. The manual steps follow them.
+- The reader of a verify step is at a terminal and pastes, so a step without its block sends them to
+  look the command up.
 - A session that works in a worktree of its own detaches it from the PR's branch, with `git switch
   --detach` there, before the reply that hands over the steps or the review page: git refuses to
   switch the reader's checkout to a branch another worktree holds, so the first step fails.

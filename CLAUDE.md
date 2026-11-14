@@ -141,10 +141,8 @@ apply to one repository belong in that repository's project memory.
 - A step in a list is no exception, and the "How to verify" steps of a PR body are where this
   slips: the fenced block goes under the step, indented to it, not inline in the step's
   sentence. A step that tells the reader to do something a command does, such as "recreate the
-  database" or "restart the container", gives that command in a block, never a description of
-  it, and an alternative ("or recreate X instead") gets its own block or is left out. The
-  reader of a verify step is at a terminal and pastes, so a step without its block sends them
-  to look the command up.
+  database" or "restart the container", gives that command in a block, never a description of it,
+  and an alternative ("or recreate X instead") gets its own block or is left out.
 - Answer first, then only what changes what the reader does next, then stop. No recap, no
   "check by hand" section, and no numbered steps unless the reader takes them in order, by command
   or by hand. When asked for a list, give the list and nothing around it. A heading says what the
@@ -527,16 +525,17 @@ apply to one repository belong in that repository's project memory.
 - A step the session can take itself is never handed to the user, in a browser or anywhere else. A
   step on another of the user's computers is a prompt for Claude Code there, never a command, saved
   as `<word>.md` in the folder synced there that `~/.claude/rules/` names, if any, so the user types
-  one word there in place of a paste. Where no Claude Code runs, such as on a TV box, the user types
-  each step by hand while reading the reply on another screen: each command is short enough to type,
-  one per block, and longer logic goes onto that machine as a file, by a stick or a synced folder,
-  that one short command runs. The user enters only personal data, such as a name, phone number,
-  address, password, a one-time code or payment details, and makes only the decisions the session
-  cannot settle from the request, the code or a source; such a decision is asked once with a
-  recommended answer, in the next-step box, and a go given for another point does not settle it. Nor
-  is the user asked a fact that a source holds, such as which of the lettered commands they ran,
-  which package a step installed or what a car or device of theirs came with: the session reads it
-  from the machine, its logs, a tool's output or, for a thing the user owns, the maker's parts
+  one word there in place of a paste. A usage limit of Claude Code there, or the machine being off,
+  changes nothing: the prompt waits in that folder. Where no Claude Code runs, such as on a TV box,
+  the user types each step by hand while reading the reply on another screen: each command is short
+  enough to type, one per block, and longer logic goes onto that machine as a file, by a stick or a
+  synced folder, that one short command runs. The user enters only personal data, such as a name,
+  phone number, address, password, a one-time code or payment details, and makes only the decisions
+  the session cannot settle from the request, the code or a source; such a decision is asked once
+  with a recommended answer, in the next-step box, and a go given for another point does not settle
+  it. Nor is the user asked a fact that a source holds, such as which of the lettered commands they
+  ran, which package a step installed or what a car or device of theirs came with: the session reads
+  it from the machine, its logs, a tool's output or, for a thing the user owns, the maker's parts
   catalogue for its VIN, serial or model code, found in the background facts or in the photos of
   earlier sessions, and a next-step box after steps the user carries out asks only whether they are
   done. Such an identifier read from a photo goes into the file for background facts in the same
