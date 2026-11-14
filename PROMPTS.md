@@ -6,9 +6,25 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## models: start and detach first at the yes to an offered session
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+
+**1.** Quoted under [bf10a4b](https://github.com/zululima/setup/commit/bf10a4bd00289053cfb763c76c5632126deb38a9).
+
+Reply: The usage mod now starts and detaches a session the moment its yes button is clicked, in a new file with 5 tests; all 35 of the mod's tests pass. Your click is the live test. Nothing is committed and the models skill is unchanged.
+
+**2.** (answer to: shall I start the throwaway session through the mod?)
+> Yes, start it
+
+Reply: Option a can't work: in auto mode the app refuses a start_session call made by a mod's own code. Your click did reach the mod, though. I took the mod change back out, so the mod matches its last commit and its 30 tests pass. Nothing is committed and the models skill is unchanged.
+
+**3.** (answer to: which way should the banner go now?)
+> e, start first
+
 ## CLAUDE.md: read a page's figures from its own text
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+2026-11-14, commit [c1b535f](https://github.com/zululima/setup/commit/c1b535fbea55a587beff1ad128ff2bde22f364ac), model claude-fable-5-2, effort xhigh.
 
 **5.** (answer to: shall I add a rule that a figure from a web page is read from the page's own text?)
 > Yes, add it

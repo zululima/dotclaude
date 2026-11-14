@@ -30,6 +30,12 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   and on that yes the session starts it with `start_session` and "user_asked". When the pace is
   `tight`, that one question names the rung Stepping down gives, and its second button keeps this
   session's own model and effort.
+- The turn that the yes opens makes `start_session` its first call and `detach_session` its next
+  message, before any other step, `get_usage` and loading a skill included. The app posts its
+  "moved to top level" banner when the session that calls `detach_session` is not the one on
+  screen, and the person who pressed yes may move to another session within seconds. A started
+  session that needs another model or effort gets `set_session_model` and `set_session_effort`
+  right after the detach, in the same way.
 - The reply that asks, like the one that links a session this one started, names that session's
   model and effort and says why they are the best for it: what in its task puts it on its row, and
   what the score or guidance behind the row means for that task, such as that a crash whose cause
@@ -104,7 +110,8 @@ description: Which Claude model and effort each kind of work runs on, and the ch
 ## Stepping down
 
 - At every prompt that starts a task, one that a few tool calls settle too, the session reads the
-  plan's limits with `get_usage` before any other step and pipes the result as it came to
+  plan's limits with `get_usage` before any other step but the start and detach that a yes to an
+  offer of a session makes first, and pipes the result as it came to
   `~/.claude/skills/models/pace.sh`, which prints what the 5-hour limit and each weekly limit is
   on pace for, and a verdict. On `fits` or `unknown` the task runs as above. A task that a few tool
   calls settle runs here whatever the verdict, since a new session costs more than it would save,
