@@ -48,11 +48,17 @@ description: Which Claude model and effort each kind of work runs on, and the ch
   its row's, such as a draft or a change with its files named in a session on Fable 5.2, is asked
   about as a step down is, whatever the pace: the question names the row's model and effort, and
   on yes the task goes to a session on them as Stepping down says. Any other task runs on the
-  session's model and effort as they are, and the first line of the reply that starts it names its
-  row's model and effort. A session whose opening prompt says the user picked its model and effort
-  for the pace keeps them, as Stepping down says. That settles its own model and effort only: it
-  still loads this skill before it starts or proposes a session, and its reply names that
-  session's model and effort as the bullet above says.
+  session's model and effort as they are, and the first line of the reply that starts it says so
+  in a full sentence of plain words: which model and effort this skill gives that kind of task
+  and which the session runs on, such as "This skill gives a question like this to Opus 5.5 at
+  xhigh effort, and this session runs on Fable 5.2 at xhigh". No line a reply writes under this
+  skill opens with a label before a colon, such as the task's kind, which reads as a question put
+  to the user, and none uses this skill's own words row, rung or tight: it names the model, the
+  effort and the limit, and says of the limit how full it is and what it is on pace for. A session
+  whose opening prompt says the user picked its model and effort for the pace keeps them, as
+  Stepping down says. That settles its own model and effort only: it still loads this skill
+  before it starts or proposes a session, and its reply names that session's model and effort as
+  the bullet above says.
 
 | Task | Model | Effort | Benchmarks behind it |
 |---|---|---|---|

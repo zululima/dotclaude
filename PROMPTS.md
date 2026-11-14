@@ -6,9 +6,22 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## models: a reply's opening line in plain words
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2, effort xhigh.
+
+**3.**
+> i think you failed to create a question prompt. [two asks about a
+> purchase left out]
+
+Reply: [answers about a purchase left out] No rule is changed yet: what you meant by the failed question prompt is still open.
+
+**4.**
+> you said "Question:" what did that mean
+
 ## archive-files: delete closed tab groups out of sight
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-14, commit [10c99be](https://github.com/zululima/setup/commit/10c99be3f7cdbd7b4412ed57b784d093e3cc3106), model claude-opus-5-5, effort xhigh.
 
 **5.** (answer to: shall I reload Cookie bridge in Chrome now?)
 > I'll reload it
