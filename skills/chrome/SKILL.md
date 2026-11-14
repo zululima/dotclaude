@@ -40,7 +40,9 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   cursor in the field to fill and names the tab in the reply, and the turn ends with `wrap_up` and
   `blocked`, so the sidebar marks the session as waiting on the user. A source behind the user's
   sign-in, such as Apple's developer downloads, is such a step, never one left unread or called not
-  checked.
+  checked. A step that hands the user input to type in the browser names the button that saves it,
+  and the session reads that page as it stands before its first navigate, reload or click away from
+  it, saves what is still unsaved and leaves only once the input is saved.
 - Before each click in a Chrome tab, the session reads the page as it is at that moment, a fresh
   screenshot or an element's ref from `find`, never coordinates from an earlier screenshot, since
   the user may have scrolled, typed or clicked there since. A click that submits, sends or posts
