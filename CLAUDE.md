@@ -476,8 +476,8 @@ apply to one repository belong in that repository's project memory.
   where it runs and what it does, and each reply until a one-time one runs names it and its time.
 - No session waits in the background on a step the user takes by hand, such as plugging in a drive:
   the reply gives the step, and the session goes on once the user says done. A sudo password is such
-  a step, asked once: the session types `sudo -v` in a Terminal tab, shows it with `show_pane`, then
-  runs the task's sudo commands in that tab, never handed to the user.
+  a step, asked once: the session puts the task's sudo commands in one script, starts `sudo bash` on
+  it in a Terminal tab and shows its pane, never handing them over.
 - Before a reply says that a setup cannot do something, such as install a tool, reach a service or
   suit a kind of user, the session reads that setup's own install scripts, README and settings, and
   the guides they point to, such as an onboarding guide in another repository. Before a reply
