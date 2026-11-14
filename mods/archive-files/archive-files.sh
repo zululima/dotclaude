@@ -26,25 +26,22 @@
 # tab is named when its id stands in a transcript changed since Chrome last
 # started, a subagent's too, of a session the app has not archived or has no
 # record of, such as a terminal session. When no tab would stay, the front
-# window's active one turns into a New Tab page instead, so the extension keeps
-# the window it connects through. When Chrome takes the front meanwhile, it is
-# hidden again, so the user's typing stays in the app they were in.
+# window's active one stays open, so the extension keeps the window it connects
+# through. Before the close, the Chrome half of ~/.claude/cookie-bridge takes
+# those tabs out of their tab groups, so Chrome deletes each saved group instead
+# of keeping it on the bookmarks bar. No step opens a tab, shows or hides
+# Chrome, or sends it a key: AppleScript that opens a tab or loads a New Tab
+# page brings Chrome to the front.
 #
-# Then it deletes the tab groups Chrome saved closed, which a window closing or
-# Chrome quitting leaves pinned to the bookmarks bar after every tab is gone: a
-# group whose name, less the emoji in front, is the extension's default Claude
-# or a title, current or earlier, of a session no longer open and of none still
-# open. Chrome has no API for saved groups, so it drives each group's menu on
-# the bookmarks bar through accessibility, while the screen is unlocked and
-# Chrome is not in front. A hidden Chrome is shown for the run and hidden
-# again, and a window without a New Tab page in view gets one for the run, made
-# before Chrome shows so the anchor tab of chrome-background.sh stays unseen.
-# Groups are left while an archived session had a Chrome tab group and no run
-# has found the bar clear since; the mod then runs --groups, which tries again
-# once the user has been idle for two minutes, at most every ten minutes.
+# Saved groups closed before that, by a window closing, Chrome quitting or a
+# session closing its own tabs, stay on the bookmarks bar for now: deleting one
+# takes its menu on the bar, which only a Chrome window on screen shows, so
+# --dry-run lists the ones it would delete and no run deletes them: a group
+# whose name, less the emoji in front, is the extension's default Claude or a
+# title, current or earlier, of a session no longer open and of none still open.
 #
 #   archive-files.sh                          move for every session archived since the last run
-#   archive-files.sh --groups                 delete the groups left, if any, once the user is idle
+#   archive-files.sh --groups                 nothing while the sweep of saved groups is off
 #   archive-files.sh --dry-run <local_id>...  print what would move, close or delete for those sessions
 
 set -u
@@ -194,42 +191,14 @@ place() {
   echo "$to"
 }
 
-# Between start and stop, hides Chrome each time it takes the front from the
-# app the user is in, which turning a tab into a New Tab page made it do. The
-# app in front before gets it back, as chrome-background.sh relies on. The
-# JXA loop runs the run loop, or the front app it reads goes stale.
-keep_front() {
-  [ -z "$dry" ] || return 0
-  if [ "$1" = stop ]; then
-    sleep 2
-    rm -f "$work/keep-front"
-    wait "$keeper" 2>/dev/null
-    return 0
-  fi
-  : >"$work/keep-front"
-  osascript -l JavaScript - "$work/keep-front" >/dev/null 2>&1 <<'EOF' &
-ObjC.import('AppKit');
-function run(argv) {
-  const files = $.NSFileManager.defaultManager;
-  const front = () => {
-    $.NSRunLoop.currentRunLoop.runUntilDate($.NSDate.dateWithTimeIntervalSinceNow(0.01));
-    const app = $.NSWorkspace.sharedWorkspace.frontmostApplication;
-    return app.isNil() ? null : app;
-  };
-  const isChrome = app => app !== null && app.bundleIdentifier.js === 'com.google.Chrome';
-  const watch = !isChrome(front());
-  $('').writeToFileAtomicallyEncodingError(argv[0] + '.ready', true, $.NSUTF8StringEncoding, null);
-  while (watch && files.fileExistsAtPath(argv[0])) {
-    const app = front();
-    if (isChrome(app)) app.hide;
-  }
-}
-EOF
-  keeper=$!
-  for _ in $(seq 100); do
-    [ -e "$work/keep-front.ready" ] && break
-    sleep 0.03
-  done
+# Takes the tabs whose ids stdin lists out of their tab groups through the
+# Chrome half of ~/.claude/cookie-bridge, since Chrome keeps a group saved when
+# its last tab closes and deletes it when its last tab leaves the group.
+ungroup() {
+  local sock="$HOME/.claude/cookie-bridge/run/chrome.sock" ids
+  ids=$(paste -sd, -)
+  [ -S "$sock" ] && [ -n "$ids" ] || return 0
+  printf '{"ungroup":[%s]}\n' "$ids" | nc -U -w 2 "$sock" >/dev/null 2>&1 && sleep 1
 }
 
 # Closes every Chrome tab no session still open names. $1 lists the local ids
@@ -270,12 +239,11 @@ EOF
     END {
       for (i = 1; i <= n; i++) {
         id = doomed[i]
-        if (!kept && id == front) { if (url[id] !~ /^chrome:\/\/newtab/) print "clear", id }
-        else print "close", id
+        print ((!kept && id == front) ? "keep" : "close") " " id
       }
     }' "$work/tabs" >"$work/plan"
   [ -s "$work/plan" ] || return 0
-  keep_front start
+  [ -n "$dry" ] || cut -d' ' -f2 "$work/plan" | ungroup
   # shellcheck disable=SC2046
   osascript - "${dry:+list}" $(cat "$work/plan") <<'EOF' 2>/dev/null | while IFS= read -r line; do
 on run argv
@@ -289,13 +257,7 @@ on run argv
         set found to (tabs of w whose id is n)
         if found is not {} then
           set out to out & act & " " & (URL of item 1 of found) & linefeed
-          if not listOnly then
-            if act is "clear" then
-              set URL of item 1 of found to "chrome://newtab/"
-            else
-              close item 1 of found
-            end if
-          end if
+          if act is "close" and not listOnly then close item 1 of found
           exit repeat
         end if
       end repeat
@@ -311,17 +273,17 @@ EOF
     case $act$dry in
       close) say "closed a Chrome tab on $host" ;;
       close1) say "would close a Chrome tab on $host" ;;
-      clear) say "turned the last Chrome tab, on $host, into a New Tab page" ;;
-      clear1) say "would turn the last Chrome tab, on $host, into a New Tab page" ;;
+      keep) say "left the last Chrome tab, on $host, open out of its group" ;;
+      keep1) say "would leave the last Chrome tab, on $host, open out of its group" ;;
     esac
   done
-  keep_front stop
 }
 
 # Prints a line for each group it deletes or keeps, "clean" once the bar holds
 # no group left to delete, and "skip: why" when it could not look.
 delete_groups() {
   local line
+  [ -n "$dry" ] || return 0
   pgrep -x 'Google Chrome' >/dev/null || return 0
   jq -n --argjson roots "$roots" "$here"'[inputs | {open: (.isArchived != true or foreign),
     titles: ([.title] + (.previousTitles // []) | map(strings))}]' \

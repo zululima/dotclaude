@@ -145,17 +145,14 @@
   that named them point to where they went. On a Mac it also closes every Chrome tab that no open
   session uses, the archived session's and your own, such as a page you signed in on, through
   Chrome's AppleScript, so macOS asks once whether Claude may control Google Chrome. When no tab
-  would stay, the last one turns into a New Tab page, so Claude in Chrome keeps the window it
-  connects through. Then it deletes the tab groups Chrome saved closed for sessions no longer open,
-  under any title such a session had, which a window closing or Chrome quitting leaves pinned to the
-  bookmarks bar. Chrome has no API for those, so it opens each group's menu on the bar through
-  accessibility while the screen is unlocked and Chrome is not in front: a hidden Chrome shows for
-  the run with a New Tab page in view, and the menu shows for about a second per group. Groups left
-  over are tried again once you have been idle for two minutes, at most every ten minutes, until a
-  run finds none on the bar. It reads the app's own list of archived sessions, which is not
-  documented and may change in an update. If files stop moving,
-  `~/Library/Logs/claude-archive-files.log` on a Mac, or `~/.local/state/claude-archive-files.log`
-  on Linux, shows the last time it worked.
+  would stay, the last one stays open, so Claude in Chrome keeps the window it connects through.
+  Before the close, a small companion extension of yours in Chrome takes those tabs out of their tab
+  groups, which makes Chrome delete each saved group rather than pin it to the bookmarks bar.
+  Nothing it does shows Chrome, brings it to the front or types into it. Groups that were already
+  closed, by a window closing or Chrome quitting, stay on the bar, since deleting one takes its menu
+  on screen. It reads the app's own list of archived sessions, which is not documented and may
+  change in an update. If files stop moving, `~/Library/Logs/claude-archive-files.log` on a Mac, or
+  `~/.local/state/claude-archive-files.log` on Linux, shows the last time it worked.
 - [`presence`](../presence/install.sh): my phone gets Claude's pushes, such as a question waiting
   for an answer, only while the computer is locked or its displays are off.
   [`lock-listener.swift`](../presence/lock-listener.swift) on a Mac and

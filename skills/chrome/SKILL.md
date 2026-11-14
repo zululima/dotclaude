@@ -12,7 +12,9 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   plain curl from the user's machine, its public API included, before any question or other route.
   When the extension is not connected, the session runs `~/.claude/hooks/chrome-background.sh`
   without asking, which gives the extension the window it needs and keeps Chrome hidden, and never
-  opens Chrome another way, since Chrome then puts its window on top. It then calls
+  opens Chrome another way, since Chrome then puts its window on top. Nor does a session open a
+  tab or load a page in Chrome through AppleScript, which brings Chrome to the front as well, while
+  Claude in Chrome's own tools do it unseen. It then calls
   `list_connected_browsers` for up to a minute until it lists a browser, and tries before that are
   no failures. When the extension is still not connected, the reply gives its install page and the
   step to sign in to it from Chrome's side panel, and the browser step waits for that, never moving
@@ -50,6 +52,7 @@ description: Browser work in Claude in Chrome: starting the extension, reading b
   time a site asks, from the password manager they keep outside Chrome.
 - Chrome tabs stay open, so the user never waits on a close: archiving a session closes every
   Chrome tab no open session names, the user's own too, through the app and the `archive-files` mod,
-  which also deletes the closed tab groups Chrome saved. Chrome opens its next window at the size of
+  which first takes those tabs out of their tab groups so Chrome deletes the saved groups, without
+  showing Chrome. Chrome opens its next window at the size of
   the last one, so before its first `resize_window` the session reads `window.outerWidth` and
   `window.outerHeight`, and before the reply sets the window back to that size.

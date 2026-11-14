@@ -6,9 +6,26 @@ gives one. Square brackets mark what was left out or redacted, and a commit with
 section is left out. This file is generated from the commit messages, so a change by hand is
 lost at the next commit.
 
+## archive-files: stop showing Chrome to delete tab groups
+
+2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-fable-5-2 for prompts 1 to 3, claude-opus-5-5 for 4, effort xhigh.
+
+**1.**
+> ts is not running in background its dialogues are always poppipng here
+
+Reply: The popups come from the archive-files mod: at each archive it shows Chrome and opens every saved tab group's menu to delete it. Nothing is changed yet. The 5-hour limit is on pace for 125%, so the fix waits for your pick of model.
+
+**2.** (answer to: shall I move this fix to a new session on Opus 5.5?)
+> Yes, Opus 5.5
+
+**3.** Quoted under [f410151](https://github.com/zululima/setup/commit/f410151df60d0d60ed617eb06fdf76bb6b6fb44d).
+
+**4.**
+> there it goes again running in my screen not in background
+
 ## Keep a review page's answers by item and list only flagged items
 
-2026-11-14, [the commit that last changed this file](https://github.com/zululima/setup/commits/main/PROMPTS.md), model claude-opus-5-5, effort xhigh.
+2026-11-14, commit [0bf216c](https://github.com/zululima/setup/commit/0bf216c1788b2159c85d18522113a54ed5954860), model claude-opus-5-5, effort xhigh.
 
 **11.**
 > holdup how are these flagged? also you should keep things ive
